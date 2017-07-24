@@ -1,21 +1,21 @@
-# kdxt_pc_1.0
-
-> A Vue.js project
-
+ 
 ## Build Setup
 
-``` bash
-# install dependencies
-npm install
-
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
+``` bash  
+npm run dev 
+npm run build 
 npm run build --report
 ```
+```
+ src->
+    api --> 接口
+    components --> 组件
+    router --> 路由
+    store --> 状态
+    style --> 样式表
+    view --> 页面
+    utils --> js
+ main 
+```
 
-For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+ 
