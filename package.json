@@ -12,6 +12,7 @@
   "dependencies": {
     "axios": "^0.16.2",
     "element-ui": "^1.4.0",
+    "js-cookie": "^2.1.4",
     "mockjs": "^1.0.1-beta3",
     "nprogress": "^0.2.0",
     "vue": "^2.3.3",
