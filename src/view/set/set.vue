@@ -10,8 +10,7 @@
 <script>
 import titleItem from '@/components/main/title.vue'
 import titleActive from '@/components/main/titleActive.vue'
-import '@/utils/start'
-export default {
+export default { 
     data() {
         return {
             name: "首页",
@@ -26,7 +25,7 @@ export default {
             state: 0
         }
     },
-    created() {
+    created() {  
     },
     components: {
         titleItem, titleActive

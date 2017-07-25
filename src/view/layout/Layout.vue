@@ -7,7 +7,7 @@
             <el-col :span="3" id="box-side" class="box-side-min">
                 <SideBar></SideBar>
             </el-col>
-            <el-col :span="20" id="box-main">
+            <el-col :span="21" id="box-main">
                 <app-main></app-main>
             </el-col>
         </div>
@@ -24,8 +24,7 @@ export default {
     components: {
         'app-main': Main, HeadSide, SideBar
     },
-    created() {
-        console.log(this.$route.path)
+    created() { 
     }
 }
 </script>
