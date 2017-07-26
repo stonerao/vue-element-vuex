@@ -8,6 +8,7 @@
 body,
 #app {
     .fixed-conent;
+    min-height:700px;
 }
 
 .app {
@@ -99,6 +100,7 @@ body,
                 position: relative;
                 background: #e0e0e0;
                 border-bottom: 1px solid #fefefe;
+                transition: all .2s;
                 cursor: pointer;
                 .kd-side-icon {
                     height: 18px;
@@ -116,6 +118,15 @@ body,
                     color: #888;
                 }
             }
+            li.active {
+                background-color: @color;
+                .kd-side-text {
+                    color: #fff;
+                }
+                .kd-side-float {
+                    color: #fff;
+                }
+            }
         }
     }
     #box-main {
@@ -129,8 +140,45 @@ body,
             font-size: 18px;
             border-bottom: @border;
         }
+        .kd-app-main {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
         .kd-box {
-            padding: 25px;
+            margin: 25px 25px 0 25px;
+            position: absolute;
+            top: 49px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            .content {
+                min-height:100%;
+                position: relative;
+            }
+            .kd-app-box {
+                position: relative; 
+            }
+            .kd-box-content {
+                position: absolute;
+                top: 40px;
+                bottom: 0;
+                left: 0;
+                right: 0;
+            }
+            .kd-bottom-box {
+                line-height: 60px;
+                width: 100%;
+                text-align: center;
+                color: #666;
+                position: absolute;
+                bottom: 0;
+                background: #f7f7f7;
+                border-top: 2px solid #dbdbdb;
+            }
         } // 提示
         .kd-title-items {
             width: 100%;
@@ -143,8 +191,8 @@ body,
                 line-height: 36px;
                 display: inline-block;
                 border-radius: 4px 4px 0 0;
-                margin-right:5px;
-                cursor:pointer;
+                margin-right: 5px;
+                cursor: pointer;
             }
             .kd-title-item.active {
                 color: #fff;
@@ -153,14 +201,15 @@ body,
         }
         .kd-description {
             margin-top: 10px;
-            position:relative;
+            position: relative;
             background: #f4fbfe;
             border-radius: 4px;
             border: 1px dashed @color-font;
             padding: 8px 10px;
+            margin-bottom: 10px;
             line-height: 20px;
             color: @color-font;
-            overflow:hidden;
+            overflow: hidden;
             span,
             a,
             p {
@@ -169,41 +218,48 @@ body,
             .icon-propmpt {
                 margin-right: 5px
             }
-            .kd-description-list{
-                padding:5px 0 0 40px;
-                li{
-                    line-height:20px;
-                    color:#666;
-                    font-size:0.7rem;
-                    i{
-                        color:#aaa;
-                        font-size:10px;
-                        transform:scale(0.8)
+            .kd-description-list {
+                padding: 5px 0 0 40px;
+                li {
+                    line-height: 20px;
+                    color: #666;
+                    font-size: 0.7rem;
+                    i {
+                        color: #aaa;
+                        font-size: 10px;
+                        transform: scale(0.8)
                     }
                 }
             }
-            .kd-description-dele{
-                position:absolute;
-                top:0;
-                right:0;
-                width:30px;
-                height:20px;
-                border-radius:0 4px 0 4px;
-                background:@color;
-                text-align:center;
-                cursor:pointer;
-                i{
-                    color:#fff;
-                    font-size:20px;
+            .kd-description-dele {
+                position: absolute;
+                top: 0;
+                right: 0;
+                width: 30px;
+                height: 20px;
+                border-radius: 0 4px 0 4px;
+                background: @color;
+                text-align: center;
+                cursor: pointer;
+                i {
+                    color: #fff;
+                    font-size: 20px;
                 }
             }
         }
     }
     .box-side-min {
-        min-width: 150px;
+        // min-width: 150px;
     }
 }
-
+.kd-toggle{
+    position:absolute;
+    bottom:0;
+    height:30px;
+    line-height:30px;
+    text-align:center;
+    width:100%;
+}
 
 /* 
     图标

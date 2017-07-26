@@ -4,10 +4,10 @@
             <HeadSide></HeadSide>
         </div>
         <div id="box">
-            <el-col :span="3" id="box-side" class="box-side-min">
-                <SideBar></SideBar>
+            <el-col :span="leftStatus?3:1" id="box-side" class="box-side-min">
+                <SideBar @Toggle="ToggleShow"></SideBar>
             </el-col>
-            <el-col :span="21" id="box-main">
+            <el-col :span="leftStatus?21:23" id="box-main">
                 <app-main></app-main>
             </el-col>
         </div>
@@ -18,13 +18,18 @@ import { Main, HeadSide, SideBar } from '@/view/layout/index.js'
 export default {
     data() {
         return {
-
+            leftStatus: true
         }
     },
     components: {
         'app-main': Main, HeadSide, SideBar
     },
-    created() { 
+    created() {
+    },
+    methods: {
+        ToggleShow(status) {
+            this.leftStatus = status;
+        }
     }
 }
 </script>

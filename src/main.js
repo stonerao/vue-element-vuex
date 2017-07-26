@@ -28,10 +28,10 @@ Vue.config.productionTip = false
 Vue.use(ElementUI);
 const whileList = ['/login', 'reg'];//白名单
 // router 开始加载
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, from, next) => { 
   if (to.name) {
     // 如果当前有name
-    document.title = to.name;
+    document.title = to.name.substring(1);
   }else{
     document.title = '康德学堂';
   }

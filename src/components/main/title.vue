@@ -1,7 +1,7 @@
 <template>
     <div>
-        <section class="kd-title" v-if="titleText">
-            {{titleText}}
+        <section class="kd-title">
+            {{$route.name.substring(1)?$route.name.substring(1):titleText}}
         </section>
     </div>
 </template>

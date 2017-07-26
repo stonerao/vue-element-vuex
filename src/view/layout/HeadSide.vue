@@ -18,25 +18,25 @@
                         </section>
     
                     </router-link>
-                    <router-link tag="li" to="" class="kd-header-icon">
+                    <router-link tag="li" to="setMsg" class="kd-header-icon">
                         <p class="kd-header-icons">
                             <i class="el-icon-message"></i>
                         </p>
                         <p>系统消息</p>
                     </router-link>
-                    <router-link tag="li" to="" class="kd-header-icon">
+                    <router-link tag="li" to="setPwd" class="kd-header-icon">
                         <p class="kd-header-icons">
                             <i class="el-icon-edit"></i>
                         </p>
                         <p>修改密码</p>
                     </router-link>
-                    <router-link tag="li" to="" class="kd-header-icon">
+                    <router-link tag="li" to="quit" class="kd-header-icon">
                         <p class="kd-header-icons">
                             <i class="el-icon-upload2"></i>
                         </p>
                         <p>退出</p>
                     </router-link>
-                    <router-link tag="li" to="" class="kd-header-icon active">
+                    <router-link tag="li" to="/" class="kd-header-icon">
                         <p class="kd-header-icons">
                             <i class="el-icon-loading"></i>
                         </p>
