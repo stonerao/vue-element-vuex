@@ -8,7 +8,7 @@
             </el-col>
             <el-col :span="19">
                 <ul class="kd-header-list">
-                    <router-link tag="li" to="/index/index" class="kd-header-user active">
+                    <router-link tag="li" to="/one/index" class="kd-header-user active">
                         <section class="kd-header-tou">
     
                         </section>

@@ -4,7 +4,28 @@ import index from '@/view/index'
 import Layout from '@/view/layout/Layout'
 import Index from '@/view/index/index'
 import setVue from '@/view/set/set'
-import { set } from '@/assets/icon'
+/* 
+  左侧图标以及点击后的图标
+*/
+import {
+  xtsz, xtsz_active,
+  bj, bj_active,
+  fykm, fykm_active,
+  ls, ls_active,
+  xs, xs_active,
+  cjd, cjd_active,
+  sj, sj_active,
+  zb, zb_acitve,
+  sp, sp_active,
+  zzjg, zzjg_active,
+  wdhy, wdhy_active,
+  qx, qx_active,
+  sc, sc_active,
+  st, st_active,
+  xx, xx_active,
+  tj, tj_active,
+  pmsd, pmsd_active
+} from '@/assets/icon'
 Vue.use(Router)
 /* 
   左侧列表
@@ -15,14 +36,14 @@ export const constListMap = [
     path: '/index',
     name: '系统设置',
     redirect: '/index/index',
-    icon: set,
-    iconActive:set,
+    icon: xtsz,
+    iconActive: xtsz_active,
     component: Layout,
     children: [
       {
-        path: 'index', 
-        name:'-系统设置',
-        component: Index,
+        path: 'index',
+        name: '-系统设置',
+        component: setVue,
       }
     ]
   },
@@ -30,223 +51,223 @@ export const constListMap = [
     path: '/set',
     name: '年/班级管理',
     redirect: '/set/index',
-    icon: set,
-    iconActive:set,
+    icon: bj,
+    iconActive: bj_active,
     component: Layout,
     children: [
       {
-        path: 'index', 
-        name:'-班级管理',
+        path: 'index',
+        name: '-班级管理',
         component: setVue,
       }
     ]
-  },{
+  }, {
     path: '/set',
     name: '科目管理',
     redirect: '/set/index',
-    icon: set,
-    iconActive:set,
+    icon: fykm,
+    iconActive: fykm_active,
     component: Layout,
     children: [
       {
-        path: 'index', 
-        name:'-科目管理',
+        path: 'index',
+        name: '-科目管理',
         component: setVue,
       }
     ]
-  },{
+  }, {
     path: '/set',
     name: '老师管理',
     redirect: '/set/index',
-    icon: set,
-    iconActive:set,
+    icon: ls,
+    iconActive: ls_active,
     component: Layout,
     children: [
       {
-        path: 'index', 
-        name:'-老师管理',
+        path: 'index',
+        name: '-老师管理',
         component: setVue,
       }
     ]
-  },{
+  }, {
     path: '/set',
     name: '学生管理',
     redirect: '/set/index',
-    icon: set,
-    iconActive:set,
+    icon: xs,
+    iconActive: xs_active,
     component: Layout,
     children: [
       {
-        path: 'index', 
-        name:'-学生管理',
+        path: 'index',
+        name: '-学生管理',
         component: setVue,
       }
     ]
-  },{
+  }, {
     path: '/set',
     name: '成绩管理',
     redirect: '/set/index',
-    icon: set,
-    iconActive:set,
+    icon: cjd,
+    iconActive: cjd_active,
     component: Layout,
     children: [
       {
-        path: 'index', 
-        name:'-成绩管理',
+        path: 'index',
+        name: '-成绩管理',
         component: setVue,
       }
     ]
-  },{
+  }, {
     path: '/set',
     name: '考勤管理',
     redirect: '/set/index',
-    icon: set,
-    iconActive:set,
+    icon: sj,
+    iconActive: sj_active,
     component: Layout,
     children: [
       {
-        path: 'index', 
-        name:'-考勤管理',
+        path: 'index',
+        name: '-考勤管理',
         component: setVue,
       }
     ]
-  },{
+  }, {
     path: '/set',
     name: '直播管理',
     redirect: '/set/index',
-    icon: set,
-    iconActive:set,
+    icon: zb,
+    iconActive: zb_acitve,
     component: Layout,
     children: [
       {
-        path: 'index', 
-        name:'-直播管理',
+        path: 'index',
+        name: '-直播管理',
         component: setVue,
       }
     ]
-  },{
+  }, {
     path: '/set',
     name: '视频管理',
     redirect: '/set/index',
-    icon: set,
-    iconActive:set,
+    icon: sp,
+    iconActive: sp_active,
     component: Layout,
     children: [
       {
-        path: 'index', 
-        name:'-视频管理',
+        path: 'index',
+        name: '-视频管理',
         component: setVue,
       }
     ]
-  },{
+  }, {
     path: '/set',
     name: '会议管理',
     redirect: '/set/index',
-    icon: set,
-    iconActive:set,
+    icon: wdhy,
+    iconActive: wdhy_active,
     component: Layout,
     children: [
       {
-        path: 'index', 
-        name:'-会议管理',
+        path: 'index',
+        name: '-会议管理',
         component: setVue,
       }
     ]
-  },{
+  }, {
     path: '/set',
     name: '组织架构',
     redirect: '/set/index',
-    icon: set,
-    iconActive:set,
+    icon: zzjg,
+    iconActive: zzjg_active,
     component: Layout,
     children: [
       {
-        path: 'index', 
-        name:'-组织架构',
+        path: 'index',
+        name: '-组织架构',
         component: setVue,
       }
     ]
-  },{
+  }, {
     path: '/set',
     name: '权限管理',
     redirect: '/set/index',
-    icon: set,
-    iconActive:set,
+    icon: qx,
+    iconActive: qx_active,
     component: Layout,
     children: [
       {
-        path: 'index', 
-        name:'-权限管理',
+        path: 'index',
+        name: '-权限管理',
         component: setVue,
       }
     ]
-  },{
+  }, {
     path: '/set',
     name: '素材库',
     redirect: '/set/index',
-    icon: set,
-    iconActive:set,
+    icon: sc,
+    iconActive: sc_active,
     component: Layout,
     children: [
       {
-        path: 'index', 
-        name:'-素材库',
+        path: 'index',
+        name: '-素材库',
         component: setVue,
       }
     ]
-  },{
+  }, {
     path: '/set',
     name: '试题库',
     redirect: '/set/index',
-    icon: set,
-    iconActive:set,
+    icon: st,
+    iconActive: st_active,
     component: Layout,
     children: [
       {
-        path: 'index', 
-        name:'-试题库',
+        path: 'index',
+        name: '-试题库',
         component: setVue,
       }
     ]
-  },{
+  }, {
     path: '/set',
     name: '通知管理',
     redirect: '/set/index',
-    icon: set,
-    iconActive:set,
+    icon: xx,
+    iconActive: xx_active,
     component: Layout,
     children: [
       {
-        path: 'index', 
-        name:'-通知管理',
+        path: 'index',
+        name: '-通知管理',
         component: setVue,
       }
     ]
-  },{
+  }, {
     path: '/set',
     name: '统计信息',
     redirect: '/set/index',
-    icon: set,
-    iconActive:set,
+    icon: tj,
+    iconActive: tj_active,
     component: Layout,
     children: [
       {
-        path: 'index', 
-        name:'-统计信息',
+        path: 'index',
+        name: '-统计信息',
         component: setVue,
       }
     ]
-  },{
+  }, {
     path: '/set',
     name: '锁频设置',
     redirect: '/set/index',
-    icon: set,
-    iconActive:set,
+    icon: pmsd,
+    iconActive: pmsd_active,
     component: Layout,
     children: [
       {
-        path: 'index', 
-        name:'-锁频设置',
+        path: 'index',
+        name: '-锁频设置',
         component: setVue,
       }
     ]
@@ -257,16 +278,31 @@ export const constListMap = [
   路由配置
 */
 export const constRouterMap = [
-
+  {
+    path: '/one',
+    name: '管理中心',
+    redirect: '/one/index',
+    icon: pmsd,
+    iconActive: pmsd_active,
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: '-管理中心',
+        component: index,
+      }
+    ]
+  },
 ]
 
 export default new Router({
   routes: [
     ...constListMap,
+    ...constRouterMap,
     {
       path: '/',
       redirect: "index"
     }
   ],
-  linkActiveClass:'active',
+  linkActiveClass: 'active',
 })
