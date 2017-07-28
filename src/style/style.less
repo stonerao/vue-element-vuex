@@ -1,4 +1,5 @@
 @import './css.less';
+@import './meta.less';
 
 /* 
  header
@@ -148,6 +149,7 @@ body,
             left: 0;
             right: 0;
             bottom: 0;
+            overflow-Y:auto;
         }
         .kd-box {
             margin: 25px 25px 0 25px;
@@ -164,8 +166,8 @@ body,
                 position: relative;
             }
             .kd-box-content {
-                position: absolute;
-                top: 40px;
+                position: relative;
+                top: 10px;
                 bottom: 0;
                 left: 0;
                 right: 0;
@@ -175,8 +177,9 @@ body,
                 width: 100%;
                 text-align: center;
                 color: #666;
-                position: absolute;
+                position: relative;
                 bottom: 0;
+                margin-top:20px;
                 background: #f7f7f7;
                 border-top: 2px solid #dbdbdb;
             }
@@ -300,14 +303,7 @@ body,
     margin-top: 20px;
     .kd-list-box {}
 }
-
-.kd-list-items {
-    background: #fff;
-    border-radius: 5px;
-    box-shadow: 0 0 5px 0px #aaa;
-    padding: 15px;
-    margin-right: 10px;
-    .kd-list-items-title {
+.kd-list-items-title {
         line-height: 48px;
         border-bottom: 1px solid #e3e3e3;
         span {
@@ -321,9 +317,127 @@ body,
             margin-right: 5px;
         }
     }
+.kd-list-items {
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 5px 0px #aaa;
+    padding: 15px;
+    // margin-right: 20px;
+    
+    .kd-list-item{
+        ul{
+            padding-top:5px;
+            padding-bottom:15px;
+            li{
+                line-height:42px;
+                border-bottom:1px dashed #eaeaea;
+                cursor: pointer;
+                transition:all .2s;
+                padding-left:28px;
+                position:relative;
+            }
+            li::after{
+                content:" ";
+                position:absolute;
+                left:0;
+                top:50%;
+                transform:translateY(-50%);
+                width:18px;
+                height:18px;
+                background:#eee;
+                border-radius:50%;
+            }   
+            li:hover{
+                color:rgb(60, 191, 254);
+            }
+            li:last-child{
+                border:0;
+            }
+            li:nth-child(1)::after{
+                background:#e63b0d;
+            }li:nth-child(2)::after{
+                background:#f1c40f;
+            }li:nth-child(3)::after{
+                background:#3498db;
+            }li:nth-child(4)::after{
+                background:#41b06b;
+            }li:nth-child(5)::after{
+                background:#e4007f;
+            }li:nth-child(6)::after{
+                background:#9258ad;
+            }
+        }
+    }
 }
-
-
+.kd-index-box{
+    padding:20px;
+    margin-bottom:20px;
+    border-radius:5px;
+    position:relative;
+}
+.kd-index-mb{
+    padding:20px;
+    @border-box:1px solid #e7e7e7;
+    .kd-index-mb-box{
+        border:@border-box;
+        overflow:hidden;
+        .index-mb-box{
+            padding:15px;
+            overflow:hidden;
+            li{
+                line-height:28px;
+                a{
+                    color:@color;
+                    margin-left:5px;
+                }
+            }
+        }
+    }
+    .kd-index-mb-title{
+        line-height:42px;
+        padding-left:15px;
+        border-bottom:@border-box;
+    }
+    .kd-index-infos{
+        overflow:hidden;
+        border-left:@border-box;
+        border-top:@border-box;
+        border-right:@border-box;
+        li{
+            width:50%;
+            line-height: 40px;
+            height:40px;
+            border-bottom:@border-box;
+            
+            overflow:hidden;
+            float:left;
+            >div{
+                text-indent:30px;
+            }
+            >div:first-child{
+                background:#f7f7f7; 
+                box-shadow:1px 0px 0 0px #e7e7e7;
+                width:45%;
+                float:left;
+                
+            }
+            >div:last-child{
+                    width:55%;
+                    float:left;
+                    box-shadow:1px 0px 0 0px #e7e7e7;
+            }
+        }
+    }
+}
+.class-titles{
+    line-height:36px;
+}
+.class-header{
+    margin-top:15px;
+}
+.kd-page{
+    margin:8px 0;
+}
 /* 
     图标
 */

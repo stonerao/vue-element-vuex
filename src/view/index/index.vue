@@ -78,32 +78,136 @@
                     <div class="">2</div>
                 </el-col>
             </el-row>
-            <el-row :gutter="10" class="kd-list">
+            <el-row :gutter="15" class="kd-list">
                 <el-col :span="8" class="padding0 kd-list-box">
                     <div class="kd-list-items">
                         <div class="kd-list-items-title">
                             <span>
-                                <img src="../../assets/index/icon-1.png" class="kd-list-icon"/>公告/通知/消息</span>
-                            <router-link to="">查看历史数据</router-link>
+                                <img src="../../assets/index/icon-1.png" class="kd-list-icon" />公告/通知/消息</span>
+                            <router-link to="" class="float-right font-xs">查看历史数据</router-link>
                         </div>
                         <div class="kd-list-item">
                             <ul>
-                                <router-link to="" tag="li"></router-link>
+                                <router-link to="" tag="li" v-for="item in 6">
+                                    <span>
+                                        2017年冬季放假时间安排
+                                    </span>
+                                    <span class="float-right">
+                                        2017-7-28
+                                    </span>
+                                </router-link>
                             </ul>
                         </div>
                     </div>
                 </el-col>
     
-                <el-col :span="8" class="padding0">
-                    <div class="">2</div>
+                <el-col :span="8">
+                    <div class="kd-list-items">
+                        <div class="kd-list-items-title">
+                            <span>
+                                <img src="../../assets/index/icon-1.png" class="kd-list-icon" />公告/通知/消息</span>
+                            <router-link to="" class="float-right font-xs">查看历史数据</router-link>
+                        </div>
+                        <div class="kd-list-item">
+                            <ul>
+                                <router-link to="" tag="li" v-for="item in 6">
+                                    <span>
+                                        2017年冬季放假时间安排
+                                    </span>
+                                    <span class="float-right">
+                                        2017-7-28
+                                    </span>
+                                </router-link>
+                            </ul>
+                        </div>
+                    </div>
                 </el-col>
                 <el-col :span="8" class="padding0">
-                    <div class="">3</div>
+                    <div class="kd-list-items" style="">
+                        <div class="kd-list-items-title">
+                            <span>
+                                <img src="../../assets/index/icon-1.png" class="kd-list-icon" />公告/通知/消息</span>
+                            <router-link to="" class="float-right font-xs">查看历史数据</router-link>
+                        </div>
+                        <div class="kd-list-item">
+                            <ul>
+                                <router-link to="" tag="li" v-for="item in 6">
+                                    <span>
+                                        2017年冬季放假时间安排
+                                    </span>
+                                    <span class="float-right">
+                                        2017-7-28
+                                    </span>
+                                </router-link>
+                            </ul>
+                        </div>
+                    </div>
                 </el-col>
-    
             </el-row>
+            <div class="while kd-index-box">
+                <div class="kd-list-items-title">
+                    <span>
+                        <img src="../../assets/index/icon-2.png" class="kd-list-icon" />控制面板</span>
+                </div>
+                <el-row :gutter="20" class="kd-index-mb">
+                    <el-col :span="12">
     
-            <bottomItem></bottomItem>
+                        <div class="kd-index-mb-box">
+                            <div class="kd-index-mb-title">
+                                康德教育平台客服
+                            </div>
+                            <div class="index-mb-box">
+                                <el-col :span="16">
+                                    <ul>
+                                        <li v-for="item in 5">平台首页:
+                                            <a href="http://baidu.com">http://baidu.com</a>
+                                        </li>
+                                    </ul>
+                                </el-col>
+                                <el-col :span="8" class="kd-index-erm">
+                                    <img src="../../assets/index/2wm.png" />
+                                </el-col>
+                            </div>
+                        </div>
+                    </el-col>
+                    <el-col :span="12">
+                        <div class="kd-index-mb-box">
+                            <div class="kd-index-mb-title">
+                                康德教育平台客服
+                            </div>
+                            <div class="index-mb-box">
+                                <el-col :span="16">
+                                    <ul>
+                                        <li v-for="item in 5">平台首页:
+                                            <a href="http://baidu.com">http://baidu.com</a>
+                                        </li>
+                                    </ul>
+                                </el-col>
+                                <el-col :span="8" class="kd-index-erm">
+                                    <img src="../../assets/index/2wm.png" />
+                                </el-col>
+                            </div>
+                        </div>
+                    </el-col>
+                </el-row>
+            </div>
+            <div class="while kd-index-box">
+                <div class="kd-over"></div>
+                <div class="kd-list-items-title">
+                    <span>
+                        <img src="../../assets/index/icon-2.png" class="kd-list-icon" />系统设置</span>
+                </div>
+                <el-row :gutter="20" class="kd-index-mb">
+                    <ul class="kd-index-infos">
+                        <li v-for="item in 20">
+                            <div>安装日期：</div>
+                            <div>2071-05-02</div>
+                        </li>
+                    </ul>
+                </el-row>
+            </div>
+    
+            <bottomItem style="position:relative"></bottomItem>
     
         </div>
     </div>

@@ -3,13 +3,14 @@
         <titleItem :titleText="$route.name.substring(1)"></titleItem>
         <div class="kd-box">
             <div class="kd-app-box">
-                <titleActive :titles="titleItem" @Transfer="emitTransfer" :state="state"></titleActive> 
+                <titleActive :titles="titleItem" @Transfer="emitTransfer" :state="state"></titleActive>
             </div>
             <div class="kd-box-content">
                 <description :prompts="prompts" @PromPts="promptsTem"></description>
-                <div class="content">1</div>
-                <bottomItem></bottomItem>
+                
+    
             </div>
+            <bottomItem></bottomItem>
         </div>
     </div>
 </template>
@@ -38,7 +39,7 @@ export default {
     created() {
     },
     components: {
-        titleItem, titleActive, description,bottomItem
+        titleItem, titleActive, description, bottomItem
     },
     methods: {
         emitTransfer(index) {

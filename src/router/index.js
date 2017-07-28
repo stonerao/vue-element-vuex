@@ -3,7 +3,10 @@ import Router from 'vue-router'
 import index from '@/view/index'
 import Layout from '@/view/layout/Layout'
 import Index from '@/view/index/index'
+// 系统设置
 import setVue from '@/view/set/set'
+// 科目管理
+import classVue from '@/view/class/index'
 /* 
   左侧图标以及点击后的图标
 */
@@ -58,13 +61,13 @@ export const constListMap = [
       {
         path: 'index',
         name: '-班级管理',
-        component: setVue,
+        component: classVue,
       }
     ]
   }, {
-    path: '/set',
+    path: '/class',
     name: '科目管理',
-    redirect: '/set/index',
+    redirect: '/class/index',
     icon: fykm,
     iconActive: fykm_active,
     component: Layout,
@@ -72,7 +75,7 @@ export const constListMap = [
       {
         path: 'index',
         name: '-科目管理',
-        component: setVue,
+        component: classVue,
       }
     ]
   }, {
@@ -301,7 +304,7 @@ export default new Router({
     ...constRouterMap,
     {
       path: '/',
-      redirect: "index"
+      redirect: "/one/index"
     }
   ],
   linkActiveClass: 'active',
