@@ -8,7 +8,7 @@
             <div class="kd-box-content">
                 <description :prompts="prompts" @PromPts="promptsTem"></description>
                 <div v-if="state==0">
-                     <el-row :gutter="20" class="class-header">
+                    <el-row :gutter="20" class="class-header">
                         <el-col :span="19" class="class-titles">
                             <img src="../../assets/index/shuaxin.png" class="icon-img-xs" />刷新-共287条记录
                         </el-col>
@@ -50,10 +50,77 @@
                     </div>
                 </div>
                 <div v-if="state==1">
-                    2
+                    <!-- 增加老师 -->
+                    <section class="add-inp">
+                        <div class="add-inp-items">
+                            <div class="add-inp-item">
+                                <div class="add-inp-item-name">
+                                    用户名
+                                </div>
+                                <div class="add-inp-item-inp">
+                                    <el-input v-model="t_input" placeholder=""></el-input>
+                                </div>
+                                <div class="add-inp-item-addname margin-left">登录用户名账号</div>
+                            </div>
+                            <div class="add-inp-item">
+                                <div class="add-inp-item-name">
+                                    姓名
+                                </div>
+                                <div class="add-inp-item-inp">
+                                    <el-input v-model="t_input" placeholder=""></el-input>
+                                </div>
+                                <div class="add-inp-item-addname margin-left">填写真实姓名，以便联系称呼</div>
+                            </div>
+                            <div class="add-inp-item">
+                                <div class="add-inp-item-name">
+                                    性别
+                                </div>
+                                <div class="add-inp-item-inp">
+                                    <el-radio class="radio" v-model="sex" label="1">男</el-radio>
+                                    <el-radio class="radio" v-model="sex" label="2">女</el-radio>
+                                </div>
+                                <div class="add-inp-item-addname margin-left"> </div>
+                            </div>
+                            <div class="add-inp-item">
+                                <div class="add-inp-item-name">
+                                    密码
+                                </div>
+                                <div class="add-inp-item-inp">
+                                    <el-input v-model="t_input" type="password"></el-input>
+                                </div>
+                                <div class="add-inp-item-addname margin-left">登录密码</div>
+                            </div>
+    
+                            <div class="add-inp-item">
+                                <div class="add-inp-item-name">
+                                    联系电话
+                                </div>
+                                <div class="add-inp-item-inp">
+                                    <el-input v-model="t_input" type="number"></el-input>
+                                </div>
+                                <div class="add-inp-item-addname margin-left">如：13800000000</div>
+                            </div>
+                            <div class="add-inp-item">
+                                <div class="add-inp-item-name">
+                                    老师简介：
+                                </div>
+                                <div class="add-inp-item-inp">
+                                    <el-input v-model="t_input" type="textarea"></el-input>
+                                </div>
+                                <div class="add-inp-item-addname margin-left">如：13800000000</div>
+                            </div>
+    
+                            <div class="add-inp-btn">
+                                <div class="add-inp-item-name">
+                                </div>
+                                <el-button type="primary">保存</el-button>
+                                <el-button>取消</el-button>
+                            </div>
+                        </div>
+                    </section>
                 </div>
                 <div v-if="state==2">
-                    3
+                    <excelImport></excelImport>
                 </div>
             </div>
     
@@ -67,6 +134,7 @@ import titleItem from '@/components/main/title.vue'
 import titleActive from '@/components/main/titleActive.vue'
 import description from '@/components/main/description.vue'
 import bottomItem from '@/components/bottom/bottom.vue'
+import excelImport from '@/components/center/excelImport.vue'
 import { data } from '@/api/data'
 export default {
     data() {
@@ -82,15 +150,17 @@ export default {
             ],
             state: 0,
             promptsPad: true,
-            t_data:data.teacher,
-            search:'',
-            curpage:1,//当前页数
+            t_data: data.teacher,
+            search: '',
+            curpage: 1,//当前页数
+            t_input: '',
+            sex: '1'
         }
     },
     created() {
     },
     components: {
-        titleItem, titleActive, description, bottomItem
+        titleItem, titleActive, description, bottomItem,excelImport
     },
     methods: {
         emitTransfer(index) {
