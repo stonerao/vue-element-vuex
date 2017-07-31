@@ -20,6 +20,7 @@ import titleItem from '@/components/main/title.vue'
 import titleActive from '@/components/main/titleActive.vue'
 import description from '@/components/main/description.vue'
 import bottomItem from '@/components/bottom/bottom.vue'
+
 export default {
     data() {
         return {

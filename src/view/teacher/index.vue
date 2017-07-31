@@ -7,9 +7,8 @@
             </div>
             <div class="kd-box-content">
                 <description :prompts="prompts" @PromPts="promptsTem"></description>
-                <!-- 科目管理 -->
-                <div v-if="state===0">
-                    <el-row :gutter="20" class="class-header">
+                <div v-if="state==0">
+                     <el-row :gutter="20" class="class-header">
                         <el-col :span="19" class="class-titles">
                             <img src="../../assets/index/shuaxin.png" class="icon-img-xs" />刷新-共287条记录
                         </el-col>
@@ -18,13 +17,13 @@
                             </el-input>
                         </el-col>
                     </el-row>
-                    <el-table ref="multipleTable" :data="tableData3" border tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
+                    <el-table ref="multipleTable" :data="t_data" border tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
                         <el-table-column type="selection" width="55">
                         </el-table-column>
                         <el-table-column label="ID" width="120">
-                            <template scope="scope">{{ scope.row.date }}</template>
+                            <template scope="scope">{{ scope.row .id }}</template>
                         </el-table-column>
-                        <el-table-column prop="name" label="科目名称" show-overflow-tooltip>
+                        <el-table-column prop="t_name" label="科目名称" show-overflow-tooltip>
                         </el-table-column>
                         <el-table-column label="操作" width="150">
                             <template scope="scope">
@@ -38,23 +37,26 @@
                             <el-col :span="12" style="padding-left:15px">
                                 <el-checkbox label="全选"></el-checkbox>
                                 <el-select v-model="search" placeholder="请选择" size="small" class="margin-left">
-                                    <el-option v-for="item in tableData3" :key="item.name" :label="item.name" :value="item.date">
+                                    <el-option v-for="item in t_data" :key="item.name" :label="item.name" :value="item.id">
                                     </el-option>
                                 </el-select>
                             </el-col>
                             <el-col :span="12">
-                                <el-pagination class="float-right" :current-page="currentPage4" :page-sizes="[100, 200, 300, 400]" :page-size="100" layout="total, sizes, prev, pager, next, jumper" :total="600">
+                                <el-pagination class="float-right" :current-page="curpage" :page-sizes="[100, 200, 300, 400]" :page-size="100" layout="total, sizes, prev, pager, next, jumper" :total="600">
                                 </el-pagination>
                             </el-col>
                         </el-row>
     
                     </div>
                 </div>
-                <!--增加科目  -->
-                <div v-if="state===1">
-                    <addClass @submitInp="classSubmit"></addClass>
+                <div v-if="state==1">
+                    2
+                </div>
+                <div v-if="state==2">
+                    3
                 </div>
             </div>
+    
             <bottomItem></bottomItem>
         </div>
     </div>
@@ -65,15 +67,14 @@ import titleItem from '@/components/main/title.vue'
 import titleActive from '@/components/main/titleActive.vue'
 import description from '@/components/main/description.vue'
 import bottomItem from '@/components/bottom/bottom.vue'
-// 增加科目保存
-import addClass from '@/components/add/addclass.vue'
-import '@/utils/start'
+import { data } from '@/api/data'
 export default {
     data() {
         return {
             titleItem: [
-                { name: "科目管理", index: 0 },
-                { name: "增加科目", index: 1 },
+                { name: "老师管理", index: 0 },
+                { name: "增加老师", index: 1 },
+                { name: "批量导入老师", index: 2 },
             ],
             prompts: [
                 `该页面展示管理员的操作日志，可进行删除。`,
@@ -81,64 +82,15 @@ export default {
             ],
             state: 0,
             promptsPad: true,
-            search: '',
-            currentPage4: 4,
-            tableData3: [{
-                date: '2016-05-03',
-                name: '王小虎',
-                address: ' 1518 弄'
-            }, {
-                date: '2016-05-02',
-                name: '王小虎',
-                address: ' 1518 弄'
-            }, {
-                date: '2016-05-04',
-                name: '王小虎',
-                address: ' 1518 弄'
-            }, {
-                date: '2016-05-01',
-                name: '王小虎',
-                address: ' 1518 弄'
-            }, {
-                date: '2016-05-08',
-                name: '王小虎',
-                address: ' 1518 弄'
-            }, {
-                date: '2016-05-06',
-                name: '王小虎',
-                address: ' 1518 弄'
-            }, {
-                date: '2016-05-07',
-                name: '王小虎',
-                address: ' 1518 弄'
-            }, {
-                date: '2016-05-07',
-                name: '王小虎',
-                address: ' 1518 弄'
-            }, {
-                date: '2016-05-07',
-                name: '王小虎',
-                address: ' 1518 弄'
-            }, {
-                date: '2016-05-07',
-                name: '王小虎',
-                address: ' 1518 弄'
-            }, {
-                date: '2016-05-07',
-                name: '王小虎',
-                address: ' 1518 弄'
-            }, {
-                date: '2016-05-07',
-                name: '王小虎',
-                address: ' 1518 弄'
-            }],
-            multipleSelection: []
+            t_data:data.teacher,
+            search:'',
+            curpage:1,//当前页数
         }
     },
     created() {
     },
     components: {
-        titleItem, titleActive, description, bottomItem,addClass
+        titleItem, titleActive, description, bottomItem
     },
     methods: {
         emitTransfer(index) {
@@ -146,21 +98,19 @@ export default {
                 return
             }
             this.state = index;
-            console.log(index)
         },
         promptsTem(status) {
-            console.log(status);
+            console.log(status)
         },
-        handleIconClick() {
+        handleIconClick(val) {
             // 搜索触发事件
+            // console.log(val)
         },
         handleSelectionChange(val) {
+            // 选择发生改变
+            console.log(val)
             this.multipleSelection = val;
         },
-        classSubmit(index){
-            // 增加科目传值事件 
-            console.log(index)
-        }
     }
 }
 </script>

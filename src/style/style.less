@@ -149,7 +149,7 @@ body,
             left: 0;
             right: 0;
             bottom: 0;
-            overflow-Y:auto;
+            overflow-Y: auto;
         }
         .kd-box {
             margin: 25px 25px 0 25px;
@@ -179,7 +179,7 @@ body,
                 color: #666;
                 position: relative;
                 bottom: 0;
-                margin-top:20px;
+                margin-top: 20px;
                 background: #f7f7f7;
                 border-top: 2px solid #dbdbdb;
             }
@@ -303,141 +303,298 @@ body,
     margin-top: 20px;
     .kd-list-box {}
 }
+
 .kd-list-items-title {
-        line-height: 48px;
-        border-bottom: 1px solid #e3e3e3;
-        span {
-            font-weight: bold;
-            font-size: 16px;
-        }
-        .kd-list-icon {
-            .img-center;
-            position: relative;
-            top: -2px;
-            margin-right: 5px;
-        }
+    line-height: 48px;
+    border-bottom: 1px solid #e3e3e3;
+    span {
+        font-weight: bold;
+        font-size: 16px;
     }
+    .kd-list-icon {
+        .img-center;
+        position: relative;
+        top: -2px;
+        margin-right: 5px;
+    }
+}
+
 .kd-list-items {
     background: #fff;
     border-radius: 5px;
     box-shadow: 0 0 5px 0px #aaa;
-    padding: 15px;
-    // margin-right: 20px;
-    
-    .kd-list-item{
-        ul{
-            padding-top:5px;
-            padding-bottom:15px;
-            li{
-                line-height:42px;
-                border-bottom:1px dashed #eaeaea;
+    padding: 15px; // margin-right: 20px;
+    .kd-list-item {
+        ul {
+            padding-top: 5px;
+            padding-bottom: 15px;
+            li {
+                line-height: 42px;
+                border-bottom: 1px dashed #eaeaea;
                 cursor: pointer;
-                transition:all .2s;
-                padding-left:28px;
-                position:relative;
+                transition: all .2s;
+                padding-left: 28px;
+                position: relative;
             }
-            li::after{
-                content:" ";
-                position:absolute;
-                left:0;
-                top:50%;
-                transform:translateY(-50%);
-                width:18px;
-                height:18px;
-                background:#eee;
-                border-radius:50%;
-            }   
-            li:hover{
-                color:rgb(60, 191, 254);
+            li::after {
+                content: " ";
+                position: absolute;
+                left: 0;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 18px;
+                height: 18px;
+                background: #eee;
+                border-radius: 50%;
             }
-            li:last-child{
-                border:0;
+            li:hover {
+                color: rgb(60, 191, 254);
             }
-            li:nth-child(1)::after{
-                background:#e63b0d;
-            }li:nth-child(2)::after{
-                background:#f1c40f;
-            }li:nth-child(3)::after{
-                background:#3498db;
-            }li:nth-child(4)::after{
-                background:#41b06b;
-            }li:nth-child(5)::after{
-                background:#e4007f;
-            }li:nth-child(6)::after{
-                background:#9258ad;
+            li:last-child {
+                border: 0;
+            }
+            li:nth-child(1)::after {
+                background: #e63b0d;
+            }
+            li:nth-child(2)::after {
+                background: #f1c40f;
+            }
+            li:nth-child(3)::after {
+                background: #3498db;
+            }
+            li:nth-child(4)::after {
+                background: #41b06b;
+            }
+            li:nth-child(5)::after {
+                background: #e4007f;
+            }
+            li:nth-child(6)::after {
+                background: #9258ad;
             }
         }
     }
 }
-.kd-index-box{
-    padding:20px;
-    margin-bottom:20px;
-    border-radius:5px;
-    position:relative;
+
+.kd-index-box {
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    position: relative;
 }
-.kd-index-mb{
-    padding:20px;
-    @border-box:1px solid #e7e7e7;
-    .kd-index-mb-box{
-        border:@border-box;
-        overflow:hidden;
-        .index-mb-box{
-            padding:15px;
-            overflow:hidden;
-            li{
-                line-height:28px;
-                a{
-                    color:@color;
-                    margin-left:5px;
+
+.kd-index-mb {
+    padding: 20px;
+    @border-box: 1px solid #e7e7e7;
+    .kd-index-mb-box {
+        border: @border-box;
+        overflow: hidden;
+        .index-mb-box {
+            padding: 15px;
+            overflow: hidden;
+            li {
+                line-height: 28px;
+                a {
+                    color: @color;
+                    margin-left: 5px;
                 }
             }
         }
     }
-    .kd-index-mb-title{
-        line-height:42px;
-        padding-left:15px;
-        border-bottom:@border-box;
+    .kd-index-mb-title {
+        line-height: 42px;
+        padding-left: 15px;
+        border-bottom: @border-box;
     }
-    .kd-index-infos{
-        overflow:hidden;
-        border-left:@border-box;
-        border-top:@border-box;
-        border-right:@border-box;
-        li{
-            width:50%;
+    .kd-index-infos {
+        overflow: hidden;
+        border-left: @border-box;
+        border-top: @border-box;
+        border-right: @border-box;
+        li {
+            width: 50%;
             line-height: 40px;
-            height:40px;
-            border-bottom:@border-box;
-            
-            overflow:hidden;
-            float:left;
-            >div{
-                text-indent:30px;
+            height: 40px;
+            border-bottom: @border-box;
+            overflow: hidden;
+            float: left;
+            >div {
+                text-indent: 30px;
             }
-            >div:first-child{
-                background:#f7f7f7; 
-                box-shadow:1px 0px 0 0px #e7e7e7;
-                width:45%;
-                float:left;
-                
+            >div:first-child {
+                background: #f7f7f7;
+                box-shadow: 1px 0px 0 0px #e7e7e7;
+                width: 45%;
+                float: left;
             }
-            >div:last-child{
-                    width:55%;
-                    float:left;
-                    box-shadow:1px 0px 0 0px #e7e7e7;
+            >div:last-child {
+                width: 55%;
+                float: left;
+                box-shadow: 1px 0px 0 0px #e7e7e7;
             }
         }
     }
 }
-.class-titles{
-    line-height:36px;
+
+.class-titles {
+    line-height: 36px;
 }
-.class-header{
-    margin-top:15px;
+
+.class-header {
+    margin-top: 15px;
 }
-.kd-page{
-    margin:8px 0;
+
+.kd-page {
+    margin: 8px 0;
 }
+
+.add-inp {
+    width: 100%;
+    min-height: 330px;
+    background: #fff;
+}
+
+.add-inp-items {
+    padding-top: 75px;
+    padding-left: 60px;
+    font-size: 12px;
+    .add-inp-item {
+        overflow: hidden;
+        >div {
+            float: left;
+            line-height: 36px;
+            font-size: 12px;
+        }
+    }
+    .add-inp-item-name {
+        width: 70px;
+        float: left;
+        min-height: 10px;
+    }
+    .add-inp-item-inp {
+        width: 320px;
+    }
+    .add-inp-item-addname {
+        color: #999;
+    }
+    .add-inp-btn {
+        overflow: hidden;
+        margin-top: 20px;
+    }
+}
+
+// login
+.t-login-b {
+    background-image: url(../assets/login/loginbac.jpg);
+}
+
+.admin-login-b {
+    background-image: url(../assets/login/back.jpg);
+}
+
+.admin-login {
+    .t-login-main {
+        .t-login-box {
+            height: auto;
+            margin-bottom: 50px;
+        }
+    }
+}
+
+.t-login {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    .t-login-main {
+        width: 410px;
+        .center;
+    }
+    .t-login-logo {
+        text-align: center;
+        margin-bottom: 10%;
+    }
+    .t-login-copy {
+        margin-top: 20%;
+        position: relative;
+        top: 50px;
+        text-align: center;
+        color: #999;
+    }
+    .login-code{
+        position:absolute;
+        right:2px;
+        top:50%;
+        transform:translateY(-50%);
+        height:38px;
+        cursor:pointer;
+    }
+    .admin-login-copy {
+        position: absolute;
+        bottom: 20px;
+        color: #fff;
+        font-size: 12px;
+        width: 100%;
+        text-align: center;
+    }
+    .t-login-box {
+        width: 410px;
+        height: 388px;
+        background: #fff;
+        border-radius: 5px;
+        .login-title {
+            text-align: center;
+            font-size: 18px;
+            margin: 0 20px;
+            border-bottom: @border;
+            line-height: 70px;
+        }
+        .login-items {
+            padding: 30px 50px;
+            li {
+                margin-bottom: 20px;
+                position: relative;
+            }
+            .t-submit {
+                width: 100%;
+            }
+            .t-inp-icon {
+                background-repeat: no-repeat;
+                background-position: left 10px center;
+                background-size: auto 20px;
+            }
+            .t-inp-user {
+                background-image: url(../assets/login/user.png)
+            }
+            .t-inp-pwd {
+                background-image: url(../assets/login/pwd.png)
+            }
+            .t-inp {
+                width: 258px;
+                border: 1px solid #ddd;
+                padding: 0;
+                margin: 0;
+                padding-left: 50px;
+                height: 40px;
+                position: relative;
+            }
+            .t-inp-label::before {
+                position: absolute;
+                width: 1px;
+                height: 100%;
+                left: 40px;
+                content: " ";
+                background: #ddd;
+                z-index: 1000;
+            }
+        }
+    }
+}
+
+
 /* 
     图标
 */

@@ -2,9 +2,16 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import index from '@/view/index'
 import Layout from '@/view/layout/Layout'
+// 首页
 import Index from '@/view/index/index'
+// 学生
+import student from '@/view/student/index'
+// 老师
+import teacher from '@/view/teacher/index'
 // 系统设置
 import setVue from '@/view/set/set'
+// 组织架构
+import architecture from '@/view/architecture/index'
 // 科目管理
 import classVue from '@/view/class/index'
 /* 
@@ -79,9 +86,9 @@ export const constListMap = [
       }
     ]
   }, {
-    path: '/set',
+    path: '/teacher',
     name: '老师管理',
-    redirect: '/set/index',
+    redirect: '/teacher/index',
     icon: ls,
     iconActive: ls_active,
     component: Layout,
@@ -89,13 +96,13 @@ export const constListMap = [
       {
         path: 'index',
         name: '-老师管理',
-        component: setVue,
+        component: teacher,
       }
     ]
   }, {
-    path: '/set',
+    path: '/student',
     name: '学生管理',
-    redirect: '/set/index',
+    redirect: '/student/index',
     icon: xs,
     iconActive: xs_active,
     component: Layout,
@@ -103,7 +110,7 @@ export const constListMap = [
       {
         path: 'index',
         name: '-学生管理',
-        component: setVue,
+        component: student,
       }
     ]
   }, {
@@ -177,9 +184,9 @@ export const constListMap = [
       }
     ]
   }, {
-    path: '/set',
+    path: '/architecture',
     name: '组织架构',
-    redirect: '/set/index',
+    redirect: '/architecture/index',
     icon: zzjg,
     iconActive: zzjg_active,
     component: Layout,
@@ -187,7 +194,7 @@ export const constListMap = [
       {
         path: 'index',
         name: '-组织架构',
-        component: setVue,
+        component: architecture,
       }
     ]
   }, {
@@ -277,6 +284,9 @@ export const constListMap = [
   },
 
 ]
+// 登录
+import login from '@/view/login/login'
+import adminLogin from '@/view/login/admin'
 /* 
   路由配置
 */
@@ -296,6 +306,17 @@ export const constRouterMap = [
       }
     ]
   },
+  {
+    path: '/login',
+    name: '登录中心',
+    component: login 
+  },
+  {
+    path: '/admin',
+    name: '管理员登录',
+    component: adminLogin 
+  },
+  
 ]
 
 export default new Router({

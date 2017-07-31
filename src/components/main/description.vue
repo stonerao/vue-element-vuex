@@ -2,7 +2,7 @@
     <div>
         <section class="kd-description" v-if="prompts&&isShow">
             <p class="">
-                <img :src="prompt" class="icon-propmpt icon-img" />
+                <img :src="prompt" class="icon-propmpt icon-img" style="width: 25px;"/>
                 <span>操作提示</span>
             </p>
             <ul class="kd-description-list">
