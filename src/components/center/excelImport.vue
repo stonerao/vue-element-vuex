@@ -18,24 +18,24 @@
                     </li>
                 </ul>
                 <ol class="impot-item-les">
-                    <li>
-                        <span>所属题库：</span>
-                        <span>
-                            <el-select v-model="value" placeholder="请选择">
-                                <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+                    <li class="impot-item-lis">
+                        <span class="impot-item-span">所属题库：</span>
+                        <div>
+                            <el-select v-model="value" placeholder="请选择" class="marginleft5">
+                                <el-option  v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
                                 </el-option>
                             </el-select>
-                        </span>
+                        </div>
                     </li>
-                    <li>
-                        <span>数据文件：</span>
-                        <span>
-                            <input type="file" />
-                        </span>
+                    <li  class="impot-item-lis">
+                        <span class="impot-item-span">数据文件：</span>
+                        <div>
+                            <input type="file"  class="marginleft5"/>
+                        </div>
                     </li>
                     </li>
-                    <li>
-                        <span>数据文件：</span>
+                    <li class="impot-item-btns">
+                        <span class=" "></span>
                         <span>
                             <el-button type="primary">提交</el-button>
                             <el-button>取消</el-button>
@@ -43,8 +43,43 @@
                     </li>
                 </ol>
             </section>
-            <section>
-    
+            <section class="t-impot-item">
+                <div class="impot-item-title">
+                    用EXCEL方式导入
+                </div>
+                <ul class="impot-item-list">
+                    <li>
+                        使用EXCEL文本作为模板文件，请注意格式要求，并且文件编码必须为UTF8
+                    </li>
+                    <li>
+                        <a>下载使用EXCEL格式模板 </a> 请下载模板，并按照格式填写，填写完成后，上传文件即可完成导入
+                    </li>
+                </ul>
+                <ol class="impot-item-les">
+                    <li class="impot-item-lis">
+                        <span class="impot-item-span">所属题库：</span>
+                        <div>
+                            <el-select v-model="value" placeholder="请选择" class="marginleft5">
+                                <el-option  v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </div>
+                    </li>
+                    <li  class="impot-item-lis">
+                        <span class="impot-item-span">数据文件：</span>
+                        <div>
+                            <input type="file"  class="marginleft5"/>
+                        </div>
+                    </li>
+                    </li>
+                    <li class="impot-item-btns">
+                        <span class=" "></span>
+                        <span>
+                            <el-button type="primary">提交</el-button>
+                            <el-button>取消</el-button>
+                        </span>
+                    </li>
+                </ol>
             </section>
         </div>
     </div>

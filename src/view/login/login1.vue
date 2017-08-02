@@ -33,6 +33,7 @@
 
 <script>
 import store from '@/utils/login'
+ 
 export default { 
     data() {
         return {

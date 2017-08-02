@@ -8,22 +8,28 @@
             <div class="kd-box-content">
                 <description :prompts="prompts" @PromPts="promptsTem"></description>
                 <div v-if="state==0">
-                    <el-row :gutter="20" class="class-header">
-                        <el-col :span="19" class="class-titles">
+                    <el-row :gutter="15" class="class-header">
+                        <el-col :span="14" class="class-titles">
                             <img src="../../assets/index/shuaxin.png" class="icon-img-xs" />刷新-共287条记录
                         </el-col>
-                        <el-col :span="5">
-                            <el-input placeholder="请选择日期" icon="search" v-model="search" :on-icon-click="handleIconClick">
+                        <el-col :span="3">
+                            <el-input placeholder="请输入科目名称" icon="search" v-model="search" :on-icon-click="handleIconClick">
+                            </el-input>
+                        </el-col><el-col :span="3">
+                            <el-input placeholder="请输入科目名称" icon="search" v-model="search" :on-icon-click="handleIconClick">
+                            </el-input>
+                        </el-col><el-col :span="4">
+                            <el-input placeholder="请输入科目名称" icon="search" v-model="search" :on-icon-click="handleIconClick">
                             </el-input>
                         </el-col>
                     </el-row>
                     <el-table ref="multipleTable" :data="t_data" border tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
                         <el-table-column type="selection" width="55">
                         </el-table-column>
-                        <el-table-column label="ID" width="120">
-                            <template scope="scope">{{ scope.row .id }}</template>
+                        <el-table-column label="ID" width="120" prop="teacher_id">
+                            <!-- <template scope="scope">{{ scope.row.teacher_id }}</template> -->
                         </el-table-column>
-                        <el-table-column prop="t_name" label="科目名称" show-overflow-tooltip>
+                        <el-table-column prop="teacher_name" label="科目名称" show-overflow-tooltip>
                         </el-table-column>
                         <el-table-column label="操作" width="150">
                             <template scope="scope">
@@ -42,7 +48,7 @@
                                 </el-select>
                             </el-col>
                             <el-col :span="12">
-                                <el-pagination class="float-right" :current-page="curpage" :page-sizes="[100, 200, 300, 400]" :page-size="100" layout="total, sizes, prev, pager, next, jumper" :total="600">
+                                <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="tracherList.curpage" :page-sizes="[10, 15, 20, 25]" :page-size="tracherList.page_count" layout="total, sizes, prev, pager, next, jumper" :total="400">
                                 </el-pagination>
                             </el-col>
                         </el-row>
@@ -55,7 +61,7 @@
                         <div class="add-inp-items">
                             <div class="add-inp-item">
                                 <div class="add-inp-item-name">
-                                    用户名
+                                    用户名：
                                 </div>
                                 <div class="add-inp-item-inp">
                                     <el-input v-model="t_input" placeholder=""></el-input>
@@ -64,7 +70,7 @@
                             </div>
                             <div class="add-inp-item">
                                 <div class="add-inp-item-name">
-                                    姓名
+                                    姓名：
                                 </div>
                                 <div class="add-inp-item-inp">
                                     <el-input v-model="t_input" placeholder=""></el-input>
@@ -73,7 +79,7 @@
                             </div>
                             <div class="add-inp-item">
                                 <div class="add-inp-item-name">
-                                    性别
+                                    性别：
                                 </div>
                                 <div class="add-inp-item-inp">
                                     <el-radio class="radio" v-model="sex" label="1">男</el-radio>
@@ -83,7 +89,7 @@
                             </div>
                             <div class="add-inp-item">
                                 <div class="add-inp-item-name">
-                                    密码
+                                    密码：
                                 </div>
                                 <div class="add-inp-item-inp">
                                     <el-input v-model="t_input" type="password"></el-input>
@@ -93,7 +99,7 @@
     
                             <div class="add-inp-item">
                                 <div class="add-inp-item-name">
-                                    联系电话
+                                    联系电话：
                                 </div>
                                 <div class="add-inp-item-inp">
                                     <el-input v-model="t_input" type="number"></el-input>
@@ -135,6 +141,7 @@ import titleActive from '@/components/main/titleActive.vue'
 import description from '@/components/main/description.vue'
 import bottomItem from '@/components/bottom/bottom.vue'
 import excelImport from '@/components/center/excelImport.vue'
+import store from '@/utils/teacher'
 import { data } from '@/api/data'
 export default {
     data() {
@@ -152,15 +159,25 @@ export default {
             promptsPad: true,
             t_data: data.teacher,
             search: '',
-            curpage: 1,//当前页数
             t_input: '',
-            sex: '1'
+            curpage: 1,//当前页数
+            sex: '1', 
+            tracherList: {
+                hasmore: true,
+                curpage: 1,//当前页数
+                teacher_sex: '',
+                teacher_name: '',
+                one_pagenum:10,
+                page_count:1,//总页数
+                teach_subject:''
+            }
         }
     },
     created() {
+        this.storeAjax();
     },
     components: {
-        titleItem, titleActive, description, bottomItem,excelImport
+        titleItem, titleActive, description, bottomItem, excelImport
     },
     methods: {
         emitTransfer(index) {
@@ -174,13 +191,23 @@ export default {
         },
         handleIconClick(val) {
             // 搜索触发事件
-            // console.log(val)
+            console.log(this.search)
         },
         handleSelectionChange(val) {
             // 选择发生改变
             console.log(val)
             this.multipleSelection = val;
         },
+        storeAjax() {
+            store.teacher_list.call(this);
+        },
+        handleSizeChange(val) {
+            console.log(val)
+            this.one_pagenum = val;
+        },
+        handleCurrentChange(val) {
+            console.log(val, 1)
+        }
     }
 }
 </script>
