@@ -37,7 +37,7 @@ body,
         li {
             float: left;
             display: inline-block;
-            transition: all .2s; 
+            transition: all .2s;
             cursor: pointer;
             padding-top: 18px;
             height: @head-height - 18px;
@@ -50,7 +50,7 @@ body,
         }
         li.kd-header-user {
             padding-right: 25px;
-            padding-left:25px;
+            padding-left: 25px;
             position: relative;
             section {
                 display: inline-block;
@@ -100,7 +100,7 @@ body,
                 position: relative;
                 background: #e0e0e0;
                 border-bottom: 1px solid #fefefe;
-                padding-left:10px;
+                padding-left: 10px;
                 transition: all .2s;
                 cursor: pointer;
                 .kd-side-icon {
@@ -139,7 +139,7 @@ body,
             line-height: 48px;
             font-size: 18px;
             border-bottom: @border;
-            padding-left:20px;
+            padding-left: 20px;
         }
         .kd-app-main {
             position: absolute;
@@ -156,7 +156,8 @@ body,
             top: 49px;
             left: 0;
             right: 0;
-            bottom: 0;
+            // bottom: 0;
+            overflow:auto;
             .content {
                 min-height: 100%;
                 position: relative;
@@ -169,7 +170,7 @@ body,
                 top: 10px;
                 bottom: 0;
                 left: 0;
-                right: 0;
+                right: 0; 
             }
             .kd-bottom-box {
                 line-height: 60px;
@@ -333,7 +334,7 @@ body,
                 cursor: pointer;
                 transition: all .2s;
                 position: relative;
-                padding-left:25px;
+                padding-left: 25px;
             }
             li::after {
                 content: " ";
@@ -435,6 +436,14 @@ body,
 
 .class-titles {
     line-height: 36px;
+    font-size:12px;
+    span{
+        font-size:12px;
+        margin-left:10px;
+    }
+    img{
+        margin-left:15px;
+    }
 }
 
 .class-header {
@@ -468,11 +477,11 @@ body,
         width: 70px;
         float: left;
         min-height: 10px;
-        width:172px;
-        text-align:right;
+        width: 172px;
+        text-align: right;
     }
     .add-inp-item-inp {
-        width: 320px;
+        width: 350px;
     }
     .add-inp-item-addname {
         color: #999;
@@ -481,14 +490,14 @@ body,
         overflow: hidden;
         margin-top: 20px;
     }
-    .add-inp-time{
-        overflow:hidden;
-        >div{
-            width:32%;
-            float:left;
+    .add-inp-time {
+        overflow: hidden;
+        >div {
+            width: 32%;
+            float: left;
         }
-        >div:nth-child(2){
-            margin:0 2%;
+        >div:nth-child(2) {
+            margin: 0 2%;
         }
     }
 }
@@ -590,7 +599,7 @@ body,
                 margin: 0;
                 height: 40px;
                 position: relative;
-                padding-left:50px;
+                padding-left: 50px;
             }
             .t-inp-label::before {
                 position: absolute;
@@ -652,7 +661,7 @@ body,
 .t-impot {
     .t-impot-head {}
     .t-impot-box {
-        margin-top:10px;
+        margin-top: 10px;
         border: 1px solid #dbdbdb;
         position: relative;
         .impot-item-title {
@@ -660,7 +669,7 @@ body,
             height: 32px;
             background: #f5f5f5;
             position: relative;
-            padding-left:15px;
+            padding-left: 15px;
         }
         .impot-item-list {
             background: #fff;
@@ -679,21 +688,17 @@ body,
             }
             li:after {
                 content: ' ';
-                position:absolute;
-                left:0;
-                top:50%;
-                transform:translateY(-50%);
-                width:15px;
-                height:15px;
-                background:#eee;
-                border-radius:50%; 
+                position: absolute;
+                left: 0;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 15px;
+                height: 15px;
+                background: #eee;
+                border-radius: 50%;
             }
-            li:first-child{
-
-            }
-            li:nth-child(2){
-
-            }
+            li:first-child {}
+            li:nth-child(2) {}
         }
         .impot-item-les {
             li {
@@ -736,8 +741,49 @@ body,
         left: 0;
     }
 }
-.z-text-over{
-    div{
+
+.z-text-over {
+    div {
         .text-over;
     }
+}
+
+.el-table {
+    @size: 14px;
+    font-size: @size;
+    tr {
+        font-size: @size;
+        div,
+        span,
+        p,
+        button {
+            font-size: @size;
+        }
+    }
+}
+
+.cursor {
+    cursor: pointer
+}
+.kd-children{ 
+    min-height:100%;
+    background:#fff;
+    
+    .kd-children-title{
+        height:40px;
+        line-height:40px;
+        background:@color;
+        padding-left:25px; 
+        span{
+            color:#fff;
+            font-weight:bold;
+        }
+    }
+    .kd-children-box{
+        overflow:auto; 
+        top:0;
+    }
+}
+.is-current{
+    background:#eee;
 }

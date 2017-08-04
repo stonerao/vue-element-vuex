@@ -7,7 +7,23 @@
             </div>
             <div class="kd-box-content">
                 <description :prompts="prompts" @PromPts="promptsTem"></description>
-                
+                <div v-if="state==0">
+                    <el-row>
+                        <el-col :span="4">
+                            <div>
+                                <div></div>
+                                <div>
+                                    
+                                </div>
+                            </div>
+                        </el-col>
+                        <el-col :span="20">1</el-col>
+                    </el-row>
+                </div>
+                <div v-if="state==1"></div>
+                <div v-if="state==2"></div>
+                <div v-if="state==3"></div>
+                <div v-if="state==4"></div>
     
             </div>
             <bottomItem></bottomItem>
@@ -24,8 +40,11 @@ export default {
     data() {
         return {
             titleItem: [
-                { name: "科目管理", index: 0 },
-                { name: "增加科目", index: 1 },
+                { name: "部门管理", index: 0 },
+                { name: "用户管理", index: 1 },
+                { name: "增加用户", index: 2 },
+                { name: "职位管理", index: 3 },
+                { name: "增加职位", index: 4 },
             ],
             prompts: [
                 `该页面展示管理员的操作日志，可进行删除。`,

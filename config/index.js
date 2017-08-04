@@ -30,6 +30,7 @@ module.exports = {
     proxyTable: {
       '/Teacher': 'http://kdxx.test.kh888.cn/',
       '/Admin': 'http://kdxx.test.kh888.cn/',
+      '/Student': 'http://kdxx.test.kh888.cn/',
     },
     // CSS Sourcemaps off by default because relative paths are "buggy"
     // with this option, according to the CSS-Loader README

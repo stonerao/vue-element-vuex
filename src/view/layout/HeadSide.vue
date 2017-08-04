@@ -9,12 +9,14 @@
             <el-col :span="19">
                 <ul class="kd-header-list">
                     <router-link tag="li" to="/one/index" class="kd-header-user active">
-                        <section class="kd-header-tou">
-    
+                        <section class="kd-header-tou float-left">
+                            <img :src="obj.manager_avatar" />
                         </section>
                         <section>
                             <p>您好</p>
-                            <p>学校管理员：XXsholl</p>
+                            <p>学校管理员：
+                                <span v-html="obj.manager_name"></span>
+                            </p>
                         </section>
     
                     </router-link>
@@ -49,11 +51,31 @@
     </header>
 </template>
 <script>
+import { api } from '@/api/layout'
+import { getToken } from '@/utils/auth'
 export default {
     data() {
         return {
-
+            obj: {
+                manager_avatar: '',
+                manager_name: ''
+            }
         }
+    },
+    created() {
+        const key = getToken()
+        this.$http({
+            url: api.header,
+            method: 'post',
+            data: {
+                token: key
+            }
+        }).then((res) => {
+            if (res.data.status == 'true') {
+                this.obj = res.data.member
+                console.log(this.obj)
+            }
+        })
     }
 }
 </script>

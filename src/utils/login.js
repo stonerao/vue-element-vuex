@@ -1,6 +1,5 @@
 import { api } from '@/api/login'
-import utils from '@/utils'
-console.log(api)
+import utils from '@/utils' 
 export default {
     login(form) {
         this.$http({
