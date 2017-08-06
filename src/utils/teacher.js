@@ -161,7 +161,7 @@ export default {
         })
     },
     department_list() {
-        this.$http(api.department_list, {
+        this.$http(api.studentListMent, {
             params: {
                 token: key,
             }

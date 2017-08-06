@@ -27,7 +27,7 @@
                         </el-col>
                     </el-row>
                     <el-row :gutter="20">
-                        <el-col :span="4" style="position:relative"> 
+                        <el-col :span="4" style="position:relative">
                             <div class="kd-children">
                                 <div class="kd-children-title">
                                     <span>
@@ -48,25 +48,25 @@
                                 <el-table-column prop="st_name" label="姓名" width="80" show-overflow-tooltip>
                                 </el-table-column>
                                 <!-- <el-table-column prop="t_name" label="用户名" show-overflow-tooltip>
-                                    </el-table-column> -->
-                                 <el-table-column prop="cer" label="证件类型" width="100" show-overflow-tooltip>
-                                                        </el-table-column> -->
-                               <el-table-column prop="st_certificates_number" label="证件号" show-overflow-tooltip>
-                                                        </el-table-column> 
-                               <!--   <el-table-column prop="sex" label="性别" width="70" show-overflow-tooltip>
-    
-                                </el-table-column>
-                                  <el-table-column prop="t_name" label="实体班" width="90" show-overflow-tooltip>
-                                    </el-table-column> -->
-                                <!-- <el-table-column prop="t_name" label="虚拟班" show-overflow-tooltip>
+                                        </el-table-column> -->
+                                <el-table-column prop="cer" label="证件类型" width="100" show-overflow-tooltip>
                                 </el-table-column> -->
+                                <el-table-column prop="st_certificates_number" label="证件号" show-overflow-tooltip>
+                                </el-table-column>
+                                <!--   <el-table-column prop="sex" label="性别" width="70" show-overflow-tooltip>
+        
+                                    </el-table-column>
+                                      <el-table-column prop="t_name" label="实体班" width="90" show-overflow-tooltip>
+                                        </el-table-column> -->
+                                <!-- <el-table-column prop="t_name" label="虚拟班" show-overflow-tooltip>
+                                    </el-table-column> -->
                                 <el-table-column prop="st_phone" label="电话" show-overflow-tooltip>
                                 </el-table-column>
                                 <el-table-column prop="status" label="状态号码" show-overflow-tooltip>
                                 </el-table-column>
                                 <el-table-column label="操作" width="150" show-overflow-tooltip>
                                     <template scope="scope">
-                                        <el-button size="small" @click="setStu">编辑</el-button>
+                                        <el-button size="small" @click="setStu(scope.row)">编辑</el-button>
                                         <el-button size="small">删除</el-button>
                                     </template>
                                 </el-table-column>
@@ -76,9 +76,9 @@
                                     <el-col :span="12" style="padding-left:15px">
                                         <el-checkbox label="全选" style="margin-right:20px" v-model="checked"></el-checkbox>
                                         <!-- <el-select v-model="search" placeholder="请选择" size="small" class="margin-left">
-                                            <el-option v-for="item in t_data" :key="item.name" :label="item.name" :value="item.id">
-                                            </el-option>
-                                        </el-select> -->
+                                                <el-option v-for="item in t_data" :key="item.name" :label="item.name" :value="item.id">
+                                                </el-option>
+                                            </el-select> -->
                                         <el-button type="primary" size="mini">删除</el-button>
                                         <el-button type="primary" size="mini">激活</el-button>
                                         <el-button type="primary" size="mini">毕业</el-button>
@@ -105,7 +105,7 @@
                 </div>
                 <div v-if="state==5">
                     <!-- 编辑学生  -->
-                    <studentSetVue></studentSetVue>
+                    <studentSetVue :state="setState" :dataObj="setObj"></studentSetVue>
                 </div>
     
             </div>
@@ -120,8 +120,7 @@ import titleActive from '@/components/main/titleActive.vue'
 import description from '@/components/main/description.vue'
 import bottomItem from '@/components/bottom/bottom.vue'
 import studentSetVue from '@/components/student/set'
-import store from '@/utils/teacher'
-import { data } from '@/api/data'
+import store from '@/utils/teacher' 
 export default {
     data() {
         return {
@@ -159,17 +158,23 @@ export default {
             defaultProps: {
                 children: 'children',
                 label: 'label'
-            }
+            },
+            setState: 0,//1添加学生信息。 2是编辑,
+            setObj: {}
         }
     },
     created() {
         // 组织关系列表
-        store.department_list.call(this)
+        // store.department_list.call(this)
         // 学生数据
-        this.studentAjax()
+        this.studentAjax();
+      
     },
     components: {
         titleItem, titleActive, description, bottomItem, studentSetVue
+    },
+    mounted(){
+ 
     },
     methods: {
         emitTransfer(index) {
@@ -224,9 +229,10 @@ export default {
             this.studentList.curpage = val;
             this.studentAjax();
         },
-        setStu() {
-            // 编辑学生
-            this.state = 5
+        setStu(obj) {
+            // 编辑学生 
+            this.setObj = obj;
+            this.state = 5;
         }
     },
     watch: {

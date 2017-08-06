@@ -32,12 +32,12 @@
                         </p>
                         <p>修改密码</p>
                     </router-link>
-                    <router-link tag="li" to="quit" class="kd-header-icon">
+                    <li @click="quit" class="kd-header-icon">
                         <p class="kd-header-icons">
                             <i class="el-icon-upload2"></i>
                         </p>
                         <p>退出</p>
-                    </router-link>
+                    </li>
                     <router-link tag="li" to="/" class="kd-header-icon">
                         <p class="kd-header-icons">
                             <i class="el-icon-loading"></i>
@@ -51,6 +51,7 @@
     </header>
 </template>
 <script>
+import store from '@/utils/commos'
 import { api } from '@/api/layout'
 import { getToken } from '@/utils/auth'
 export default {
@@ -76,6 +77,12 @@ export default {
                 console.log(this.obj)
             }
         })
+    },
+    methods:{
+        quit(){
+            //推出登陆
+            store.quitLogin.call(this)
+        }
     }
 }
 </script>

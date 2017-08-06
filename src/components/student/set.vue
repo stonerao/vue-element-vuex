@@ -42,20 +42,20 @@
                     </div>
                     <div class="add-inp-item-inp add-inp-time">
                         <div>
-                            <el-select v-model="obj.st_provinceid" placeholder="省">
-                                <el-option v-for="item in t_data" :key="item.name" :label="item.name" :value="item.id">
+                            <el-select v-model="province_id" placeholder="省">
+                                <el-option v-for="item in area.province" :key="item.area_name" :label="item.area_name" :value="item.area_id">
                                 </el-option>
                             </el-select>
                         </div>
                         <div>
-                            <el-select v-model="obj.st_cityid" placeholder="市">
-                                <el-option v-for="item in t_data" :key="item.name" :label="item.name" :value="item.id">
+                            <el-select v-model="city_id" placeholder="市">
+                                <el-option v-for="item in area.city" :key="item.area_name" :label="item.area_name" :value="item.area_id">
                                 </el-option>
                             </el-select>
                         </div>
                         <div>
-                            <el-select v-model="obj.st_areaid" placeholder="区">
-                                <el-option v-for="item in t_data" :key="item.name" :label="item.name" :value="item.id">
+                            <el-select v-model="area_id" placeholder="区">
+                                <el-option v-for="item in area.area" :key="item.area_name" :label="item.area_name" :value="item.area_id">
                                 </el-option>
                             </el-select>
                         </div>
@@ -171,7 +171,7 @@
                         证件号：
                     </div>
                     <div class="add-inp-item-inp">
-                        <el-input v-model="t_input" type="password"></el-input>
+                        <el-input v-model="t_input" type="text"></el-input>
                     </div>
                     <div class="add-inp-item-addname margin-left">如：13800000000</div>
                 </div>
@@ -199,37 +199,36 @@
                     </div>
                     <div class="add-inp-item-addname margin-left">如：13800000000</div>
                 </div>
-                 
-                <!-- <div class="add-inp-item ">
-                    <div class="add-inp-item-name">
-                        虚拟班：
-                    </div>
-                    <div class="add-inp-item-inp add-inp-time">
-                        <div>
-                            <el-select v-model="search" placeholder="请选择">
-                                <el-option v-for="item in t_data" :key="item.name" :label="item.name" :value="item.id">
-                                </el-option>
-                            </el-select>
-                        </div>
-                    </div>
-                    <div class="add-inp-item-addname margin-left">如：13800000000</div>
-                </div> -->
-                <!-- <div class="add-inp-item ">
-                    <div class="add-inp-item-name">
-                        学生照片：
-                    </div>
-                    <div class="add-inp-item-inp add-inp-time">
-                        <div>
-                            <el-select v-model="search" placeholder="请选择">
-                                <el-option v-for="item in t_data" :key="item.name" :label="item.name" :value="item.id">
-                                </el-option>
-                            </el-select>
-                        </div>
-                    </div>
-                    <div class="add-inp-item-addname margin-left">如：13800000000</div>
-                </div> -->
     
-                 
+                <!-- <div class="add-inp-item ">
+                                                        <div class="add-inp-item-name">
+                                                            虚拟班：
+                                                        </div>
+                                                        <div class="add-inp-item-inp add-inp-time">
+                                                            <div>
+                                                                <el-select v-model="search" placeholder="请选择">
+                                                                    <el-option v-for="item in t_data" :key="item.name" :label="item.name" :value="item.id">
+                                                                    </el-option>
+                                                                </el-select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="add-inp-item-addname margin-left">如：13800000000</div>
+                                                    </div> -->
+                <!-- <div class="add-inp-item ">
+                                                        <div class="add-inp-item-name">
+                                                            学生照片：
+                                                        </div>
+                                                        <div class="add-inp-item-inp add-inp-time">
+                                                            <div>
+                                                                <el-select v-model="search" placeholder="请选择">
+                                                                    <el-option v-for="item in t_data" :key="item.name" :label="item.name" :value="item.id">
+                                                                    </el-option>
+                                                                </el-select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="add-inp-item-addname margin-left">如：13800000000</div>
+                                                    </div> -->
+    
                 <div class="add-inp-item">
                     <div class="add-inp-item-name">
                         账号状态：
@@ -254,11 +253,12 @@
     </div>
 </template>
 <script>
+import utils from '@/utils/utils'
 export default {
     /* 
         state 1是添加 2是编辑
     */
-    props: ['state'],
+    props: ['state', "dataObj"],
     data() {
         return {
             t_data: [],
@@ -271,6 +271,7 @@ export default {
             ],
             value1: '',
             search: "",
+            input: '',
             obj: {
                 st_name: "",//学生名册
                 st_sex: "",//性别
@@ -291,6 +292,15 @@ export default {
                 member_name: "",//user
                 password: "",//password
             },//当前所有页面数据
+            area: {
+                province: [],//省
+                city: [],//市
+                area: [],//区 
+            },
+            province_id: '',//省
+            city_id: '',//市
+            area_id: '',//区
+
         }
     },
     methods: {
@@ -303,14 +313,66 @@ export default {
             this.dialogImageUrl = file.url;
             this.dialogVisible = true;
         },
+        getArea(state, id) {
+            if (state == 1) {
+                // 获取省
+                utils.area_list.call(this)
+            } else if (state == 2) {
+                // 获取市
+                utils.area_list.call(this, 2, id)
+            } else if (state == 3) {
+                // 获取区
+                utils.area_list.call(this, 3, id)
+            }
+        },
+        area_list() {
+
+        }
     },
     created() {
         if (this.state == 1) {
 
         } else if (this.state == 2) {
+            if (this.dataObj) {
 
+            }
         }
 
+    },
+    mounted() {
+        //加载省份
+        this.getArea(1)
+    },
+    watch: {
+        province_id(val) {
+            // 如果选择当前省份
+            if (this.obj.st_provinceid == val) {
+                return;
+            }
+            // 赋值
+            this.obj.st_provinceid = val;
+            // 加载市区 并且清除市区选项
+            this.area.city = [];
+            this.area.area = [];
+            this.city_id = "";
+            this.area_id = "";
+            // 加载市 
+            this.getArea(2, val)
+        },
+        city_id(val) {
+            if (this.obj.st_cityid == val) {
+                return;
+            }
+            this.obj.st_cityid = val
+            this.area_id = "";
+            this.area.area = [];
+            this.getArea(3, val)
+        },
+        area_id(val) {
+            this.obj.st_areaid = val;
+            console.log(this.obj)
+        }
     }
+
 }
 </script>

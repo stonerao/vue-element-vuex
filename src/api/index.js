@@ -6,4 +6,6 @@ export const api = {
     teacher_delete:'/Admin/teacher/teacher_delete',//删除老师
     studentlist:'/Student/SchoolStudent/studentlist',//学生列表
     department_list:'/Admin/Department/department_list',//所有组织结构关系表
+    studentListMent:'/Student/SchoolStudent/department_list',//学生组织结构关系
+    areaList:"Student/SchoolStudent/area_list",//省 列表
 }
