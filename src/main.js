@@ -8,6 +8,8 @@ import ElementUI from 'element-ui';//UI框架 element
 import 'element-ui/lib/theme-default/index.css';
 import '@/style/reset.css';//reset css
 import '@/style/style.less';//style less
+import '@/style/style_l.less';//style less
+import '@/style/style_z.less';//style less
 import 'babel-polyfill';//babel-polyfill
 import { getToken } from '@/utils/auth';
 // 公共js
@@ -29,8 +31,7 @@ Vue.config.productionTip = false
 Vue.use(ElementUI);
 const whileList = ['/login', '/reg', '/admin'];//白名单
 // router 开始加载
-router.beforeEach((to, from, next) => {
-  console.log(to)
+router.beforeEach((to, from, next) => { 
   if (getToken()) { 
     if (to.name) {
       // 如果当前有name
