@@ -14,9 +14,11 @@ import setVue from '@/view/set/set'
 import architecture from '@/view/architecture/index'
 // 科目管理
 import classVue from '@/view/class/index'
+//考情管理
+import Attendance from '@/view/attendance/index'
 import {router_l} from './router_l'
 import {router_z} from './router_z'
-/* 
+/*
   左侧图标以及点击后的图标
 */
 import {
@@ -39,7 +41,7 @@ import {
   pmsd, pmsd_active
 } from '@/assets/icon'
 Vue.use(Router)
-/* 
+/*
   左侧列表
   children 前缀必须加一个标识符
 */
@@ -130,9 +132,9 @@ export const constListMap = [
       }
     ]
   }, {
-    path: '/set',
+    path: '/attendance',
     name: '考勤管理',
-    redirect: '/set/index',
+    redirect: '/attendance/index',
     icon: sj,
     iconActive: sj_active,
     component: Layout,
@@ -140,7 +142,7 @@ export const constListMap = [
       {
         path: 'index',
         name: '-考勤管理',
-        component: setVue,
+        component: Attendance,
       }
     ]
   }, {
@@ -289,7 +291,7 @@ export const constListMap = [
 // 登录
 import login from '@/view/login/login'
 import adminLogin from '@/view/login/admin'
-/* 
+/*
   路由配置
 */
 export const constRouterMap = [
@@ -311,14 +313,14 @@ export const constRouterMap = [
   {
     path: '/login',
     name: '登录中心',
-    component: login 
+    component: login
   },
   {
     path: '/admin',
     name: '管理员登录',
-    component: adminLogin 
+    component: adminLogin
   },
-  
+
 ]
 
 export default new Router({
