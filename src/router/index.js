@@ -14,6 +14,8 @@ import setVue from '@/view/set/set'
 import architecture from '@/view/architecture/index'
 // 科目管理
 import classVue from '@/view/class/index'
+import {router_l} from './router_l'
+import {router_z} from './router_z'
 /* 
   左侧图标以及点击后的图标
 */
@@ -323,6 +325,8 @@ export default new Router({
   routes: [
     ...constListMap,
     ...constRouterMap,
+    ...router_l,
+    ...router_z,
     {
       path: '/',
       redirect: "/one/index"

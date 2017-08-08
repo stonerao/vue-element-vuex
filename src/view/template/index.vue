@@ -7,7 +7,13 @@
             </div>
             <div class="kd-box-content">
                 <description :prompts="prompts" @PromPts="promptsTem"></description>
-                
+                <!--模块开始  -->
+                <div v-if="state==0">
+
+                </div>
+                <div v-if="state==0">
+                    
+                </div>
     
             </div>
             <bottomItem></bottomItem>

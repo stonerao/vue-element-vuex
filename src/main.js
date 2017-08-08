@@ -30,6 +30,7 @@ Vue.use(ElementUI);
 const whileList = ['/login', '/reg', '/admin'];//白名单
 // router 开始加载
 router.beforeEach((to, from, next) => {
+  console.log(to)
   if (getToken()) { 
     if (to.name) {
       // 如果当前有name
