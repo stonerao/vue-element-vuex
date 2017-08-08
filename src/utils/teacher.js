@@ -116,8 +116,8 @@ export default {
             params: {
                 token: key,
                 st_name: this.studentList.st_name,
-                st_sex: this.studentList.st_name,
-                st_status: this.studentList.st_name,
+                st_sex: this.studentList.st_sex,
+                st_status: this.studentList.st_status,
                 page: this.studentList.curpage,
                 curpage: this.studentList.one_pagenum,
             }
@@ -155,8 +155,8 @@ export default {
                     })
                 })
                 this.t_data = res.data.data;
-                this.studentList.total_num = parseInt(res.data.page_total);
-                console.log(this.t_data)
+                this.stundentCount = res.data.count;
+                this.studentList.total_num = parseInt(res.data.page_total); 
             }
         })
     },
@@ -170,30 +170,52 @@ export default {
                 this.sdata = res.data.department_list
             }
         })
-    }, 
-    addStundet(obj,state){
-        obj.token = key; 
+    },
+    addStundet(obj, state) {
+        obj.token = key;
         this.$http({
-            url: state==1?api.addStundet:api.addStundet,
+            url: state == 1 ? api.addStundet : api.addStundet,
             method: 'post',
             data: obj
-        }).then((res)=>{
+        }).then((res) => {
 
         })
-         
+
     },
-    studentdelete(arr){ 
+    studentdelete(arr) {
         this.$http({
             url: api.studentdelete,
             method: 'post',
             data: {
-                token:key,
-                del_id:arr
+                token: key,
+                del_id: arr
             }
-        }).then((res)=>{
+        }).then((res) => {
 
         })
-         
+
     },
+    grade_list() {
+        this.$http(api.grade_list).then((res) => {
+            if (res.data.code == 200) {
+                this.gradeForm = res.data.data;
+            }
+        })
+    },
+    class_list(id) {
+        this.$http(api.class_list, {
+            params: {
+                id: id
+            }
+        }).then((res) => {
+            if (res.data.code == 200) {
+                this.classForm = res.data.data;
+            } else {
+                this.$alert(res.data.data.error, '', {
+                    confirmButtonText: '确定'
+                });
+            }
+        })
+    }
 
 }

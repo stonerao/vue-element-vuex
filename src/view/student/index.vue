@@ -14,16 +14,16 @@
                             <el-button type="primary" icon="plus" size="small" @click="addStudent">增加学生</el-button>
                             <el-button type="primary" icon="plus" size="small">批量导入</el-button>
                             <span>
-                                <img src="../../assets/index/shuaxin.png" class="icon-img-xs marginleft5" />刷新-共287条记录</span>
+                                <img src="../../assets/index/shuaxin.png" class="icon-img-xs marginleft5" @click="studentRefresh" />刷新-共{{studentList.total_num}}条记录</span>
                             <span>当前总人数：
-                                <a class="red-color">654654</a>人</span>
+                                <a class="red-color">{{stundentCount.count}}</a>人</span>
                             <span>男生：
-                                <a class="cheng-color">654654</a>人</span>
+                                <a class="cheng-color">{{stundentCount.boycount}}</a>人</span>
                             <span>女生：
-                                <a class="cheng-color">654654</a>人</span>
+                                <a class="cheng-color">{{stundentCount.girlcount}}</a>人</span>
                         </el-col>
                         <el-col :span="5">
-                            <el-input placeholder="输入名称" icon="search" size="small" v-model="search" :on-icon-click="handleIconClick">
+                            <el-input placeholder="输入名称" icon="search" size="small" v-model="studentList.st_name" :on-icon-click="handleIconClick">
                             </el-input>
                         </el-col>
                     </el-row>
@@ -44,31 +44,31 @@
                             <el-table ref="multipleTable" :data="t_data" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange" class="z-text-over">
                                 <el-table-column type="selection" width="55">
                                 </el-table-column>
-                                <el-table-column label="学号" width="80" prop="id">
-                                </el-table-column>
-                                <el-table-column prop="st_name" label="姓名" width="80" show-overflow-tooltip>
+                                <!-- <el-table-column label="学号" width="80" prop="id">
+                                    </el-table-column> -->
+                                <el-table-column prop="st_name" label="姓名" width="100" show-overflow-tooltip>
                                 </el-table-column>
                                 <!-- <el-table-column prop="t_name" label="用户名" show-overflow-tooltip>
-                                            </el-table-column> -->
+                                                </el-table-column> -->
                                 <el-table-column prop="cer" label="证件类型" width="100" show-overflow-tooltip>
                                 </el-table-column> -->
                                 <el-table-column prop="st_certificates_number" label="证件号" show-overflow-tooltip>
                                 </el-table-column>
                                 <!--   <el-table-column prop="sex" label="性别" width="70" show-overflow-tooltip>
-            
-                                        </el-table-column>
-                                          <el-table-column prop="t_name" label="实体班" width="90" show-overflow-tooltip>
-                                            </el-table-column> -->
+                
+                                            </el-table-column>
+                                              <el-table-column prop="t_name" label="实体班" width="90" show-overflow-tooltip>
+                                                </el-table-column> -->
                                 <!-- <el-table-column prop="t_name" label="虚拟班" show-overflow-tooltip>
-                                        </el-table-column> -->
+                                            </el-table-column> -->
                                 <el-table-column prop="st_phone" label="电话" show-overflow-tooltip>
                                 </el-table-column>
                                 <el-table-column prop="status" label="状态号码" show-overflow-tooltip>
                                 </el-table-column>
                                 <el-table-column label="操作" width="150" show-overflow-tooltip>
                                     <template scope="scope">
-                                        <el-button size="small" @click="setStu(scope.row)">编辑</el-button>
-                                        <el-button size="small" @click="selectStudent(scope.row.st_id)">删除</el-button>
+                                        <el-button size="mini" @click="setStu(scope.row)">编辑</el-button>
+                                        <!-- <el-button size="mini" @click="selectStudent(scope.row.st_id)">删除</el-button> -->
                                     </template>
                                 </el-table-column>
                             </el-table>
@@ -77,10 +77,10 @@
                                     <el-col :span="12" style="padding-left:15px">
                                         <!-- <el-checkbox label="全选" style="margin-right:20px" v-model="checked"></el-checkbox> -->
                                         <!-- <el-select v-model="search" placeholder="请选择" size="small" class="margin-left">
-                                                    <el-option v-for="item in t_data" :key="item.name" :label="item.name" :value="item.id">
-                                                    </el-option>
-                                                </el-select> -->
-                                        <el-button type="primary" size="mini" @click="selectStudent('')">删除</el-button>
+                                                        <el-option v-for="item in t_data" :key="item.name" :label="item.name" :value="item.id">
+                                                        </el-option>
+                                                    </el-select> -->
+                                        <!-- <el-button type="primary" size="mini" @click="selectStudent('')">删除</el-button> -->
                                         <el-button type="primary" size="mini">激活</el-button>
                                         <el-button type="primary" size="mini">毕业</el-button>
                                     </el-col>
@@ -102,7 +102,70 @@
                 </div>
                 <div v-if="state==2"></div>
                 <div v-if="state==3">
+    <el-row :gutter="10" class="class-header">
+                        <el-col :span="19" class="class-titles">
+                            
+                            <span>
+                                <img src="../../assets/index/shuaxin.png" class="icon-img-xs" @click="studentRefresh" />刷新-共{{studentList.total_num}}条记录</span>
+                            <span>当前总人数：
+                                <a class="red-color">{{stundentCount.count}}</a>人</span>
+                            <span>男生：
+                                <a class="cheng-color">{{stundentCount.boycount}}</a>人</span>
+                            <span>女生：
+                                <a class="cheng-color">{{stundentCount.girlcount}}</a>人</span>
+                        </el-col>
+                        <el-col :span="5">
+                            <el-input placeholder="输入名称" icon="search" size="small" v-model="studentList.st_name" :on-icon-click="handleIconClick">
+                            </el-input>
+                        </el-col>
+                    </el-row>
+                   
+                         
+                      
+                            <el-table ref="multipleTable" :data="t_data" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange" class="z-text-over">
+                                <el-table-column type="selection" width="55">
+                                </el-table-column>
+                                <!-- <el-table-column label="学号" width="80" prop="id">
+                                    </el-table-column> -->
+                                <el-table-column prop="st_name" label="姓名" width="100" show-overflow-tooltip>
+                                </el-table-column>
+                                <!-- <el-table-column prop="t_name" label="用户名" show-overflow-tooltip>
+                                                </el-table-column> -->
+                                <el-table-column prop="cer" label="证件类型" width="100" show-overflow-tooltip>
+                                </el-table-column> -->
+                                <el-table-column prop="st_certificates_number" label="证件号" show-overflow-tooltip>
+                                </el-table-column>
+                                <!--   <el-table-column prop="sex" label="性别" width="70" show-overflow-tooltip>
+                
+                                            </el-table-column>
+                                              <el-table-column prop="t_name" label="实体班" width="90" show-overflow-tooltip>
+                                                </el-table-column> -->
+                                <!-- <el-table-column prop="t_name" label="虚拟班" show-overflow-tooltip>
+                                            </el-table-column> -->
+                                <el-table-column prop="st_phone" label="电话" show-overflow-tooltip>
+                                </el-table-column>
+                                <el-table-column prop="status" label="状态号码" show-overflow-tooltip>
+                                </el-table-column>
+                                <el-table-column label="操作" width="150" show-overflow-tooltip>
+                                    <template scope="scope">
+                                        <el-button size="mini" @click="setStu(scope.row)">查看</el-button>
+                                        <!-- <el-button size="small" @click="selectStudent(scope.row.st_id)">删除</el-button> -->
+                                    </template>
+                                </el-table-column>
+                            </el-table>
+                            <div class="kd-page">
+                                <el-row>
+                                     
+                                    <el-col :span="24">
+                                        <el-pagination class="float-right" @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="studentList.curpage" :page-sizes="[10, 15, 20, 25]" :page-size="studentList.page_count" layout="total, sizes, prev, pager, next, jumper" :total="studentList.total_num">
+                                        </el-pagination>
     
+                                    </el-col>
+                                </el-row>
+    
+                            </div>
+                       
+     
                 </div>
                 <div v-if="state==5">
                     <!-- 编辑学生  -->
@@ -136,7 +199,7 @@ export default {
                 `侧边栏可以进行高级搜索`
             ],
             state: 0,
-            stateList:[],
+            stateList: [],
             promptsPad: true,
             t_data: [],
             search: '',
@@ -163,7 +226,8 @@ export default {
             },
             setState: 0,//1添加学生信息。 2是编辑,
             setObj: {},
-            studentArr:[]
+            studentArr: [],
+            stundentCount:[],//学生人数
         }
     },
     created() {
@@ -190,25 +254,17 @@ export default {
             console.log(status)
         },
         handleIconClick(val) {
-            // 搜索触发事件
-            // console.log(val)
+            // 搜索触发事件 
+            this.studentAjax();
         },
         handleSelectionChange(val) {
             // 选择发生改变
             this.studentArr = [];
             val.forEach((x) => {
                 this.studentArr.push(x.st_id)
-            })  
+            })
             // this.multipleSelection = val;
-           
-        },
-        handleRemove(file, fileList) {
-            // 上传图片 
-        },
-        handlePictureCardPreview(file) {
-            // 上传图片
-            this.dialogImageUrl = file.url;
-            this.dialogVisible = true;
+
         },
         studentlist() {
             store.studentlist.call(this)
@@ -233,29 +289,34 @@ export default {
         setStu(obj) {
             // 编辑学生 
             this.setObj = obj;
-            this.setState=2;
+            this.setState = 2;
             this.state = 5;
         },
-        SetQuti(val){
+        SetQuti(val) {
             // 编辑学生退出
             console.log(val)
             this.state = val;
         },
-        addStudent(){
+        addStudent() {
             // 增加学生
-            this.setState=1;
+            this.setState = 1;
             this.state = 5;
         },
-        selectStudent(id){
+        selectStudent(id) {
             // 删除学生
             let ids;
-            id?ids=id:ids=this.studentArr; 
-            store.studentdelete.call(this,ids)
+            id ? ids = id : ids = this.studentArr;
+            store.studentdelete.call(this, ids)
+        },
+        studentRefresh() {
+            // 刷新列表数据
+            this.t_data=[]
+            this.studentAjax();
         }
     },
     watch: {
         checked(val) {
-            if (val) { 
+            if (val) {
                 this.t_data.forEach((x) => {
                     this.$refs.multipleTable.toggleRowSelection(x)
                 })
