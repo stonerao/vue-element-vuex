@@ -7,10 +7,11 @@
             </div>
             <div class="kd-box-content">
                 <description :prompts="prompts" @PromPts="promptsTem"></description>
+                <!--在校学生  -->
                 <div v-if="state==0">
                     <el-row :gutter="10" class="class-header">
                         <el-col :span="19" class="class-titles">
-                            <el-button type="primary" icon="plus" size="small">增加学生</el-button>
+                            <el-button type="primary" icon="plus" size="small" @click="addStudent">增加学生</el-button>
                             <el-button type="primary" icon="plus" size="small">批量导入</el-button>
                             <span>
                                 <img src="../../assets/index/shuaxin.png" class="icon-img-xs marginleft5" />刷新-共287条记录</span>
@@ -48,18 +49,18 @@
                                 <el-table-column prop="st_name" label="姓名" width="80" show-overflow-tooltip>
                                 </el-table-column>
                                 <!-- <el-table-column prop="t_name" label="用户名" show-overflow-tooltip>
-                                        </el-table-column> -->
+                                            </el-table-column> -->
                                 <el-table-column prop="cer" label="证件类型" width="100" show-overflow-tooltip>
                                 </el-table-column> -->
                                 <el-table-column prop="st_certificates_number" label="证件号" show-overflow-tooltip>
                                 </el-table-column>
                                 <!--   <el-table-column prop="sex" label="性别" width="70" show-overflow-tooltip>
-        
-                                    </el-table-column>
-                                      <el-table-column prop="t_name" label="实体班" width="90" show-overflow-tooltip>
-                                        </el-table-column> -->
+            
+                                        </el-table-column>
+                                          <el-table-column prop="t_name" label="实体班" width="90" show-overflow-tooltip>
+                                            </el-table-column> -->
                                 <!-- <el-table-column prop="t_name" label="虚拟班" show-overflow-tooltip>
-                                    </el-table-column> -->
+                                        </el-table-column> -->
                                 <el-table-column prop="st_phone" label="电话" show-overflow-tooltip>
                                 </el-table-column>
                                 <el-table-column prop="status" label="状态号码" show-overflow-tooltip>
@@ -67,19 +68,19 @@
                                 <el-table-column label="操作" width="150" show-overflow-tooltip>
                                     <template scope="scope">
                                         <el-button size="small" @click="setStu(scope.row)">编辑</el-button>
-                                        <el-button size="small">删除</el-button>
+                                        <el-button size="small" @click="selectStudent(scope.row.st_id)">删除</el-button>
                                     </template>
                                 </el-table-column>
                             </el-table>
                             <div class="kd-page">
                                 <el-row>
                                     <el-col :span="12" style="padding-left:15px">
-                                        <el-checkbox label="全选" style="margin-right:20px" v-model="checked"></el-checkbox>
+                                        <!-- <el-checkbox label="全选" style="margin-right:20px" v-model="checked"></el-checkbox> -->
                                         <!-- <el-select v-model="search" placeholder="请选择" size="small" class="margin-left">
-                                                <el-option v-for="item in t_data" :key="item.name" :label="item.name" :value="item.id">
-                                                </el-option>
-                                            </el-select> -->
-                                        <el-button type="primary" size="mini">删除</el-button>
+                                                    <el-option v-for="item in t_data" :key="item.name" :label="item.name" :value="item.id">
+                                                    </el-option>
+                                                </el-select> -->
+                                        <el-button type="primary" size="mini" @click="selectStudent('')">删除</el-button>
                                         <el-button type="primary" size="mini">激活</el-button>
                                         <el-button type="primary" size="mini">毕业</el-button>
                                     </el-col>
@@ -105,7 +106,7 @@
                 </div>
                 <div v-if="state==5">
                     <!-- 编辑学生  -->
-                    <studentSetVue :state="setState" :dataObj="setObj"></studentSetVue>
+                    <studentSetVue :state="setState" :dataObj="setObj" :goState="0" @SetQuti="SetQuti"></studentSetVue>
                 </div>
     
             </div>
@@ -120,7 +121,7 @@ import titleActive from '@/components/main/titleActive.vue'
 import description from '@/components/main/description.vue'
 import bottomItem from '@/components/bottom/bottom.vue'
 import studentSetVue from '@/components/student/set'
-import store from '@/utils/teacher' 
+import store from '@/utils/teacher'
 export default {
     data() {
         return {
@@ -135,6 +136,7 @@ export default {
                 `侧边栏可以进行高级搜索`
             ],
             state: 0,
+            stateList:[],
             promptsPad: true,
             t_data: [],
             search: '',
@@ -160,21 +162,22 @@ export default {
                 label: 'label'
             },
             setState: 0,//1添加学生信息。 2是编辑,
-            setObj: {}
+            setObj: {},
+            studentArr:[]
         }
     },
     created() {
         // 组织关系列表
-        // store.department_list.call(this)
+        store.department_list.call(this)
         // 学生数据
         this.studentAjax();
-      
+
     },
     components: {
         titleItem, titleActive, description, bottomItem, studentSetVue
     },
-    mounted(){
- 
+    mounted() {
+
     },
     methods: {
         emitTransfer(index) {
@@ -192,16 +195,15 @@ export default {
         },
         handleSelectionChange(val) {
             // 选择发生改变
-            let arr = [];
+            this.studentArr = [];
             val.forEach((x) => {
-                arr.push(x.st_id)
-            })
-            console.log(arr)
+                this.studentArr.push(x.st_id)
+            })  
             // this.multipleSelection = val;
+           
         },
         handleRemove(file, fileList) {
-            // 上传图片
-            console.log(file, fileList);
+            // 上传图片 
         },
         handlePictureCardPreview(file) {
             // 上传图片
@@ -219,8 +221,7 @@ export default {
             store.studentlist.call(this);
         },
         handleSizeChange(val) {
-            //一页数量
-            console.log(val)
+            //一页数量 
             this.studentList.one_pagenum = val;
             this.studentAjax();
         },
@@ -232,13 +233,29 @@ export default {
         setStu(obj) {
             // 编辑学生 
             this.setObj = obj;
+            this.setState=2;
             this.state = 5;
+        },
+        SetQuti(val){
+            // 编辑学生退出
+            console.log(val)
+            this.state = val;
+        },
+        addStudent(){
+            // 增加学生
+            this.setState=1;
+            this.state = 5;
+        },
+        selectStudent(id){
+            // 删除学生
+            let ids;
+            id?ids=id:ids=this.studentArr; 
+            store.studentdelete.call(this,ids)
         }
     },
     watch: {
         checked(val) {
-            if (val) {
-                console.log(this.t_data)
+            if (val) { 
                 this.t_data.forEach((x) => {
                     this.$refs.multipleTable.toggleRowSelection(x)
                 })

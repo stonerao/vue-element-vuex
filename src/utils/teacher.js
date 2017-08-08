@@ -170,6 +170,30 @@ export default {
                 this.sdata = res.data.department_list
             }
         })
+    }, 
+    addStundet(obj,state){
+        obj.token = key; 
+        this.$http({
+            url: state==1?api.addStundet:api.addStundet,
+            method: 'post',
+            data: obj
+        }).then((res)=>{
+
+        })
+         
+    },
+    studentdelete(arr){ 
+        this.$http({
+            url: api.studentdelete,
+            method: 'post',
+            data: {
+                token:key,
+                del_id:arr
+            }
+        }).then((res)=>{
+
+        })
+         
     },
 
 }
