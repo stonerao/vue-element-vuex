@@ -14,6 +14,8 @@ import setVue from '@/view/set/set'
 import architecture from '@/view/architecture/index'
 // 科目管理
 import classVue from '@/view/class/index'
+// 年/班级管理
+import gradeVue from '@/view/class/index'
 //考情管理
 import Attendance from '@/view/attendance/index'
 import {router_l} from './router_l'
@@ -62,9 +64,9 @@ export const constListMap = [
     ]
   },
   {
-    path: '/set',
+    path: '/grade',
     name: '年/班级管理',
-    redirect: '/set/index',
+    redirect: '/grade/index',
     icon: bj,
     iconActive: bj_active,
     component: Layout,
@@ -72,7 +74,7 @@ export const constListMap = [
       {
         path: 'index',
         name: '-班级管理',
-        component: classVue,
+        component: gradeVue,
       }
     ]
   }, {
