@@ -120,7 +120,7 @@ import titleActive from '@/components/main/titleActive.vue'
 import description from '@/components/main/description.vue'
 import bottomItem from '@/components/bottom/bottom.vue'
 import studentSetVue from '@/components/student/set'
-import store from '@/utils/teacher' 
+import store from '@/utils/l_axios' 
 export default {
     data() {
         return {
@@ -164,11 +164,8 @@ export default {
         }
     },
     created() {
-        // 组织关系列表
-        // store.department_list.call(this)
-        // 学生数据
-        this.studentAjax();
-      
+        // 总课表初始加载数据
+        store.timetable_list.call(this)
     },
     components: {
         titleItem, titleActive, description, bottomItem, studentSetVue

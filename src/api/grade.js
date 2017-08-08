@@ -1,3 +1,3 @@
 export const api = { 
-    teacher_list:'/Admin/teacher/teacher_list',  //teacher list data
+    timetable:'/Admin/Grade/show_grade_add_one',  //年或班级管理之总课表数据
 }

@@ -1,5 +1,6 @@
 .l_layout_outer {
   /* 年或班级排课 */
+  /*排课操作*/
 }
 .l_layout_outer .clearfloat:after {
   content: '';
@@ -43,6 +44,18 @@
 .l_layout_outer .l_graCla_list .top-block {
   background: #f4fbfe;
   padding: 13px 16px;
+  cursor: default;
+  transition: all .2s linear;
+}
+.l_layout_outer .l_graCla_list .top-block:hover {
+  background: #1997e4;
+}
+.l_layout_outer .l_graCla_list .top-block:hover .t1,
+.l_layout_outer .l_graCla_list .top-block:hover .t2,
+.l_layout_outer .l_graCla_list .top-block:hover .t3,
+.l_layout_outer .l_graCla_list .top-block:hover .t2 span,
+.l_layout_outer .l_graCla_list .top-block:hover .t3 span {
+  color: #fff;
 }
 .l_layout_outer .l_graCla_list .row {
   padding: 5px 0px;
@@ -65,6 +78,43 @@
   color: #999999;
   padding: 3px 0px;
   width: 56px;
+}
+.l_layout_outer .l_schedule_outer {
+  background: #fff;
+}
+.l_layout_outer .l_schedule_outer .sche_list_header {
+  padding: 27px 22px 21px 22px;
+  border-bottom: 2px solid #1997e4;
+}
+.l_layout_outer .l_schedule_outer .sche_list_header li {
+  float: left;
+  font-size: 18px;
+  color: #1997e4;
+  padding-left: 19px;
+  position: relative;
+}
+.l_layout_outer .l_schedule_outer .sche_list_header li:before {
+  content: '';
+  width: 10px;
+  height: 10px;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -ms-border-radius: 10px;
+  border-radius: 10px;
+  background: #1997e4;
+  position: absolute;
+  left: 0px;
+  top: 50%;
+  -webkit-transform: translate(0px, -50%);
+  -moz-transform: translate(0px, -50%);
+  -ms-transform: translate(0px, -50%);
+  transform: translate(0px, -50%);
+}
+.l_layout_outer .l_schedule_outer .l_search_outer {
+  padding: 0px 18px;
+}
+.l_layout_outer .l_schedule_outer .l_search_outer .el-form-item {
+  margin-bottom: 0px;
 }
 @media screen and (max-width: 1618px) {
   .l_layout_outer .l_graCla_list .li_list {
