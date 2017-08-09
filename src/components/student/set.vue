@@ -15,6 +15,7 @@
                     </div>
                     <div class="add-inp-item-addname margin-left">填写真实姓名，以便联系称呼</div>
                 </div>
+    
                 <div class="add-inp-item">
                     <div class="add-inp-item-name">
                         性别：
@@ -28,13 +29,22 @@
                 </div>
                 <div class="add-inp-item">
                     <div class="add-inp-item-name">
+                        联系电话：
+                    </div>
+                    <div class="add-inp-item-inp">
+                        <el-input v-model="obj.st_phone" placeholder=""></el-input>
+                    </div>
+                    <div class="add-inp-item-addname margin-left">如：1858366666</div>
+                </div>
+                <div class="add-inp-item">
+                    <div class="add-inp-item-name">
                         出生年月日：
                     </div>
                     <div class="add-inp-item-inp">
                         <el-date-picker v-model="obj.st_birthday" type="date" placeholder="选择日期">
                         </el-date-picker>
                     </div>
-                    <div class="add-inp-item-addname margin-left">登录密码</div>
+                    <div class="add-inp-item-addname margin-left"></div>
                 </div>
                 <div class="add-inp-item">
                     <div class="add-inp-item-name">
@@ -70,7 +80,7 @@
                     <div class="add-inp-item-inp">
                         <el-input v-model="obj.st_address" type="text"></el-input>
                     </div>
-                    <div class="add-inp-item-addname margin-left">如：13800000000</div>
+                    <!-- <div class="add-inp-item-addname margin-left">如：13800000000</div> -->
                 </div>
                 <div class="add-inp-item">
                     <div class="add-inp-item-name">
@@ -79,7 +89,7 @@
                     <div class="add-inp-item-inp">
                         <el-input v-model="obj.st_familyname" type="text"></el-input>
                     </div>
-                    <div class="add-inp-item-addname margin-left">如：13800000000</div>
+                    <!-- <div class="add-inp-item-addname margin-left">如：13800000000</div> -->
                 </div>
                 <div class="add-inp-item">
                     <div class="add-inp-item-name">
@@ -88,7 +98,7 @@
                     <div class="add-inp-item-inp">
                         <el-input v-model="obj.st_political" type="text"></el-input>
                     </div>
-                    <div class="add-inp-item-addname margin-left">如：13800000000</div>
+                    <!-- <div class="add-inp-item-addname margin-left">如：13800000000</div> -->
                 </div>
                 <div class="add-inp-item">
                     <div class="add-inp-item-name">
@@ -97,35 +107,35 @@
                     <div class="add-inp-item-inp">
                         <el-row :gutter="6">
                             <el-col :span="6">
-                                <el-input v-model="input" placeholder="姓名"></el-input>
+                                <el-input v-model="parents[0].name" placeholder="姓名"></el-input>
                             </el-col>
                             <el-col :span="6">
-                                <el-input v-model="input" placeholder="关系"></el-input>
+                                <el-input v-model="parents[0].rala" placeholder="关系"></el-input>
                             </el-col>
                             <el-col :span="12">
-                                <el-input v-model="input" placeholder="电话"></el-input>
+                                <el-input v-model="parents[0].mobile" placeholder="电话" type="number"></el-input>
                             </el-col>
                         </el-row>
                         <el-row :gutter="6">
                             <el-col :span="6">
-                                <el-input v-model="input" placeholder="姓名"></el-input>
+                                <el-input v-model="parents[1].name" placeholder="姓名"></el-input>
                             </el-col>
                             <el-col :span="6">
-                                <el-input v-model="input" placeholder="关系"></el-input>
+                                <el-input v-model="parents[1].rala" placeholder="关系"></el-input>
                             </el-col>
                             <el-col :span="12">
-                                <el-input v-model="input" placeholder="电话"></el-input>
+                                <el-input v-model="parents[1].mobile" placeholder="电话" type="number"></el-input>
                             </el-col>
                         </el-row>
                         <el-row :gutter="6">
                             <el-col :span="6">
-                                <el-input v-model="input" placeholder="姓名"></el-input>
+                                <el-input v-model="parents[2].name" placeholder="姓名"></el-input>
                             </el-col>
                             <el-col :span="6">
-                                <el-input v-model="input" placeholder="关系"></el-input>
+                                <el-input v-model="parents[2].rala" placeholder="关系"></el-input>
                             </el-col>
                             <el-col :span="12">
-                                <el-input v-model="input" placeholder="电话"></el-input>
+                                <el-input v-model="parents[2].mobile" placeholder="电话" type="number"></el-input>
                             </el-col>
                         </el-row>
     
@@ -166,12 +176,12 @@
                     </div>
                     <div class="add-inp-item-addname margin-left">如：13800000000</div>
                 </div>
-                <div class="add-inp-item" v-if="obj.st_certificates==1||obj.st_certificates==2">
+                <div class="add-inp-item">
                     <div class="add-inp-item-name">
                         证件号：
                     </div>
                     <div class="add-inp-item-inp">
-                        <el-input v-model="t_input" type="text"></el-input>
+                        <el-input v-model="obj.st_certificates_number" type="text"></el-input>
                     </div>
                     <div class="add-inp-item-addname margin-left">如：13800000000</div>
                 </div>
@@ -183,14 +193,14 @@
                     <div class="add-inp-item-inp  ">
                         <el-row :gutter="6">
                             <el-col :span="12">
-                                <el-select v-model="obj.st_class" placeholder="请选择年级" class="float:left">
-                                    <el-option v-for="item in t_data" :key="item.name" :label="item.name" :value="item.id">
+                                <el-select v-model="grade_id" placeholder="请选择年级" class="float:left">
+                                    <el-option v-for="item in gradeForm" :key="item.department_name" :label="item.department_name" :value="item.department_id">
                                     </el-option>
                                 </el-select>
                             </el-col>
                             <el-col :span="12">
-                                <el-select v-model="obj.st_grade" placeholder="请选择班级" class="float:left">
-                                    <el-option v-for="item in t_data" :key="item.name" :label="item.name" :value="item.id">
+                                <el-select v-model="class_id" placeholder="请选择班级" class="float:left">
+                                    <el-option v-for="item in classForm" :key="item.department_name" :label="item.department_name" :value="item.department_id">
                                     </el-option>
                                 </el-select>
                             </el-col>
@@ -201,33 +211,33 @@
                 </div>
     
                 <!-- <div class="add-inp-item ">
-                                                        <div class="add-inp-item-name">
-                                                            虚拟班：
-                                                        </div>
-                                                        <div class="add-inp-item-inp add-inp-time">
-                                                            <div>
-                                                                <el-select v-model="search" placeholder="请选择">
-                                                                    <el-option v-for="item in t_data" :key="item.name" :label="item.name" :value="item.id">
-                                                                    </el-option>
-                                                                </el-select>
-                                                            </div>
-                                                        </div>
-                                                        <div class="add-inp-item-addname margin-left">如：13800000000</div>
-                                                    </div> -->
+                                                                                <div class="add-inp-item-name">
+                                                                                    虚拟班：
+                                                                                </div>
+                                                                                <div class="add-inp-item-inp add-inp-time">
+                                                                                    <div>
+                                                                                        <el-select v-model="search" placeholder="请选择">
+                                                                                            <el-option v-for="item in t_data" :key="item.name" :label="item.name" :value="item.id">
+                                                                                            </el-option>
+                                                                                        </el-select>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="add-inp-item-addname margin-left">如：13800000000</div>
+                                                                            </div> -->
                 <!-- <div class="add-inp-item ">
-                                                        <div class="add-inp-item-name">
-                                                            学生照片：
-                                                        </div>
-                                                        <div class="add-inp-item-inp add-inp-time">
-                                                            <div>
-                                                                <el-select v-model="search" placeholder="请选择">
-                                                                    <el-option v-for="item in t_data" :key="item.name" :label="item.name" :value="item.id">
-                                                                    </el-option>
-                                                                </el-select>
-                                                            </div>
-                                                        </div>
-                                                        <div class="add-inp-item-addname margin-left">如：13800000000</div>
-                                                    </div> -->
+                                                                                <div class="add-inp-item-name">
+                                                                                    学生照片：
+                                                                                </div>
+                                                                                <div class="add-inp-item-inp add-inp-time">
+                                                                                    <div>
+                                                                                        <el-select v-model="search" placeholder="请选择">
+                                                                                            <el-option v-for="item in t_data" :key="item.name" :label="item.name" :value="item.id">
+                                                                                            </el-option>
+                                                                                        </el-select>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="add-inp-item-addname margin-left">如：13800000000</div>
+                                                                            </div> -->
     
                 <div class="add-inp-item">
                     <div class="add-inp-item-name">
@@ -245,8 +255,8 @@
                 <div class="add-inp-btn">
                     <div class="add-inp-item-name">
                     </div>
-                    <el-button type="primary">保存</el-button>
-                    <el-button>取消</el-button>
+                    <el-button type="primary" @click="submit">保存</el-button>
+                    <el-button @click="quit">取消</el-button>
                 </div>
             </div>
         </section>
@@ -254,18 +264,20 @@
 </template>
 <script>
 import utils from '@/utils/utils'
+import uitlsFun from '@/utils'
+import store from '@/utils/teacher'
 export default {
     /* 
         state 1是添加 2是编辑
+        goState 进来时的状态值
     */
-    props: ['state', "dataObj"],
+    props: ['state', "dataObj", "goState","id"],
     data() {
         return {
             t_data: [],
             sex: "1",
             t_input: '',
             certificates: [
-                { name: "无", id: "0" },
                 { name: "身份证", id: "1" },
                 { name: "学生证", id: "2" }
             ],
@@ -283,11 +295,11 @@ export default {
                 st_address: "",//详细地址
                 st_familyname: "",//名族
                 st_political: "",//政治面貌
-                st_parent: "",//家长，两位家长信息
+                st_parent: "",//家长，3位家长信息
                 st_certificates: "",//证件类型（0：无，1：身份证，2：学生证）
                 st_certificates_number: "",//证件号码
-                st_grade: "",//班级
-                st_class: "",//年级
+                st_grade: "",//年级
+                st_class: "",//班级
                 st_status: "",//就读状态（1：在校，2：毕业，3：休学，4：开除）
                 member_name: "",//user
                 password: "",//password
@@ -300,7 +312,25 @@ export default {
             province_id: '',//省
             city_id: '',//市
             area_id: '',//区
-
+            parents: [ //家长列表
+                {
+                    name: '',
+                    rela: "",
+                    mobile: ""
+                }, {
+                    name: '',
+                    rela: "",
+                    mobile: ""
+                }, {
+                    name: '',
+                    rela: "",
+                    mobile: ""
+                },
+            ],
+            gradeForm: [],//年纪数据
+            grade_id: '',//年级id
+            classForm: [],//
+            class_id: ''
         }
     },
     methods: {
@@ -327,16 +357,52 @@ export default {
         },
         area_list() {
 
+        },
+        quit() {
+            this.$emit("SetQuti", this.goState)
+        },
+        submit() {
+            // 保存
+            // 家长信息 
+             
+            this.obj.st_parent = uitlsFun.encodeUnicode(JSON.stringify(this.parents))
+            this.obj.st_birthday = Date.parse(this.obj.st_birthday);
+            store.addStundet.call(this, this.obj, this.state)
+            
         }
     },
     created() {
+        console.log(this.dataObj)
         if (this.state == 1) {
 
         } else if (this.state == 2) {
             if (this.dataObj) {
-
+                let obj = this.obj;
+                let dataObj = this.dataObj; 
+                obj.st_id = dataObj.st_id; 
+                obj.st_name = dataObj.st_name ? dataObj.st_name : '';//学生名册
+                obj.st_sex = dataObj.st_sex ? dataObj.st_sex : '';//性别
+                obj.st_phone = dataObj.st_phone ? dataObj.st_phone : '';//联系电话 
+                obj.st_birthday = dataObj.st_birthday ? new Date(parseInt(dataObj.st_birthday)*1000) : '';//出生日期 
+                obj.st_provinceid = dataObj.st_provinceid ? dataObj.st_provinceid : '';//籍贯（省级ID）
+                obj.st_cityid = dataObj.st_cityid ? dataObj.st_cityid : '';//籍贯（市级ID）
+                obj.st_areaid = dataObj.st_areaid ? dataObj.st_areaid : '';//籍贯（地区ID）
+                obj.st_address = dataObj.st_address ? dataObj.st_address : '';//详细地址
+                obj.st_familyname = dataObj.st_familyname ? dataObj.st_familyname : '';//名族
+                obj.st_political = dataObj.st_political ? dataObj.st_political : '';//政治面貌 
+                this.parents = dataObj.st_parent ? JSON.parse(dataObj.st_parent) : {};
+                obj.st_parent = this.parents;//家长，3位家长信息
+                obj.st_certificates = dataObj.st_certificates ? dataObj.st_certificates : '';//证件类型（0：无，1：身份证，2：学生证）
+                obj.st_certificates_number = dataObj.st_certificates_number ? dataObj.st_certificates_number : '';//证件号码
+                obj.st_grade = dataObj.st_grade ? dataObj.st_grade : '';//年级
+                obj.st_class = dataObj.st_class ? dataObj.st_class : '';//班级
+                obj.st_status = dataObj.st_status ? dataObj.st_status : '';//就读状态（1：在校，2：毕业，3：休学，4：开除） 
             }
         }
+        // 年纪
+        store.grade_list.call(this);
+
+
 
     },
     mounted() {
@@ -370,7 +436,16 @@ export default {
         },
         area_id(val) {
             this.obj.st_areaid = val;
-            console.log(this.obj)
+        },
+        grade_id(val) {
+            // 年纪联动改变
+            this.obj.st_grade = val;
+            store.class_list.call(this, val);
+
+        },
+        class_id(val) {
+            // 年纪联动改变
+            this.obj.st_class = val;
         }
     }
 
