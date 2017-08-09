@@ -206,9 +206,9 @@ export const constListMap = [
       }
     ]
   }, {
-    path: '/set',
+    path: '/authority',
     name: '权限管理',
-    redirect: '/set/index',
+    redirect: '/authority/index',
     icon: qx,
     iconActive: qx_active,
     component: Layout,
