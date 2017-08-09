@@ -116,6 +116,40 @@
 .l_layout_outer .l_schedule_outer .l_search_outer .el-form-item {
   margin-bottom: 0px;
 }
+.l_layout_outer .l_schedule_outer .l_search_outer .el-form-item .middle-pad0 {
+  padding: 0.0px 18px;
+  font-size: 14px;
+  color: #48576a;
+}
+.l_layout_outer .l_schedule_outer .l_search_outer #search_form1 {
+  padding: 15px 0px;
+}
+.l_layout_outer .l_schedule_outer .l_search_outer #search_form1 .el-form-item:nth-child(1) {
+  margin-right: 21px;
+}
+.l_layout_outer .l_schedule_outer .sche_table {
+  border: 1px solid #e7e7e7;
+}
+.l_layout_outer .l_schedule_outer .sche_table table {
+  box-sizing: border-box;
+}
+.l_layout_outer .l_schedule_outer .sche_table table th div {
+  height: 43px;
+  line-height: 43px;
+  font-size: 15px;
+  color: #fff;
+  background: #1997e4;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 1px solid #e7e7e7;
+}
+.l_layout_outer .l_schedule_outer .sche_table table th:last-child div {
+  border: none;
+}
+.l_layout_outer .l_schedule_outer .sche_table table tr td div {
+  text-align: center;
+  padding: 15px 0px;
+}
 @media screen and (max-width: 1618px) {
   .l_layout_outer .l_graCla_list .li_list {
     width: 17.9%;
