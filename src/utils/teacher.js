@@ -174,7 +174,7 @@ export default {
     addStundet(obj, state) {
         obj.token = key;
         this.$http({
-            url: state == 1 ? api.addStundet : api.addStundet,
+            url: state == 1 ? api.addStundet : api.setStundet,
             method: 'post',
             data: obj
         }).then((res) => {

@@ -211,33 +211,33 @@
                 </div>
     
                 <!-- <div class="add-inp-item ">
-                                                                        <div class="add-inp-item-name">
-                                                                            虚拟班：
-                                                                        </div>
-                                                                        <div class="add-inp-item-inp add-inp-time">
-                                                                            <div>
-                                                                                <el-select v-model="search" placeholder="请选择">
-                                                                                    <el-option v-for="item in t_data" :key="item.name" :label="item.name" :value="item.id">
-                                                                                    </el-option>
-                                                                                </el-select>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="add-inp-item-addname margin-left">如：13800000000</div>
-                                                                    </div> -->
+                                                                                <div class="add-inp-item-name">
+                                                                                    虚拟班：
+                                                                                </div>
+                                                                                <div class="add-inp-item-inp add-inp-time">
+                                                                                    <div>
+                                                                                        <el-select v-model="search" placeholder="请选择">
+                                                                                            <el-option v-for="item in t_data" :key="item.name" :label="item.name" :value="item.id">
+                                                                                            </el-option>
+                                                                                        </el-select>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="add-inp-item-addname margin-left">如：13800000000</div>
+                                                                            </div> -->
                 <!-- <div class="add-inp-item ">
-                                                                        <div class="add-inp-item-name">
-                                                                            学生照片：
-                                                                        </div>
-                                                                        <div class="add-inp-item-inp add-inp-time">
-                                                                            <div>
-                                                                                <el-select v-model="search" placeholder="请选择">
-                                                                                    <el-option v-for="item in t_data" :key="item.name" :label="item.name" :value="item.id">
-                                                                                    </el-option>
-                                                                                </el-select>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="add-inp-item-addname margin-left">如：13800000000</div>
-                                                                    </div> -->
+                                                                                <div class="add-inp-item-name">
+                                                                                    学生照片：
+                                                                                </div>
+                                                                                <div class="add-inp-item-inp add-inp-time">
+                                                                                    <div>
+                                                                                        <el-select v-model="search" placeholder="请选择">
+                                                                                            <el-option v-for="item in t_data" :key="item.name" :label="item.name" :value="item.id">
+                                                                                            </el-option>
+                                                                                        </el-select>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="add-inp-item-addname margin-left">如：13800000000</div>
+                                                                            </div> -->
     
                 <div class="add-inp-item">
                     <div class="add-inp-item-name">
@@ -271,7 +271,7 @@ export default {
         state 1是添加 2是编辑
         goState 进来时的状态值
     */
-    props: ['state', "dataObj", "goState"],
+    props: ['state', "dataObj", "goState","id"],
     data() {
         return {
             t_data: [],
@@ -364,41 +364,45 @@ export default {
         submit() {
             // 保存
             // 家长信息 
+             
             this.obj.st_parent = uitlsFun.encodeUnicode(JSON.stringify(this.parents))
             this.obj.st_birthday = Date.parse(this.obj.st_birthday);
             store.addStundet.call(this, this.obj, this.state)
+            
         }
     },
     created() {
+        console.log(this.dataObj)
         if (this.state == 1) {
 
         } else if (this.state == 2) {
             if (this.dataObj) {
-
+                let obj = this.obj;
+                let dataObj = this.dataObj; 
+                obj.st_id = dataObj.st_id; 
+                obj.st_name = dataObj.st_name ? dataObj.st_name : '';//学生名册
+                obj.st_sex = dataObj.st_sex ? dataObj.st_sex : '';//性别
+                obj.st_phone = dataObj.st_phone ? dataObj.st_phone : '';//联系电话 
+                obj.st_birthday = dataObj.st_birthday ? new Date(parseInt(dataObj.st_birthday)*1000) : '';//出生日期 
+                obj.st_provinceid = dataObj.st_provinceid ? dataObj.st_provinceid : '';//籍贯（省级ID）
+                obj.st_cityid = dataObj.st_cityid ? dataObj.st_cityid : '';//籍贯（市级ID）
+                obj.st_areaid = dataObj.st_areaid ? dataObj.st_areaid : '';//籍贯（地区ID）
+                obj.st_address = dataObj.st_address ? dataObj.st_address : '';//详细地址
+                obj.st_familyname = dataObj.st_familyname ? dataObj.st_familyname : '';//名族
+                obj.st_political = dataObj.st_political ? dataObj.st_political : '';//政治面貌 
+                this.parents = dataObj.st_parent ? JSON.parse(dataObj.st_parent) : {};
+                obj.st_parent = this.parents;//家长，3位家长信息
+                obj.st_certificates = dataObj.st_certificates ? dataObj.st_certificates : '';//证件类型（0：无，1：身份证，2：学生证）
+                obj.st_certificates_number = dataObj.st_certificates_number ? dataObj.st_certificates_number : '';//证件号码
+                obj.st_grade = dataObj.st_grade ? dataObj.st_grade : '';//年级
+                obj.st_class = dataObj.st_class ? dataObj.st_class : '';//班级
+                obj.st_status = dataObj.st_status ? dataObj.st_status : '';//就读状态（1：在校，2：毕业，3：休学，4：开除） 
             }
         }
         // 年纪
         store.grade_list.call(this);
-        let obj = this.obj;
-        let dataObj = this.dataObj;
-        obj.st_name = dataObj.st_name;//学生名册
-        obj.st_sex = dataObj.st_sex;//性别
-        obj.st_phone = dataObj.st_phone;//联系电话
-        obj.st_birthday = dataObj.st_birthday;//出生日期
-        obj.st_provinceid = dataObj.st_provinceid;//籍贯（省级ID）
-        obj.st_cityid = dataObj.st_cityid;//籍贯（市级ID）
-        obj.st_areaid = dataObj.st_areaid;//籍贯（地区ID）
-        obj.st_address = dataObj.st_address;//详细地址
-        obj.st_familyname = dataObj.st_familyname;//名族
-        obj.st_political = dataObj.st_political;//政治面貌 
-        this.parents = JSON.parse(dataObj.st_parent)
-        obj.st_parent =JSON.parse(dataObj.st_parent);//家长，3位家长信息
-        obj.st_certificates = dataObj.st_certificates;//证件类型（0：无，1：身份证，2：学生证）
-        obj.st_certificates_number = dataObj.st_certificates_number;//证件号码
-        obj.st_grade = dataObj.st_grade;//年级
-        obj.st_class = dataObj.st_class;//班级
-        obj.st_status = dataObj.st_status;//就读状态（1：在校，2：毕业，3：休学，4：开除） 
-        console.log(this.dataObj)
+
+
 
     },
     mounted() {

@@ -51,9 +51,9 @@
                                 <!-- style="padding-left:15px"  -->
                                 <!-- <el-checkbox label="全选"></el-checkbox> -->
                                 <!-- <el-select v-model="search" placeholder="请选择" size="small" class="margin-left">
-                                                                            <el-option v-for="item in t_data" :key="item.name" :label="item.name" :value="item.id">
-                                                                            </el-option>
-                                                                        </el-select> -->
+                                                                                <el-option v-for="item in t_data" :key="item.name" :label="item.name" :value="item.id">
+                                                                                </el-option>
+                                                                            </el-select> -->
                             </el-col>
                             <el-col :span="24">
                                 <el-pagination class="float-right" @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="tracherList.curpage" :page-sizes="[10, 15, 20, 25]" :page-size="tracherList.page_count" layout="total, sizes, prev, pager, next, jumper" :total="tracherList.total_num">
