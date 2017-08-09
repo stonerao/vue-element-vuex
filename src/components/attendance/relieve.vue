@@ -9,7 +9,7 @@
         <el-col :span="20">
           <div class="att-time">
             <el-date-picker
-              v-model="value1"
+              v-model="value2"
               type="date"
               placeholder="选择日期"
               :picker-options="pickerOptions0">
@@ -30,7 +30,7 @@
           <div v-else class="att-name rt">找人调课：</div>
         </el-col>
         <el-col :span="20" v-if="state==2">
-          <el-select v-model="name" placeholder="请选择">
+          <el-select v-model="tname" placeholder="请选择">
             <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
           </el-select>
@@ -38,7 +38,7 @@
         <el-col :span="20" v-else>
           <div class="att-time">
             <el-date-picker
-              v-model="value2"
+              v-model="value3"
               type="date"
               placeholder="选择日期"
               :picker-options="pickerOptions0">
@@ -57,7 +57,7 @@
       </el-col>
       <el-col :span="20">
         <el-date-picker
-          v-model="value6"
+          v-model="value1"
           type="daterange"
           placeholder="选择日期范围">
         </el-date-picker>
@@ -70,11 +70,11 @@
       <el-col :span="20">
         <el-form>
           <el-form-item>
-            <el-input type="textarea"></el-input>
+            <el-input v-model="msg" type="textarea"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary">提交申请</el-button>
-            <el-button>取消</el-button>
+            <el-button type="primary" @click="applySubmit(state)">提交申请</el-button>
+            <el-button @click="cancel">取消</el-button>
           </el-form-item>
         </el-form>
       </el-col>
@@ -91,14 +91,15 @@
             return time.getTime() < Date.now() - 8.64e7;
           }
         },
-        value1:'',
-        value2:'',
-        value6: '',
+        value1:'',//请假管理请假时间
+        value2:'',//调课时间，代课时间
+        value3: '',//找人调课时间
         radio:'1',
         options:[
           {value: '选项1', label: '黄金糕'}
         ],
-        name:''
+        tname:'',//代课老师
+        msg:'',//原因
       }
     },
     watch:{
@@ -106,9 +107,22 @@
         this.$emit('changeAddState');
         this.value1='';
         this.value2='';
-        this.value6='';
-        this.name='';
+        this.value3='';
+        this.tname='';
       }
+    },
+    methods:{
+      cancel(){
+        this.$emit('changeAddState');
+      },//取消
+      applySubmit(num){
+        if(num==0){
+          var obj1={
+            time:this.value1,
+            text:this.msg
+          };
+        }
+      },//提交
     }
   })
 </script>

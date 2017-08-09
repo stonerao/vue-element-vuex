@@ -18,6 +18,8 @@ import classVue from '@/view/class/index'
 import gradeVue from '@/view/class/index'
 //考情管理
 import Attendance from '@/view/attendance/index'
+//权限管理
+import Authority from '@/view/authority/index'
 import {router_l} from './router_l'
 import {router_z} from './router_z'
 /*
@@ -214,7 +216,7 @@ export const constListMap = [
       {
         path: 'index',
         name: '-权限管理',
-        component: setVue,
+        component: Authority,
       }
     ]
   }, {
