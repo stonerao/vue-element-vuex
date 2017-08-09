@@ -288,7 +288,7 @@ export default {
             console.log(status)
         },
         changeAdd(){
-          this.addState=0;
+//          this.addState=0;
         },
     },
 
