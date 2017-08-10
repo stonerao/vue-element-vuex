@@ -7,7 +7,6 @@
             </div>
             <div class="kd-box-content">
                 <description :prompts="prompts" @PromPts="promptsTem"></description>
-                <!--模块开始  -->
                 <!--请假管理-->
                 <div v-if="state==0&&addState!=1">
                   <el-row class="class-header">
@@ -51,21 +50,6 @@
                         </el-table-column>
                       </template>
                     </el-table>
-                    <div class="kd-page">
-                      <el-row>
-                        <el-col :span="12" style="padding-left:15px">
-                          <!--<el-checkbox label="全选"></el-checkbox>-->
-                          <el-select v-model="leaveMsg" placeholder="请选择" size="small" class="margin-left">
-                            <el-option v-for="item in leaveList" :key="item.msg" :label="item.msg" :value="item.leaveId">
-                            </el-option>
-                          </el-select>
-                        </el-col>
-                        <el-col :span="12">
-                          <el-pagination class="float-right" :current-page="currentPage" :page-sizes="[100, 200, 300, 400]" :page-size="100" layout="total, sizes, prev, pager, next, jumper" :total="600">
-                          </el-pagination>
-                        </el-col>
-                      </el-row>
-                    </div>
                   </div>
                 </div>
                 <!--调课管理-->
@@ -88,8 +72,6 @@
                   </el-col>
                 </el-row>
                 <el-table :data="relieveList">
-                  <!--<el-table-column type="selection" width="55">-->
-                  <!--</el-table-column>-->
                   <el-table-column prop="Id" label="ID" width="80">
                   </el-table-column>
                   <el-table-column prop="msg" label="请假事由" show-overflow-tooltip >
@@ -104,21 +86,6 @@
                   <el-table-column prop="approve" label="审批人" width="80">
                   </el-table-column>
                 </el-table>
-                <div class="kd-page">
-                  <el-row>
-                    <el-col :span="12" style="padding-left:15px">
-                      <!--<el-checkbox label="全选"></el-checkbox>-->
-                      <el-select v-model="leaveMsg" placeholder="请选择" size="small" class="margin-left">
-                        <el-option v-for="item in leaveList" :key="item.msg" :label="item.msg" :value="item.leaveId">
-                        </el-option>
-                      </el-select>
-                    </el-col>
-                    <el-col :span="12">
-                      <el-pagination class="float-right" :current-page="currentPage" :page-sizes="[100, 200, 300, 400]" :page-size="100" layout="total, sizes, prev, pager, next, jumper" :total="600">
-                      </el-pagination>
-                    </el-col>
-                  </el-row>
-                </div>
               </div>
                 <!--代课管理-->
                 <div v-if="state==2&&addState!=1">
@@ -156,21 +123,6 @@
                       <el-table-column prop="approve" label="审批人" width="80">
                       </el-table-column>
                     </el-table>
-                  <div class="kd-page">
-                      <el-row>
-                        <el-col :span="12" style="padding-left:15px">
-                          <!--<el-checkbox label="全选"></el-checkbox>-->
-                          <el-select v-model="leaveMsg" placeholder="请选择" size="small" class="margin-left">
-                            <el-option v-for="item in leaveList" :key="item.msg" :label="item.msg" :value="item.leaveId">
-                            </el-option>
-                          </el-select>
-                        </el-col>
-                        <el-col :span="12">
-                          <el-pagination class="float-right" :current-page="currentPage" :page-sizes="[100, 200, 300, 400]" :page-size="100" layout="total, sizes, prev, pager, next, jumper" :total="600">
-                          </el-pagination>
-                        </el-col>
-                      </el-row>
-                    </div>
               </div>
                 <!--考勤统计-->
                 <div v-if="state==3&&addState!=1">
@@ -199,27 +151,27 @@
                       <el-table-column prop="time" label="请假课时">
                       </el-table-column>
                     </el-table>
-                    <div class="kd-page">
-                      <el-row>
-                        <el-col :span="12" style="padding-left:15px">
-                          <!--<el-checkbox label="全选"></el-checkbox>-->
-                          <el-select v-model="leaveMsg" placeholder="请选择" size="small" class="margin-left">
-                            <el-option v-for="item in leaveList" :key="item.msg" :label="item.msg" :value="item.leaveId">
-                            </el-option>
-                          </el-select>
-                        </el-col>
-                        <el-col :span="12">
-                          <el-pagination class="float-right" :current-page="currentPage" :page-sizes="[100, 200, 300, 400]" :page-size="100" layout="total, sizes, prev, pager, next, jumper" :total="600">
-                          </el-pagination>
-                        </el-col>
-                      </el-row>
-                    </div>
                   </div>
                 </div>
               </div>
                 <!--填写申请-->
                 <div v-if="addState==1">
-                <relieve :state="state" @changeAddState="changeAdd"></relieve>
+                  <relieve :state="state" @changeAddState="changeAdd"></relieve>
+                </div>
+                <div class="kd-page" v-else>
+                <el-row>
+                  <el-col :span="12" style="padding-left:15px">
+                    <!--<el-checkbox label="全选"></el-checkbox>-->
+                    <el-select v-model="leaveMsg" placeholder="请选择" size="small" class="margin-left">
+                      <el-option v-for="item in leaveList" :key="item.msg" :label="item.msg" :value="item.leaveId">
+                      </el-option>
+                    </el-select>
+                  </el-col>
+                  <el-col :span="12">
+                    <el-pagination class="float-right" :current-page="currentPage" :page-sizes="[10, 15, 20, 25]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total">
+                    </el-pagination>
+                  </el-col>
+                </el-row>
               </div>
             </div>
             <bottomItem></bottomItem>
@@ -233,6 +185,7 @@ import titleActive from '@/components/main/titleActive.vue'
 import description from '@/components/main/description.vue'
 import bottomItem from '@/components/bottom/bottom.vue'
 import relieve from '@/components/attendance/relieve'
+import att from '@/utils/attendance'
 export default {
     data() {
         return {
@@ -249,6 +202,10 @@ export default {
             state: 0,
             addState:0,//显示申请页面
             promptsPad: true,
+            total:0,//总条数
+            currentPage:1,//当前页
+            pageSize:10,//每页显示数量
+            status:'',//审核状态
             typeText1:'',//请假管理审核状态
             typeText2:'',//代课管理审核状态
             checkTypeList:[
@@ -256,23 +213,19 @@ export default {
               {name:'同意', value:'2'},
               {name:'未批准', value:'3'}
             ],
-            leaveList:[
-              {leaveId:'001',msg:'去参加全国电子技能大赛，特此不能上课',startTime:'2017-08-19 16:40:27',endTime:'2017-08-19 16:40:27',time:'3.6',askTime:'2017-08-19 16:40:27',type:'待审批',approve:'汪峰',typeId:'1'},
-              {leaveId:'001',msg:'去参加全国电子技能大赛，特此不能上课',startTime:'2017-08-19 16:40:27',endTime:'2017-08-19 16:40:27',time:'3.6',askTime:'2017-08-19 16:40:27',type:'同意',approve:'汪峰',typeId:'2'},
-              {leaveId:'001',msg:'去参加全国电子技能大赛，特此不能上课',startTime:'2017-08-19 16:40:27',endTime:'2017-08-19 16:40:27',time:'3.6',askTime:'2017-08-19 16:40:27',type:'未批准',approve:'汪峰',typeId:'3'},
-            ],//请假管理列表
+            leaveList:[],//请假记录
             leaveMsg:'',
             relieveList:[
               {Id:'001',msg:'去参加全国电子技能大赛，特此不能上课',relieveTime:'2017-08-19 16:40:27',askTime:'2017-08-19 16:40:27',type:'待审批',approve:'汪峰',typeId:'1'},
               {Id:'001',msg:'去参加全国电子技能大赛，特此不能上课',relieveTime:'2017-08-19 16:40:27',askTime:'2017-08-19 16:40:27',type:'同意',approve:'汪峰',typeId:'2'},
               {Id:'001',msg:'去参加全国电子技能大赛，特此不能上课',relieveTime:'2017-08-19 16:40:27',askTime:'2017-08-19 16:40:27',type:'未批准',approve:'汪峰',typeId:'3'},
             ],//代课管理列表
-            currentPage:1,
             value6:'',//考勤统计日期选择
 
         }
     },
     created() {
+      att.leave_list.call(this);
     },
     components: {
         titleItem, titleActive, description, bottomItem,relieve
