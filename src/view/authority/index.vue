@@ -10,10 +10,10 @@
         <div v-if="state==0 && editShow!=1">
           <el-row class="class-header">
             <el-col :span="20" class="class-titles">
-              <img src="../../assets/index/shuaxin.png" class="icon-img-xs cursor"/>刷新-共 111 条记录
+              <img src="../../assets/index/shuaxin.png" class="icon-img-xs cursor"/>刷新-共 {{total}} 条记录
             </el-col>
             <el-col :span="4">
-              <el-input placeholder="请输入名称" icon="search" size="small" class="rt">
+              <el-input v-model="searchTxt" :on-icon-click="searchGroup" placeholder="请输入名称" icon="search" size="small" class="rt">
               </el-input>
             </el-col>
           </el-row>
@@ -29,14 +29,8 @@
           </el-table>
           <div class="kd-page">
             <el-row>
-              <!--<el-col :span="12" style="padding-left:15px">-->
-                <!--<el-select v-model="name" placeholder="请选择" size="small" class="margin-left">-->
-                  <!--<el-option v-for="item in list" :key="item.gid" :label="item.gname" :value="item.gid">-->
-                  <!--</el-option>-->
-                <!--</el-select>-->
-              <!--</el-col>-->
               <el-col :span="12" :offset="12">
-                <el-pagination class="float-right" :current-page="currentPage" :page-size="100" layout="total, prev, pager, next, jumper" :total="600">
+                <el-pagination class="float-right" :current-page="currentPage" :page-sizes="[10, 15, 20, 25]" :page="10" layout="total,sizes, prev, pager, next, jumper" :total="total" @size-change="handleSizeChange" @current-change="handleCurrentChange">
                 </el-pagination>
               </el-col>
             </el-row>
@@ -97,14 +91,15 @@
         state: 0,
         editShow:0,//编辑权限组
         promptsPad: true,
-        list:[],
-        name:'',
-        page:'',
-        currentPage:1,
+        list:[],//权限组列表
+        total:0,//总条数
+        currentPage:1,//当前页
+        pageSize:10,//每页显示数量
         ctrList:[],//控制器列表
         groupName:'',//添加权限组名字
         groupCtrList:[],//添加权限控制器名
         gid:'',//权限组ID
+        searchTxt:'',//搜索框文本
       }
     },
     created() {
@@ -184,6 +179,21 @@
           });
         });
       },
+      //每页条数变化
+      handleSizeChange(val) {
+        this.pageSize=val;
+        group.group_list(this);
+
+      },
+      //点击翻页
+      handleCurrentChange(val) {
+        this.currentPage=val;
+        group.group_list(this);
+      },
+      //搜索权限组
+      searchGroup(){
+        group.group_list(this);
+      }
     },
     watch:{
       state(){
