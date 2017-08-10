@@ -208,37 +208,7 @@
     
                     </div>
                     <div class="add-inp-item-addname margin-left">如：13800000000</div>
-                </div>
-    
-                <!-- <div class="add-inp-item ">
-                                                                                <div class="add-inp-item-name">
-                                                                                    虚拟班：
-                                                                                </div>
-                                                                                <div class="add-inp-item-inp add-inp-time">
-                                                                                    <div>
-                                                                                        <el-select v-model="search" placeholder="请选择">
-                                                                                            <el-option v-for="item in t_data" :key="item.name" :label="item.name" :value="item.id">
-                                                                                            </el-option>
-                                                                                        </el-select>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="add-inp-item-addname margin-left">如：13800000000</div>
-                                                                            </div> -->
-                <!-- <div class="add-inp-item ">
-                                                                                <div class="add-inp-item-name">
-                                                                                    学生照片：
-                                                                                </div>
-                                                                                <div class="add-inp-item-inp add-inp-time">
-                                                                                    <div>
-                                                                                        <el-select v-model="search" placeholder="请选择">
-                                                                                            <el-option v-for="item in t_data" :key="item.name" :label="item.name" :value="item.id">
-                                                                                            </el-option>
-                                                                                        </el-select>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="add-inp-item-addname margin-left">如：13800000000</div>
-                                                                            </div> -->
-    
+                </div> 
                 <div class="add-inp-item">
                     <div class="add-inp-item-name">
                         账号状态：
@@ -363,8 +333,7 @@ export default {
         },
         submit() {
             // 保存
-            // 家长信息 
-             
+            // 家长信息  
             this.obj.st_parent = uitlsFun.encodeUnicode(JSON.stringify(this.parents))
             this.obj.st_birthday = Date.parse(this.obj.st_birthday);
             store.addStundet.call(this, this.obj, this.state)
@@ -397,6 +366,7 @@ export default {
                 obj.st_grade = dataObj.st_grade ? dataObj.st_grade : '';//年级
                 obj.st_class = dataObj.st_class ? dataObj.st_class : '';//班级
                 obj.st_status = dataObj.st_status ? dataObj.st_status : '';//就读状态（1：在校，2：毕业，3：休学，4：开除） 
+
             }
         }
         // 年纪
