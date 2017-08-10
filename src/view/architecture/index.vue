@@ -13,13 +13,8 @@
                             <el-col :span="19" class="class-titles">
                                 <el-button type="primary" icon="plus" size="small" @click="addDladogUser">添加成员</el-button>
                                 <span>
-                                    <img src="../../assets/index/shuaxin.png" class="icon-img-xs marginleft5" @click="studentRefresh" />刷新-共1条记录</span>
-                                <span>当前总人数：
-                                    <a class="red-color">1</a>人</span>
-                                <span>男生：
-                                    <a class="cheng-color">2</a>人</span>
-                                <span>女生：
-                                    <a class="cheng-color">3</a>人</span>
+                                    <img src="../../assets/index/shuaxin.png" class="icon-img-xs marginleft5" @click="studentRefresh" />刷新-共{{bm_page_count}}条记录</span>
+                               
                             </el-col>
                             <el-col :span="5">
                                 <el-input placeholder="输入名称" icon="search" size="small" v-model="obj.search" :on-icon-click="handleIconClick">
@@ -51,12 +46,8 @@
                                 <el-table ref="multipleTable" :data="t_data" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange" class="z-text-over">
                                     <el-table-column type="selection" width="55">
                                     </el-table-column>
-                                    <!-- <el-table-column label="学号" width="80" prop="id">
-                                                                                                                                                    </el-table-column> -->
                                     <el-table-column prop="teacher_name" label="姓名" width="100" show-overflow-tooltip>
                                     </el-table-column>
-                                    <!-- <el-table-column prop="t_name" label="用户名" show-overflow-tooltip>
-                                                                                                                                                                </el-table-column> -->
                                     <el-table-column prop="username" label="用户名" width="100" show-overflow-tooltip>
                                     </el-table-column>
                                     <el-table-column prop="position_name" label="职位" show-overflow-tooltip>
@@ -66,12 +57,6 @@
                                             {{scope.row.teacher_sex=='1'?'保密':(scope.row.teacher_sex=='2'?'男':'女')}}
                                         </template>
                                     </el-table-column>
-                                    <!--   <el-table-column prop="sex" label="性别" width="70" show-overflow-tooltip>
-                                                                               </el-table-column>
-                                                                                  <el-table-column prop="t_name" label="实体班" width="90" show-overflow-tooltip>
-                                                                                   </el-table-column> -->
-                                    <!-- <el-table-column prop="t_name" label="虚拟班" show-overflow-tooltip>
-                                                                                  </el-table-column> -->
                                     <el-table-column prop="teacher_phone" label="电话" show-overflow-tooltip>
                                     </el-table-column>
                                     <el-table-column prop="role_name" label="角色" show-overflow-tooltip>
@@ -87,12 +72,6 @@
                                 <div class="kd-page">
                                     <el-row>
                                         <el-col :span="12">
-                                            <!-- <el-checkbox label="全选" style="margin-right:20px" v-model="checked"></el-checkbox> -->
-                                            <!-- <el-select v-model="obj.name" placeholder="请选择" size="mini" class="margin-left">
-                                                                                                                        <el-option v-for="item in t_data" :key="item.name" :label="item.name" :value="item.id">
-                                                                                                                        </el-option>
-                                                                                                                    </el-select> -->
-                                            <!-- <el-button type="primary" size="mini" @click="selectStudent('')">删除</el-button> -->
                                             <el-button type="primary" size="mini" @click="selectStudent">删除</el-button>
                                         </el-col>
                                         <el-col :span="12">
@@ -127,12 +106,8 @@
                             <el-table ref="multipleTable" :data="t_data" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange" class="z-text-over">
                                 <el-table-column type="selection" width="55">
                                 </el-table-column>
-                                <!-- <el-table-column label="学号" width="80" prop="id">
-                                                                                                                                                    </el-table-column> -->
                                 <el-table-column prop="teacher_name" label="姓名" width="100" show-overflow-tooltip>
                                 </el-table-column>
-                                <!-- <el-table-column prop="t_name" label="用户名" show-overflow-tooltip>
-                                                                                                                                                                </el-table-column> -->
                                 <el-table-column prop="username" label="用户名" width="100" show-overflow-tooltip>
                                 </el-table-column>
                                 <el-table-column prop="position_name" label="职位" show-overflow-tooltip>
@@ -142,12 +117,6 @@
                                         {{scope.row.teacher_sex=='1'?'保密':(scope.row.teacher_sex=='2'?'男':'女')}}
                                     </template>
                                 </el-table-column>
-                                <!--   <el-table-column prop="sex" label="性别" width="70" show-overflow-tooltip>
-                                                                               </el-table-column>
-                                                                                  <el-table-column prop="t_name" label="实体班" width="90" show-overflow-tooltip>
-                                                                                   </el-table-column> -->
-                                <!-- <el-table-column prop="t_name" label="虚拟班" show-overflow-tooltip>
-                                                                                  </el-table-column> -->
                                 <el-table-column prop="teacher_phone" label="电话" show-overflow-tooltip>
                                 </el-table-column>
                                 <el-table-column prop="role_name" label="角色" show-overflow-tooltip>
@@ -162,13 +131,7 @@
     
                             <div class="kd-page">
                                 <el-row>
-                                    <el-col :span="12">
-                                        <!-- <el-checkbox label="全选" style="margin-right:20px" v-model="checked"></el-checkbox> -->
-                                        <!-- <el-select v-model="obj.name" placeholder="请选择" size="mini" class="margin-left">
-                                                                                                                        <el-option v-for="item in t_data" :key="item.name" :label="item.name" :value="item.id">
-                                                                                                                        </el-option>
-                                                                                                                    </el-select> -->
-                                        <!-- <el-button type="primary" size="mini" @click="selectStudent('')">删除</el-button> -->
+                                    <el-col :span="12"> 
                                         <el-button type="primary" size="mini" @click="selectStudent">删除</el-button>
                                     </el-col>
                                     <el-col :span="12">
@@ -362,7 +325,7 @@ export default {
                 `该页面展示管理员的操作日志，可进行删除。`,
                 `侧边栏可以进行高级搜索`
             ],
-            state: 0,
+            state: 2,
             promptsPad: true,
             obj: {
                 search: "",
@@ -370,6 +333,7 @@ export default {
                 department_id: '',
                 pagesize: 10
             },
+            bm_page_count:'',//部门总条数
             defaultProps: {
                 children: 'children',
                 label: 'label'
@@ -386,7 +350,9 @@ export default {
             stateObj: {
                 one: true,//部门管理
             },//管理子分类展示
-            oneStatus: 1
+            oneStatus: 1,
+            selectArr:[],//多选存储数组
+            
 
         }
     },
@@ -433,7 +399,11 @@ export default {
             this.dataAjax()
         },
         handleSelectionChange(obj) {
-            console.log(obj, 1)
+            this.selectArr = [];
+            obj.forEach((x)=>{
+                this.selectArr.push(x.teacher_id)
+            })
+            console.log(obj)
         },
         handleNodeClick(obj) {
             // 左侧关系栏点击
@@ -450,8 +420,13 @@ export default {
             this.oneStatus = 1;
             this.stateObj.one = false;
         },
-        selectStudent() {
+        selectStudent(id) {
             // 删除
+            if(typeof parseInt(id)=='number'){
+
+            }else{
+                this.deleteUser()
+            }
         },
         addDladogUser() {
             // 添加成员
@@ -472,7 +447,11 @@ export default {
             if (state == 1) {
                 this.oneStatus = 2;
                 this.stateObj.one = false;
-            }
+            }   
+        },
+        deleteUser(id){
+            // 部门管理删除
+            store.deleteUser.call(this,id)
         }
     },
     watch: {
