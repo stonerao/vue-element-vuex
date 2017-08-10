@@ -287,8 +287,9 @@ export default {
         promptsTem(status) {
             console.log(status)
         },
-        changeAdd(){
-//          this.addState=0;
+        changeAdd(num){
+          this.addState=0;
+          console.log(num);
         },
     },
 
