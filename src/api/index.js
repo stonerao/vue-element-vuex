@@ -13,4 +13,7 @@ export const api = {
     studentdelete:"Student/SchoolStudent/studentdelete",//删除学生
     grade_list:"Student/SchoolStudent/grade_list",//二级联动-年级
     class_list:"Student/SchoolStudent/class_list",//二级联动-班级
+    department_index:"Admin/Department/department_index",//组织架构 列表 首页
+    show_teacher_member:"Admin/Department/show_teacher_member",//展示老师列表
+    save_member_maintain:"Admin/Department/save_member_maintain",//展示老师列表
 }

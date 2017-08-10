@@ -155,9 +155,8 @@ body,
             position: absolute;
             top: 49px;
             left: 0;
-            right: 0;
-            // bottom: 0;
-            overflow:auto;
+            right: 0; // bottom: 0;
+            // overflow:auto;
             .content {
                 min-height: 100%;
                 position: relative;
@@ -170,7 +169,7 @@ body,
                 top: 10px;
                 bottom: 0;
                 left: 0;
-                right: 0; 
+                right: 0;
             }
             .kd-bottom-box {
                 line-height: 60px;
@@ -436,13 +435,13 @@ body,
 
 .class-titles {
     line-height: 36px;
-    font-size:12px;
-    span{
-        font-size:12px;
-        margin-left:10px;
+    font-size: 12px;
+    span {
+        font-size: 12px;
+        margin-left: 10px;
     }
-    img{
-        margin-left:15px;
+    img {
+        margin-left: 15px;
     }
 }
 
@@ -765,25 +764,70 @@ body,
 .cursor {
     cursor: pointer
 }
-.kd-children{ 
-    min-height:100%;
-    background:#fff;
-    
-    .kd-children-title{
-        height:40px;
-        line-height:40px;
-        background:@color;
-        padding-left:25px; 
-        span{
-            color:#fff;
-            font-weight:bold;
+
+.kd-children {
+    min-height: 100%;
+    background: #fff;
+    .kd-children-title {
+        height: 40px;
+        line-height: 40px;
+        background: @color;
+        padding-left: 12px;
+        span {
+            color: #fff;
+            font-weight: bold;
         }
     }
-    .kd-children-box{
-        overflow:auto; 
-        top:0;
+    .kd-children-box {
+        overflow: auto;
+        top: 0;
     }
 }
-.is-current{
-    background:#eee;
+
+.is-current {
+    background: #eee;
+}
+
+.r-zz-ok {
+    background: #5eb7ec;
+    margin-top: 7px;
+    margin-right: 10px
+}
+.r-dialog{ 
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    position: fixed;
+    overflow: auto;
+    z-index:2000;
+    background:rgba(0,0, 0, 0.5);
+    transition:all .2s;
+    .r-dialog-box{
+        position:absolute;
+        background:#fff;
+        left:50%;
+        top:50%;
+        transform:translate(-50%,-50%);
+        padding:20px;
+        border-radius:5px;
+        width:670px;
+        .el-transfer-panel{
+            width:300px;
+            box-shadow:none;
+        }
+    }
+    .r-dialog-head{
+        height:52px;
+        line-height:52px;
+        .r-dialog-title{
+            font-size:18px;
+            color:@color;
+        }
+    }
+    .r-dialog-btns{
+        text-align:right;
+        padding-right:10px;
+        margin-top:10px;
+    }
 }
