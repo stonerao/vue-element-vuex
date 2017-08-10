@@ -1,7 +1,9 @@
 import { api } from '@/api/grade'
+import { getToken } from '@/utils/auth'
+import { removeToken } from '@/utils/auth'
 const key = getToken()
 export default {
-    quitLogin(){
+    timetable_list(){
         this.$http(api.quitLogin,{
             params:{
                 token:key

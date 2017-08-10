@@ -49,6 +49,14 @@
 		.top-block{
 			background: @blue1;
 			padding: 13px 16px;
+			cursor: default;
+			transition: all .2s linear;
+			&:hover{
+				background: @blue0;
+				.t1,.t2,.t3,.t2 span,.t3 span{
+					color: #fff;
+				}
+			}
 		}
 		.row{
 			padding: 5px 0px;
@@ -69,6 +77,83 @@
 					color: @gray1;
 					padding: 3px 0px;
 					width: 56px;
+				}
+			}
+		}
+	}
+
+	/*排课操作*/
+	.l_schedule_outer{
+		background: #fff;
+		.sche_list_header{
+			padding: 27px 22px 21px 22px;
+			border-bottom: 2px solid @blue0;
+			li{
+				float: left;
+				font-size: 18px;
+				color: @blue0;
+				padding-left: 19px;
+				position: relative;
+				&:before{
+					content: ''; 
+					width: 10px;
+					height: 10px;
+					-moz-border-radius: 10px;
+					-webkit-border-radius: 10px;
+					-ms-border-radius: 10px;
+					border-radius: 10px;
+					background: @blue0;
+					position: absolute;
+					left: 0px;
+					top: 50%;
+					-webkit-transform: translate(0px,-50%);
+					-moz-transform: translate(0px,-50%);
+					-ms-transform: translate(0px,-50%);
+					transform: translate(0px,-50%);
+				}
+			}
+		}
+		.l_search_outer{
+			padding: 0px 18px;
+			.el-form-item{
+				margin-bottom: 0px;
+				.middle-pad0{
+					padding: 0.0px 18px;
+					font-size: 14px;
+    				color: #48576a;
+				}
+			}
+			#search_form1{
+				padding: 15px 0px;
+				.el-form-item:nth-child(1){
+					margin-right: 21px;
+				}
+			}
+		}
+		.sche_table{
+			border: 1px solid #e7e7e7;
+			table{
+				box-sizing: border-box;
+				th div{
+					height: 43px;
+					line-height: 43px;
+					font-size: 15px;
+					color: #fff;
+					background: @blue0;
+					white-space: nowrap;
+					overflow: hidden;
+					border-right: 1px solid #e7e7e7;
+				}
+				th:last-child div{
+					border: none;
+				}
+				tr{
+					td{
+						div{
+							text-align: center;
+							padding: 15px 0px;
+						}
+					}
 				}
 			}
 		}
