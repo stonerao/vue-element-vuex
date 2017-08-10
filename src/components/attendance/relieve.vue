@@ -67,7 +67,7 @@
       <el-col :span="4">
         <div class="att-name rt">申请代课原因：</div>
       </el-col>
-      <el-col :span="20">
+      <el-col :span="15">
         <el-form>
           <el-form-item>
             <el-input v-model="msg" type="textarea"></el-input>
@@ -104,7 +104,7 @@
     },
     watch:{
       state(){
-        this.$emit('changeAddState');
+        this.$emit('changeAddState',2333);
         this.value1='';
         this.value2='';
         this.value3='';

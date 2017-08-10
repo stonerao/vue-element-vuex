@@ -111,19 +111,22 @@ export default {
 
         })
     },
-    studentlist() {
+    studentlist(id) {
         this.$http(api.studentlist, {
             params: {
                 token: key,
                 st_name: this.studentList.st_name,
                 st_sex: this.studentList.st_sex,
-                st_status: this.studentList.st_status,
+                st_status: this.state != 2 ? this.studentList.st_status : 2,
                 page: this.studentList.curpage,
                 curpage: this.studentList.one_pagenum,
+                st_grade: this.studentList.st_grade,
+                st_class: this.studentList.st_class,
             }
         }).then((res) => {
             if (res.status === 200) {
                 let data = res.data.data;
+
                 data.forEach((x) => {
                     x.sex = x.st_sex == '1' ? '保密' : (x.st_sex == '2' ? '男' : '女');
                     x.cer = x.st_certificates == '0' ? '无' : (x.st_certificates == '2' ? '身份证' : '学生证');
@@ -156,7 +159,9 @@ export default {
                 })
                 this.t_data = res.data.data;
                 this.stundentCount = res.data.count;
-                this.studentList.total_num = parseInt(res.data.page_total); 
+                this.studentList.total_num = parseInt(res.data.page_total);
+
+
             }
         })
     },
