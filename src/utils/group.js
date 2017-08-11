@@ -6,11 +6,15 @@ export default {
   group_list(vm){
     vm.$http(api.groupList,{
       params:{
-        token:key
+        token:key,
+        page:vm.currentPage,
+        pagesize:vm.pageSize,
+        search:vm.searchTxt
       }
     }).then((res)=>{
       if(res.status==200){
         vm.list=res.data.group_list;
+        vm.total=parseInt(res.data.rows);
       }
     })
   },

@@ -6,7 +6,7 @@
             </div>
             <div class="t-login-box">
                 <div class="login-title">
-                    学生/老师登录
+                  <a :class="typestate==0 ? 'active':''" @click="typestate=0" href="javascript:void(0)">学生</a>/<a :class="typestate==1 ? 'active':''" @click="typestate=1" href="javascript:void(0)">老师</a>登录
                 </div>
                 <ul class="login-items">
                     <li class="t-inp-label">
@@ -33,12 +33,12 @@
                     </li>
                 </ul>
             </div>
-    
+
         </div>
          <div class="admin-login-copy">
             dsadasdasdasdsadas
-        </div> 
-         
+        </div>
+
     </div>
 </template>
 
@@ -56,12 +56,17 @@ export default {
                 school_identify: '001',
                 verify: '1111'
             },
-            codeSrc: ''
+            codeSrc: '',
+            typestate:0,//选择学生登录或老师登录
         }
     },
     methods: {
         sub() {
+          if(this.typestate==1){
             store.login.call(this,this.form)
+          }else{
+            store.studentLogin.call(this)
+          }
         },
         isLogin() {
             // 是否自动登录
@@ -79,10 +84,20 @@ export default {
     components:{
         'l-bottom':bottom
     }
-    
-}
-</script> 
-<style scoped>
 
+}
+</script>
+<style type="text/less" lang="less">
+  .login-title{
+    a{
+      font-size: 18px;
+      margin: 0 5px;
+      &.active{
+        color:#20a0ff;
+      }
+      &:hover{
+        color:#20a0ff;
+      }
+    }
+  }
 </style>
- 

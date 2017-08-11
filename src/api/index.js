@@ -16,4 +16,7 @@ export const api = {
     department_index:"Admin/Department/department_index",//组织架构 列表 首页
     show_teacher_member:"Admin/Department/show_teacher_member",//展示老师列表
     save_member_maintain:"Admin/Department/save_member_maintain",//展示老师列表
+    organize_number_delete:"Admin/StoreGroup/organize_number_delete",//user 删除用户 组织架构中
+    choose_job:"Admin/StoreGroup/choose_job",//职位列表
+    organize_member_add:"Admin/StoreGroup/organize_member_add",//增加用户
 }

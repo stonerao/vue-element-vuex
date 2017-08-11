@@ -19,7 +19,7 @@ export default {
         }).then((res) => {
             this.t_data = res.data.number_list;
             this.obj.department_id = res.data.department_root.department_id;
-
+            this.bm_page_count = res.data.rows;
         })
     },
     addDladogUser(id) {
@@ -68,6 +68,34 @@ export default {
                     });
                 }
             }
+        })
+    },
+    deleteUser(id){
+        this.$http({
+            method:"post",
+            url:api.organize_number_delete,
+            data:{
+                number_id:id,
+                token:key
+            }
+        }).then((res)=>{
+
+        })
+    },
+    getPosition(){
+        this.$http(api.choose_job,{
+            params:{
+                token:key
+            }
+        }).then((res)=>{
+            this.options = res.data.position_list
+        })
+    },
+    addPositionUser(obj){
+        this.$http({
+            method:'post',
+            url:api.organize_member_add,
+            data:obh
         })
     }
 }
