@@ -11,7 +11,10 @@ export default {
         // status:this.status
       }
     }).then((res)=>{
-
+      console.log(key)
     })
+  },
+  key(){
+    console.log(key)
   }
 }

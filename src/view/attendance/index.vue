@@ -18,10 +18,7 @@
                     </el-col>
                     <el-col :span="12">
                       <el-select v-model="typeText1" placeholder="请选择审核状态" size="small" class="rt">
-                        <el-option v-for="item in checkTypeList"
-                                   :key="item.value"
-                                   :label="item.name"
-                                   :value="item.value">
+                        <el-option v-for="item in checkTypeList" :key="item.value" :label="item.name" :value="item.value">
                         </el-option>
                       </el-select>
                     </el-col>
@@ -221,11 +218,11 @@ export default {
               {Id:'001',msg:'去参加全国电子技能大赛，特此不能上课',relieveTime:'2017-08-19 16:40:27',askTime:'2017-08-19 16:40:27',type:'未批准',approve:'汪峰',typeId:'3'},
             ],//代课管理列表
             value6:'',//考勤统计日期选择
-
         }
     },
     created() {
       att.leave_list.call(this);
+      att.key();
     },
     components: {
         titleItem, titleActive, description, bottomItem,relieve
