@@ -10,23 +10,21 @@
                 <!-- 课程管理 -->
                 <div class="l_layout_outer">
                     <div v-if="state===0" class="l_timetable_outer">
-                        <div v-if="tabs0===1">
+                        <div v-if="show">
                             <el-row :gutter="20" class="l_search_header0 class-header">
                                 <el-col :span="6" class="class-titles">
-                                    <img src="../../assets/index/shuaxin.png" class="icon-img-xs" />刷新-共287条记录
+                                    <img src="../../assets/index/shuaxin.png" class="icon-img-xs" />刷新-共{{gradeListParams.total_num}}条记录
                                 </el-col>
                                 <el-col :span="18" class="class-searchs">
-                                    <el-form :inline="true" :model="searchInline" id="search_form0">
+                                    <el-form :inline="true" id="search_form0">
                                         <el-form-item label="年级/虚拟班：">
-                                            <el-select v-model="searchInline.grade" placeholder="全部">
-                                              <el-option label="年级一" value="grade1"></el-option>
-                                              <el-option label="年级二" value="grade2"></el-option>
+                                            <el-select v-model="gradeS" placeholder="全部">
+                                              <el-option v-for="item in grade_search" :key="item.department_id" :label="item.department_name" :value="item.department_id"></el-option>
                                             </el-select>
                                         </el-form-item>
                                         <el-form-item label="班级：">
-                                            <el-select v-model="searchInline.class" placeholder="全部">
-                                              <el-option label="班级一" value="class1"></el-option>
-                                              <el-option label="班级二" value="class2"></el-option>
+                                            <el-select v-model="classS" placeholder="全部">
+                                              <el-option v-for="items in class_search" :key="items.department_id" :label="items.department_name" :value="items.department_id"></el-option>
                                             </el-select>
                                         </el-form-item>
                                         <el-form-item>
@@ -37,148 +35,41 @@
                                 </el-col>
                             </el-row>
                             <div class="l_graCla_list clearfloat">
-                                <ul>
+                                <ul v-if="hasData" v-for="gra in gradeList">
                                     <li class="li_list">
                                         <div class="top-block">
-                                            <div class="row t1">高2017级1班</div>
-                                            <div class="row t2">班主任：<span class="blue_1">张三</span></div>
-                                            <div class="row t3">学生人数：<span class="blue_1">55</span>人</div>
+                                            <div class="row t1">{{gra.p_name}}{{gra.department_name}}</div>
+                                            <div class="row t2">班主任：<span class="blue_1">{{gra.head_teacher_name}}</span></div>
+                                            <div class="row t3">学生人数：<span class="blue_1">{{gra.student_num}}</span>人</div>
                                         </div>
                                         <div class="bottom-block">
                                             <div class="button-group">
-                                                <el-button size="small" @click="schedule()">排课</el-button>
-                                                <el-button size="small">查课</el-button>
-                                                <el-button size="small">日志</el-button>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="li_list">
-                                        <div class="top-block">
-                                            <div class="row t1">高2017级1班</div>
-                                            <div class="row t2">班主任：<span class="blue_1">张三</span></div>
-                                            <div class="row t3">学生人数：<span class="blue_1">55</span>人</div>
-                                        </div>
-                                        <div class="bottom-block">
-                                            <div class="button-group">
-                                                <el-button size="small">排课</el-button>
-                                                <el-button size="small">查课</el-button>
-                                                <el-button size="small">日志</el-button>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="li_list">
-                                        <div class="top-block">
-                                            <div class="row t1">高2017级1班</div>
-                                            <div class="row t2">班主任：<span class="blue_1">张三</span></div>
-                                            <div class="row t3">学生人数：<span class="blue_1">55</span>人</div>
-                                        </div>
-                                        <div class="bottom-block">
-                                            <div class="button-group">
-                                                <el-button size="small">排课</el-button>
-                                                <el-button size="small">查课</el-button>
-                                                <el-button size="small">日志</el-button>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="li_list">
-                                        <div class="top-block">
-                                            <div class="row t1">高2017级1班</div>
-                                            <div class="row t2">班主任：<span class="blue_1">张三</span></div>
-                                            <div class="row t3">学生人数：<span class="blue_1">55</span>人</div>
-                                        </div>
-                                        <div class="bottom-block">
-                                            <div class="button-group">
-                                                <el-button size="small">排课</el-button>
-                                                <el-button size="small">查课</el-button>
-                                                <el-button size="small">日志</el-button>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="li_list">
-                                        <div class="top-block">
-                                            <div class="row t1">高2017级1班</div>
-                                            <div class="row t2">班主任：<span class="blue_1">张三</span></div>
-                                            <div class="row t3">学生人数：<span class="blue_1">55</span>人</div>
-                                        </div>
-                                        <div class="bottom-block">
-                                            <div class="button-group">
-                                                <el-button size="small">排课</el-button>
-                                                <el-button size="small">查课</el-button>
-                                                <el-button size="small">日志</el-button>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="li_list">
-                                        <div class="top-block">
-                                            <div class="row t1">高2017级1班</div>
-                                            <div class="row t2">班主任：<span class="blue_1">张三</span></div>
-                                            <div class="row t3">学生人数：<span class="blue_1">55</span>人</div>
-                                        </div>
-                                        <div class="bottom-block">
-                                            <div class="button-group">
-                                                <el-button size="small">排课</el-button>
-                                                <el-button size="small">查课</el-button>
-                                                <el-button size="small">日志</el-button>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="li_list">
-                                        <div class="top-block">
-                                            <div class="row t1">高2017级1班</div>
-                                            <div class="row t2">班主任：<span class="blue_1">张三</span></div>
-                                            <div class="row t3">学生人数：<span class="blue_1">55</span>人</div>
-                                        </div>
-                                        <div class="bottom-block">
-                                            <div class="button-group">
-                                                <el-button size="small">排课</el-button>
-                                                <el-button size="small">查课</el-button>
-                                                <el-button size="small">日志</el-button>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="li_list">
-                                        <div class="top-block">
-                                            <div class="row t1">高2017级1班</div>
-                                            <div class="row t2">班主任：<span class="blue_1">张三</span></div>
-                                            <div class="row t3">学生人数：<span class="blue_1">55</span>人</div>
-                                        </div>
-                                        <div class="bottom-block">
-                                            <div class="button-group">
-                                                <el-button size="small">排课</el-button>
-                                                <el-button size="small">查课</el-button>
-                                                <el-button size="small">日志</el-button>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="li_list">
-                                        <div class="top-block">
-                                            <div class="row t1">高2017级1班</div>
-                                            <div class="row t2">班主任：<span class="blue_1">张三</span></div>
-                                            <div class="row t3">学生人数：<span class="blue_1">55</span>人</div>
-                                        </div>
-                                        <div class="bottom-block">
-                                            <div class="button-group">
-                                                <el-button size="small">排课</el-button>
+                                                <el-button size="small" @click.native="schedule(gra.department_id,gra.special_tag)">排课</el-button>
                                                 <el-button size="small">查课</el-button>
                                                 <el-button size="small">日志</el-button>
                                             </div>
                                         </div>
                                     </li>
                                 </ul>
+                                <ul v-if="hasNoData">
+                                    <li class="hasNoData">暂无数据</li>
+                                </ul>
                             </div>
                             <div class="kd-page">
                                 <el-row>
                                     <el-col :span="24">
-                                        <el-pagination class="float-right" :current-page="currentPage" :page-sizes="[100, 200, 300, 400]" :page-size="100" layout="total, sizes, prev, pager, next, jumper" :total="600">
+                                        <el-pagination class="float-right" :current-page="gradeListParams.curpage" :page-sizes="[15, 20, 25, 30]" :page-size="gradeListParams.page_count" layout="total, sizes, prev, pager, next, jumper" :total="gradeListParams.total_num">
                                         </el-pagination>
                                     </el-col>
                                 </el-row>
                             </div>
                         </div>
-                        <div v-if="tabs1===1" class="l_schedule_outer">
+
+                        <div v-if="!show" class="l_schedule_outer">
                             <div class="sche_list_header">
                                 <ul class="clearfloat">
-                                    <li>初2017级年级1班课表1</li>
+                                    <!-- <li>初2017级年级1班课表1</li> -->
+                                    <li>{{this.editData.scheTableOrder}}课表1</li>
                                 </ul>
                             </div>
                             <div class="l_search0">
@@ -198,12 +89,61 @@
                                 </el-row>
                             </div>
                             <div class="sche_table">
-                                <el-table :data="tableData" border style="width: 100%">
-                                    <el-table-column prop="time" label="时段"></el-table-column>
-                                    <el-table-column prop="inter" label="节次"></el-table-column>
-                                    <el-table-column label="星期一（6月12日）">
+                                <el-table :data="tableData" border v-loading="loading" style="width: 100%">
+                                    <el-table-column prop="time" label="时段">
                                         <template scope="scope">
-                                            <div v-if="show_select">
+                                            <!-- 判断值: 1为早上 -->
+                                        </template>
+                                    </el-table-column>
+                                    <el-table-column prop="school_time" label="节次"></el-table-column>
+                                    <el-table-column label="星期一">
+                                        <template scope="scope">
+                                            <div v-if="show_select&&scope.row.timetable.day1">
+                                                <el-select v-model="scope.row.timetable.day1.s_id" placeholder="科目">
+                                                    <el-option label="语文" value="1"></el-option>
+                                                    <el-option label="数学" value="2"></el-option>
+                                                </el-select>
+                                                <el-select v-model="scope.row.timetable.day1.teacher_id" placeholder="老师">
+                                                    <el-option label="张三" value="1"></el-option>
+                                                    <el-option label="李四" value="2"></el-option>
+                                                    <el-option label="王五" value="3"></el-option>
+                                                </el-select>
+                                            </div>
+                                        </template>
+                                    </el-table-column>
+                                    <el-table-column label="星期二">
+                                        <template scope="scope">
+                                            <div v-if="show_select&&scope.row.timetable.day2">
+                                                <el-select v-model="scope.row.timetable.day2.s_id" placeholder="科目">
+                                                    <el-option label="语文" value="1"></el-option>
+                                                    <el-option label="数学" value="2"></el-option>
+                                                </el-select>
+                                                <el-select v-model="scope.row.timetable.day2.teacher_id" placeholder="老师">
+                                                    <el-option label="张三" value="1"></el-option>
+                                                    <el-option label="李四" value="2"></el-option>
+                                                    <el-option label="王五" value="3"></el-option>
+                                                </el-select>
+                                            </div>
+                                        </template>
+                                    </el-table-column>
+                                    <el-table-column label="星期三">
+                                        <template scope="scope">
+                                             <div v-if="show_select&&scope.row.timetable.day3">
+                                                <el-select v-model="scope.row.timetable.day3.s_id" placeholder="科目">
+                                                    <el-option label="语文" value="1"></el-option>
+                                                    <el-option label="数学" value="2"></el-option>
+                                                </el-select>
+                                                <el-select v-model="scope.row.timetable.day3.teacher_id" placeholder="老师">
+                                                    <el-option label="张三" value="1"></el-option>
+                                                    <el-option label="李四" value="2"></el-option>
+                                                    <el-option label="王五" value="3"></el-option>
+                                                </el-select>
+                                            </div>
+                                        </template>
+                                    </el-table-column>
+                                    <el-table-column label="星期四">
+                                        <template scope="scope">
+                                            <div v-if="show_select&&scope.row.timetable.day4">
                                                 <el-select v-model="subject" placeholder="科目">
                                                     <el-option label="语文" value="sub1"></el-option>
                                                     <el-option label="数学" value="sub2"></el-option>
@@ -216,9 +156,9 @@
                                             </div>
                                         </template>
                                     </el-table-column>
-                                    <el-table-column label="星期二（6月13日）">
+                                    <el-table-column label="星期五">
                                         <template scope="scope">
-                                            <div v-if="show_select">
+                                            <div v-if="show_select&&scope.row.timetable.day5">
                                                 <el-select v-model="subject" placeholder="科目">
                                                     <el-option label="语文" value="sub1"></el-option>
                                                     <el-option label="数学" value="sub2"></el-option>
@@ -231,9 +171,9 @@
                                             </div>
                                         </template>
                                     </el-table-column>
-                                    <el-table-column label="星期三（6月14日）">
+                                    <el-table-column label="星期六">
                                         <template scope="scope">
-                                            <div v-if="show_select">
+                                            <div v-if="show_select&&scope.row.timetable.day6">
                                                 <el-select v-model="subject" placeholder="科目">
                                                     <el-option label="语文" value="sub1"></el-option>
                                                     <el-option label="数学" value="sub2"></el-option>
@@ -246,54 +186,10 @@
                                             </div>
                                         </template>
                                     </el-table-column>
-                                    <el-table-column label="星期四（6月15日）">
+                                    <el-table-column label="星期日">
                                         <template scope="scope">
                                             <div v-if="show_select">
-                                                <el-select v-model="subject" placeholder="科目">
-                                                    <el-option label="语文" value="sub1"></el-option>
-                                                    <el-option label="数学" value="sub2"></el-option>
-                                                </el-select>
-                                                <el-select v-model="teacher" placeholder="老师">
-                                                    <el-option label="张三" value="tea1"></el-option>
-                                                    <el-option label="李四" value="tea2"></el-option>
-                                                    <el-option label="王五" value="tea3"></el-option>
-                                                </el-select>
-                                            </div>
-                                        </template>
-                                    </el-table-column>
-                                    <el-table-column label="星期五（6月16日）">
-                                        <template scope="scope">
-                                            <div v-if="show_select">
-                                                <el-select v-model="subject" placeholder="科目">
-                                                    <el-option label="语文" value="sub1"></el-option>
-                                                    <el-option label="数学" value="sub2"></el-option>
-                                                </el-select>
-                                                <el-select v-model="teacher" placeholder="老师">
-                                                    <el-option label="张三" value="tea1"></el-option>
-                                                    <el-option label="李四" value="tea2"></el-option>
-                                                    <el-option label="王五" value="tea3"></el-option>
-                                                </el-select>
-                                            </div>
-                                        </template>
-                                    </el-table-column>
-                                    <el-table-column label="星期六（6月17日）">
-                                        <template scope="scope">
-                                            <div v-if="show_select">
-                                                <el-select v-model="subject" placeholder="科目">
-                                                    <el-option label="语文" value="sub1"></el-option>
-                                                    <el-option label="数学" value="sub2"></el-option>
-                                                </el-select>
-                                                <el-select v-model="teacher" placeholder="老师">
-                                                    <el-option label="张三" value="tea1"></el-option>
-                                                    <el-option label="李四" value="tea2"></el-option>
-                                                    <el-option label="王五" value="tea3"></el-option>
-                                                </el-select>
-                                            </div>
-                                        </template>
-                                    </el-table-column>
-                                    <el-table-column label="星期日（6月18日）">
-                                        <template scope="scope">
-                                            <div v-if="show_select">
+
                                                 <el-select v-model="subject" placeholder="科目">
                                                     <el-option label="语文" value="sub1"></el-option>
                                                     <el-option label="数学" value="sub2"></el-option>
@@ -309,8 +205,8 @@
                                 </el-table>
                             </div>
                             <div class="l_save">
-                                <el-button type="primary">保存</el-button>
-                                <el-button>取消</el-button>
+                                <el-button type="primary" @click="submit">保存</el-button>
+                                <el-button @click.native="cancelEdit">取消</el-button>
                             </div>
                         </div>
                     </div>
@@ -329,6 +225,8 @@ import titleItem from '@/components/main/title.vue'
 import titleActive from '@/components/main/titleActive.vue'
 import description from '@/components/main/description.vue'
 import bottomItem from '@/components/bottom/bottom.vue'
+import info from '@/utils/l_axios'
+
 export default {
     data() {
         return {
@@ -342,15 +240,11 @@ export default {
                 `侧边栏可以进行高级搜索`
             ],
             state: 0,  //tabs的header
-            currentPage: 1,
-            tabs0: 0, //总课表
-            tabs1: 1, //总课表切换-排课
+            show: true, //总课表及排课切换
             subject: '', //科目
             teacher: '',  //老师
-            searchInline: {  //按年级班级搜索
-              grade: '',
-              class: ''
-            },
+            gradeS: '',  //年级select的值
+            classS: '', //班级select的值
             searchInline1: {  //按年级班级搜索
               name: '',
               startTime: '',
@@ -362,50 +256,40 @@ export default {
               }
             },
             show_select: true,  //某些时间段没有select选择项
-            tableData: [{
-              time: '早读',
-              inter: '7:20-7:55',
-              day:{
-                class:'',
-                teacher:''
-              }
-            },{
-              time: '上午',
-              inter: '8:00-8:45'
-            },{
-              time: '',
-              inter: '8:55-9:40'
-            },{
-              time: '',
-              inter: '10:00-10:45'
-            },{
-              time: '',
-              inter: '10:55-11:40'
-            },{
-              time: '下午',
-              inter: '13:20-14:05'
-            },{
-              time: '',
-              inter: '14:15-15:00'
-            },{
-              time: '',
-              inter: '15:20-16:05'
-            },{
-              time: '',
-              inter: '16:15-17:00'
-            },{
-              time: '晚上',
-              inter: '18:30-19:30'
-            },{
-              time: '',
-              inter: '19:40-20:40'
-            },]
+            gradeListParams: {   //班级课表初始数据请求参数
+                hasmore: true,
+                curpage: 1,//当前页数
+                one_pagenum: 10,
+                page_count: 1,//总页数
+                total_num: 0
+            },
+            gradeList: [],  //班级课表初始数据
+            grade_search: [], //上面总课表的年级search数据初始
+            class_search: [], //上面总课表的班级search数据初始
+            graClaId:{    //初始化年级班级id
+                p_id : 0,
+                c_id : 0,
+            },
+            hasNoData: false,
+            hasData: true,
+            gradeModel:{
+                departId: '',  //排课班级id
+                classType: '',  //实体班，虚体班
+            },
+            editData: {
+                scheTableOrder: 1,  //课表编号
+                editAllData: '',  //课表编辑请求数据
+            },
+            tableData:[],
+            loading: true
         }
     },
     created() {
         // setTimeout(()=>{
         //     console.log(this.state)
         // },3000)
+        info.gradeSearch.call(this,this.graClaId)   //搜索框
+        info.timeTable.call(this,this.gradeListParams,this.graClaId)   //总课表
     },
     components: {
         titleItem, titleActive, description, bottomItem
@@ -423,15 +307,34 @@ export default {
         },
         handleSure() {
             // 搜索事件
+            this.graClaId.c_id = this.classS;
+            info.timeTable.call(this,this.gradeListParams,this.graClaId);   //总课表
         },
         handleCancel() {
             // 取消搜索事件
+            this.gradeS = '';
+            this.classS = '';
         },
-        schedule() {
+        schedule(id,type) {
             // 切换到排课模块
-            this.tabs0 = 0;
-            this.tabs1 = 1;
+            this.gradeModel.departId = id;
+            this.gradeModel.classType = type;
+            info.scheduleBegin.call(this,this.gradeModel);
         },
+        cancelEdit(){
+            // 排课取消
+            this.show = !this.show;
+        },
+        submit(){
+            console.log(this.tableData)
+        }
+    },
+    watch:{
+        gradeS(val){
+            this.graClaId.p_id = val;
+            this.classS = '';  //清空班级search的数据
+            info.gradeSearch.call(this,this.graClaId);
+        }   
     }
 }
 </script>

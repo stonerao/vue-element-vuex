@@ -74,7 +74,7 @@ export default {
         }).then((res) => {
             if (res.data.status == 'true') {
                 this.obj = res.data.member
-                console.log(this.obj)
+                // console.log(this.obj)
             }
         })
     },

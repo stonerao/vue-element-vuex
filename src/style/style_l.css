@@ -15,6 +15,11 @@
 .l_layout_outer .blue_1 {
   color: #1997e4;
 }
+.l_layout_outer .hasNoData {
+  text-align: center;
+  font-size: 15px;
+  padding-bottom: 22px;
+}
 .l_layout_outer .l_search_header0 .el-form-item {
   margin-bottom: 0px;
 }
@@ -168,9 +173,18 @@
   height: 24px;
   background-size: contain;
 }
+.l_layout_outer .l_schedule_outer .sche_table .el-table__body tr:nth-child(2) td:nth-child(1) {
+  border-bottom: none;
+}
+.l_layout_outer .l_schedule_outer .sche_table .el-table__body tr:nth-child(3) td:nth-child(1) {
+  border-bottom: none;
+}
 .l_layout_outer .l_schedule_outer .sche_table .el-table__body tr:nth-child(3) td:nth-child(2):before {
   background: url(../assets/icon/two.png) 0 0 no-repeat;
   background-size: contain;
+}
+.l_layout_outer .l_schedule_outer .sche_table .el-table__body tr:nth-child(4) td:nth-child(1) {
+  border-bottom: none;
 }
 .l_layout_outer .l_schedule_outer .sche_table .el-table__body tr:nth-child(4) td:nth-child(2):before {
   background: url(../assets/icon/three.png) 0 0 no-repeat;
@@ -180,9 +194,18 @@
   background: url(../assets/icon/four.png) 0 0 no-repeat;
   background-size: contain;
 }
+.l_layout_outer .l_schedule_outer .sche_table .el-table__body tr:nth-child(6) td:nth-child(1) {
+  border-bottom: none;
+}
+.l_layout_outer .l_schedule_outer .sche_table .el-table__body tr:nth-child(7) td:nth-child(1) {
+  border-bottom: none;
+}
 .l_layout_outer .l_schedule_outer .sche_table .el-table__body tr:nth-child(7) td:nth-child(2):before {
   background: url(../assets/icon/two.png) 0 0 no-repeat;
   background-size: contain;
+}
+.l_layout_outer .l_schedule_outer .sche_table .el-table__body tr:nth-child(8) td:nth-child(1) {
+  border-bottom: none;
 }
 .l_layout_outer .l_schedule_outer .sche_table .el-table__body tr:nth-child(8) td:nth-child(2):before {
   background: url(../assets/icon/three.png) 0 0 no-repeat;
@@ -191,6 +214,9 @@
 .l_layout_outer .l_schedule_outer .sche_table .el-table__body tr:nth-child(9) td:nth-child(2):before {
   background: url(../assets/icon/four.png) 0 0 no-repeat;
   background-size: contain;
+}
+.l_layout_outer .l_schedule_outer .sche_table .el-table__body tr:nth-child(10) td:nth-child(1) {
+  border-bottom: none;
 }
 .l_layout_outer .l_schedule_outer .sche_table .el-table__body tr:nth-child(11) td:nth-child(2):before {
   background: url(../assets/icon/two.png) 0 0 no-repeat;
