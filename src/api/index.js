@@ -19,4 +19,6 @@ export const api = {
     organize_number_delete:"Admin/StoreGroup/organize_number_delete",//user 删除用户 组织架构中
     choose_job:"Admin/StoreGroup/choose_job",//职位列表
     organize_member_add:"Admin/StoreGroup/organize_member_add",//增加用户
+    get_group_list:"Admin/StoreGroup/get_group_list",//增加用户 权限组列表
+    department_teacher_delete:"Admin/Department/department_teacher_delete",//删除组织部门-成员关系
 }
