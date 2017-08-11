@@ -18,18 +18,15 @@
                     </el-col>
                     <el-col :span="12">
                       <el-select v-model="typeText1" placeholder="请选择审核状态" size="small" class="rt">
-                        <el-option v-for="item in checkTypeList"
-                                   :key="item.value"
-                                   :label="item.name"
-                                   :value="item.value">
+                        <el-option v-for="item in checkTypeList" :key="item.value" :label="item.name" :value="item.value">
                         </el-option>
                       </el-select>
                     </el-col>
                   </el-row>
                   <div>
-                    <el-table :data="leaveList" style="width: 100%">
+                    <el-table :data="attList" style="width: 100%">
                       <template scope="scope">
-                        <el-table-column prop="leaveId" label="ID" width="80">
+                        <el-table-column prop="Id" label="ID" width="80">
                         </el-table-column>
                         <el-table-column prop="msg" label="请假事由"  show-overflow-tooltip >
                         </el-table-column>
@@ -71,7 +68,7 @@
                     </el-select>
                   </el-col>
                 </el-row>
-                <el-table :data="relieveList">
+                <el-table :data="attList">
                   <el-table-column prop="Id" label="ID" width="80">
                   </el-table-column>
                   <el-table-column prop="msg" label="请假事由" show-overflow-tooltip >
@@ -106,7 +103,7 @@
                       </el-select>
                     </el-col>
                   </el-row>
-                  <el-table :data="relieveList">
+                  <el-table :data="attList">
                       <!--<el-table-column type="selection" width="55">-->
                       <!--</el-table-column>-->
                       <el-table-column prop="Id" label="ID" width="80">
@@ -137,7 +134,7 @@
                 </el-row>
                 <div>
                   <div>
-                    <el-table :data="leaveList" style="width: 100%">
+                    <el-table :data="attList" style="width: 100%">
                       <!--<el-table-column type="selection" width="55">-->
                       <!--</el-table-column>-->
                       <el-table-column prop="askTime" label="日期"  show-overflow-tooltip>
@@ -213,15 +210,13 @@ export default {
               {name:'同意', value:'2'},
               {name:'未批准', value:'3'}
             ],
-            leaveList:[],//请假记录
-            leaveMsg:'',
-            relieveList:[
-              {Id:'001',msg:'去参加全国电子技能大赛，特此不能上课',relieveTime:'2017-08-19 16:40:27',askTime:'2017-08-19 16:40:27',type:'待审批',approve:'汪峰',typeId:'1'},
-              {Id:'001',msg:'去参加全国电子技能大赛，特此不能上课',relieveTime:'2017-08-19 16:40:27',askTime:'2017-08-19 16:40:27',type:'同意',approve:'汪峰',typeId:'2'},
-              {Id:'001',msg:'去参加全国电子技能大赛，特此不能上课',relieveTime:'2017-08-19 16:40:27',askTime:'2017-08-19 16:40:27',type:'未批准',approve:'汪峰',typeId:'3'},
-            ],//代课管理列表
+            attList:[
+              {Id:'001',msg:'去参加全国电子技能大赛，特此不能上课',startTime:'2017-08-19 16:40:27',endTime:'2017-08-19 16:40:27',relieveTime:'2017-08-19 16:40:27',askTime:'2017-08-19 16:40:27',time:18,type:'待审批',approve:'汪峰',typeId:'1'},
+              {Id:'001',msg:'去参加全国电子技能大赛，特此不能上课',startTime:'2017-08-19 16:40:27',endTime:'2017-08-19 16:40:27',relieveTime:'2017-08-19 16:40:27',askTime:'2017-08-19 16:40:27',time:18,type:'待审批',approve:'汪峰',typeId:'2'},
+              {Id:'001',msg:'去参加全国电子技能大赛，特此不能上课',startTime:'2017-08-19 16:40:27',endTime:'2017-08-19 16:40:27',relieveTime:'2017-08-19 16:40:27',askTime:'2017-08-19 16:40:27',time:18,type:'待审批',approve:'汪峰',typeId:'3'}
+            ],//记录列表
+            searchMsg:'',//搜索
             value6:'',//考勤统计日期选择
-
         }
     },
     created() {

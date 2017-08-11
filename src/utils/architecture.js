@@ -1,6 +1,7 @@
 // 组织架构
 import { api } from '@/api/index'
 import { getToken } from '@/utils/auth'
+import { encodeUnicode } from '@/utils/auth'
 const key = getToken()
 export default {
     department_list(obj) {
@@ -59,8 +60,10 @@ export default {
                     this.$notify({
                         title: '成功',
                         message: res.data.data,
-                        type: 'success'
+                        type: 'success',
+                        
                     });
+                     this.dataAjax();
                 } else {
                     this.$notify({
                         title: '失败',
@@ -70,32 +73,79 @@ export default {
             }
         })
     },
-    deleteUser(id){
+    deleteUser(id) {
         this.$http({
-            method:"post",
-            url:api.organize_number_delete,
-            data:{
-                number_id:id,
-                token:key
+            method: "post",
+            url: api.organize_number_delete,
+            data: {
+                number_id: id,
+                token: key
             }
-        }).then((res)=>{
+        }).then((res) => {
 
         })
     },
-    getPosition(){
-        this.$http(api.choose_job,{
-            params:{
-                token:key
+    getPosition() {
+        this.$http(api.choose_job, {
+            params: {
+                token: key
             }
-        }).then((res)=>{
+        }).then((res) => {
             this.options = res.data.position_list
         })
     },
-    addPositionUser(obj){
+    addPositionUser(obj) {
+        obj.token = key;
         this.$http({
-            method:'post',
-            url:api.organize_member_add,
-            data:obh
+            method: 'post',
+            url: api.organize_member_add,
+            data: obj
+        }).then((res) => {
+            if (res.data.status == 'true') {
+                this.$notify({
+                    title: '成功',
+                    message: res.data.msg,
+                    type: 'success'
+                });
+                // 清楚默认
+                this.obj = {
+                    member_name: '',
+                    password: '',
+                    member_role: [],
+                    user_name: '',
+                    user_sex: '',
+                    user_phone: '',
+                    position_id: [],
+                    gpermission_id: [],
+                    avatar: '',
+                    token: '',
+                }
+            }
+        })
+    },
+    get_group_list() {
+        // 权限组列表
+        this.$http(api.get_group_list, {
+            params: {
+                token: key
+            }
+        }).then((res) => {
+            this.option_list = res.data.group_list;
+        })
+    },
+    department_teacher_delete(obj) {
+        obj.token = key;
+        obj.ids = encodeUnicode(obj.ids)
+        this.$http({
+            url: api.department_teacher_delete,
+            method: "post",
+            data: obj
+        }).then((res) => {
+            this.$message({
+                type: 'success',
+                message: res.data.data
+            });
+            this.dataAjax()
         })
     }
 }

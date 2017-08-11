@@ -14,7 +14,7 @@
                                 <el-button type="primary" icon="plus" size="small" @click="addDladogUser">添加成员</el-button>
                                 <span>
                                     <img src="../../assets/index/shuaxin.png" class="icon-img-xs marginleft5" @click="studentRefresh" />刷新-共{{bm_page_count}}条记录</span>
-                               
+    
                             </el-col>
                             <el-col :span="5">
                                 <el-input placeholder="输入名称" icon="search" size="small" v-model="obj.search" :on-icon-click="handleIconClick">
@@ -85,63 +85,7 @@
                     </div>
                     <div v-else>
                         <div v-if="oneStatus==1">
-                            <el-row :gutter="10" class="class-header">
-                                <el-col :span="19" class="class-titles">
-                                    <el-button type="primary" icon="plus" size="small" @click="addClassOne(1)">增加分类</el-button>
-                                    <span>
-                                        <img src="../../assets/index/shuaxin.png" class="icon-img-xs marginleft5" @click="studentRefresh" />刷新-共1条记录</span>
-                                    <span>当前总人数：
-                                        <a class="red-color">1</a>人</span>
-                                    <span>男生：
-                                        <a class="cheng-color">2</a>人</span>
-                                    <span>女生：
-                                        <a class="cheng-color">3</a>人</span>
-                                </el-col>
-                                <el-col :span="5">
-                                    <el-input placeholder="输入名称" icon="search" size="small" v-model="obj.search" :on-icon-click="handleIconClick">
-                                    </el-input>
-                                </el-col>
-                            </el-row>
-    
-                            <el-table ref="multipleTable" :data="t_data" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange" class="z-text-over">
-                                <el-table-column type="selection" width="55">
-                                </el-table-column>
-                                <el-table-column prop="teacher_name" label="姓名" width="100" show-overflow-tooltip>
-                                </el-table-column>
-                                <el-table-column prop="username" label="用户名" width="100" show-overflow-tooltip>
-                                </el-table-column>
-                                <el-table-column prop="position_name" label="职位" show-overflow-tooltip>
-                                </el-table-column>
-                                <el-table-column label="性别" show-overflow-tooltip>
-                                    <template scope="scope">
-                                        {{scope.row.teacher_sex=='1'?'保密':(scope.row.teacher_sex=='2'?'男':'女')}}
-                                    </template>
-                                </el-table-column>
-                                <el-table-column prop="teacher_phone" label="电话" show-overflow-tooltip>
-                                </el-table-column>
-                                <el-table-column prop="role_name" label="角色" show-overflow-tooltip>
-                                </el-table-column>
-                                <el-table-column label="操作" width="150" show-overflow-tooltip>
-                                    <template scope="scope">
-                                        <el-button size="mini" @click="setStu(scope.row)">编辑</el-button>
-                                        <el-button size="mini" @click="selectStudent(scope.row.teacher_id)">删除</el-button>
-                                    </template>
-                                </el-table-column>
-                            </el-table>
-    
-                            <div class="kd-page">
-                                <el-row>
-                                    <el-col :span="12"> 
-                                        <el-button type="primary" size="mini" @click="selectStudent">删除</el-button>
-                                    </el-col>
-                                    <el-col :span="12">
-                                        <el-pagination class="float-right" @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="1" :page-sizes="[10, 15, 20, 25]" :page-size="1" layout="total, sizes, prev, pager, next, jumper" :total="1">
-                                        </el-pagination>
-    
-                                    </el-col>
-                                </el-row>
-    
-                            </div>
+                            <addSetUser state="1" :dataObj="dataObj" @QUITQROUP="QUITQROUP"></addSetUser>
                         </div>
                         <div v-if="oneStatus==2">
                             <architectureSet></architectureSet>
@@ -167,11 +111,11 @@
                         <el-table-column type="selection" width="55">
                         </el-table-column>
                         <!-- <el-table-column label="学号" width="80" prop="id">
-                                                                                                                                                    </el-table-column> -->
+                                                                                                                                                                    </el-table-column> -->
                         <el-table-column prop="teacher_name" label="姓名" width="100" show-overflow-tooltip>
                         </el-table-column>
                         <!-- <el-table-column prop="t_name" label="用户名" show-overflow-tooltip>
-                                                                                                                                                                </el-table-column> -->
+                                                                                                                                                                                </el-table-column> -->
                         <el-table-column prop="username" label="用户名" width="100" show-overflow-tooltip>
                         </el-table-column>
                         <el-table-column prop="position_name" label="职位" show-overflow-tooltip>
@@ -291,7 +235,7 @@
                 <p class="r-dialog-head">
                     <span class="r-dialog-title">添加成员</span>
                 </p>
-                <el-transfer filterable :filter-method="filterMethod" filter-placeholder="请输入城市拼音" v-model="value2" :data="data2">
+                <el-transfer filterable :filter-method="filterMethod" filter-placeholder="请输入查询关键字" v-model="value2" :data="data2">
                 </el-transfer>
                 <p class="r-dialog-btns">
                     <el-button type="primary" size="small" @click="dialog_ok">确定</el-button>
@@ -325,7 +269,7 @@ export default {
                 `该页面展示管理员的操作日志，可进行删除。`,
                 `侧边栏可以进行高级搜索`
             ],
-            state: 2,
+            state: 0,
             promptsPad: true,
             obj: {
                 search: "",
@@ -333,7 +277,7 @@ export default {
                 department_id: '',
                 pagesize: 10
             },
-            bm_page_count:'',//部门总条数
+            bm_page_count: '',//部门总条数
             defaultProps: {
                 children: 'children',
                 label: 'label'
@@ -351,9 +295,9 @@ export default {
                 one: true,//部门管理
             },//管理子分类展示
             oneStatus: 1,
-            selectArr:[],//多选存储数组
-            
-
+            selectArr: [],//多选存储数组  
+            dataObj: {},//编辑
+            delecetArr: [],//点击选择数组 存储id
         }
     },
     created() {
@@ -389,6 +333,8 @@ export default {
         },
         studentRefresh() {
             // 刷新
+            this.t_data = []
+            this.dataAjax();
         },
         handleCurrentChange(val) {
             console.log(val)
@@ -400,8 +346,13 @@ export default {
         },
         handleSelectionChange(obj) {
             this.selectArr = [];
-            obj.forEach((x)=>{
-                this.selectArr.push(x.teacher_id)
+            this.delecetArr = [];
+            obj.forEach((x) => {
+                this.selectArr.push(x.teacher_id);
+                this.delecetArr.push({
+                    department_id: x.department_id,
+                    teacher_id: x.teacher_id
+                })
             })
             console.log(obj)
         },
@@ -415,18 +366,32 @@ export default {
         handleIconClick(obj) {
             this.dataAjax()
         },
-        setStu() {
+        setStu(obj) {
             // 编辑
             this.oneStatus = 1;
             this.stateObj.one = false;
+            this.dataObj = obj;
         },
         selectStudent(id) {
-            // 删除
-            if(typeof parseInt(id)=='number'){
-
-            }else{
-                this.deleteUser()
+            // 删除 
+            let obj = {
+                ids: JSON.stringify(this.delecetArr)
             }
+            this.$confirm('此操作为删除, 是否继续?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                store.department_teacher_delete.call(this, obj)
+               
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '已取消删除'
+                });
+            });
+
+
         },
         addDladogUser() {
             // 添加成员
@@ -436,6 +401,7 @@ export default {
         dialog_ok() {
             // 提交用户添加
             store.dladogUserPush.call(this, this.obj.department_id);
+           this.dataAjax();
         },
         departmentManagement() {
             // 部门点击管理列表
@@ -447,16 +413,20 @@ export default {
             if (state == 1) {
                 this.oneStatus = 2;
                 this.stateObj.one = false;
-            }   
+            }
         },
-        deleteUser(id){
+        deleteUser(id) {
             // 部门管理删除
-            store.deleteUser.call(this,id)
+            store.deleteUser.call(this, id)
+        },
+        QUITQROUP(val) {
+            // 取消 
+            this.oneStatus = 1;
+            this.stateObj.one = true;
         }
     },
     watch: {
         value2(obj) {
-            console.log(obj)
         }
     }
 }

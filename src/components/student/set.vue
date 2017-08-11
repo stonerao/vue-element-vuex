@@ -342,6 +342,7 @@ export default {
     },
     created() {
         console.log(this.dataObj)
+         alert(1)
         if (this.state == 1) {
 
         } else if (this.state == 2) {
@@ -366,17 +367,18 @@ export default {
                 obj.st_grade = dataObj.st_grade ? dataObj.st_grade : '';//年级
                 obj.st_class = dataObj.st_class ? dataObj.st_class : '';//班级
                 obj.st_status = dataObj.st_status ? dataObj.st_status : '';//就读状态（1：在校，2：毕业，3：休学，4：开除） 
-
+ 
             }
         }
         // 年纪
         store.grade_list.call(this);
-
+ 
 
 
     },
     mounted() {
-        //加载省份
+        //加载省份\
+       
         this.getArea(1)
     },
     watch: {
