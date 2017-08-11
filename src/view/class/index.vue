@@ -181,63 +181,136 @@
                                     <li>初2017级年级1班课表1</li>
                                 </ul>
                             </div>
-                            <el-row :gutter="20" class="l_search_outer">
-                                <el-col :span="24" class="class-searchs">
-                                    <el-form :inline="true" :model="searchInline1" id="search_form1">
-                                        <el-form-item label="学期名称：">
-                                            <el-input v-model="searchInline1.name" placeholder="2017-2018学年第一学期"></el-input>
-                                        </el-form-item>
-                                        <el-form-item label="课表有效期：">
-                                            <el-date-picker v-model="searchInline1.startTime" type="date" :picker-options="pickerOptions0" placeholder="年月日"></el-date-picker>
-                                            <span class="middle-pad0">至</span>
-                                            <el-date-picker v-model="searchInline1.endTime" type="date" :picker-options="pickerOptions0" placeholder="年月日"></el-date-picker>
-                                        </el-form-item>
-                                    </el-form>
-                                </el-col>
-                            </el-row>
+                            <div class="l_search0">
+                                <el-row :gutter="20" class="l_search_outer">
+                                    <el-col :span="24" class="class-searchs">
+                                        <el-form :inline="true" :model="searchInline1" id="search_form1">
+                                            <el-form-item label="学期名称：">
+                                                <el-input v-model="searchInline1.name" placeholder="2017-2018学年第一学期"></el-input>
+                                            </el-form-item>
+                                            <el-form-item label="课表有效期：">
+                                                <el-date-picker v-model="searchInline1.startTime" type="date" :picker-options="pickerOptions0" placeholder="年月日"></el-date-picker>
+                                                <span class="middle-pad0">至</span>
+                                                <el-date-picker v-model="searchInline1.endTime" type="date" :picker-options="pickerOptions0" placeholder="年月日"></el-date-picker>
+                                            </el-form-item>
+                                        </el-form>
+                                    </el-col>
+                                </el-row>
+                            </div>
                             <div class="sche_table">
-                                <table width="100%" border="1" cellspacing="0" cellpadding="0">
-                                    <tr>
-                                        <th><div>时段</div></th>
-                                        <th><div>节次</div></th>
-                                        <th><div>星期一（6月12日）</div></th>
-                                        <th><div>星期二（6月13日）</div></th>
-                                        <th><div>星期三（6月14日）</div></th>
-                                        <th><div>星期四（6月15日）</div></th>
-                                        <th><div>星期五（6月16日）</div></th>
-                                        <th><div>星期六（6月17日）</div></th>
-                                        <th><div>星期日（6月18日）</div></th>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div>早读</div>
-                                        </td>
-                                        <td>
-                                            <div class="td2">7:20-7:55</div>
-                                        </td>
-                                        <td>
-                                            <div class="td2">7:20-7:55</div>
-                                        </td>
-                                        <td>
-                                            <div class="td2">7:20-7:55</div>
-                                        </td>
-                                        <td>
-                                            <div class="td2">7:20-7:55</div>
-                                        </td>
-                                        <td>
-                                            <div class="td2">7:20-7:55</div>
-                                        </td>
-                                        <td>
-                                            <div class="td2">7:20-7:55</div>
-                                        </td>
-                                        <td>
-                                            <div class="td2">7:20-7:55</div>
-                                        </td>
-                                        <td>
-                                            <div class="td2">7:20-7:55</div>
-                                        </td>
-                                    </tr>
-                                </table>
+                                <el-table :data="tableData" border style="width: 100%">
+                                    <el-table-column prop="time" label="时段"></el-table-column>
+                                    <el-table-column prop="inter" label="节次"></el-table-column>
+                                    <el-table-column label="星期一（6月12日）">
+                                        <template scope="scope">
+                                            <div v-if="show_select">
+                                                <el-select v-model="subject" placeholder="科目">
+                                                    <el-option label="语文" value="sub1"></el-option>
+                                                    <el-option label="数学" value="sub2"></el-option>
+                                                </el-select>
+                                                <el-select v-model="teacher" placeholder="老师">
+                                                    <el-option label="张三" value="tea1"></el-option>
+                                                    <el-option label="李四" value="tea2"></el-option>
+                                                    <el-option label="王五" value="tea3"></el-option>
+                                                </el-select>
+                                            </div>
+                                        </template>
+                                    </el-table-column>
+                                    <el-table-column label="星期二（6月13日）">
+                                        <template scope="scope">
+                                            <div v-if="show_select">
+                                                <el-select v-model="subject" placeholder="科目">
+                                                    <el-option label="语文" value="sub1"></el-option>
+                                                    <el-option label="数学" value="sub2"></el-option>
+                                                </el-select>
+                                                <el-select v-model="teacher" placeholder="老师">
+                                                    <el-option label="张三" value="tea1"></el-option>
+                                                    <el-option label="李四" value="tea2"></el-option>
+                                                    <el-option label="王五" value="tea3"></el-option>
+                                                </el-select>
+                                            </div>
+                                        </template>
+                                    </el-table-column>
+                                    <el-table-column label="星期三（6月14日）">
+                                        <template scope="scope">
+                                            <div v-if="show_select">
+                                                <el-select v-model="subject" placeholder="科目">
+                                                    <el-option label="语文" value="sub1"></el-option>
+                                                    <el-option label="数学" value="sub2"></el-option>
+                                                </el-select>
+                                                <el-select v-model="teacher" placeholder="老师">
+                                                    <el-option label="张三" value="tea1"></el-option>
+                                                    <el-option label="李四" value="tea2"></el-option>
+                                                    <el-option label="王五" value="tea3"></el-option>
+                                                </el-select>
+                                            </div>
+                                        </template>
+                                    </el-table-column>
+                                    <el-table-column label="星期四（6月15日）">
+                                        <template scope="scope">
+                                            <div v-if="show_select">
+                                                <el-select v-model="subject" placeholder="科目">
+                                                    <el-option label="语文" value="sub1"></el-option>
+                                                    <el-option label="数学" value="sub2"></el-option>
+                                                </el-select>
+                                                <el-select v-model="teacher" placeholder="老师">
+                                                    <el-option label="张三" value="tea1"></el-option>
+                                                    <el-option label="李四" value="tea2"></el-option>
+                                                    <el-option label="王五" value="tea3"></el-option>
+                                                </el-select>
+                                            </div>
+                                        </template>
+                                    </el-table-column>
+                                    <el-table-column label="星期五（6月16日）">
+                                        <template scope="scope">
+                                            <div v-if="show_select">
+                                                <el-select v-model="subject" placeholder="科目">
+                                                    <el-option label="语文" value="sub1"></el-option>
+                                                    <el-option label="数学" value="sub2"></el-option>
+                                                </el-select>
+                                                <el-select v-model="teacher" placeholder="老师">
+                                                    <el-option label="张三" value="tea1"></el-option>
+                                                    <el-option label="李四" value="tea2"></el-option>
+                                                    <el-option label="王五" value="tea3"></el-option>
+                                                </el-select>
+                                            </div>
+                                        </template>
+                                    </el-table-column>
+                                    <el-table-column label="星期六（6月17日）">
+                                        <template scope="scope">
+                                            <div v-if="show_select">
+                                                <el-select v-model="subject" placeholder="科目">
+                                                    <el-option label="语文" value="sub1"></el-option>
+                                                    <el-option label="数学" value="sub2"></el-option>
+                                                </el-select>
+                                                <el-select v-model="teacher" placeholder="老师">
+                                                    <el-option label="张三" value="tea1"></el-option>
+                                                    <el-option label="李四" value="tea2"></el-option>
+                                                    <el-option label="王五" value="tea3"></el-option>
+                                                </el-select>
+                                            </div>
+                                        </template>
+                                    </el-table-column>
+                                    <el-table-column label="星期日（6月18日）">
+                                        <template scope="scope">
+                                            <div v-if="show_select">
+                                                <el-select v-model="subject" placeholder="科目">
+                                                    <el-option label="语文" value="sub1"></el-option>
+                                                    <el-option label="数学" value="sub2"></el-option>
+                                                </el-select>
+                                                <el-select v-model="teacher" placeholder="老师">
+                                                    <el-option label="张三" value="tea1"></el-option>
+                                                    <el-option label="李四" value="tea2"></el-option>
+                                                    <el-option label="王五" value="tea3"></el-option>
+                                                </el-select>
+                                            </div>
+                                        </template>
+                                    </el-table-column>
+                                </el-table>
+                            </div>
+                            <div class="l_save">
+                                <el-button type="primary">保存</el-button>
+                                <el-button>取消</el-button>
                             </div>
                         </div>
                     </div>
@@ -268,10 +341,12 @@ export default {
                 `该页面展示管理员的操作日志，可进行删除。`,
                 `侧边栏可以进行高级搜索`
             ],
-            state: 1,
+            state: 0,  //tabs的header
             currentPage: 1,
-            tabs0: 1, //总课表切换-排课
-            tabs1: 0, //总课表切换-排课
+            tabs0: 0, //总课表
+            tabs1: 1, //总课表切换-排课
+            subject: '', //科目
+            teacher: '',  //老师
             searchInline: {  //按年级班级搜索
               grade: '',
               class: ''
@@ -286,9 +361,51 @@ export default {
                 // return time.getTime() < Date.now() - 8.64e7;
               }
             },
+            show_select: true,  //某些时间段没有select选择项
+            tableData: [{
+              time: '早读',
+              inter: '7:20-7:55',
+              day:{
+                class:'',
+                teacher:''
+              }
+            },{
+              time: '上午',
+              inter: '8:00-8:45'
+            },{
+              time: '',
+              inter: '8:55-9:40'
+            },{
+              time: '',
+              inter: '10:00-10:45'
+            },{
+              time: '',
+              inter: '10:55-11:40'
+            },{
+              time: '下午',
+              inter: '13:20-14:05'
+            },{
+              time: '',
+              inter: '14:15-15:00'
+            },{
+              time: '',
+              inter: '15:20-16:05'
+            },{
+              time: '',
+              inter: '16:15-17:00'
+            },{
+              time: '晚上',
+              inter: '18:30-19:30'
+            },{
+              time: '',
+              inter: '19:40-20:40'
+            },]
         }
     },
     created() {
+        // setTimeout(()=>{
+        //     console.log(this.state)
+        // },3000)
     },
     components: {
         titleItem, titleActive, description, bottomItem

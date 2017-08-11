@@ -52,3 +52,8 @@ export { default as tj_active} from './icon_active/tj.png'
 // 锁频设置
 export { default as pmsd} from './icon/pmsd.png'
 export { default as pmsd_active} from './icon_active/pmsd.png'
+//年级课表编辑
+// export { default as or1} from './icon/one.png'
+// export { default as or2} from './icon/two.png'
+// export { default as or3} from './icon/three.png'
+// export { default as or4} from './icon/four.png'
