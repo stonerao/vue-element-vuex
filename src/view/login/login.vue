@@ -6,7 +6,8 @@
             </div>
             <div class="t-login-box">
                 <div class="login-title">
-                  <a :class="typestate==0 ? 'active':''" @click="typestate=0" href="javascript:void(0)">学生</a>/<a :class="typestate==1 ? 'active':''" @click="typestate=1" href="javascript:void(0)">老师</a>登录
+                    <a :class="typestate==false ? 'active':''" @click="typestate=false" href="javascript:void(0)">学生</a>/
+                    <a :class="typestate==true ? 'active':''" @click="typestate=true" href="javascript:void(0)">老师</a>登录
                 </div>
                 <ul class="login-items">
                     <li class="t-inp-label">
@@ -31,14 +32,16 @@
                     <li>
                         <el-button type="primary" class="t-submit" @click="sub">登录</el-button>
                     </li>
+                    <li class="r-login-switch">
+                       <span class="float-right ">选择登录方式：<el-switch v-model="typestate" off-text="学生" on-text="老师 "  on-color="#13ce66" off-color="#ff4949">
+                        </el-switch></span> 
+                    </li>
                 </ul>
             </div>
-
+    
         </div>
-         <div class="admin-login-copy">
-            dsadasdasdasdsadas
-        </div>
-
+        <l-bottom class="login-r-bottom"></l-bottom>
+    
     </div>
 </template>
 
@@ -51,28 +54,28 @@ export default {
             input: '',
             checked: false,
             form: {
-                username: 'tang123',
+                username: '2313213',
                 password: '123456',
                 school_identify: '001',
                 verify: '1111'
             },
             codeSrc: '',
-            typestate:0,//选择学生登录或老师登录
+            typestate: 0,//选择学生登录或老师登录
         }
     },
     methods: {
         sub() {
-          if(this.typestate==1){
-            store.login.call(this,this.form)
-          }else{
-            store.studentLogin.call(this)
-          }
+            if (this.typestate) {
+                store.login.call(this, this.form)
+            } else {
+                store.studentLogin.call(this)
+            }
         },
         isLogin() {
             // 是否自动登录
 
         },
-        codeSet(){
+        codeSet() {
             // 更新code
             store.loginCode.call(this)
         }
@@ -81,23 +84,35 @@ export default {
         // 验证码
         this.codeSet();
     },
-    components:{
-        'l-bottom':bottom
-    }
-
+    components: {
+        'l-bottom': bottom
+    } 
 }
 </script>
 <style type="text/less" lang="less">
-  .login-title{
-    a{
-      font-size: 18px;
-      margin: 0 5px;
-      &.active{
-        color:#20a0ff;
-      }
-      &:hover{
-        color:#20a0ff;
-      }
+.login-title {
+    a {
+        font-size: 18px;
+        margin: 0 5px;
+        &.active {
+            color: #20a0ff;
+        }
+        &:hover {
+            color: #20a0ff;
+        }
     }
-  }
+}
+
+.login-r-bottom {
+    position: absolute;
+    bottom: 20px;
+    text-align: center;
+    color: #666;
+    left: 50%;
+    transform: translteX(-50%)
+}
+.r-login-switch{
+    overflow: hidden;
+    
+}
 </style>

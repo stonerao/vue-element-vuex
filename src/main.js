@@ -12,6 +12,7 @@ import '@/style/style_l.less';//style less
 import '@/style/style_z.less';//style less
 import 'babel-polyfill';//babel-polyfill
 import { getToken } from '@/utils/auth';
+import { isClassLogin } from '@/utils/auth';
 // 公共js
 import '@/utils/start'
 // axios 配置

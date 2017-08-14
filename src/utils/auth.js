@@ -21,3 +21,15 @@ export function encodeUnicode(str) {
   }
   return "\\u" + res.join("\\u");
 }
+const classLogin = 'isClassLogin'
+export function isClassLogin(state) {
+  if (state == 1) {
+    Cookies.set(classLogin, 1)
+  } else if (state == 2) {
+    Cookies.set(classLogin, 2)
+  } else if (state == 3) {
+    Cookies.set(classLogin, 3)
+  }else{
+    return Cookies.get(classLogin)
+  }
+}

@@ -12,6 +12,7 @@
 </template>
 <script>
 import { constListMap } from '@/router'
+import { isClassLogin } from '@/utils/auth'
 export default {
     data() {
         return {
@@ -20,6 +21,7 @@ export default {
         }
     },
     created() {
+console.log(isClassLogin())
     },
     methods: {
         toggle() {
