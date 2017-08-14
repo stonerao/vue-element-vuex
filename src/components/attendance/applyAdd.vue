@@ -8,11 +8,7 @@
         </el-col>
         <el-col :span="20">
           <div class="att-time">
-            <el-date-picker
-              v-model="value2"
-              type="date"
-              placeholder="选择日期"
-              :picker-options="pickerOptions0">
+            <el-date-picker v-model="chooseTime" type="date" placeholder="选择日期" @change="choose_time">
             </el-date-picker>
           </div>
           <div class="att-checkbox">
@@ -37,11 +33,7 @@
         </el-col>
         <el-col :span="20" v-else>
           <div class="att-time">
-            <el-date-picker
-              v-model="value3"
-              type="date"
-              placeholder="选择日期"
-              :picker-options="pickerOptions0">
+            <el-date-picker v-model="changeTime" type="date" placeholder="选择日期" @change="change_time">
             </el-date-picker>
           </div>
           <div class="att-checkbox">
@@ -55,12 +47,17 @@
       <el-col :span="4">
         <div class="att-name rt">请假时间：</div>
       </el-col>
-      <el-col :span="20">
-        <el-date-picker
-          v-model="value1"
-          type="daterange"
-          placeholder="选择日期范围">
-        </el-date-picker>
+      <el-col :span="5">
+        <div class="block">
+          <el-date-picker v-model="leaveStart" type="datetime" placeholder="选择日期时间" @change="leave_start">
+          </el-date-picker>
+        </div>
+      </el-col>
+      <el-col :span="15">
+        <div class="block">
+          <el-date-picker v-model="leaveEnd" type="datetime" placeholder="选择日期时间" @change="leave_end">
+          </el-date-picker>
+        </div>
       </el-col>
     </el-row>
     <el-row :gutter="20" style="margin-top: 30px">
@@ -82,24 +79,27 @@
   </div>
 </template>
 <script>
+  import {getToken} from '@/utils/auth'
   export default({
-    props:['state'],
+    props:['state','addState'],
     data(){
       return{
-        pickerOptions0: {
-          disabledDate(time) {
-            return time.getTime() < Date.now() - 8.64e7;
-          }
-        },
-        value1:'',//请假管理请假时间
-        value2:'',//调课时间，代课时间
-        value3: '',//找人调课时间
+//        pickerOptions0: {
+//          disabledDate(time) {
+//            return time.getTime() < Date.now() - 8.64e7;
+//          }
+//        },
+        leaveStart:'',//请假时间开始
+        leaveEnd:'',//请假时间结束
+        chooseTime:'',//调课时间，代课时间
+        changeTime: '',//找人调课时间
         radio:'1',
         options:[
           {value: '选项1', label: '黄金糕'}
         ],
         tname:'',//代课老师
         msg:'',//原因
+        key:getToken(),//key值
       }
     },
     watch:{
@@ -112,18 +112,36 @@
       }
     },
     methods:{
+      //取消
       cancel(){
         this.$emit('changeAddState');
-      },//取消
+      },
+      //提交
       applySubmit(num){
         if(num==0){
-          var obj1={
-            time:this.value1,
-            text:this.msg
+          let data={
+            token:getToken(),
+            start_time:this.leaveStart,
+            end_time:this.leaveEnd,
+            content:this.msg
           };
+          this.$emit('submit',data)
         }
-      },//提交
-    }
+      },
+      leave_start(val){
+        this.leaveStart=val;
+      },
+      leave_end(val){
+        this.leaveEnd=val;
+      },
+      choose_time(val){
+        this.chooseTime=val;
+      },
+      change_time(val){
+        this.changeTime=val;
+      }
+    },
+
   })
 </script>
 <style lang="less" type="text/less">

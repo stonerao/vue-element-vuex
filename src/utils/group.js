@@ -6,7 +6,7 @@ export default {
   group_list(vm){
     vm.$http(api.groupList,{
       params:{
-        token:key,
+        token:getToken(),
         page:vm.currentPage,
         pagesize:vm.pageSize,
         search:vm.searchTxt
@@ -21,9 +21,10 @@ export default {
   controller_list(){
     this.$http(api.controllerList,{
       params:{
-        token:key
+        token:getToken()
       }
     }).then((res)=>{
+      console.log(res)
       if(res.status==200){
         this.ctrList=res.data.store_menu.nav;
       }
@@ -34,7 +35,7 @@ export default {
       url:api.addGroup,
       method:'post',
       data:{
-        token:key,
+        token:getToken(),
         group_name:this.groupName,
         controller:this.groupCtrList
       }
@@ -62,7 +63,7 @@ export default {
       url:api.deleteGroup,
       method:'post',
       data:{
-        token:key,
+        token:getToken(),
         del_id:gid
       }
     }).then((res)=>{
@@ -80,7 +81,7 @@ export default {
   group_detail(vm,gid){
     vm.$http(api.groupDetail,{
       params:{
-        token:key,
+        token:getToken(),
         gid:gid
       }
     }).then((res)=>{
@@ -101,7 +102,7 @@ export default {
       url:api.editGroup,
       method:'post',
       data:{
-        token:key,
+        token:getToken(),
         gid:this.gid,
         group_name:this.groupName,
         controller:this.groupCtrList
