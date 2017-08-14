@@ -1,11 +1,11 @@
 import { api } from '@/api/index'
 import { getToken } from '@/utils/auth'
-const key = getToken()
+let key = getToken()
 export default {
     teacher_list() {
         this.$http(api.teacher_list, {
             params: {
-                token: key,
+                token: getToken(),
                 curpage: this.tracherList.curpage,//当前页数
                 teacher_name: this.tracherList.teacher_name,//老师姓名
                 teacher_sex: this.tracherList.teacher_sex,//性别
@@ -43,7 +43,7 @@ export default {
         // 教师科目列表
         this.$http(api.teacher_kemu, {
             params: {
-                token: key
+                token: getToken()
             }
         }).then((res) => {
             if (res.status === 200) {
@@ -64,7 +64,7 @@ export default {
         })
     },
     addTeacher(form) {
-        form.token = key;
+        form.token = getToken();
         this.$http({
             url: api.teacher_add,
             method: 'post',
@@ -84,7 +84,7 @@ export default {
     deleteTeacher(id) {
         this.$http(api.teacher_delete, {
             params: {
-                token: key,
+                token: getToken(),
                 number_id: id
             }
         }).then((res) => {
@@ -102,7 +102,7 @@ export default {
         })
     },
     setTeacher(form) {
-        form.token = key;
+        form.token = getToken();
         this.$http({
             url: api.teacher_edit,
             method: 'post',
@@ -114,7 +114,7 @@ export default {
     studentlist(id) {
         this.$http(api.studentlist, {
             params: {
-                token: key,
+                token: getToken(),
                 st_name: this.studentList.st_name,
                 st_sex: this.studentList.st_sex,
                 st_status: this.state != 2 ? this.studentList.st_status : 20,
@@ -167,7 +167,7 @@ export default {
     department_list() {
         this.$http(api.studentListMent, {
             params: {
-                token: key,
+                token: getToken(),
             }
         }).then((res) => {
             if (res.status == 200) {
@@ -176,7 +176,7 @@ export default {
         })
     },
     addStundet(obj, state) {
-        obj.token = key;
+        obj.token = getToken();
         this.$http({
             url: state == 1 ? api.addStundet : api.setStundet,
             method: 'post',
@@ -206,7 +206,7 @@ export default {
             url: api.studentdelete,
             method: 'post',
             data: {
-                token: key,
+                token: getToken(),
                 del_id: arr
             }
         }).then((res) => {
