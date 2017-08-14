@@ -21,4 +21,6 @@ export const api = {
     organize_member_add:"Admin/StoreGroup/organize_member_add",//增加用户
     get_group_list:"Admin/StoreGroup/get_group_list",//增加用户 权限组列表
     department_teacher_delete:"Admin/Department/department_teacher_delete",//删除组织部门-成员关系
+    organize_member_list:"Admin/StoreGroup/organize_member_list",//用户管理列表
+    position_add:"Admin/position/position_add",//增加职位
 }

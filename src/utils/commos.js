@@ -6,7 +6,7 @@ export default {
     quitLogin(){
         this.$http(api.quitLogin,{
             params:{
-                token:key
+                token:getToken()
             }
         }).then((res)=>{
             removeToken();

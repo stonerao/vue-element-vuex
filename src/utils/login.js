@@ -1,4 +1,5 @@
 import { api } from '@/api/login'
+import { setToken } from '@/utils/auth'
 import utils from '@/utils'
 export default {
     login(form) {
@@ -33,7 +34,7 @@ export default {
             data: form
         }).then((res) => {
             if (res.data.status === "true") {
-                utils.setCookieAdmin(res.data.token);
+                setToken(res.data.token);
                 this.checked ? utils.setCookie("ISLOGIN", true) : utils.setCookie("ISLOGIN", false)
                 this.$notify({
                     message: res.data.msg,
