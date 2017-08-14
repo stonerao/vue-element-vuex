@@ -10,7 +10,7 @@
                 <!-- 课程管理 -->
                 <div class="l_layout_outer">
                     <div v-if="state===0" class="l_timetable_outer">
-                        <div v-if="show">
+                        <div v-if="show" v-loading="loading">
                             <el-row :gutter="20" class="l_search_header0 class-header">
                                 <el-col :span="6" class="class-titles">
                                     <img src="../../assets/index/shuaxin.png" class="icon-img-xs" />刷新-共{{gradeListParams.total_num}}条记录
@@ -75,38 +75,39 @@
                             <div class="l_search0">
                                 <el-row :gutter="20" class="l_search_outer">
                                     <el-col :span="24" class="class-searchs">
-                                        <el-form :inline="true" :model="searchInline1" id="search_form1">
+                                        <el-form :inline="true" :model="searchInline" id="search_form1">
                                             <el-form-item label="学期名称：">
-                                                <el-input v-model="searchInline1.name" placeholder="2017-2018学年第一学期"></el-input>
+                                                <el-input v-model="searchInline.name" placeholder="2017-2018学年第一学期"></el-input>
                                             </el-form-item>
                                             <el-form-item label="课表有效期：">
-                                                <el-date-picker v-model="searchInline1.startTime" type="date" :picker-options="pickerOptions0" placeholder="年月日"></el-date-picker>
+                                                <el-date-picker v-model="searchInline.startTime" type="date" format="yyyy-MM-dd" :picker-options="pickerOptions0" placeholder="年月日"></el-date-picker>
                                                 <span class="middle-pad0">至</span>
-                                                <el-date-picker v-model="searchInline1.endTime" type="date" :picker-options="pickerOptions0" placeholder="年月日"></el-date-picker>
+                                                <el-date-picker v-model="searchInline.endTime" format="yyyy-MM-dd" :picker-options="pickerOptions0" placeholder="年月日"></el-date-picker>
                                             </el-form-item>
                                         </el-form>
                                     </el-col>
                                 </el-row>
                             </div>
                             <div class="sche_table">
-                                <el-table :data="tableData" border v-loading="loading" style="width: 100%">
+                                <el-table :data="tableData" border style="width: 100%">
                                     <el-table-column prop="time" label="时段">
                                         <template scope="scope">
                                             <!-- 判断值: 1为早上 -->
+                                            <span v-if="scope.row.timetable.day1.lesson == 1">早读</span>
+                                            <span v-if="scope.row.timetable.day1.lesson == 2">上午</span>
+                                            <span v-if="scope.row.timetable.day1.lesson == 3">下午</span>
+                                            <span v-if="scope.row.timetable.day1.lesson == 4">晚上</span>
                                         </template>
                                     </el-table-column>
                                     <el-table-column prop="school_time" label="节次"></el-table-column>
                                     <el-table-column label="星期一">
                                         <template scope="scope">
                                             <div v-if="show_select&&scope.row.timetable.day1">
-                                                <el-select v-model="scope.row.timetable.day1.s_id" placeholder="科目">
-                                                    <el-option label="语文" value="1"></el-option>
-                                                    <el-option label="数学" value="2"></el-option>
+                                                <el-select v-model="scope.row.timetable.day1.s_id" placeholder="科目" @change="teachLoad(scope.row.timetable.day1.s_id)">
+                                                    <el-option v-for="options in subject" :key="options.s_id" :label="options.s_name" :value="options.s_id"></el-option>
                                                 </el-select>
-                                                <el-select v-model="scope.row.timetable.day1.teacher_id" placeholder="老师">
-                                                    <el-option label="张三" value="1"></el-option>
-                                                    <el-option label="李四" value="2"></el-option>
-                                                    <el-option label="王五" value="3"></el-option>
+                                                <el-select v-model="scope.row.timetable.day1.teacher_id" placeholder="老师" @click.native="teacClear">
+                                                    <el-option v-for="option in teacher" :key="option.teacher_id" :label="option.teacher_name" :value="option.teacher_id"></el-option>
                                                 </el-select>
                                             </div>
                                         </template>
@@ -114,14 +115,11 @@
                                     <el-table-column label="星期二">
                                         <template scope="scope">
                                             <div v-if="show_select&&scope.row.timetable.day2">
-                                                <el-select v-model="scope.row.timetable.day2.s_id" placeholder="科目">
-                                                    <el-option label="语文" value="1"></el-option>
-                                                    <el-option label="数学" value="2"></el-option>
+                                                <el-select v-model="scope.row.timetable.day2.s_id" placeholder="科目" @change="teachLoad(scope.row.timetable.day2.s_id)">
+                                                    <el-option v-for="options in subject" :key="options.s_id" :label="options.s_name" :value="options.s_id"></el-option>
                                                 </el-select>
                                                 <el-select v-model="scope.row.timetable.day2.teacher_id" placeholder="老师">
-                                                    <el-option label="张三" value="1"></el-option>
-                                                    <el-option label="李四" value="2"></el-option>
-                                                    <el-option label="王五" value="3"></el-option>
+                                                    <el-option v-for="option in teacher" :key="option.teacher_id" :label="option.teacher_name" :value="option.teacher_id"></el-option>
                                                 </el-select>
                                             </div>
                                         </template>
@@ -129,14 +127,11 @@
                                     <el-table-column label="星期三">
                                         <template scope="scope">
                                              <div v-if="show_select&&scope.row.timetable.day3">
-                                                <el-select v-model="scope.row.timetable.day3.s_id" placeholder="科目">
-                                                    <el-option label="语文" value="1"></el-option>
-                                                    <el-option label="数学" value="2"></el-option>
+                                               <el-select v-model="scope.row.timetable.day3.s_id" placeholder="科目" @change="teachLoad(scope.row.timetable.day3.s_id)">
+                                                    <el-option v-for="options in subject" :key="options.s_id" :label="options.s_name" :value="options.s_id"></el-option>
                                                 </el-select>
                                                 <el-select v-model="scope.row.timetable.day3.teacher_id" placeholder="老师">
-                                                    <el-option label="张三" value="1"></el-option>
-                                                    <el-option label="李四" value="2"></el-option>
-                                                    <el-option label="王五" value="3"></el-option>
+                                                    <el-option v-for="option in teacher" :key="option.teacher_id" :label="option.teacher_name" :value="option.teacher_id"></el-option>
                                                 </el-select>
                                             </div>
                                         </template>
@@ -144,14 +139,11 @@
                                     <el-table-column label="星期四">
                                         <template scope="scope">
                                             <div v-if="show_select&&scope.row.timetable.day4">
-                                                <el-select v-model="subject" placeholder="科目">
-                                                    <el-option label="语文" value="sub1"></el-option>
-                                                    <el-option label="数学" value="sub2"></el-option>
+                                                <el-select v-model="scope.row.timetable.day4.s_id" placeholder="科目" @change="teachLoad(scope.row.timetable.day4.s_id)">
+                                                    <el-option v-for="options in subject" :key="options.s_id" :label="options.s_name" :value="options.s_id"></el-option>
                                                 </el-select>
-                                                <el-select v-model="teacher" placeholder="老师">
-                                                    <el-option label="张三" value="tea1"></el-option>
-                                                    <el-option label="李四" value="tea2"></el-option>
-                                                    <el-option label="王五" value="tea3"></el-option>
+                                                <el-select v-model="scope.row.timetable.day4.teacher_id" placeholder="老师">
+                                                    <el-option v-for="option in teacher" :key="option.teacher_id" :label="option.teacher_name" :value="option.teacher_id"></el-option>
                                                 </el-select>
                                             </div>
                                         </template>
@@ -159,14 +151,11 @@
                                     <el-table-column label="星期五">
                                         <template scope="scope">
                                             <div v-if="show_select&&scope.row.timetable.day5">
-                                                <el-select v-model="subject" placeholder="科目">
-                                                    <el-option label="语文" value="sub1"></el-option>
-                                                    <el-option label="数学" value="sub2"></el-option>
+                                               <el-select v-model="scope.row.timetable.day5.s_id" placeholder="科目" @change="teachLoad(scope.row.timetable.day5.s_id)">
+                                                    <el-option v-for="options in subject" :key="options.s_id" :label="options.s_name" :value="options.s_id"></el-option>
                                                 </el-select>
-                                                <el-select v-model="teacher" placeholder="老师">
-                                                    <el-option label="张三" value="tea1"></el-option>
-                                                    <el-option label="李四" value="tea2"></el-option>
-                                                    <el-option label="王五" value="tea3"></el-option>
+                                                <el-select v-model="scope.row.timetable.day5.teacher_id" placeholder="老师">
+                                                    <el-option v-for="option in teacher" :key="option.teacher_id" :label="option.teacher_name" :value="option.teacher_id"></el-option>
                                                 </el-select>
                                             </div>
                                         </template>
@@ -174,30 +163,23 @@
                                     <el-table-column label="星期六">
                                         <template scope="scope">
                                             <div v-if="show_select&&scope.row.timetable.day6">
-                                                <el-select v-model="subject" placeholder="科目">
-                                                    <el-option label="语文" value="sub1"></el-option>
-                                                    <el-option label="数学" value="sub2"></el-option>
+                                                <el-select v-model="scope.row.timetable.day6.s_id" placeholder="科目" @change="teachLoad(scope.row.timetable.day6.s_id)">
+                                                    <el-option v-for="options in subject" :key="options.s_id" :label="options.s_name" :value="options.s_id"></el-option>
                                                 </el-select>
-                                                <el-select v-model="teacher" placeholder="老师">
-                                                    <el-option label="张三" value="tea1"></el-option>
-                                                    <el-option label="李四" value="tea2"></el-option>
-                                                    <el-option label="王五" value="tea3"></el-option>
+                                                <el-select v-model="scope.row.timetable.day6.teacher_id" placeholder="老师">
+                                                    <el-option v-for="option in teacher" :key="option.teacher_id" :label="option.teacher_name" :value="option.teacher_id"></el-option>
                                                 </el-select>
                                             </div>
                                         </template>
                                     </el-table-column>
                                     <el-table-column label="星期日">
                                         <template scope="scope">
-                                            <div v-if="show_select">
-
-                                                <el-select v-model="subject" placeholder="科目">
-                                                    <el-option label="语文" value="sub1"></el-option>
-                                                    <el-option label="数学" value="sub2"></el-option>
+                                            <div v-if="show_select&&scope.row.timetable.day7">
+                                                <el-select v-model="scope.row.timetable.day7.s_id" placeholder="科目" @change="teachLoad(scope.row.timetable.day7.s_id)">
+                                                    <el-option v-for="options in subject" :key="options.s_id" :label="options.s_name" :value="options.s_id"></el-option>
                                                 </el-select>
-                                                <el-select v-model="teacher" placeholder="老师">
-                                                    <el-option label="张三" value="tea1"></el-option>
-                                                    <el-option label="李四" value="tea2"></el-option>
-                                                    <el-option label="王五" value="tea3"></el-option>
+                                                <el-select v-model="scope.row.timetable.day7.teacher_id" placeholder="老师">
+                                                    <el-option v-for="option in teacher" :key="option.teacher_id" :label="option.teacher_name" :value="option.teacher_id"></el-option>
                                                 </el-select>
                                             </div>
                                         </template>
@@ -241,11 +223,9 @@ export default {
             ],
             state: 0,  //tabs的header
             show: true, //总课表及排课切换
-            subject: '', //科目
-            teacher: '',  //老师
             gradeS: '',  //年级select的值
             classS: '', //班级select的值
-            searchInline1: {  //按年级班级搜索
+            searchInline: {  //按年级班级搜索
               name: '',
               startTime: '',
               endTime: ''
@@ -280,8 +260,12 @@ export default {
                 scheTableOrder: 1,  //课表编号
                 editAllData: '',  //课表编辑请求数据
             },
-            tableData:[],
-            loading: true
+            tableData:[],  //表数据
+            loading: false,
+            subject: [],  //学习科目数据
+            teacher: [], //老师数据 
+            model:{},  //初始储存model_id,model_type,department_id三个属性
+            taData: []  //提交的json数据
         }
     },
     created() {
@@ -300,10 +284,10 @@ export default {
                 return
             }
             this.state = index;
-            console.log(index)
+            // console.log(index)
         },
         promptsTem(status) {
-            console.log(status);
+            // console.log(status);
         },
         handleSure() {
             // 搜索事件
@@ -317,6 +301,10 @@ export default {
         },
         schedule(id,type) {
             // 切换到排课模块
+            if(this.loading != false){
+                this.loading = false;
+            }
+            this.loading = true;
             this.gradeModel.departId = id;
             this.gradeModel.classType = type;
             info.scheduleBegin.call(this,this.gradeModel);
@@ -324,9 +312,23 @@ export default {
         cancelEdit(){
             // 排课取消
             this.show = !this.show;
+            this.loading = false;
+            setTimeout(function(){  //处理loading加载再次赋值为false后无效
+                window.location.reload(true);
+            },100)
         },
         submit(){
-            console.log(this.tableData)
+            // console.log(this.tableData);
+            info.scheduleSave.call(this,this.model,this.searchInline)
+        },
+        ajax(){  //科目数据加载
+            info.subjectData.call(this);
+        },
+        teachLoad(id){
+            info.teacherData.call(this,id);
+        },
+        teacClear(){
+
         }
     },
     watch:{
@@ -334,7 +336,7 @@ export default {
             this.graClaId.p_id = val;
             this.classS = '';  //清空班级search的数据
             info.gradeSearch.call(this,this.graClaId);
-        }   
+        },
     }
 }
 </script>
