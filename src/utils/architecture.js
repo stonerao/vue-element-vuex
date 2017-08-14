@@ -7,14 +7,14 @@ export default {
     department_list(obj) {
         this.$http(api.department_list, {
             params: {
-                token: key
+                token: getToken()
             }
         }).then((res) => {
             this.sdata = res.data.department_list;
         })
     },
     department_index(obj, items) {
-        obj.token = key;
+        obj.token = getToken();
         this.$http(api.department_index, {
             params: obj
         }).then((res) => {
@@ -27,7 +27,7 @@ export default {
         // 成员列表
         this.$http(api.show_teacher_member, {
             params: {
-                token: key,
+                token: getToken(),
                 department_id: id,
                 keywords: ''
             }
@@ -49,7 +49,7 @@ export default {
             method: "post",
             url: api.save_member_maintain,
             data: {
-                token: key,
+                token: getToken(),
                 department_id: id,
                 teacher_ids: this.value2.join(",")
             }
@@ -61,9 +61,9 @@ export default {
                         title: '成功',
                         message: res.data.data,
                         type: 'success',
-                        
+
                     });
-                     this.dataAjax();
+                    this.dataAjax();
                 } else {
                     this.$notify({
                         title: '失败',
@@ -79,7 +79,7 @@ export default {
             url: api.organize_number_delete,
             data: {
                 number_id: id,
-                token: key
+                token: getToken()
             }
         }).then((res) => {
 
@@ -88,14 +88,14 @@ export default {
     getPosition() {
         this.$http(api.choose_job, {
             params: {
-                token: key
+                token: getToken()
             }
         }).then((res) => {
             this.options = res.data.position_list
         })
     },
     addPositionUser(obj) {
-        obj.token = key;
+        obj.token = getToken();
         this.$http({
             method: 'post',
             url: api.organize_member_add,
@@ -127,15 +127,19 @@ export default {
         // 权限组列表
         this.$http(api.get_group_list, {
             params: {
-                token: key
+                token: getToken()
             }
         }).then((res) => {
             this.option_list = res.data.group_list;
         })
     },
-    department_teacher_delete(obj) {
-        obj.token = key;
-        obj.ids = encodeUnicode(obj.ids)
+    department_teacher_delete(obj, state) {
+        obj.token = getToken();
+        if (state == 1) {
+            obj.ids = obj.ids;
+        } else {
+            obj.ids = encodeUnicode(obj.ids)
+        }
         this.$http({
             url: api.department_teacher_delete,
             method: "post",
@@ -146,6 +150,46 @@ export default {
                 message: res.data.data
             });
             this.dataAjax()
+        })
+    },
+    organize_member_list() {
+        // 用户管理列表
+        this.$http(api.organize_member_list, {
+            params: {
+                token: getToken(),
+                page: this.userList.page,
+                curpage: this.userList.curpage,
+                keywords: this.userList.search
+            }
+        }).then((res) => {
+            let list = this.userList;
+            if (res.data.code == 200) {
+                let data = res.data;
+                list.page_total = parseInt(data.page_total);
+                list.items = data.data;
+            }
+        })
+    },
+    position_add(name) {
+        this.$http({
+            method: "post",
+            url: api.position_add,
+            data: {
+                token: getToken(),
+                position_name: name
+            }
+        }).then((res) => {
+            if (res.data.status == 'true') {
+                this.$notify({
+                    title: '成功',
+                    message: res.data.msg,
+                    type: 'success'
+                });
+            } else {
+                this.$notify.info({
+                    message: res.data.msg
+                });
+            }
         })
     }
 }

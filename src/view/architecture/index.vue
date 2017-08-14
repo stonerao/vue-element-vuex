@@ -64,7 +64,7 @@
                                     <el-table-column label="操作" width="150" show-overflow-tooltip>
                                         <template scope="scope">
                                             <el-button size="mini" @click="setStu(scope.row)">编辑</el-button>
-                                            <el-button size="mini" @click="selectStudent(scope.row.teacher_id)">删除</el-button>
+                                            <el-button size="mini" @click="delectTearcher(scope.row.teacher_id)">删除</el-button>
                                         </template>
                                     </el-table-column>
                                 </el-table>
@@ -98,25 +98,21 @@
                             <span>
                                 <img src="../../assets/index/shuaxin.png" class="icon-img-xs marginleft5" @click="studentRefresh" />刷新-共1条记录</span>
                             <span>当前总人数：
-                                <a class="red-color">1</a>人</span>
+                                <a class="red-color">{{userList.page_total}}</a>人</span>
     
                         </el-col>
                         <el-col :span="5">
-                            <el-input placeholder="输入名称" icon="search" size="small" v-model="obj.search" :on-icon-click="handleIconClick">
+                            <el-input placeholder="输入名称" icon="search" size="small" v-model="userList.search" :on-icon-click="userListIconClick">
                             </el-input>
                         </el-col>
                     </el-row>
     
-                    <el-table ref="multipleTable" :data="t_data" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange" class="z-text-over">
+                    <el-table ref="multipleTable" :data="userList.items" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange" class="z-text-over">
                         <el-table-column type="selection" width="55">
                         </el-table-column>
-                        <!-- <el-table-column label="学号" width="80" prop="id">
-                                                                                                                                                                    </el-table-column> -->
                         <el-table-column prop="teacher_name" label="姓名" width="100" show-overflow-tooltip>
                         </el-table-column>
-                        <!-- <el-table-column prop="t_name" label="用户名" show-overflow-tooltip>
-                                                                                                                                                                                </el-table-column> -->
-                        <el-table-column prop="username" label="用户名" width="100" show-overflow-tooltip>
+                        <el-table-column prop="member_name" label="用户名" width="100" show-overflow-tooltip>
                         </el-table-column>
                         <el-table-column prop="position_name" label="职位" show-overflow-tooltip>
                         </el-table-column>
@@ -127,12 +123,12 @@
                         </el-table-column>
                         <el-table-column prop="teacher_phone" label="电话" show-overflow-tooltip>
                         </el-table-column>
-                        <el-table-column prop="role_name" label="角色" show-overflow-tooltip>
+                        <el-table-column prop="member_role_text" label="角色" show-overflow-tooltip>
                         </el-table-column>
                         <el-table-column label="操作" width="150" show-overflow-tooltip>
                             <template scope="scope">
-                                <el-button size="mini" @click="setStu(scope.row)">编辑</el-button>
-                                <el-button size="mini" @click="selectStudent(scope.row.teacher_id)">删除</el-button>
+                                <el-button size="mini" @click="setUserClick(scope.row)">编辑</el-button>
+                                <el-button size="mini" @click="delectTearcher(scope.row.number_id)">删除</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -143,7 +139,7 @@
                                 <el-button type="primary" size="mini" @click="selectStudent">删除</el-button>
                             </el-col>
                             <el-col :span="12">
-                                <el-pagination class="float-right" @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="1" :page-sizes="[10, 15, 20, 25]" :page-size="1" layout="total, sizes, prev, pager, next, jumper" :total="1">
+                                <el-pagination class="float-right" @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="userList.page" :page-sizes="[10, 15, 20, 25]" :page-size="userList.curpage" layout="total, sizes, prev, pager, next, jumper" :total="userList.page_total">
                                 </el-pagination>
     
                             </el-col>
@@ -180,7 +176,7 @@
                         <el-table-column label="操作" width="150" show-overflow-tooltip>
                             <template scope="scope">
                                 <el-button size="mini" @click="setStu(scope.row)">编辑</el-button>
-                                <el-button size="mini" @click="selectStudent(scope.row.teacher_id)">删除</el-button>
+                                <el-button size="mini" @click="userDelect(scope.row.teacher_id)">删除</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -193,7 +189,6 @@
                             <el-col :span="12">
                                 <el-pagination class="float-right" @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="1" :page-sizes="[10, 15, 20, 25]" :page-size="1" layout="total, sizes, prev, pager, next, jumper" :total="1">
                                 </el-pagination>
-    
                             </el-col>
                         </el-row>
     
@@ -209,22 +204,22 @@
                                     职位名称：
                                 </div>
                                 <div class="add-inp-item-inp">
-                                    <el-input v-model="sex" placeholder=""></el-input>
+                                    <el-input v-model="userPositionVal" placeholder=""></el-input>
                                 </div>
                             </div>
     
                             <div class="add-inp-btn">
                                 <div class="add-inp-item-name">
                                 </div>
-                                <el-button type="primary">保存</el-button>
-                                <el-button>取消</el-button>
+                                <el-button type="primary" @click="addUserPosition">保存</el-button>
+                                <el-button @click="quitUserPosotion">取消</el-button>
                             </div>
                         </div>
                     </section>
                 </div>
                 <div v-if="state==6">
                     <!--编辑组织架构 添加  -->
-    
+                    <addSetUser state="1" :dataObj="dataObj" @QUITQROUP="QUITQROUP"></addSetUser>
                 </div>
             </div>
             <bottomItem></bottomItem>
@@ -298,6 +293,15 @@ export default {
             selectArr: [],//多选存储数组  
             dataObj: {},//编辑
             delecetArr: [],//点击选择数组 存储id
+            userList: {
+                search: "",
+                curpage: 10,
+                department_id: '',
+                page: 1,
+                page_total: 0,//总页数
+                items: []
+            },
+            userPositionVal:"",//添加职位
         }
     },
     created() {
@@ -314,8 +318,13 @@ export default {
             if (this.state == index) {
                 return
             }
-            this.state = index;
             this.reset();
+            this.state = index;
+            if (index == 1) {
+                // 点击用户管理
+                store.organize_member_list.call(this)
+            }
+
         },
         reset() {
             // 默认清除js设置
@@ -341,8 +350,8 @@ export default {
 
         },
         handleSizeChange(val) {
-            this.obj.pagesize = val;
             this.dataAjax()
+            this.obj.pagesize = val;
         },
         handleSelectionChange(obj) {
             this.selectArr = [];
@@ -383,7 +392,7 @@ export default {
                 type: 'warning'
             }).then(() => {
                 store.department_teacher_delete.call(this, obj)
-               
+
             }).catch(() => {
                 this.$message({
                     type: 'info',
@@ -401,7 +410,7 @@ export default {
         dialog_ok() {
             // 提交用户添加
             store.dladogUserPush.call(this, this.obj.department_id);
-           this.dataAjax();
+
         },
         departmentManagement() {
             // 部门点击管理列表
@@ -421,8 +430,49 @@ export default {
         },
         QUITQROUP(val) {
             // 取消 
+            this.state = 1;
             this.oneStatus = 1;
             this.stateObj.one = true;
+        },
+        userListIconClick() {
+            // 用户管理搜索
+            store.organize_member_list.call(this)
+
+        },
+        setUserClick(obj) {
+            // 编辑用户
+            console.log(obj)
+            this.state = 6;
+            this.dataObj = obj;
+        },
+        delectTearcher(id) {
+            // 删除 老师 职位
+            let obj = {
+                ids: id
+            }
+
+            this.$confirm('此操作为删除, 是否继续?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                store.department_teacher_delete.call(this, obj, 1)
+
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '已取消删除'
+                });
+            });
+
+        },
+        addUserPosition() {
+            //添加职位
+            store.position_add.call(this,this.userPositionVal)
+        }, 
+        quitUserPosotion() {
+            // 清除input value
+            this.userPositionVal = ""
         }
     },
     watch: {

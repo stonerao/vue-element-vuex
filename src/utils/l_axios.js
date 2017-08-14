@@ -15,7 +15,7 @@ export default {
     gradeSearch(obj) {
             this.$http(api.gradeSearch, {
                 params: {
-                    token: key,
+                    token: getToken(),
                     pid: obj.p_id
                 }
             }).then((res) => {
