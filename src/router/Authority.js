@@ -495,21 +495,21 @@ export const ListTeacher = [
                 component: setVue,
             }
         ]
-    }, {
-        path: '/set',
+    },{
+        path: '/attendance',
         name: '考勤管理',
-        redirect: '/set/index',
-        icon: pmsd,
-        iconActive: pmsd_active,
+        redirect: '/attendance/index',
+        icon: sj,
+        iconActive: sj_active,
         component: Layout,
         children: [
             {
                 path: 'index',
                 name: '-考勤管理',
-                component: setVue,
+                component: Attendance,
             }
         ]
-    }, {
+    },  {
         path: '/set',
         name: '素材库',
         redirect: '/set/index',
