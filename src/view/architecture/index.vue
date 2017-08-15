@@ -88,7 +88,7 @@
                             <addSetUser state="1" :dataObj="dataObj" @QUITQROUP="QUITQROUP"></addSetUser>
                         </div>
                         <div v-if="oneStatus==2">
-                            <architectureSet></architectureSet>
+                            <architectureSet :objData="sdata"></architectureSet>
                         </div>
                     </div>
                 </div>
@@ -414,7 +414,7 @@ export default {
         },
         departmentManagement() {
             // 部门点击管理列表
-            this.oneStatus = 1;
+            this.oneStatus = 2;
             this.stateObj.one = false;
         },
         addClassOne(state) {
