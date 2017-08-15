@@ -5,4 +5,6 @@ export const api={
   applyChange:'Teacher/Timetag/adjust_course',//老师调课申请
   myClass:'Teacher/Timetag/get_me_course',//根据指定日期获取当天的课程
   otherClass:'Teacher/Timetag/get_other_course',//根据指定日期获取当天的其他老师的课程
+  relieveList:'Teacher/Timetag/substitute_list',//代课列表
+  relieveTeacher:'Timetag/substitute_teacher',//获取同科目的老师
 }

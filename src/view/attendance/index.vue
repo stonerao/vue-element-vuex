@@ -17,7 +17,7 @@
                 </div>
                 <!--代课管理-->
                 <div v-if="state==2&&addState!=1">
-                  <relieveClass :total="total" :checkTypeList="checkTypeList" :attList="attList" @apply="showAdd"></relieveClass>
+                  <relieveClass :total="total" :checkTypeList="checkTypeList" :list="relList" @apply="showAdd" @typeChange="changeType"></relieveClass>
                 </div>
                 <!--考勤统计-->
                 <div v-if="state==3&&addState!=1">
@@ -71,7 +71,7 @@ export default {
                 `该页面展示管理员的操作日志，可进行删除。`,
                 `侧边栏可以进行高级搜索`
             ],
-            state: 1,
+            state: 2,
             addState:1,//显示申请页面
             promptsPad: true,
             total:0,//总条数
@@ -79,18 +79,16 @@ export default {
             pageSize:10,//每页显示数量
             status:'',//审核状态
             checkTypeList:[],//审批的几种状态
-            attList:[
-              {sign_leaveid:'001',leave_desc:'去参加全国电子技能大赛，特此不能上课',start_time:'2017-08-19 16:40:27',end_time:'2017-08-19 16:40:27',apply_time:'2017-08-19 16:40:27',duration:18,apply_stutas:1,manager_name:'汪峰'},{sign_leaveid:'001',leave_desc:'去参加全国电子技能大赛，特此不能上课',start_time:'2017-08-19 16:40:27',end_time:'2017-08-19 16:40:27',apply_time:'2017-08-19 16:40:27',duration:18,apply_stutas:2,manager_name:'汪峰'},
-              {sign_leaveid:'001',leave_desc:'去参加全国电子技能大赛，特此不能上课',start_time:'2017-08-19 16:40:27',end_time:'2017-08-19 16:40:27',apply_time:'2017-08-19 16:40:27',duration:18,apply_stutas:3,manager_name:'汪峰'},
-            ],//记录列表
+            relList:[],//代课列表
             leaveList:[],//请假列表
             changeList:[],//调课列表
             searchMsg:'',//搜索
             Msg:'',//左下角选择框
+            attList:[],
         }
     },
     created() {
-      att.leave_list.call(this);
+      this.refreshList();
     },
     components: {
         titleItem, titleActive, description, bottomItem,applyAdd,applyLeave,changeClass,relieveClass,attendance
@@ -123,8 +121,10 @@ export default {
           }).then(() => {
             if(this.state==0){
               att.apply_leave.call(this,data);
+            }else if(this.state==1){
+              att.apply_change.call(this.data);
             }
-            att.leave_list.call(this);
+            this.refreshList();
           }).catch(() => {
             this.$message({
               type: 'info',
@@ -138,6 +138,8 @@ export default {
           att.leave_list.call(this);
         }else if(this.state==1){
           att.change_list.call(this);
+        }else if(this.state==2){
+          att.relieve_list.call(this);
         }
       },
       //每页条数变化
