@@ -436,8 +436,7 @@ export default {
         },
         userListIconClick() {
             // 用户管理搜索
-            store.organize_member_list.call(this)
-
+            store.organize_member_list.call(this);
         },
         setUserClick(obj) {
             // 编辑用户

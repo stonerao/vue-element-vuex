@@ -13,6 +13,10 @@ import '@/style/style_z.less';//style less
 import 'babel-polyfill';//babel-polyfill
 import { getToken } from '@/utils/auth';
 import { isClassLogin } from '@/utils/auth';
+// 学校管理白名单
+import { constListWhile } from '@/router/Authority'
+import { constTeacherWhile } from '@/router/Authority'
+import { consStundenWhilet } from '@/router/Authority'
 // 公共js
 import '@/utils/start'
 // axios 配置
@@ -32,13 +36,25 @@ Vue.config.productionTip = false
 Vue.use(ElementUI);
 const whileList = ['/login', '/reg', '/admin'];//白名单
 // router 开始加载
-router.beforeEach((to, from, next) => { 
-  if (getToken()) { 
+router.beforeEach((to, from, next) => {
+  if (getToken()) {
     if (to.name) {
       // 如果当前有name
       document.title = to.name.substring(1);
     } else {
       document.title = '康德学堂';
+    }
+    let isClassState = isClassLogin();
+    console.log(isClassState)
+    if (isClassState == 1) {
+      constListWhile().indexOf(to.path) != -1 ? '' : location.href = "./#/";
+    } else if (isClassState == 1) {
+      constTeacherWhile().indexOf(to.path) != -1 ? '' : location.href = "./#/";
+    } else if (isClassState == 3) {
+      if(consStundenWhilet().indexOf(to.path) == -1){
+         router.push({path:'/'})
+      }
+      
     }
     next()
   } else {
@@ -48,7 +64,7 @@ router.beforeEach((to, from, next) => {
       next('/admin');
     }
   }
- 
+
 })
 // router 加载完毕
 router.afterEach(() => {
