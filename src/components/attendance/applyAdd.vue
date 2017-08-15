@@ -26,7 +26,7 @@
           <div v-else class="att-name rt">找人调课：</div>
         </el-col>
         <el-col :span="20" v-if="state==2">
-          <el-select v-model="tname" placeholder="请选择">
+          <el-select v-model="tname" @change="teacherChoose" placeholder="请选择">
             <el-option v-for="item in teacherList" :key="item.teacher_id" :label="item.teacher_name" :value="item.teacher_id">
             </el-option>
           </el-select>
@@ -152,6 +152,7 @@
         //根据指定日期获取当天的课程
         att.my_class.call(this);
         if(this.state==2){
+          //获取老师列表
           att.relieve_teacher.call(this);
         }
       },
@@ -169,6 +170,7 @@
       changeRadio2(val){
         this.otherId=val;
       },
+
     },
 
   })

@@ -144,7 +144,7 @@ export default {
       }
     }).then((res)=>{
       if(res.data.code==200){
-        console.log(res)
+        this.teacherList=res.data.data;
       }
     })
   },
