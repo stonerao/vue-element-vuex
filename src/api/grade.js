@@ -5,4 +5,7 @@ export const api = {
     subjectData:'Admin/Grade/get_subject',  //科目总数据
     teacherData:'Admin/Grade/get_teacher',  //老师总数据
     scheduleSave:'Admin/Grade/class_add',  //课表添加保存提交
+    checkGradeSche:'Admin/Grade/class_info',  //查看班级课程表
+    gradeAllList:'Admin/Grade/grade_list',  //年级课表总列表
+    gradeCheckModle:'Admin/Grade/show_grade_info',  //年级课表总列表--查看模板
 }
