@@ -8,40 +8,48 @@
         <el-button type="primary" @click="apply"><b>+</b>申请代课</el-button>
       </el-col>
       <el-col :span="12">
-        <el-select v-model="typeText2" placeholder="请选择审核状态" size="small" class="rt">
+        <el-select v-model="typeText2" @change="selectChange" placeholder="请选择审核状态" size="small" class="rt">
           <el-option v-for="item in checkTypeList" :key="item.value" :label="item.name" :value="item.value">
           </el-option>
         </el-select>
       </el-col>
     </el-row>
-    <el-table :data="attList">
-      <el-table-column prop="sign_leaveid" label="ID" width="80">
+    <el-table :data="list">
+      <el-table-column prop="record_id" label="ID" width="80">
       </el-table-column>
-      <el-table-column prop="leave_desc" label="请假事由" show-overflow-tooltip >
+      <el-table-column prop="operate_reason" label="请假事由" show-overflow-tooltip >
       </el-table-column>
-      <el-table-column prop="relieveTime" label="调课时间" show-overflow-tooltip>
+      <el-table-column prop="change_time" label="调课时间" show-overflow-tooltip>
       </el-table-column>
-      <el-table-column prop="apply_time" label="提交时间"  show-overflow-tooltip>
+      <el-table-column prop="operate_time" label="提交时间"  show-overflow-tooltip>
       </el-table-column>
       <el-table-column label="审批状态" width="100">
-        <template scope="scope"><span :class="scope.row.typeId==1 ? 'blue':(scope.row.typeId==2 ? 'warning':'danger')">{{scope.row.type}}</span></template>
+        <template scope="scope">
+          <span v-if="scope.row.status=='待审批'" class="blue">待审批</span>
+          <span v-else-if="scope.row.status=='同意'" class="warning">同意</span>
+          <span v-else class="danger">未批准</span>
+        </template>
       </el-table-column>
-      <el-table-column prop="approve" label="审批人" width="80">
+      <el-table-column prop="manager_name" label="审批人" width="80">
       </el-table-column>
     </el-table>
   </div>
 </template>
 <script>
   export default{
-    props:['total','attList','checkTypeList'],
+    props:['total','list','checkTypeList'],
     data(){
       return{
-
+        typeText2:''
       }
     },
     methods:{
       apply(){
         this.$emit('apply')
+      },
+      //选择审批状态
+      selectChange(val){
+        this.$emit('typeChange',val)
       }
     }
   }

@@ -17,8 +17,7 @@ export default {
                     message: res.data.msg,
                     type: 'success',
                     duration: 1000,
-                    onClose: () => {
-                        
+                    onClose: () => { 
                         this.$router.push({ path: '/' })
                     }
                 });

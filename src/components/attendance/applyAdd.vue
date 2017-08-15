@@ -12,11 +12,11 @@
             </el-date-picker>
           </div>
           <div class="att-checkbox">
-            <el-radio class="radio" v-model="radio" label="1">高2017级2班早读节次1</el-radio>
-            <el-radio class="radio" v-model="radio" label="2">高2017级2班上午节次1</el-radio>
-            <el-radio class="radio" v-model="radio" label="3">初2018级晚自习节次1</el-radio>
-            <el-radio class="radio" v-model="radio" label="4">高2017级2班上午节次1</el-radio>
-            <el-radio class="radio" v-model="radio" label="5">初2018级晚自习节次1 </el-radio>
+            <el-radio-group v-model="radio1" @change="changeRadio1">
+              <template v-for="(item,index) in myClassList">
+                <el-radio :label="index">{{item.lesson}}</el-radio>
+              </template>
+            </el-radio-group>
           </div>
         </el-col>
       </el-row>
@@ -26,8 +26,8 @@
           <div v-else class="att-name rt">找人调课：</div>
         </el-col>
         <el-col :span="20" v-if="state==2">
-          <el-select v-model="tname" placeholder="请选择">
-            <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+          <el-select v-model="tname" @change="teacherChoose" placeholder="请选择">
+            <el-option v-for="item in teacherList" :key="item.teacher_id" :label="item.teacher_name" :value="item.teacher_id">
             </el-option>
           </el-select>
         </el-col>
@@ -37,8 +37,9 @@
             </el-date-picker>
           </div>
           <div class="att-checkbox">
-            <el-radio class="radio" v-model="radio" label="1">高2017级2班早读节次1</el-radio>
-            <el-radio class="radio" v-model="radio" label="2">高2017级2班上午节次1</el-radio>
+            <el-radio-group v-model="radio2" @change="changeRadio2">
+              <el-radio v-for="item in otherClassList" :label="item.contents_id">{{item.lesson}}&nbsp;{{item.teacher}}</el-radio>
+            </el-radio-group>
           </div>
         </el-col>
       </el-row>
@@ -80,34 +81,35 @@
 </template>
 <script>
   import {getToken} from '@/utils/auth'
+  import att from '@/utils/attendance'
   export default({
     props:['state','addState'],
     data(){
       return{
-//        pickerOptions0: {
-//          disabledDate(time) {
-//            return time.getTime() < Date.now() - 8.64e7;
-//          }
-//        },
         leaveStart:'',//请假时间开始
         leaveEnd:'',//请假时间结束
         chooseTime:'',//调课时间，代课时间
         changeTime: '',//找人调课时间
         radio:'1',
-        options:[
-          {value: '选项1', label: '黄金糕'}
-        ],
+        radio1:2,//调课radio1
+        radio2:1,//调课radio2
+        teacherList:[],//代课老师列表
         tname:'',//代课老师
+        teacherId:'',//代课老师ID
         msg:'',//原因
         key:getToken(),//key值
+        myClassList:[
+          {contents_id:1, schedule_id:2, common_id:1, class_id:1, model_id:1, grade_id:1, lesson:'调课的课节名称'}
+        ],//本人当天课程
+        scheduleId:0,//调课课表id
+        otherId:0,//他人课节id
+        meId:0,//本人课节id
+        otherClassList:[],//其他老师当天课程
       }
     },
     watch:{
       state(){
         this.$emit('changeAddState',2333);
-        this.value1='';
-        this.value2='';
-        this.value3='';
         this.tname='';
       }
     },
@@ -118,15 +120,35 @@
       },
       //提交
       applySubmit(num){
+        let data={};
         if(num==0){
-          let data={
+          data={
             token:getToken(),
             start_time:this.leaveStart,
             end_time:this.leaveEnd,
             content:this.msg
           };
-          this.$emit('submit',data)
+        }else if(num==1){
+          data={
+            token:getToken(),
+            search_time:this.chooseTime,
+            search_time_two:this.changeTime,
+            content:this.msg,
+            schedule_id:this.scheduleId,
+            me_cid:this.meId,
+            other_cid:this.otherId
+          }
+        }else{
+          data={
+            token:getToken(),
+            substitute_time:this.chooseTime,
+            schedule_id:this.scheduleId,
+            contents_id:this.meId,
+            teacher_id:this.teacherId,
+            content:this.msg,
+          }
         }
+        this.$emit('submit',data)
       },
       leave_start(val){
         this.leaveStart=val;
@@ -134,11 +156,33 @@
       leave_end(val){
         this.leaveEnd=val;
       },
+      //调换日期，代课日期
       choose_time(val){
         this.chooseTime=val;
+        //根据指定日期获取当天的课程
+        att.my_class.call(this);
+        if(this.state==2){
+          //获取老师列表
+          att.relieve_teacher.call(this);
+        }
       },
+      //找人调课时间
       change_time(val){
         this.changeTime=val;
+        att.other_class.call(this);
+      },
+      //调课radio1
+      changeRadio1(val){
+        this.scheduleId=this.myClassList[val].schedule_id;
+        this.meId=this.myClassList[val].contents_id;
+      },
+      //调课radio2
+      changeRadio2(val){
+        this.otherId=val;
+      },
+      //选择的老师ID
+      teacherChoose(val){
+        this.teacherId=val;
       }
     },
 
