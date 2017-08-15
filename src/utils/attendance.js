@@ -38,6 +38,8 @@ export default {
           type: 'success'
         });
         this.addState=0;
+      }else{
+        this.$message.error(res.data.data.error)
       }
     })
   },
@@ -109,6 +111,8 @@ export default {
           type: 'success'
         });
         this.addState=0;
+      }else{
+        this.$message.error(res.data.data.error)
       }
     })
   },
@@ -122,6 +126,7 @@ export default {
         status:this.status
       }
     }).then((res)=>{
+      console.log(res)
       this.relList=res.data.data.list;
       this.currentPage=res.data.data.page;
       this.total=parseInt(res.data.data.rows);
@@ -148,4 +153,36 @@ export default {
       }
     })
   },
+  //代课申请提交
+  apply_relieve(data){
+    this.$http({
+      url:api.applyRelieve,
+      method:'post',
+      data:data
+    }).then((res)=>{
+      if(res.data.code==200){
+        this.$message({
+          message: res.data.data,
+          type: 'success'
+        });
+        this.addState=0;
+      }else{
+        this.$message.error(res.data.data.error)
+      }
+    })
+  },
+  //老师的考勤记录
+  attendance_list(){
+    this.$http(api.attendanceList,{
+      params:{
+        token:getToken(),
+        page:this.currentPage,
+        pagesize:this.pageSize,
+      }
+    }).then((res)=>{
+      console.log(res)
+    })
+  },
+  //审核调课/代课列表
+
 }
