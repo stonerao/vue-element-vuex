@@ -44,24 +44,31 @@ router.beforeEach((to, from, next) => {
     } else {
       document.title = '康德学堂';
     }
+    /* 
+      判断是什么端口登录 
+      如果进入的页面的路径在当前权限的白名单没有就进入默认页面
+    */
     let isClassState = isClassLogin();
-    console.log(isClassState)
     if (isClassState == 1) {
-      constListWhile().indexOf(to.path) != -1 ? '' : location.href = "./#/";
-    } else if (isClassState == 1) {
-      constTeacherWhile().indexOf(to.path) != -1 ? '' : location.href = "./#/";
-    } else if (isClassState == 3) {
-      if(consStundenWhilet().indexOf(to.path) == -1){
-         router.push({path:'/'})
+      if (constListWhile().indexOf(to.path) == -1) {
+        router.push({ path: '/' })
       }
-      
+    } else if (isClassState == 1) {
+      if (constTeacherWhile().indexOf(to.path) == -1) {
+        router.push({ path: '/' })
+      }
+    } else if (isClassState == 3) {
+      if (consStundenWhilet().indexOf(to.path) == -1) {
+        router.push({ path: '/' })
+      }
     }
     next()
   } else {
+    // 不需要登录就可以打开页面
     if (whileList.indexOf(to.path) !== -1) {
       next()
     } else {
-      next('/admin');
+      next('/login');
     }
   }
 
