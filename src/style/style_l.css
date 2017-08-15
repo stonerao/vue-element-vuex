@@ -245,6 +245,72 @@
 .l_layout_outer .l_schedule_outer .l_save button:nth-child(2):hover {
   border-color: #e5e5e5;
 }
+.l_layout_outer .l_check_outer .check_header {
+  padding-top: 35px;
+  padding-left: 23px;
+}
+.l_layout_outer .l_check_outer .check_header div {
+  display: inline-block;
+}
+.l_layout_outer .l_check_outer .check_header .term_name {
+  margin-right: 30px;
+}
+.l_layout_outer .l_check_outer .check_handle {
+  padding: 25px 0px 10px 23px;
+  text-align: right;
+}
+.l_layout_outer .l_check_outer .check_handle button {
+  margin-right: 8px;
+}
+.l_layout_outer .l_check_outer .check_handle button:last-child {
+  margin-right: 0px;
+}
+.l_layout_outer .l_grade_table .l_graCla_list .bottom-block .button-group .el-button:nth-child(1) {
+  width: 80px;
+}
+.l_layout_outer .l_checkdetail_outer .l_checkdetail {
+  margin-bottom: 0px!important;
+}
+.l_layout_outer .l_checkdetail_outer .l_checkdetail .l_grade_detail_title {
+  margin-top: 25px;
+}
+.l_layout_outer .l_checkdetail_outer .l_checkdetail .l_grade_detail_title {
+  padding-left: 23px;
+}
+.l_layout_outer .l_checkdetail_outer .l_checkdetail .l_grade_detail_title ul li {
+  float: left;
+  font-size: 18px;
+  color: #1997e4;
+  padding-left: 19px;
+  position: relative;
+}
+.l_layout_outer .l_checkdetail_outer .l_checkdetail .l_grade_detail_title ul li:before {
+  content: '';
+  width: 10px;
+  height: 10px;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -ms-border-radius: 10px;
+  border-radius: 10px;
+  background: #1997e4;
+  position: absolute;
+  left: 0px;
+  top: 50%;
+  -webkit-transform: translate(0px, -50%);
+  -moz-transform: translate(0px, -50%);
+  -ms-transform: translate(0px, -50%);
+  transform: translate(0px, -50%);
+}
+.l_layout_outer .l_checkdetail_outer .l_checkdetail .l_grade_detail_handle {
+  text-align: right;
+  padding: 15px 0px;
+}
+.l_layout_outer .l_checkdetail_outer .l_checkdetail .l_grade_detail_handle button {
+  margin-right: 8px;
+}
+.l_layout_outer .l_checkdetail_outer .l_checkdetail .l_grade_detail_handle button:last-child {
+  margin-right: 0px;
+}
 @media screen and (max-width: 1618px) {
   .l_layout_outer .l_graCla_list .li_list {
     width: 17.9%;

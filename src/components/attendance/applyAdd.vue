@@ -95,6 +95,7 @@
         radio2:1,//调课radio2
         teacherList:[],//代课老师列表
         tname:'',//代课老师
+        teacherId:'',//代课老师ID
         msg:'',//原因
         key:getToken(),//key值
         myClassList:[
@@ -137,6 +138,15 @@
             me_cid:this.meId,
             other_cid:this.otherId
           }
+        }else{
+          data={
+            token:getToken(),
+            substitute_time:this.chooseTime,
+            schedule_id:this.scheduleId,
+            contents_id:this.meId,
+            teacher_id:this.teacherId,
+            content:this.msg,
+          }
         }
         this.$emit('submit',data)
       },
@@ -170,7 +180,10 @@
       changeRadio2(val){
         this.otherId=val;
       },
-
+      //选择的老师ID
+      teacherChoose(val){
+        this.teacherId=val;
+      }
     },
 
   })

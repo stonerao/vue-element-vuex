@@ -12,13 +12,7 @@ export default {
                     pid: obj.p_id
                 }
             }).then((res) => {
-                // removeToken();
                 if (res.status === 200) {
-                    // this.$notify({
-                    //     title: '成功',
-                    //     message: res.data.data,
-                    //     type: 'success'
-                    // });
                     if (obj.p_id == 0) {
                         this.grade_search = res.data.data;
                     }
@@ -88,7 +82,8 @@ export default {
                     if(res.data.code!=400){
                         this.tableData = [];
                         this.loading = false;
-                        this.show = !this.show;
+                        this.tab_0 = false;
+                        this.tab_1 = true;
                         this.model = {
                             id: res.data.data.model_id,
                             type: res.data.data.model_type,
@@ -158,7 +153,7 @@ export default {
             })
         },
 
-        //保存数据
+        //班级课表编辑保存数据
         scheduleSave(mod,search) {
             if(search.startTime != '' && search.endTime != ''){
                 search.startTime = search.startTime.getFullYear() + '-' + (search.startTime.getMonth() + 1) + '-' + search.startTime.getDate();
@@ -204,6 +199,116 @@ export default {
                         this.$notify.error({
                             message: res.data.data.error
                         });
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
+        // 查看班级课表
+        checkGradeSche(id) {
+            this.$http(api.checkGradeSche, {
+                params: {
+                    token: getToken(),
+                    id: id,
+                    status: '1',
+                }
+            }).then((res) => {
+                console.log(res);
+                if (res.status === 200) {
+                    if(res.data.code!=400){
+                        Date.prototype.toLocaleString = function() {
+                            return this.getFullYear() + "/" + (this.getMonth() + 1) + "/" + this.getDate();
+                        };
+                        let unixTimestamps = new Date( res.data.data.schedule_start_time*1000),
+                            unixTimestampe = new Date( res.data.data.schedule_end_time*1000);
+                        this.scheHeader={
+                            name: res.data.data.schedule_name,
+                            start_time: unixTimestamps.toLocaleString(),
+                            end_time: unixTimestampe.toLocaleString(),
+                        }
+                        console.log(this.scheHeader)
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                        this.loading = false;
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
+        // 年级列表
+        gradeAllList(obj) {
+            this.$http(api.gradeAllList, {
+                params: {
+                    token: getToken(),
+                    page: obj.curpage,
+                    curpage: obj.one_pagenum,
+                }
+            }).then((res) => {
+                // console.log(res);
+                if (res.status === 200) {
+                    if(res.data.code!=400){
+                        let data = res.data.data;
+                        if (data.length != 0) {
+                            this.hasData = true;
+                            data.forEach((x) => {
+                                this.gradList.push({
+                                    department_id: x.department_id,
+                                    department_name: x.department_name,
+                                    class_num: x.class_num,
+                                    student_num: x.student_num,
+                                    model_id: x.model_id,
+                                    special_tag: x.special_tag
+                                })
+                                this.gradeParams.curpage = res.data.page;
+                                // this.gradeParams.page_count = res.data.page_count;
+                                this.gradeParams.total_num = parseInt(res.data.page_total);
+                            })
+                        }else{
+                            this.hasData = false;
+                            this.gradeParams.total_num = parseInt(res.data.page_total);
+                        }
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
+        // 年级列表查看模板详情
+        gradeCheckModle(id) {
+            this.$http(api.gradeCheckModle, {
+                params: {
+                    token: getToken(),
+                    model_id: id,
+                }
+            }).then((res) => {
+                console.log(res);
+                if (res.status === 200) {
+                    if(res.data.code!=400){
+                        this.switch_0 = false;
+                        this.switch_1 = true;
+                        this.loading = false;
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                        this.loading = false;
                     }
                 }else {
                     this.$notify.error({

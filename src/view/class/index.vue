@@ -10,7 +10,7 @@
                 <!-- 课程管理 -->
                 <div class="l_layout_outer">
                     <div v-if="state===0" class="l_timetable_outer">
-                        <div v-if="show" v-loading="loading">
+                        <div v-if="tab_0" v-loading="loading">
                             <el-row :gutter="20" class="l_search_header0 class-header">
                                 <el-col :span="6" class="class-titles">
                                     <img src="../../assets/index/shuaxin.png" class="icon-img-xs" />刷新-共{{gradeListParams.total_num}}条记录
@@ -45,7 +45,7 @@
                                         <div class="bottom-block">
                                             <div class="button-group">
                                                 <el-button size="small" @click.native="schedule(gra.department_id,gra.special_tag)">排课</el-button>
-                                                <el-button size="small">查课</el-button>
+                                                <el-button size="small" @click.native="checkSchedule(gra.department_id,gra.special_tag)">查课</el-button>
                                                 <el-button size="small">日志</el-button>
                                             </div>
                                         </div>
@@ -64,8 +64,7 @@
                                 </el-row>
                             </div>
                         </div>
-
-                        <div v-if="!show" class="l_schedule_outer">
+                        <div v-if="tab_1" class="l_schedule_outer">
                             <div class="sche_list_header">
                                 <ul class="clearfloat">
                                     <!-- <li>初2017级年级1班课表1</li> -->
@@ -106,7 +105,7 @@
                                                 <el-select v-model="scope.row.timetable.day1.s_id" placeholder="科目" @change="teachLoad(scope.row.timetable.day1.s_id)">
                                                     <el-option v-for="options in subject" :key="options.s_id" :label="options.s_name" :value="options.s_id"></el-option>
                                                 </el-select>
-                                                <el-select v-model="scope.row.timetable.day1.teacher_id" placeholder="老师" @click.native="teacClear">
+                                                <el-select v-model="scope.row.timetable.day1.teacher_id" :disabled="scope.row.timetable.day1.s_id==''" placeholder="老师" @click.native="teacClear">
                                                     <el-option v-for="option in teacher" :key="option.teacher_id" :label="option.teacher_name" :value="option.teacher_id"></el-option>
                                                 </el-select>
                                             </div>
@@ -118,7 +117,7 @@
                                                 <el-select v-model="scope.row.timetable.day2.s_id" placeholder="科目" @change="teachLoad(scope.row.timetable.day2.s_id)">
                                                     <el-option v-for="options in subject" :key="options.s_id" :label="options.s_name" :value="options.s_id"></el-option>
                                                 </el-select>
-                                                <el-select v-model="scope.row.timetable.day2.teacher_id" placeholder="老师">
+                                                <el-select v-model="scope.row.timetable.day2.teacher_id" :disabled="scope.row.timetable.day2.s_id==''" placeholder="老师">
                                                     <el-option v-for="option in teacher" :key="option.teacher_id" :label="option.teacher_name" :value="option.teacher_id"></el-option>
                                                 </el-select>
                                             </div>
@@ -130,7 +129,7 @@
                                                <el-select v-model="scope.row.timetable.day3.s_id" placeholder="科目" @change="teachLoad(scope.row.timetable.day3.s_id)">
                                                     <el-option v-for="options in subject" :key="options.s_id" :label="options.s_name" :value="options.s_id"></el-option>
                                                 </el-select>
-                                                <el-select v-model="scope.row.timetable.day3.teacher_id" placeholder="老师">
+                                                <el-select v-model="scope.row.timetable.day3.teacher_id" :disabled="scope.row.timetable.day3.s_id==''" placeholder="老师">
                                                     <el-option v-for="option in teacher" :key="option.teacher_id" :label="option.teacher_name" :value="option.teacher_id"></el-option>
                                                 </el-select>
                                             </div>
@@ -142,7 +141,7 @@
                                                 <el-select v-model="scope.row.timetable.day4.s_id" placeholder="科目" @change="teachLoad(scope.row.timetable.day4.s_id)">
                                                     <el-option v-for="options in subject" :key="options.s_id" :label="options.s_name" :value="options.s_id"></el-option>
                                                 </el-select>
-                                                <el-select v-model="scope.row.timetable.day4.teacher_id" placeholder="老师">
+                                                <el-select v-model="scope.row.timetable.day4.teacher_id" :disabled="scope.row.timetable.day4.s_id==''" placeholder="老师">
                                                     <el-option v-for="option in teacher" :key="option.teacher_id" :label="option.teacher_name" :value="option.teacher_id"></el-option>
                                                 </el-select>
                                             </div>
@@ -154,7 +153,7 @@
                                                <el-select v-model="scope.row.timetable.day5.s_id" placeholder="科目" @change="teachLoad(scope.row.timetable.day5.s_id)">
                                                     <el-option v-for="options in subject" :key="options.s_id" :label="options.s_name" :value="options.s_id"></el-option>
                                                 </el-select>
-                                                <el-select v-model="scope.row.timetable.day5.teacher_id" placeholder="老师">
+                                                <el-select v-model="scope.row.timetable.day5.teacher_id" :disabled="scope.row.timetable.day5.s_id==''" placeholder="老师">
                                                     <el-option v-for="option in teacher" :key="option.teacher_id" :label="option.teacher_name" :value="option.teacher_id"></el-option>
                                                 </el-select>
                                             </div>
@@ -166,7 +165,7 @@
                                                 <el-select v-model="scope.row.timetable.day6.s_id" placeholder="科目" @change="teachLoad(scope.row.timetable.day6.s_id)">
                                                     <el-option v-for="options in subject" :key="options.s_id" :label="options.s_name" :value="options.s_id"></el-option>
                                                 </el-select>
-                                                <el-select v-model="scope.row.timetable.day6.teacher_id" placeholder="老师">
+                                                <el-select v-model="scope.row.timetable.day6.teacher_id" :disabled="scope.row.timetable.day6.s_id==''" placeholder="老师">
                                                     <el-option v-for="option in teacher" :key="option.teacher_id" :label="option.teacher_name" :value="option.teacher_id"></el-option>
                                                 </el-select>
                                             </div>
@@ -178,7 +177,7 @@
                                                 <el-select v-model="scope.row.timetable.day7.s_id" placeholder="科目" @change="teachLoad(scope.row.timetable.day7.s_id)">
                                                     <el-option v-for="options in subject" :key="options.s_id" :label="options.s_name" :value="options.s_id"></el-option>
                                                 </el-select>
-                                                <el-select v-model="scope.row.timetable.day7.teacher_id" placeholder="老师">
+                                                <el-select v-model="scope.row.timetable.day7.teacher_id" :disabled="scope.row.timetable.day7.s_id==''" placeholder="老师">
                                                     <el-option v-for="option in teacher" :key="option.teacher_id" :label="option.teacher_name" :value="option.teacher_id"></el-option>
                                                 </el-select>
                                             </div>
@@ -191,9 +190,13 @@
                                 <el-button @click.native="cancelEdit">取消</el-button>
                             </div>
                         </div>
+                        <div v-if="tab_2" class="l_schedule_outer">
+                            <!-- 查看课表 -->
+                            <checkGradeSchedule :derpartId="derpartId" :tabsStatus="tabsStatus" @BackCli="Setback"></checkGradeSchedule>
+                        </div>
                     </div>
-                    <div v-if="state===1">
-                        
+                    <div v-if="state===1" class="l_timetable_outer">
+                        <gradeList :state="state"></gradeList>
                     </div>
                 </div>
             </div>
@@ -207,6 +210,8 @@ import titleItem from '@/components/main/title.vue'
 import titleActive from '@/components/main/titleActive.vue'
 import description from '@/components/main/description.vue'
 import bottomItem from '@/components/bottom/bottom.vue'
+import checkGradeSchedule from '@/components/class/gradeSchedule'
+import gradeList from '@/components/class/gradelist'
 import info from '@/utils/l_axios'
 
 export default {
@@ -222,7 +227,9 @@ export default {
                 `侧边栏可以进行高级搜索`
             ],
             state: 0,  //tabs的header
-            show: true, //总课表及排课切换
+            tab_0: true, //总课表及排课切换
+            tab_1: false, 
+            tab_2: false,  
             gradeS: '',  //年级select的值
             classS: '', //班级select的值
             searchInline: {  //按年级班级搜索
@@ -265,7 +272,9 @@ export default {
             subject: [],  //学习科目数据
             teacher: [], //老师数据 
             model:{},  //初始储存model_id,model_type,department_id三个属性
-            taData: []  //提交的json数据
+            taData: [],  //提交的json数据
+            tabsStatus: false,
+            derpartId: 0,
         }
     },
     created() {
@@ -276,7 +285,7 @@ export default {
         info.timeTable.call(this,this.gradeListParams,this.graClaId)   //总课表
     },
     components: {
-        titleItem, titleActive, description, bottomItem
+        titleItem, titleActive, description, bottomItem, checkGradeSchedule, gradeList
     },
     methods: {
         emitTransfer(index) {
@@ -309,9 +318,16 @@ export default {
             this.gradeModel.classType = type;
             info.scheduleBegin.call(this,this.gradeModel);
         },
+        checkSchedule(id,type){
+            this.loading = true;
+            this.tab_0 = false;
+            this.tab_2 = true;
+            this.derpartId = id;
+        },
         cancelEdit(){
             // 排课取消
-            this.show = !this.show;
+            this.tab_1 = false;
+            this.tab_0 = true;
             this.loading = false;
             setTimeout(function(){  //处理loading加载再次赋值为false后无效
                 window.location.reload(true);
@@ -329,6 +345,11 @@ export default {
         },
         teacClear(){
 
+        },
+        Setback(val){   
+            this.tab_2 = val;
+            this.tab_0 = !val;
+            this.loading = val;
         }
     },
     watch:{

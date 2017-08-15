@@ -21,7 +21,7 @@
                 </div>
                 <!--考勤统计-->
                 <div v-if="state==3&&addState!=1">
-                  <attendance :total="total" :attList="attList"></attendance>
+                  <attendance :total="total" :list="attList"></attendance>
                 </div>
                 <!--填写申请-->
                 <div v-if="addState==1">
@@ -58,6 +58,7 @@ import changeClass from '@/components/attendance/changeClass'
 import relieveClass from '@/components/attendance/relieveClass'
 import attendance from '@/components/attendance/attendance'
 import att from '@/utils/attendance'
+import { getClass } from '@/utils/auth'
 export default {
     data() {
         return {
@@ -71,8 +72,8 @@ export default {
                 `该页面展示管理员的操作日志，可进行删除。`,
                 `侧边栏可以进行高级搜索`
             ],
-            state: 2,
-            addState:1,//显示申请页面
+            state: 1,
+            addState:0,//显示申请页面
             promptsPad: true,
             total:0,//总条数
             currentPage:1,//当前页
@@ -82,13 +83,15 @@ export default {
             relList:[],//代课列表
             leaveList:[],//请假列表
             changeList:[],//调课列表
+            attList:[],//考勤列表
             searchMsg:'',//搜索
             Msg:'',//左下角选择框
-            attList:[],
+            isClassLogin:'',//登录状态（1.管理员；2.老师；3.学生）
         }
     },
     created() {
       this.refreshList();
+      this.isClassLogin=getClass();
     },
     components: {
         titleItem, titleActive, description, bottomItem,applyAdd,applyLeave,changeClass,relieveClass,attendance
@@ -122,7 +125,9 @@ export default {
             if(this.state==0){
               att.apply_leave.call(this,data);
             }else if(this.state==1){
-              att.apply_change.call(this.data);
+              att.apply_change.call(this,data);
+            }else{
+              att.apply_relieve.call(this,data)
             }
             this.refreshList();
           }).catch(() => {
@@ -140,6 +145,8 @@ export default {
           att.change_list.call(this);
         }else if(this.state==2){
           att.relieve_list.call(this);
+        }else{
+          att.attendance_list.call(this)
         }
       },
       //每页条数变化

@@ -14,7 +14,7 @@ export function removeToken() {
 }
 
 export function encodeUnicode(str) {
-  //转为unicode 编码  
+  //转为unicode 编码
   var res = [];
   for (var i = 0; i < str.length; i++) {
     res[i] = ("00" + str.charCodeAt(i).toString(16)).slice(-4);
@@ -32,4 +32,7 @@ export function isClassLogin(state) {
   }else{
     return Cookies.get(classLogin)
   }
+}
+export function getClass() {
+  return Cookies.get(classLogin)
 }
