@@ -23,4 +23,7 @@ export const api = {
     department_teacher_delete:"Admin/Department/department_teacher_delete",//删除组织部门-成员关系
     organize_member_list:"Admin/StoreGroup/organize_member_list",//用户管理列表
     position_add:"Admin/position/position_add",//增加职位
+    position_edit:"Admin/position/position_edit",//编辑职位
+    position_delete:"Admin/position/position_delete",//删除职位
+    position_list:"Admin/position/position_list",//职位列表
 }

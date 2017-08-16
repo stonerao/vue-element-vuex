@@ -155,18 +155,16 @@
                     <el-row :gutter="10" class="class-header">
                         <el-col :span="19" class="class-titles">
                             <span>
-                                <img src="../../assets/index/shuaxin.png" class="icon-img-xs marginleft5" @click="studentRefresh" />刷新-共1条记录</span>
-                            <span>当前总人数：
-                                <a class="red-color">1</a>人</span>
+                                <img src="../../assets/index/shuaxin.png" class="icon-img-xs marginleft5" @click="positionRefresh" />刷新-共{{positionList.page_total}}条记录</span>
     
                         </el-col>
                         <el-col :span="5">
-                            <el-input placeholder="输入名称" icon="search" size="small" v-model="obj.search" :on-icon-click="handleIconClick">
+                            <el-input placeholder="输入名称" icon="search" size="small" v-model="positionList.search" :on-icon-click="positionListIconClick">
                             </el-input>
                         </el-col>
                     </el-row>
     
-                    <el-table ref="multipleTable" :data="t_data" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange" class="z-text-over">
+                    <el-table ref="multipleTable" :data="positionList.items" tooltip-effect="dark" style="width: 100%" @selection-change="positionSelectionChange" class="z-text-over">
                         <el-table-column type="selection" width="55">
                         </el-table-column>
     
@@ -175,8 +173,8 @@
                         </el-table-column>
                         <el-table-column label="操作" width="150" show-overflow-tooltip>
                             <template scope="scope">
-                                <el-button size="mini" @click="setStu(scope.row)">编辑</el-button>
-                                <el-button size="mini" @click="userDelect(scope.row.teacher_id)">删除</el-button>
+                                <el-button size="mini" @click="setPositionUser(scope.row)">编辑</el-button>
+                                <el-button size="mini" @click="DeletePositionUser(scope.row.position_id)">删除</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -184,10 +182,10 @@
                     <div class="kd-page">
                         <el-row>
                             <el-col :span="12">
-                                <el-button type="primary" size="mini" @click="selectStudent">删除</el-button>
+                                <el-button type="primary" size="mini" @click="PositionSelectStudent">删除</el-button>
                             </el-col>
                             <el-col :span="12">
-                                <el-pagination class="float-right" @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="1" :page-sizes="[10, 15, 20, 25]" :page-size="1" layout="total, sizes, prev, pager, next, jumper" :total="1">
+                                <el-pagination class="float-right" @size-change="handleSizeChange" @current-change="positionCurrentChange" :current-page="positionList.page" :page-sizes="[positionList.curpage]" :page-size="positionList.curpage" layout="total, sizes, prev, pager, next, jumper" :total="positionList.page_total">
                                 </el-pagination>
                             </el-col>
                         </el-row>
@@ -218,8 +216,31 @@
                     </section>
                 </div>
                 <div v-if="state==6">
-                    <!--编辑组织架构 添加  -->
+                    <!--编辑组织架构 编辑 -->
                     <addSetUser state="1" :dataObj="dataObj" @QUITQROUP="QUITQROUP"></addSetUser>
+                </div>
+                <div v-if="state==7">
+                    <!--编辑职位  -->
+                    <section class="add-inp">
+                        <div class="add-inp-items">
+    
+                            <div class="add-inp-item">
+                                <div class="add-inp-item-name">
+                                    职位名称：
+                                </div>
+                                <div class="add-inp-item-inp">
+                                    <el-input v-model="setUserPositionVal" placeholder=""></el-input>
+                                </div>
+                            </div>
+    
+                            <div class="add-inp-btn">
+                                <div class="add-inp-item-name">
+                                </div>
+                                <el-button type="primary" @click="setUserPosition">保存</el-button>
+                                <el-button @click="quitUserPosition">取消</el-button>
+                            </div>
+                        </div>
+                    </section>
                 </div>
             </div>
             <bottomItem></bottomItem>
@@ -237,7 +258,6 @@
                     <el-button type="primary" size="small" @click="is_dialog=false">取消</el-button>
                 </p>
             </div>
-    
         </div>
     </div>
 </template>
@@ -301,7 +321,19 @@ export default {
                 page_total: 0,//总页数
                 items: []
             },
-            userPositionVal:"",//添加职位
+            userPositionVal: "",//添加职位
+            setUserPositionVal: '',//编辑职位
+            position_id: "",//拿来存储职位Id
+            positionList: {
+                search: "",
+                curpage: 10,
+                department_id: '',
+                page: 1,
+                page_total: 0,//总数量
+                items: [],
+                all_pagecount: '',
+                selectArr:[],//选择存储的数组
+            }
         }
     },
     created() {
@@ -323,6 +355,8 @@ export default {
             if (index == 1) {
                 // 点击用户管理
                 store.organize_member_list.call(this)
+            } else if (index == 3) {
+                store.position_list.call(this, '', 1)
             }
 
         },
@@ -467,11 +501,79 @@ export default {
         },
         addUserPosition() {
             //添加职位
-            store.position_add.call(this,this.userPositionVal)
-        }, 
+            store.position_add.call(this, this.userPositionVal)
+
+        },
         quitUserPosotion() {
             // 清除input value
             this.userPositionVal = ""
+        },
+        setPositionUser(obj) {
+            // 编辑职位
+            this.state = 7;
+            // 存储ID
+            this.position_id = obj.position_id;
+        },
+        DeletePositionUser(id) {
+            // 删除职位
+            this.$confirm('此操为删除, 是否继续?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                store.position_delete.call(this, id)
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '已取消删除'
+                });
+            });
+        },
+        setUserPosition(obj) {
+            //编辑职位后保存 
+            if (!this.position_id) {
+                return
+            }
+            store.position_edit.call(this, this.position_id, this.setUserPositionVal);
+        },
+        quitUserPosition() {
+            // 编辑后的取消
+            this.setUserPositionVal = "";
+            this.state = 3;
+
+        },
+        positionListIconClick() {
+            // 职位列表搜索 
+            let name = this.positionList.search;
+            store.position_list.call(this, name, 1)
+        },
+        positionCurrentChange(num) {
+            // 当前职位 跳转变换 
+            this.positionList.page= num;
+            
+            store.position_list.call(this, this.positionList.search)
+        },
+        positionRefresh(){
+            // 职位管理刷新
+            this.positionList.items=[];
+            store.position_list.call(this)
+        },
+        positionSelectionChange(obj){
+            // 职位管理选择 
+            let arr = [];
+            obj.forEach((x)=>{
+                arr.push(x.position_id)
+            });
+            console.log(arr)
+            this.positionList.selectArr=arr;
+            // this.DeletePositionUser(arr.join(","))
+        },
+        PositionSelectStudent(){
+            //批量删除职位管理
+            if(this.positionList.selectArr){
+                
+                this.DeletePositionUser(this.positionList.selectArr)
+            }
         }
     },
     watch: {
