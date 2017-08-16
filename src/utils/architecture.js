@@ -191,5 +191,65 @@ export default {
                 });
             }
         })
+    },
+    position_edit(id, name) {
+        this.$http({
+            method: "post",
+            url: api.position_edit,
+            data: {
+                position_id: id,
+                position_name: name,
+                token: getToken()
+            }
+        }).then((res) => {
+            if (res.data.status == 'true') {
+                this.$notify({
+                    title: '成功',
+                    message: res.data.msg,
+                    type: 'success'
+                });
+            } else {
+                this.$notify.info({
+                    message: res.data.msg
+                });
+            }
+        })
+    },
+    position_delete(id, name) {
+        this.$http({
+            method: "post",
+            url: api.position_delete,
+            data: {
+                position_id: id, 
+                token: getToken()
+            }
+        }).then((res) => {
+            if (res.data.status == 'true') {
+                this.$notify({
+                    title: '成功',
+                    message: res.data.msg,
+                    type: 'success'
+                });
+            } else {
+                this.$notify.info({
+                    message: res.data.msg
+                });
+            }
+        })
+    },
+    position_list(name,page){ 
+        this.$http(api.position_list,{
+            params:{
+                token:getToken(),
+                position_name:name,
+                curpage:this.positionList.curpage,
+                page:this.positionList.page
+            }
+        }).then((res)=>{
+            this.positionList.items = res.data.data
+            this.positionList.page_total = parseInt(res.data.page_total);//总数量
+            this.positionList.all_pagecount = parseInt(res.data.all_pagecount);//总页数
+
+        })
     }
 }
