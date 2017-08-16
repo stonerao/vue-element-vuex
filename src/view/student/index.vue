@@ -68,16 +68,12 @@
                                     </el-col>
                                     <el-col :span="12">
                                         <el-pagination class="float-right" @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="studentList.curpage" :page-sizes="[10, 15, 20, 25]" :page-size="studentList.page_count" layout="total, sizes, prev, pager, next, jumper" :total="studentList.total_num">
-                                        </el-pagination>
-    
+                                        </el-pagination> 
                                     </el-col>
-                                </el-row>
-    
+                                </el-row> 
                             </div>
-                        </el-col>
-    
-                    </el-row>
-    
+                        </el-col> 
+                    </el-row> 
                 </div>
                 <div v-if="state==1">
     
