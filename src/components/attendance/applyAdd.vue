@@ -98,9 +98,7 @@
         teacherId:'',//代课老师ID
         msg:'',//原因
         key:getToken(),//key值
-        myClassList:[
-          {contents_id:1, schedule_id:2, common_id:1, class_id:1, model_id:1, grade_id:1, lesson:'调课的课节名称'}
-        ],//本人当天课程
+        myClassList:[],//本人当天课程
         scheduleId:0,//调课课表id
         otherId:0,//他人课节id
         meId:0,//本人课节id

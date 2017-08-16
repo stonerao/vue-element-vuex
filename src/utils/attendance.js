@@ -1,29 +1,57 @@
 import {api} from '@/api/attendance'
 import { getToken } from '@/utils/auth'
+import { getClass } from '@/utils/auth'
+
 export default {
   // 请假列表
   leave_list(){
-    this.$http(api.leaveList,{
-      params:{
-        token:getToken(),
-        page:this.currentPage,
-        pagesize:this.pageSize,
-        status:this.status
-      }
-    }).then((res)=>{
-      this.leaveList=res.data.data.list;
-      this.currentPage=res.data.data.page;
-      this.total=parseInt(res.data.data.rows);
-      let arr=res.data.data.stutas;
-      this.checkTypeList=[];
-      for(let i=1;i<4;i++){
-        let obj={};
-        obj.value=i;
-        obj.name=arr[i];
-        this.checkTypeList.push(obj);
-      }
-      console.log(getToken())
-    })
+    const isClass=getClass();
+    if(isClass==2){
+      //老师进入
+      this.$http(api.leaveList,{
+        params:{
+          token:getToken(),
+          page:this.currentPage,
+          pagesize:this.pageSize,
+          status:this.status
+        }
+      }).then((res)=>{
+        this.leaveList=res.data.data.list;
+        this.currentPage=res.data.data.page;
+        this.total=parseInt(res.data.data.rows);
+        let arr=res.data.data.stutas;
+        this.checkTypeList=[];
+        for(let i=1;i<4;i++){
+          let obj={};
+          obj.value=i;
+          obj.name=arr[i];
+          this.checkTypeList.push(obj);
+        }
+        console.log(getToken())
+      })
+    }else{
+      this.$http(api.sleaveLlist,{
+        params:{
+          token:getToken(),
+          page:this.currentPage,
+          pagesize:this.pageSize,
+          status:this.status
+        }
+      }).then((res)=>{
+        console.log(res)
+        this.leaveList=res.data.data.list;
+        this.currentPage=res.data.data.page;
+        this.total=parseInt(res.data.data.rows);
+        let arr=res.data.data.stutas;
+        this.checkTypeList=[];
+        for(let i=1;i<4;i++){
+          let obj={};
+          obj.value=i;
+          obj.name=arr[i];
+          this.checkTypeList.push(obj);
+        }
+      })
+    }
   },
   //请假申请提交
   apply_leave(data){
@@ -88,7 +116,8 @@ export default {
       params:{
         token:getToken(),
         search_time_two:this.changeTime,
-        schedule_id:this.scheduleId
+        schedule_id:this.scheduleId,
+        contents_id:this.meId
       }
     }).then((res)=>{
       if(res.data.code==200){
@@ -171,18 +200,93 @@ export default {
       }
     })
   },
-  //老师的考勤记录
-  attendance_list(){
-    this.$http(api.attendanceList,{
+  //考勤记录
+  attendance_list(val){
+    const isClass=getClass();
+    if(isClass==1){
+      if(val){
+        this.$http(api.steacherAttendance,{
+
+        })
+      }else{
+
+      }
+    }else if(isClass==2){
+      //老师考勤记录
+      this.$http(api.attendanceList,{
+        params:{
+          token:getToken(),
+          page:this.currentPage,
+          pagesize:this.pageSize,
+        }
+      }).then((res)=>{
+
+      })
+    }else{
+
+    }
+
+  },
+  //审核调课/代课列表
+  approve_list(){
+    this.$http(api.approveList,{
       params:{
         token:getToken(),
         page:this.currentPage,
         pagesize:this.pageSize,
+        status:this.status
       }
     }).then((res)=>{
-      console.log(res)
+      if(res.data.code==200){
+        console.log(res)
+        this.waitList=res.data.data.list;
+        this.currentPage=res.data.data.page;
+        this.total=parseInt(res.data.data.rows);
+        let arr=res.data.data.stutas;
+        this.checkTypeList=[];
+        for(let i=1;i<4;i++){
+          let obj={};
+          obj.value=i;
+          obj.name=arr[i];
+          this.checkTypeList.push(obj);
+        }
+      }
     })
   },
-  //审核调课/代课列表
-
+  //老师调课/代课审批
+  approve_choose(num,id){
+    this.$http(api.approveChoose,{
+      params:{
+        token:getToken(),
+        id:id,
+        status:num
+      }
+    }).then((res)=>{
+      if(res.data.code==200){
+        this.$message({
+          message: res.data.data,
+          type: 'success'
+        });
+        this.refreshList();
+      }
+    })
+  },
+  //老师请假审批
+  sapply_leave(num,id){
+    this.$http(api.sapplyLeave,{
+      params:{
+        token:getToken(),
+        sign_leaveid:id,
+        status:num
+      }
+    }).then((res)=>{
+      if(res.data.code==200){
+        this.$message({
+          message: res.data.data,
+          type: 'success'
+        });
+        this.refreshList();
+      }
+    })
+  }
 }

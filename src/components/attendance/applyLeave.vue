@@ -4,10 +4,16 @@
       <el-col :span="4" class="class-titles">
         <img src="../../assets/index/shuaxin.png" class="icon-img-xs cursor"/>刷新-共{{total}}条记录
       </el-col>
-      <el-col :span="8">
+      <el-col v-if="isClassLogin==2" :span="8">
         <el-button type="primary" @click="apply"><b>+</b>请假申请</el-button>
       </el-col>
-      <el-col :span="12">
+      <el-col v-if="isClassLogin!=1" :span="12">
+        <el-select v-model="typeText1" @change="selectChange" placeholder="请选择审核状态" size="small" class="rt">
+          <el-option v-for="item in checkTypeList" :key="item.value" :label="item.name" :value="item.value">
+          </el-option>
+        </el-select>
+      </el-col>
+      <el-col v-else :span="20">
         <el-select v-model="typeText1" @change="selectChange" placeholder="请选择审核状态" size="small" class="rt">
           <el-option v-for="item in checkTypeList" :key="item.value" :label="item.name" :value="item.value">
           </el-option>
@@ -16,13 +22,13 @@
     </el-row>
     <el-table :data="list" style="width: 100%">
       <template scope="scope">
-        <el-table-column prop="sign_leaveid" label="ID" width="80">
+        <el-table-column prop="sign_leaveid" label="ID" width="50">
         </el-table-column>
         <el-table-column prop="leave_desc" label="请假事由"  show-overflow-tooltip >
         </el-table-column>
-        <el-table-column prop="start_time" label="请假开始时间" show-overflow-tooltip>
+        <el-table-column prop="start_time" label="请假开始时间" min-width="120" show-overflow-tooltip>
         </el-table-column>
-        <el-table-column prop="end_time" label="请假结束时间"  show-overflow-tooltip>
+        <el-table-column prop="end_time" label="请假结束时间" min-width="120" show-overflow-tooltip>
         </el-table-column>
         <el-table-column prop="duration" label="时长（小时）" width="120">
         </el-table-column>
@@ -37,13 +43,21 @@
         </el-table-column>
         <el-table-column prop="manager_name" label="审批人" width="80">
         </el-table-column>
+        <el-table-column v-if="isClassLogin==1" label="操作" width="150">
+          <template scope="scope">
+            <div v-if="scope.row.apply_stutas=='待审批'">
+              <el-button type="primary" size="small" @click="applyLeave(2,scope.row.sign_leaveid)">同意</el-button>
+              <el-button size="small" @click="applyLeave(3,scope.row.sign_leaveid)">拒绝</el-button>
+            </div>
+          </template>
+        </el-table-column>
       </template>
     </el-table>
   </div>
 </template>
 <script>
   export default{
-    props:['total','list','checkTypeList'],
+    props:['total','list','checkTypeList','isClassLogin'],
     data(){
       return{
         typeText1:'',//请假管理审核状态
@@ -56,6 +70,10 @@
       //选择审批状态
       selectChange(val){
         this.$emit('typeChange',val)
+      },
+      //学校中心同意老师请假申请
+      applyLeave(num,id){
+        this.$emit('leaveApply',num,id)
       }
     }
   }

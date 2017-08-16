@@ -9,7 +9,7 @@
                 <description :prompts="prompts" @PromPts="promptsTem"></description>
                 <!--请假管理-->
                 <div v-if="state==0&&addState!=1">
-                  <applyLeave :total="total" :checkTypeList="checkTypeList" :list="leaveList" @apply="showAdd" @typeChange="changeType"></applyLeave>
+                  <applyLeave :isClassLogin="isClassLogin" :total="total" :checkTypeList="checkTypeList" :list="leaveList" @apply="showAdd" @typeChange="changeType" @leaveApply="applyLeave"></applyLeave>
                 </div>
                 <!--调课管理-->
                 <div v-if="state==1&&addState!=1">
@@ -20,22 +20,26 @@
                   <relieveClass :total="total" :checkTypeList="checkTypeList" :list="relList" @apply="showAdd" @typeChange="changeType"></relieveClass>
                 </div>
                 <!--考勤统计-->
-                <div v-if="state==3&&addState!=1">
-                  <attendance :total="total" :list="attList"></attendance>
+                <div v-if="state==3">
+                  <attendance :total="total" :list="attList" :isClassLogin="isClassLogin" @sAttendance="attendanceList"></attendance>
                 </div>
+                <!--待我审批-->
+              <div v-if="state==4">
+                <waitApprove :total="total" :checkTypeList="checkTypeList" :list="waitList" @apply="showAdd" @typeChange="changeType" @chooseApprove="approveChoose"></waitApprove>
+              </div>
                 <!--填写申请-->
                 <div v-if="addState==1">
                   <applyAdd :state="state" @changeAddState="changeAdd" @submit="submitApply"></applyAdd>
                 </div>
                 <div class="kd-page" v-else>
                 <el-row>
-                  <el-col :span="12" style="padding-left:15px">
-                    <el-select v-model="Msg" placeholder="请选择" size="small" class="margin-left">
-                      <el-option v-for="item in attList" :key="item.leave_desc" :label="item.leave_desc" :value="item.sign_leaveid">
-                      </el-option>
-                    </el-select>
-                  </el-col>
-                  <el-col :span="12">
+                  <!--<el-col :span="12" style="padding-left:15px">-->
+                    <!--<el-select v-model="Msg" placeholder="请选择" size="small" class="margin-left">-->
+                      <!--<el-option v-for="item in attList" :key="item.leave_desc" :label="item.leave_desc" :value="item.sign_leaveid">-->
+                      <!--</el-option>-->
+                    <!--</el-select>-->
+                  <!--</el-col>-->
+                  <el-col :span="24">
                     <el-pagination class="float-right" :current-page="currentPage" :page-sizes="[10, 15, 20, 25]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total" @size-change="handleSizeChange" @current-change="handleCurrentChange">
                     </el-pagination>
                   </el-col>
@@ -57,6 +61,7 @@ import applyLeave from '@/components/attendance/applyLeave'
 import changeClass from '@/components/attendance/changeClass'
 import relieveClass from '@/components/attendance/relieveClass'
 import attendance from '@/components/attendance/attendance'
+import waitApprove from '@/components/attendance/waitApprove'
 import att from '@/utils/attendance'
 import { getClass } from '@/utils/auth'
 export default {
@@ -67,12 +72,13 @@ export default {
                 { name: "调课管理", index: 1 },
                 { name: "代课管理", index: 2 },
                 { name: "考勤统计", index: 3 },
+                { name: "待我审批", index: 4 },
             ],
             prompts: [
                 `该页面展示管理员的操作日志，可进行删除。`,
                 `侧边栏可以进行高级搜索`
             ],
-            state: 1,
+            state: 3,
             addState:0,//显示申请页面
             promptsPad: true,
             total:0,//总条数
@@ -84,17 +90,32 @@ export default {
             leaveList:[],//请假列表
             changeList:[],//调课列表
             attList:[],//考勤列表
+            waitList:[],//待我审批列表
             searchMsg:'',//搜索
             Msg:'',//左下角选择框
-            isClassLogin:'',//登录状态（1.管理员；2.老师；3.学生）
+            isClassLogin:1,//登录状态（1.管理员；2.老师；3.学生）
         }
     },
     created() {
       this.refreshList();
-      this.isClassLogin=getClass();
+//      this.isClassLogin=getClass();
+      if(this.isClassLogin==2){
+        this.titleItem=[
+          { name: "请假管理", index: 0 },
+          { name: "调课管理", index: 1 },
+          { name: "代课管理", index: 2 },
+          { name: "考勤统计", index: 3 },
+          { name: "待我审批", index: 4 }
+        ]
+      }else{
+        this.titleItem=[
+          { name: "请假管理", index: 0 },
+          { name: "考勤统计", index: 3 }
+        ]
+      }
     },
     components: {
-        titleItem, titleActive, description, bottomItem,applyAdd,applyLeave,changeClass,relieveClass,attendance
+        titleItem, titleActive, description, bottomItem,applyAdd,applyLeave,changeClass,relieveClass,attendance,waitApprove
     },
     methods: {
         emitTransfer(index) {
@@ -145,8 +166,16 @@ export default {
           att.change_list.call(this);
         }else if(this.state==2){
           att.relieve_list.call(this);
+        }else if(this.state==3){
+          if(this.isClassLogin==1){
+
+          }else if(this.isClassLogin==2){
+            att.attendance_list.call(this)
+          }else{
+
+          }
         }else{
-          att.attendance_list.call(this)
+          att.approve_list.call(this)
         }
       },
       //每页条数变化
@@ -159,10 +188,75 @@ export default {
         this.currentPage=val;
         this.refreshList();
       },
-      //审核状态选择(请假管理、调课管理、代课管理)
+      //审核状态选择(请假管理、调课管理、代课管理、待我审批)
       changeType(val){
         this.status=val;
         this.refreshList();
+      },
+      //老师待我审批同意或拒绝
+      approveChoose(num,id){
+        if(num==2){
+          this.$confirm('确定同意吗?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            att.approve_choose.call(this,num,id);
+
+          }).catch(() => {
+            this.$message({
+              type: 'info',
+              message: '已取消发送'
+            });
+          });
+        }else{
+          this.$confirm('确定拒绝吗?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            att.approve_choose.call(this,num,id);
+          }).catch(() => {
+            this.$message({
+              type: 'info',
+              message: '已取消发送'
+            });
+          });
+        }
+      },
+      //学校中心老师请假审批
+      applyLeave(num,id){
+        if(num==2){
+          this.$confirm('确定同意吗?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            att.sapply_leave.call(this,num,id)
+          }).catch(() => {
+            this.$message({
+              type: 'info',
+              message: '已取消发送'
+            });
+          });
+        }else{
+          this.$confirm('确定拒绝吗?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            att.sapply_leave.call(this,num,id)
+          }).catch(() => {
+            this.$message({
+              type: 'info',
+              message: '已取消发送'
+            });
+          });
+        }
+      },
+      //考勤管理
+      attendanceList(val){
+        att.attendance_list.call(this,val)
       }
     },
     watch:{
@@ -170,13 +264,17 @@ export default {
         this.refreshList();
       },
       state(){
-        this.refreshList()
+        this.currentPage=1;
+        this.pageSize=10;
+        this.refreshList();
       }
     }
 
 }
 </script>
 
-<style scoped>
-
+<style type="text/less" lang="less">
+  .hidden{
+    display: none;
+  }
 </style>
