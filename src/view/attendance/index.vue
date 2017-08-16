@@ -64,6 +64,7 @@ import attendance from '@/components/attendance/attendance'
 import waitApprove from '@/components/attendance/waitApprove'
 import att from '@/utils/attendance'
 import { getClass } from '@/utils/auth'
+import { getToken } from '@/utils/auth'
 export default {
     data() {
         return {
@@ -94,6 +95,9 @@ export default {
             searchMsg:'',//搜索
             Msg:'',//左下角选择框
             isClassLogin:1,//登录状态（1.管理员；2.老师；3.学生）
+            attType:true,//老师考勤/学生考勤
+            stime:'',//考勤统计时间开始
+            etime:'',//考勤统计时间结束
         }
     },
     created() {
@@ -167,13 +171,7 @@ export default {
         }else if(this.state==2){
           att.relieve_list.call(this);
         }else if(this.state==3){
-          if(this.isClassLogin==1){
-
-          }else if(this.isClassLogin==2){
-            att.attendance_list.call(this)
-          }else{
-
-          }
+          att.attendance_list.call(this,this.attType)
         }else{
           att.approve_list.call(this)
         }
@@ -255,8 +253,10 @@ export default {
         }
       },
       //考勤管理
-      attendanceList(val){
-        att.attendance_list.call(this,val)
+      attendanceList(val,stime,etime){
+        this.attType=val;
+        this.stime=stime;
+        this.etime=etime;
       }
     },
     watch:{

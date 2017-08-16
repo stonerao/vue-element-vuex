@@ -206,7 +206,18 @@ export default {
     if(isClass==1){
       if(val){
         this.$http(api.steacherAttendance,{
-
+          params:{
+            token:getToken(),
+            page:this.currentPage,
+            curpage:this.pageSize,
+            operate_start_time:this.stime,
+            operate_end_time:this.etime
+          }
+        }).then((res)=>{
+          console.log(res)
+          this.currentPage=res.data.page;
+          this.total=res.data.all_pagecount;
+          this.attList=res.data.data;
         })
       }else{
 

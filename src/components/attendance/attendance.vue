@@ -25,16 +25,20 @@
       return{
         value6:'',//考勤统计日期选择
         value3:true,//查看老师或学生考勤
+        startTime:'',//开始时间
+        endTime:'',//结束时间
       }
     },
     methods:{
       timeChange(val){
         let arr=val.split(' ');
+        this.startTime=Date.parse(arr[0]);
+        this.endTime=Date.parse(arr[2]);
       }
     },
     watch:{
       value3(val){
-        this.$emit('sAttendance',val)
+        this.$emit('sAttendance',val,this.startTime,this.endTime)
       }
     }
   }
