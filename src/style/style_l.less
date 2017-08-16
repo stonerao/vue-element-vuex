@@ -97,9 +97,14 @@
 			li{
 				float: left;
 				font-size: 18px;
-				color: @blue0;
+				color: @gray0;
 				padding-left: 19px;
 				position: relative;
+				margin-right: 20px;
+				cursor: pointer;
+				&.active{
+					color: @blue0;
+				}
 				&:before{
 					content: ''; 
 					width: 10px;
@@ -108,7 +113,7 @@
 					-webkit-border-radius: 10px;
 					-ms-border-radius: 10px;
 					border-radius: 10px;
-					background: @blue0;
+					background: @gray0;
 					position: absolute;
 					left: 0px;
 					top: 50%;
@@ -116,6 +121,9 @@
 					-moz-transform: translate(0px,-50%);
 					-ms-transform: translate(0px,-50%);
 					transform: translate(0px,-50%);
+				}
+				&.active:before{
+					background: @blue0;
 				}
 			}
 		}
@@ -307,7 +315,7 @@
 			}
 		}
 		.check_handle{
-			padding: 25px 0px 10px 23px;
+			padding: 25px 23px 10px 23px;
 			text-align: right;
 			button{
 				margin-right: 8px;
@@ -363,6 +371,54 @@
 						margin-right: 0px;
 					}
 				}
+			}
+		}
+	}
+
+	/* 虚拟班排课第一步 */
+	.l_virtual_wraper{
+		padding: 43px 82px 366px 82px;
+		.form_group{
+			padding: 13px 0px;
+			ul{
+				li{
+					float: left;
+					font-size: 12px;
+					color: @gray2;
+					vertical-align: middle;
+					height: 36px;
+					line-height: 36px;
+					&.header{
+						width: 140px;
+						text-align: right;
+						margin-right: 15px;
+					}
+					.el-button{
+						padding: 10px 28px;
+					}
+					.el-form-item{
+						margin-bottom: 0px;
+						.el-form-item__label{
+							background: @blue0;
+							color: #fff;
+							padding: 11px;
+							vertical-align: middle;
+						}
+						.el-form-item__content{
+							vertical-align: middle;
+							width: 100px;
+						}
+						.el-input__inner{
+							border-radius: 0px;
+						}
+					}
+				}
+			}
+			.inline-block{
+				display: inline-block;
+			}
+			.middle_zhi{
+				padding: 0px 16px;
 			}
 		}
 	}

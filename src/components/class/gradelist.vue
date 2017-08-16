@@ -155,6 +155,9 @@
 					</div>
                 </div>
 	        </div>
+	        <div v-if="switch_2">
+	        	
+	        </div>
 	    </div>
 	</div>
 </template>
@@ -176,7 +179,8 @@ export default {
             loading: false,
             hasData: true,
             switch_0: true,
-            switch_1: false,
+            switch_1: false, //年级查看模板
+            switch_1: false, //年级创建模板
             gradeDetailData: [],
         }
     },

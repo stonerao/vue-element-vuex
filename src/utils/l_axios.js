@@ -4,8 +4,8 @@ import {removeToken} from '@/utils/auth'
 
 export default {
 
-    //总课表数据上方搜索框数据加载
-    gradeSearch(obj) {
+        //总课表数据上方搜索框数据加载
+        gradeSearch(obj) {
             this.$http(api.gradeSearch, {
                 params: {
                     token: getToken(),
@@ -69,6 +69,11 @@ export default {
 
         //总课表处点击排课后进行排课初始数据获取
         scheduleBegin(obj) {
+            if(obj.classType == 2){  //虚拟班排课开始
+                this.tab_0 = false;
+                this.tab_x_1 = true;
+                return;
+            }
             this.$http(api.scheduleData, {
                 params: {
                     token: getToken(),
@@ -79,41 +84,55 @@ export default {
                 // console.log(res);
                 this.model = {};
                 if (res.status === 200) {
-                    if(res.data.code!=400){
-                        this.tableData = [];
-                        this.loading = false;
-                        this.tab_0 = false;
-                        this.tab_1 = true;
-                        this.model = {
-                            id: res.data.data.model_id,
-                            type: res.data.data.model_type,
-                            deparId: res.data.data.department_id
-                        };
-                        let tableData = res.data.data.class_time;
-                        tableData.forEach((x) => {
-                            let days = x.teaching_days.split(",");
-                            let arr = {};
-                            for (var k in days) {
-                                arr[`day${days[k]}`] = {
-                                    teacher_id: '',
-                                    s_id: '',
-                                    common_id: x.common_id,
-                                    week_day: k,
-                                    lesson: x.lesson,
-                                };
-                            }
-                            x.timetable = arr;
-                            x.length = days.length;
-                            this.tableData.push(x)
-                        });
-                        // console.log(this.tableData)
-                        this.ajax();  //请求科目列表
-                        this.editData.scheTableOrder = res.data.data.department_name;
-                    }else{
-                        this.loading = false;
-                        this.$notify.error({
-                            message: res.data.data.error
-                        });
+                    if(obj.classType == 1){
+                        if(res.data.code!=400){
+                            this.tableData = [];
+                            this.loading = false;
+                            this.tab_0 = false;
+                            this.tab_1 = true;
+                            this.model = {
+                                id: res.data.data.model_id,
+                                type: res.data.data.model_type,
+                                deparId: res.data.data.department_id
+                            };
+                            let tableData = res.data.data.class_time;
+                            tableData.forEach((x) => {
+                                let days = x.teaching_days.split(",");
+                                let obj = {};
+                                for (var k in days) {
+                                    obj[`day${days[k]}`] = {
+                                        teacher_id: '',
+                                        s_id: '',
+                                        common_id: x.common_id,
+                                        week_day: parseInt(k)+1,
+                                        lesson: x.lesson,
+                                    };
+                                }
+                                x.timetable = obj;
+                                x.length = days.length;
+                                this.tableData.push(x)
+                            });
+                            console.log(this.tableData)
+                            this.ajax();  //请求科目列表
+                            this.editData.scheTableOrder = res.data.data.department_name;
+                        }else{
+                            this.loading = false;
+                            this.$notify.error({
+                                message: res.data.data.error
+                            });
+                        }
+                    } else if(obj.classType == 2){
+                        if(res.data.code!=400){
+                            this.loading = false;
+                            this.tab_0 = false;
+                            this.tab_x_1 = true;
+                            
+                        }else{
+                            this.loading = false;
+                            this.$notify.error({
+                                message: res.data.data.error
+                            });
+                        }
                     }
                 }else{
                     this.$notify.error({
@@ -145,7 +164,7 @@ export default {
                     s_id: id
                 }
             }).then((res) => {
-                console.log(res);
+                // console.log(res);
                 this.teacher = [];
                 if (res.status === 200) {
                     this.teacher = res.data.data;
@@ -208,13 +227,41 @@ export default {
             })
         },
 
-        // 查看班级课表
-        checkGradeSche(id) {
+        // 查看班级课表--表头
+        classSche(deparId) {
+            this.$http(api.classSche, {
+                params: {
+                    token: getToken(),
+                    id: deparId 
+                }
+            }).then((res) => {
+                // console.log(res);
+                if (res.status === 200) {
+                    if(res.data.code!=400){
+                        this.schedule_id = res.data.data[0].schedule_id;
+                        this.scheTableHeader = res.data.data
+                        this.Ajax(this.schedule_id);
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                        this.loading = false;
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
+        // 查看班级课表---详细
+        checkGradeSche(deparId,scheid) {
             this.$http(api.checkGradeSche, {
                 params: {
                     token: getToken(),
-                    id: id,
-                    status: '1',
+                    id: deparId,
+                    schedule_id: scheid
                 }
             }).then((res) => {
                 console.log(res);
@@ -230,7 +277,6 @@ export default {
                             start_time: unixTimestamps.toLocaleString(),
                             end_time: unixTimestampe.toLocaleString(),
                         }
-                        console.log(this.scheHeader)
                     }else{
                         this.$notify.error({
                             message: res.data.data.error
@@ -244,6 +290,33 @@ export default {
                 }
             })
         },
+
+        // 虚拟班排课第一步
+        virtualArrangeA(departId) {
+            this.$http(api.virtualA, {
+                params: {
+                    token: getToken(),
+                    department_id: departId
+                }
+            }).then((res) => {
+                console.log(res);
+                if (res.status === 200) {
+                    if(res.data.code!=400){
+                        
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                        this.loading = false;
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
 
         // 年级列表
         gradeAllList(obj) {

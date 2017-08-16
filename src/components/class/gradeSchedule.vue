@@ -3,8 +3,7 @@
         <!-- 班级查看课表 -->
         <div class="check_schedule sche_list_header">
             <ul class="clearfloat">
-                <!-- <li>初2017级年级1班课表1</li> -->
-                <li>课表1</li>
+                <li v-for="(sche,index) in scheTableHeader" @click="scheduleTab(sche.schedule_id,index)" v-bind:class="{ active: isActive==index }">{{sche.schedule_name}}</li>
             </ul>
         </div>
         <div class="l_search1">
@@ -38,7 +37,7 @@
                 <el-table-column prop="school_time" label="节次"></el-table-column>
                 <el-table-column label="星期一">
                     <template scope="scope">
-                        <div v-if="show_select&&scope.row.timetable.day1">
+                        <div v-if="scope.row.timetable.day1">
                             <el-select v-model="scope.row.timetable.day1.s_id" placeholder="科目" @change="teachLoad(scope.row.timetable.day1.s_id)">
                                 <el-option v-for="options in subject" :key="options.s_id" :label="options.s_name" :value="options.s_id"></el-option>
                             </el-select>
@@ -50,7 +49,7 @@
                 </el-table-column>
                 <el-table-column label="星期二">
                     <template scope="scope">
-                        <div v-if="show_select&&scope.row.timetable.day2">
+                        <div v-if="scope.row.timetable.day2">
                             <el-select v-model="scope.row.timetable.day2.s_id" placeholder="科目" @change="teachLoad(scope.row.timetable.day2.s_id)">
                                 <el-option v-for="options in subject" :key="options.s_id" :label="options.s_name" :value="options.s_id"></el-option>
                             </el-select>
@@ -62,7 +61,7 @@
                 </el-table-column>
                 <el-table-column label="星期三">
                     <template scope="scope">
-                        <div v-if="show_select&&scope.row.timetable.day3">
+                        <div v-if="scope.row.timetable.day3">
                             <el-select v-model="scope.row.timetable.day3.s_id" placeholder="科目" @change="teachLoad(scope.row.timetable.day3.s_id)">
                                 <el-option v-for="options in subject" :key="options.s_id" :label="options.s_name" :value="options.s_id"></el-option>
                             </el-select>
@@ -74,7 +73,7 @@
                 </el-table-column>
                 <el-table-column label="星期四">
                     <template scope="scope">
-                        <div v-if="show_select&&scope.row.timetable.day4">
+                        <div v-if="scope.row.timetable.day4">
                             <el-select v-model="scope.row.timetable.day4.s_id" placeholder="科目" @change="teachLoad(scope.row.timetable.day4.s_id)">
                                 <el-option v-for="options in subject" :key="options.s_id" :label="options.s_name" :value="options.s_id"></el-option>
                             </el-select>
@@ -86,7 +85,7 @@
                 </el-table-column>
                 <el-table-column label="星期五">
                     <template scope="scope">
-                        <div v-if="show_select&&scope.row.timetable.day5">
+                        <div v-if="scope.row.timetable.day5">
                             <el-select v-model="scope.row.timetable.day5.s_id" placeholder="科目" @change="teachLoad(scope.row.timetable.day5.s_id)">
                                 <el-option v-for="options in subject" :key="options.s_id" :label="options.s_name" :value="options.s_id"></el-option>
                             </el-select>
@@ -98,7 +97,7 @@
                 </el-table-column>
                 <el-table-column label="星期六">
                     <template scope="scope">
-                        <div v-if="show_select&&scope.row.timetable.day6">
+                        <div v-if="scope.row.timetable.day6">
                             <el-select v-model="scope.row.timetable.day6.s_id" placeholder="科目" @change="teachLoad(scope.row.timetable.day6.s_id)">
                                 <el-option v-for="options in subject" :key="options.s_id" :label="options.s_name" :value="options.s_id"></el-option>
                             </el-select>
@@ -110,7 +109,7 @@
                 </el-table-column>
                 <el-table-column label="星期日">
                     <template scope="scope">
-                        <div v-if="show_select&&scope.row.timetable.day7">
+                        <div v-if="scope.row.timetable.day7">
                             <el-select v-model="scope.row.timetable.day7.s_id" placeholder="科目" @change="teachLoad(scope.row.timetable.day7.s_id)">
                                 <el-option v-for="options in subject" :key="options.s_id" :label="options.s_name" :value="options.s_id"></el-option>
                             </el-select>
@@ -132,22 +131,35 @@ export default {
     data() {
         return {
             schedData: [],
+            scheTableHeader: [],
             scheHeader: {
                 name: '',
                 start_time: '',
                 end_time: '',
             },
+            schedule_id: 0, //课表id
+            isActive: 0,  //表头切换active效果
         }
     },
     created() {
         if(!this.tabsStatus){
-            info.checkGradeSche.call(this,this.derpartId)
+            // 课表名称
+            info.classSche.call(this,this.derpartId);
         }
     },
     components: {
         
     },
     methods: {
+        scheduleTab(id,index){
+            this.isActive = index;
+            this.schedule_id = id;
+            info.checkGradeSche.call(this,this.derpartId,this.schedule_id);
+        },
+        Ajax(schedule){
+            // 课表数据
+            info.checkGradeSche.call(this,this.derpartId,schedule);
+        },
         back(){
            this.$emit("BackCli")
         }

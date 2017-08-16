@@ -1,6 +1,7 @@
 .l_layout_outer {
   /* 年或班级排课 */
   /*排课操作*/
+  /* 虚拟班排课第一步 */
 }
 .l_layout_outer .clearfloat:after {
   content: '';
@@ -94,9 +95,14 @@
 .l_layout_outer .l_schedule_outer .sche_list_header li {
   float: left;
   font-size: 18px;
-  color: #1997e4;
+  color: #dbdbdb;
   padding-left: 19px;
   position: relative;
+  margin-right: 20px;
+  cursor: pointer;
+}
+.l_layout_outer .l_schedule_outer .sche_list_header li.active {
+  color: #1997e4;
 }
 .l_layout_outer .l_schedule_outer .sche_list_header li:before {
   content: '';
@@ -106,7 +112,7 @@
   -webkit-border-radius: 10px;
   -ms-border-radius: 10px;
   border-radius: 10px;
-  background: #1997e4;
+  background: #dbdbdb;
   position: absolute;
   left: 0px;
   top: 50%;
@@ -114,6 +120,9 @@
   -moz-transform: translate(0px, -50%);
   -ms-transform: translate(0px, -50%);
   transform: translate(0px, -50%);
+}
+.l_layout_outer .l_schedule_outer .sche_list_header li.active:before {
+  background: #1997e4;
 }
 .l_layout_outer .l_schedule_outer .l_search_outer {
   padding: 0px 18px;
@@ -256,7 +265,7 @@
   margin-right: 30px;
 }
 .l_layout_outer .l_check_outer .check_handle {
-  padding: 25px 0px 10px 23px;
+  padding: 25px 23px 10px 23px;
   text-align: right;
 }
 .l_layout_outer .l_check_outer .check_handle button {
@@ -310,6 +319,50 @@
 }
 .l_layout_outer .l_checkdetail_outer .l_checkdetail .l_grade_detail_handle button:last-child {
   margin-right: 0px;
+}
+.l_layout_outer .l_virtual_wraper {
+  padding: 43px 82px 366px 82px;
+}
+.l_layout_outer .l_virtual_wraper .form_group {
+  padding: 13px 0px;
+}
+.l_layout_outer .l_virtual_wraper .form_group ul li {
+  float: left;
+  font-size: 12px;
+  color: #5b5b5b;
+  vertical-align: middle;
+  height: 36px;
+  line-height: 36px;
+}
+.l_layout_outer .l_virtual_wraper .form_group ul li.header {
+  width: 140px;
+  text-align: right;
+  margin-right: 15px;
+}
+.l_layout_outer .l_virtual_wraper .form_group ul li .el-button {
+  padding: 10px 28px;
+}
+.l_layout_outer .l_virtual_wraper .form_group ul li .el-form-item {
+  margin-bottom: 0px;
+}
+.l_layout_outer .l_virtual_wraper .form_group ul li .el-form-item .el-form-item__label {
+  background: #1997e4;
+  color: #fff;
+  padding: 11px;
+  vertical-align: middle;
+}
+.l_layout_outer .l_virtual_wraper .form_group ul li .el-form-item .el-form-item__content {
+  vertical-align: middle;
+  width: 100px;
+}
+.l_layout_outer .l_virtual_wraper .form_group ul li .el-form-item .el-input__inner {
+  border-radius: 0px;
+}
+.l_layout_outer .l_virtual_wraper .form_group .inline-block {
+  display: inline-block;
+}
+.l_layout_outer .l_virtual_wraper .form_group .middle_zhi {
+  padding: 0px 16px;
 }
 @media screen and (max-width: 1618px) {
   .l_layout_outer .l_graCla_list .li_list {
