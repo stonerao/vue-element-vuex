@@ -10,4 +10,9 @@ export const api={
   applyRelieve:'Teacher/Timetag/substitute',//老师代课申请
   attendanceList:'Teacher/Timetag/sign_list',//老师的考勤记录
   approveList:'Teacher/Timetag/approve_list',//审核调课/代课列表
+  approveChoose:'Teacher/Timetag/approve',//老师调课/代课审批
+  sleaveLlist:'Admin/Timetag/leave_list',//学校中心查看老师请假记录
+  sapplyLeave:'Admin/Timetag/leave_approve',//老师请假审批
+  steacherAttendance:'Admin/Grade/show_teacher_attendance_by_month',//按月查看老师考勤统计
+  sstudentAttendance:'Admin/Grade/show_student_attendance_by_month',//按月查看学生考勤统计
 }
