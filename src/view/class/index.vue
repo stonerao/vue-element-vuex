@@ -44,8 +44,8 @@
                                         </div>
                                         <div class="bottom-block">
                                             <div class="button-group">
-                                                <el-button size="small" @click.native="schedule(gra.department_id,gra.special_tag)">排课</el-button>
-                                                <el-button size="small" @click.native="checkSchedule(gra.department_id,gra.special_tag)">查课</el-button>
+                                                <el-button size="small" :disabled="gra.add_status == 0" @click.native="schedule(gra.department_id,gra.special_tag)">排课</el-button>
+                                                <el-button size="small" :disabled="gra.info_status == 0" @click.native="checkSchedule(gra.department_id,gra.special_tag)">查课</el-button>
                                                 <el-button size="small">日志</el-button>
                                             </div>
                                         </div>
@@ -94,10 +94,10 @@
                                     <el-table-column prop="time" label="时段">
                                         <template scope="scope">
                                             <!-- 判断值: 1为早上 -->
-                                            <span v-if="scope.row.timetable.day1.lesson == 1">早读</span>
-                                            <span v-if="scope.row.timetable.day1.lesson == 2">上午</span>
-                                            <span v-if="scope.row.timetable.day1.lesson == 3">下午</span>
-                                            <span v-if="scope.row.timetable.day1.lesson == 4">晚上</span>
+                                            <span v-if="scope.row.lesson == 1">早读</span>
+                                            <span v-if="scope.row.lesson == 2">上午</span>
+                                            <span v-if="scope.row.lesson == 3">下午</span>
+                                            <span v-if="scope.row.lesson == 4">晚上</span>
                                         </template>
                                     </el-table-column>
                                     <el-table-column prop="school_time" label="节次"></el-table-column>
@@ -195,7 +195,7 @@
                     
                         <div v-if="tab_x_1" class="l_schedule_outer">
                             <!-- 虚拟班排课 -->
-                            <virtualclass :derpartIdV="derpartId" @Cancel="Setback_v"></virtualclass>
+                            <virtualclass :conpVirtual="conpVirtual" :derpartId="derpartId" @Cancel="Setback_v"></virtualclass>
                         </div>
 
                         <div v-if="tab_2" class="l_schedule_outer">
@@ -240,6 +240,7 @@ export default {
             tab_1: false, 
             tab_2: false, 
             tab_x_1: false,  //虚拟班排课
+            conpVirtual: true,  //此处调用虚拟班排课组件状态判断
             gradeS: '',  //年级select的值
             classS: '', //班级select的值
             searchInline: {  //按年级班级搜索
@@ -320,6 +321,7 @@ export default {
         },
         schedule(id,type) {
             // 切换到排课模块
+            this.derpartId = id;
             if(this.loading != false){
                 this.loading = false;
             }
@@ -329,10 +331,10 @@ export default {
             info.scheduleBegin.call(this,this.gradeModel);
         },
         checkSchedule(id,type){
+            this.derpartId = id;
             this.loading = true;
             this.tab_0 = false;
             this.tab_2 = true;
-            this.derpartId = id;
         },
         cancelEdit(){
             // 排课取消

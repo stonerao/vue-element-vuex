@@ -1,6 +1,7 @@
 import {api} from '@/api/grade'
 import {getToken} from '@/utils/auth'
 import {removeToken} from '@/utils/auth'
+import {encodeUnicode} from '@/utils/auth'
 
 export default {
 
@@ -34,7 +35,7 @@ export default {
                     id: objId.c_id
                 }
             }).then((res) => {
-                // console.log(res);
+                console.log(res);
                 if (res.status === 200) {
                     let data = res.data.data.list;
                     if (data.length != 0) {
@@ -51,7 +52,9 @@ export default {
                                 p_name: x.p_name,
                                 pid: x.pid,
                                 student_num: x.student_num,
-                                special_tag: x.special_tag
+                                special_tag: x.special_tag,
+                                add_status: x.add_status,
+                                info_status: x.info_status
                             })
                             this.gradeListParams.curpage = res.data.data.page;
                             this.gradeListParams.page_count = res.data.data.page_count;
@@ -81,7 +84,7 @@ export default {
                     type: obj.classType
                 }
             }).then((res) => {
-                // console.log(res);
+                console.log(res);
                 this.model = {};
                 if (res.status === 200) {
                     if(obj.classType == 1){
@@ -104,15 +107,14 @@ export default {
                                         teacher_id: '',
                                         s_id: '',
                                         common_id: x.common_id,
-                                        week_day: parseInt(k)+1,
-                                        lesson: x.lesson,
+                                        week_day: parseInt(`${days[k]}`),
                                     };
                                 }
                                 x.timetable = obj;
                                 x.length = days.length;
                                 this.tableData.push(x)
                             });
-                            console.log(this.tableData)
+                            console.log(this.tableData);
                             this.ajax();  //请求科目列表
                             this.editData.scheTableOrder = res.data.data.department_name;
                         }else{
@@ -181,14 +183,14 @@ export default {
             let _begin = this.tableData;
             _begin.forEach((data) => {   //进入每一行
                 let time = data.timetable;  //进入每一个的timetable
-                let circle =[time.day1, time.day2, time.day3, time.day4, time.day5, time.day6, time.day7]
+                let circle =[time.day1, time.day2, time.day3, time.day4, time.day5, time.day6, time.day7];
                 circle.forEach((x) => {
                     if(x){
                         this.taData.push(x);
                     }
                 })
             });
-            // console.log(this.taData);
+            console.log(this.taData);
             this.$http({
                 url: api.scheduleSave,
                 method: 'post',
@@ -200,7 +202,7 @@ export default {
                     model_type: mod.type,
                     model_id: mod.id,
                     department_id: mod.deparId,   //班级id
-                    timetable: this.taData,
+                    timetable: encodeUnicode(JSON.stringify(this.taData)),
                 }
             }).then((res) => {
                 // console.log(res)
@@ -277,6 +279,7 @@ export default {
                             start_time: unixTimestamps.toLocaleString(),
                             end_time: unixTimestampe.toLocaleString(),
                         }
+                        this.schedData = res.data.data.model_common;
                     }else{
                         this.$notify.error({
                             message: res.data.data.error
@@ -299,15 +302,65 @@ export default {
                     department_id: departId
                 }
             }).then((res) => {
-                console.log(res);
+                // console.log(res);
                 if (res.status === 200) {
                     if(res.data.code!=400){
-                        
+                        this.moduleName = res.data.data.department_name;
                     }else{
                         this.$notify.error({
                             message: res.data.data.error
                         });
                         this.loading = false;
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
+        // 虚拟班排课第一步--保存
+        virtualArrangeB(departId,teachStr,teachNum,hourType,time) {
+            if(teachStr){
+                let newWeek = teachStr;
+                for(var i=0;i<newWeek.length;i++){
+                    newWeek[i]++;
+                };
+                this.week_checkList_string = newWeek.sort().join(",");
+            }
+            if(hourType == 2){
+                time.start = this.formatDate(time.start);
+                time.end = this.formatDate(time.end);
+                time.start_w = this.formatDate(time.start_w);
+                time.end_w = this.formatDate(time.end_w);
+            }
+            this.$http({
+                url: api.virtualB,
+                method: 'post',
+                data: {
+                    token: getToken(),
+                    department_id: departId,
+                    model_name: this.moduleName,
+                    teaching_day: this.week_checkList_string,
+                    teaching_num: teachNum,
+                    hours_type: hourType,   //作息方式
+                    summer_hours_start_time: time.start,
+                    summer_hours_end_time: time.end,   
+                    winter_hours_start_time: time.start_w,   
+                    winter_hours_end_time: time.end_w,   
+                }
+            }).then((res) => {
+                console.log(res);
+                if (res.status === 200) {
+                    if(res.data.code!=400){
+
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                        this.loading = false;
+                        this.week_checkList= [];
                     }
                 }else {
                     this.$notify.error({
@@ -327,7 +380,7 @@ export default {
                     curpage: obj.one_pagenum,
                 }
             }).then((res) => {
-                // console.log(res);
+                console.log(res);
                 if (res.status === 200) {
                     if(res.data.code!=400){
                         let data = res.data.data;
@@ -340,10 +393,11 @@ export default {
                                     class_num: x.class_num,
                                     student_num: x.student_num,
                                     model_id: x.model_id,
-                                    special_tag: x.special_tag
+                                    special_tag: x.special_tag,
+                                    have_model_status: x.have_model_status
                                 })
                                 this.gradeParams.curpage = res.data.page;
-                                // this.gradeParams.page_count = res.data.page_count;
+                                this.gradeParams.page_count = res.data.all_pagecount;
                                 this.gradeParams.total_num = parseInt(res.data.page_total);
                             })
                         }else{
@@ -371,7 +425,7 @@ export default {
                     model_id: id,
                 }
             }).then((res) => {
-                console.log(res);
+                // console.log(res);
                 if (res.status === 200) {
                     if(res.data.code!=400){
                         this.switch_0 = false;
@@ -390,4 +444,14 @@ export default {
                 }
             })
         },
+
+        // 标准中国时间转换获取月日
+        formatDate(date) {  
+            let y = date.getFullYear();  
+            let m = date.getMonth() + 1;  
+                m = m < 10 ? '0' + m : m;  
+            let d = date.getDate();  
+                d = d < 10 ? ('0' + d) : d;  
+            return  m + d;  
+        }, 
 }

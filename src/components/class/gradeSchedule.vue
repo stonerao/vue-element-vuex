@@ -25,100 +25,66 @@
         </div>
         <div class="sche_table">
             <el-table :data="schedData" border style="width: 100%">
-                <el-table-column prop="time" label="时段">
+                <el-table-column label="时段">
                     <template scope="scope">
-                        <!-- 判断值: 1为早上 -->
-                        <span v-if="scope.row.timetable.day1.lesson == 1">早读</span>
-                        <span v-if="scope.row.timetable.day1.lesson == 2">上午</span>
-                        <span v-if="scope.row.timetable.day1.lesson == 3">下午</span>
-                        <span v-if="scope.row.timetable.day1.lesson == 4">晚上</span>
+                        <span v-if="scope.row.lesson == 1">早读</span>
+                        <span v-if="scope.row.lesson == 2">上午</span>
+                        <span v-if="scope.row.lesson == 3">下午</span>
+                        <span v-if="scope.row.lesson == 4">晚上</span>
                     </template>
                 </el-table-column>
-                <el-table-column prop="school_time" label="节次"></el-table-column>
+                <el-table-column label="节次">
+                    <template scope="scope">{{scope.row.school_time}}</template>
+                </el-table-column>
                 <el-table-column label="星期一">
-                    <template scope="scope">
-                        <div v-if="scope.row.timetable.day1">
-                            <el-select v-model="scope.row.timetable.day1.s_id" placeholder="科目" @change="teachLoad(scope.row.timetable.day1.s_id)">
-                                <el-option v-for="options in subject" :key="options.s_id" :label="options.s_name" :value="options.s_id"></el-option>
-                            </el-select>
-                            <el-select v-model="scope.row.timetable.day1.teacher_id" :disabled="scope.row.timetable.day1.s_id==''" placeholder="老师" @click.native="teacClear">
-                                <el-option v-for="option in teacher" :key="option.teacher_id" :label="option.teacher_name" :value="option.teacher_id"></el-option>
-                            </el-select>
+                    <template scope="scope" v-if="scope.row.content.day1">
+                        <div v-if="scope.row.content.day1.s_name&&scope.row.content.day1.teacher_name">
+                            {{scope.row.content.day1.s_name}} - {{scope.row.content.day1.teacher_name}}
                         </div>
                     </template>
                 </el-table-column>
                 <el-table-column label="星期二">
-                    <template scope="scope">
-                        <div v-if="scope.row.timetable.day2">
-                            <el-select v-model="scope.row.timetable.day2.s_id" placeholder="科目" @change="teachLoad(scope.row.timetable.day2.s_id)">
-                                <el-option v-for="options in subject" :key="options.s_id" :label="options.s_name" :value="options.s_id"></el-option>
-                            </el-select>
-                            <el-select v-model="scope.row.timetable.day2.teacher_id" :disabled="scope.row.timetable.day2.s_id==''" placeholder="老师">
-                                <el-option v-for="option in teacher" :key="option.teacher_id" :label="option.teacher_name" :value="option.teacher_id"></el-option>
-                            </el-select>
+                    <template scope="scope" v-if="scope.row.content.day2">
+                        <div v-if="scope.row.content.day2.s_name&&scope.row.content.day2.teacher_name">
+                            {{scope.row.content.day2.s_name}} - {{scope.row.content.day2.teacher_name}}
                         </div>
                     </template>
                 </el-table-column>
                 <el-table-column label="星期三">
-                    <template scope="scope">
-                        <div v-if="scope.row.timetable.day3">
-                            <el-select v-model="scope.row.timetable.day3.s_id" placeholder="科目" @change="teachLoad(scope.row.timetable.day3.s_id)">
-                                <el-option v-for="options in subject" :key="options.s_id" :label="options.s_name" :value="options.s_id"></el-option>
-                            </el-select>
-                            <el-select v-model="scope.row.timetable.day3.teacher_id" :disabled="scope.row.timetable.day3.s_id==''" placeholder="老师">
-                                <el-option v-for="option in teacher" :key="option.teacher_id" :label="option.teacher_name" :value="option.teacher_id"></el-option>
-                            </el-select>
+                    <template scope="scope" v-if="scope.row.content.day3">
+                        <div v-if="scope.row.content.day3.s_name&&scope.row.content.day3.teacher_name">
+                            {{scope.row.content.day3.s_name}} - {{scope.row.content.day3.teacher_name}}
                         </div>
                     </template>
                 </el-table-column>
                 <el-table-column label="星期四">
-                    <template scope="scope">
-                        <div v-if="scope.row.timetable.day4">
-                            <el-select v-model="scope.row.timetable.day4.s_id" placeholder="科目" @change="teachLoad(scope.row.timetable.day4.s_id)">
-                                <el-option v-for="options in subject" :key="options.s_id" :label="options.s_name" :value="options.s_id"></el-option>
-                            </el-select>
-                            <el-select v-model="scope.row.timetable.day4.teacher_id" :disabled="scope.row.timetable.day4.s_id==''" placeholder="老师">
-                                <el-option v-for="option in teacher" :key="option.teacher_id" :label="option.teacher_name" :value="option.teacher_id"></el-option>
-                            </el-select>
+                    <template scope="scope" v-if="scope.row.content.day4">
+                        <div v-if="scope.row.content.day4.s_name&&scope.row.content.day4.teacher_name">
+                            {{scope.row.content.day4.s_name}} - {{scope.row.content.day4.teacher_name}}
                         </div>
                     </template>
                 </el-table-column>
                 <el-table-column label="星期五">
-                    <template scope="scope">
-                        <div v-if="scope.row.timetable.day5">
-                            <el-select v-model="scope.row.timetable.day5.s_id" placeholder="科目" @change="teachLoad(scope.row.timetable.day5.s_id)">
-                                <el-option v-for="options in subject" :key="options.s_id" :label="options.s_name" :value="options.s_id"></el-option>
-                            </el-select>
-                            <el-select v-model="scope.row.timetable.day5.teacher_id" :disabled="scope.row.timetable.day5.s_id==''" placeholder="老师">
-                                <el-option v-for="option in teacher" :key="option.teacher_id" :label="option.teacher_name" :value="option.teacher_id"></el-option>
-                            </el-select>
+                    <template scope="scope" v-if="scope.row.content.day5">
+                        <div v-if="scope.row.content.day5.s_name&&scope.row.content.day5.teacher_name">
+                            {{scope.row.content.day5.s_name}} - {{scope.row.content.day5.teacher_name}}
                         </div>
                     </template>
                 </el-table-column>
-                <el-table-column label="星期六">
-                    <template scope="scope">
-                        <div v-if="scope.row.timetable.day6">
-                            <el-select v-model="scope.row.timetable.day6.s_id" placeholder="科目" @change="teachLoad(scope.row.timetable.day6.s_id)">
-                                <el-option v-for="options in subject" :key="options.s_id" :label="options.s_name" :value="options.s_id"></el-option>
-                            </el-select>
-                            <el-select v-model="scope.row.timetable.day6.teacher_id" :disabled="scope.row.timetable.day6.s_id==''" placeholder="老师">
-                                <el-option v-for="option in teacher" :key="option.teacher_id" :label="option.teacher_name" :value="option.teacher_id"></el-option>
-                            </el-select>
+                <!-- <el-table-column label="星期六">
+                    <template scope="scope" v-if="scope.row.content.day6">
+                        <div v-if="scope.row.content.day6.s_name&&scope.row.content.day6.teacher_name">
+                            {{scope.row.content.day6.s_name}} - {{scope.row.content.day6.teacher_name}}
                         </div>
                     </template>
                 </el-table-column>
                 <el-table-column label="星期日">
-                    <template scope="scope">
-                        <div v-if="scope.row.timetable.day7">
-                            <el-select v-model="scope.row.timetable.day7.s_id" placeholder="科目" @change="teachLoad(scope.row.timetable.day7.s_id)">
-                                <el-option v-for="options in subject" :key="options.s_id" :label="options.s_name" :value="options.s_id"></el-option>
-                            </el-select>
-                            <el-select v-model="scope.row.timetable.day7.teacher_id" :disabled="scope.row.timetable.day7.s_id==''" placeholder="老师">
-                                <el-option v-for="option in teacher" :key="option.teacher_id" :label="option.teacher_name" :value="option.teacher_id"></el-option>
-                            </el-select>
+                    <template scope="scope" v-if="scope.row.content.day7">
+                        <div v-if="scope.row.content.day7.s_name&&scope.row.content.day7.teacher_name">
+                            {{scope.row.content.day7.s_name}} - {{scope.row.content.day7.teacher_name}}
                         </div>
                     </template>
-                </el-table-column>
+                </el-table-column> -->
             </el-table>
         </div>
     </div>

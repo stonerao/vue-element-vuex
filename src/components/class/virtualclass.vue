@@ -3,7 +3,7 @@
 		<div class="form_group">
 			<ul class="clearfloat">
 				<li class="header">模板名称：</li>
-				<li>虚拟1班课表</li>
+				<li>{{moduleName}}</li>
 			</ul>
 		</div>
 		<div class="form_group">
@@ -11,7 +11,7 @@
 				<li class="header">*授课日期：</li>
 				<li>
 					<el-checkbox-group v-model="week_checkList">
-					    <el-checkbox v-for="week in weekList" :label="week" :key="week"></el-checkbox>
+					    <el-checkbox v-for="(week,index) in weekList" :label="index" :key="week">{{week}}</el-checkbox>
 				  	</el-checkbox-group>
 				</li>
 			</ul>
@@ -23,26 +23,22 @@
 					<el-form :inline="true" :model="studyNum" class="demo-form-inline">
 						<el-form-item label="早读">
 							<el-select v-model="studyNum.morbefore" placeholder="选节">
-								<el-option label="区域一" value="shanghai"></el-option>
-								<el-option label="区域二" value="beijing"></el-option>
+								<el-option v-for="each in studyEach.mobefore" :label="each" :value="each"></el-option>
 							</el-select>
 						</el-form-item>
 						<el-form-item label="上午">
 							<el-select v-model="studyNum.morning" placeholder="选节">
-								<el-option label="区域一" value="shanghai"></el-option>
-								<el-option label="区域二" value="beijing"></el-option>
+								<el-option v-for="each in studyEach.morning" :label="each" :value="each"></el-option>
 							</el-select>
 						</el-form-item>
 						<el-form-item label="下午">
 							<el-select v-model="studyNum.afternoon" placeholder="选节">
-								<el-option label="区域一" value="shanghai"></el-option>
-								<el-option label="区域二" value="beijing"></el-option>
+								<el-option v-for="each in studyEach.afternoon" :label="each" :value="each"></el-option>
 							</el-select>
 						</el-form-item>
 						<el-form-item label="晚自习">
 							<el-select v-model="studyNum.night" placeholder="选节">
-								<el-option label="区域一" value="shanghai"></el-option>
-								<el-option label="区域二" value="beijing"></el-option>
+								<el-option v-for="each in studyEach.night" :label="each" :value="each"></el-option>
 							</el-select>
 						</el-form-item>
 					</el-form>
@@ -53,8 +49,8 @@
 			<ul class="clearfloat">
 				<li class="header">*作息方式：</li>
 				<li>
-					<el-checkbox-group v-model="rest_checkList">
-					    <el-checkbox v-for="rest in restList" :label="rest" :key="rest"></el-checkbox>
+					<el-checkbox-group v-model="rest_checkList" :max="1">
+					    <el-checkbox v-for="(rest,index) in restList" :label="index" :key="rest">{{rest}}</el-checkbox>
 				  	</el-checkbox-group>
 				</li>
 			</ul>
@@ -64,11 +60,11 @@
 				<li class="header">夏令作息执行时间：</li>
 				<li>
 					<div class="inline-block">
-						<el-date-picker v-model="time.start" type="date" placeholder="选择日期"></el-date-picker>
+						<el-date-picker v-model="startTimeVal" type="date" placeholder="选择日期" :disabled="canNot"></el-date-picker>
 					</div>
 					<div class="inline-block middle_zhi">至</div>
 					<div class="inline-block">
-						<el-date-picker v-model="time.end" type="date" placeholder="选择日期"></el-date-picker>
+						<el-date-picker v-model="endTimeVal" type="date" placeholder="选择日期" :picker-options="pickerOptions1" :disabled="canNot"></el-date-picker>
 					</div>
 				</li>
 			</ul>
@@ -78,11 +74,11 @@
 				<li class="header">冬令作息执行时间：</li>
 				<li>
 					<div class="inline-block">
-						<el-date-picker v-model="time.start_w" type="date" placeholder="选择日期"></el-date-picker>
+						<el-date-picker v-model="startTimeVal_W" type="date" placeholder="选择日期" :disabled="canNot"></el-date-picker>
 					</div>
 					<div class="inline-block middle_zhi">至</div>
 					<div class="inline-block">
-						<el-date-picker v-model="time.end_w" type="date" placeholder="选择日期"></el-date-picker>
+						<el-date-picker v-model="endTimeVal_W" type="date" placeholder="选择日期" :picker-options="pickerOptions2" :disabled="canNot"></el-date-picker>
 					</div>
 				</li>
 			</ul>
@@ -91,7 +87,7 @@
 			<ul class="clearfloat">
 				<li class="header"></li>
 				<li>
-					<el-button type="primary">下一步</el-button>
+					<el-button type="primary" @click.native="goNext">下一步</el-button>
 					<el-button @click.native="cancel">取消</el-button>
 				</li>
 			</ul>
@@ -102,31 +98,51 @@
 <script>
 import info from '@/utils/l_axios'
 export default {
-    props: ['derpartIdV'],
+    props: ['derpartId','conpVirtual','conpGrade'],
     data() {
         return {
             loading: false,
             weekList: ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'],
             restList: ['全年制', '冬夏分时制'],
-            week_checkList: [],
-            rest_checkList: [],
+            week_checkList: [],   //周一到周日可点模板区域
+            week_checkList_string: "",   //周一到周日可点模板区域
+            rest_checkList: [],  //作息方式
+            studyEach: {
+            	mobefore :[0,1,2],
+            	morning :[1,2,3,4,5],
+            	afternoon :[1,2,3,4],
+            	night :[0,1,2]
+            },
             time: {
             	start: '',
             	end: '',
             	start_w: '',
             	end_w: ''
             },
-            studyNum: {
-            	morbefore: '',
-            	morning: '',
-            	afternoon: '',
-            	night: ''
+            studyNum: {    //上课节数选择
+            	morbefore: 1,
+            	morning: 1,
+            	afternoon: 1,
+            	night: 1
             },
+            studyNum_str:"",
+            moduleName: '',   //模板课表名称
+            startTimeVal:'',
+            endTimeVal:'',
+            startTimeVal_W:'',
+            endTimeVal_W:'',
+	        pickerOptions1: {},
+	        pickerOptions2: {},
+	        canNot: false,
         }
     },
     created() {
-    	console.log(this.derpartId);
-    	// info.virtualArrangeA.call(this,this.derpartId);
+    	if(this.conpVirtual){
+    		info.virtualArrangeA.call(this,this.derpartId);
+    		alert('1')
+    	}else if(this.conpGrade){
+    		alert('2')
+    	}
     },
     components: {
         
@@ -134,10 +150,45 @@ export default {
     methods: {
         cancel(){
         	this.$emit("Cancel");
+        },
+        goNext(){
+        	this.studyNum_str = this.studyNum.morbefore+","+this.studyNum.morning+","+this.studyNum.afternoon+","+this.studyNum.night;
+        	info.virtualArrangeB.call(this,this.derpartId,this.week_checkList,this.studyNum_str,(parseInt(this.rest_checkList[0])+1),this.time)
+        },
+        formatDate(date){
+        	return info.formatDate.call(this,date);
         }
     },
     watch:{
-       
+       	startTimeVal(val){
+       		this.time.start = val;
+       		this.pickerOptions1 = {
+         		disabledDate(time) {
+	            	return time.getTime() < val.getTime() + 24*60*60*1000;
+	          	}
+	        }
+       	},
+      	endTimeVal(val){
+       		this.time.end = val;
+       	},
+       	startTimeVal_W(val){
+            this.time.start_w = val;
+            this.pickerOptions2 = {
+         		disabledDate(time) {
+	            	return time.getTime() < val.getTime() + 24*60*60*1000;
+	          	}
+	        }
+       	},
+       	endTimeVal_W(val){
+            this.time.end_w = val;
+       	},
+       	rest_checkList(val){
+       		if(val == 0){
+       			this.canNot = true;
+       		}else{
+       			this.canNot = false;
+       		}
+       	}
     }
 }
 </script>
