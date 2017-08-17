@@ -10,9 +10,11 @@
                 <!--模块开始  -->
                 <div v-if="state==0">
                     <!--教材订单  -->
+                    <teachingOrder></teachingOrder>
                 </div>
-                <div v-if="state==0">
+                <div v-if="state==1">
                     <!--空间购买  -->
+                    <spaceBuy></spaceBuy>
                 </div>
     
             </div>
@@ -26,6 +28,10 @@ import titleItem from '@/components/main/title.vue'
 import titleActive from '@/components/main/titleActive.vue'
 import description from '@/components/main/description.vue'
 import bottomItem from '@/components/bottom/bottom.vue'
+import spaceBuy from '@/components/order/spaceBuy' ;//教材订单
+import teachingOrder from '@/components/order/TeachingOrder'; //教材订单
+
+
 export default {
     data() {
         return {
@@ -43,7 +49,7 @@ export default {
     created() {
     },
     components: {
-        titleItem, titleActive, description, bottomItem
+        titleItem, titleActive, description, bottomItem,teachingOrder,spaceBuy
     },
     methods: {
         emitTransfer(index) {

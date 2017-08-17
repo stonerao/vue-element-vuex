@@ -6,6 +6,7 @@ import Layout from '@/view/layout/Layout'
 import Index from '@/view/index/index'
 // 学生 
 import Authority from '@/view/authority/index'
+import shopingVal from '@/view/teaching/shoping'
 import { router_l } from './router_l'
 import { router_z } from './router_z'
 import { constList } from '@/router/Authority'
@@ -70,6 +71,11 @@ export const constRouterMap = [
   {
     path: '/',
     redirect: "/one/index"
+  },
+  {
+    path: '/shoping',
+    name: '教材购买',
+    component: shopingVal
   }
 ]
 

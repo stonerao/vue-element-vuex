@@ -17,6 +17,7 @@ import { isClassLogin } from '@/utils/auth';
 import { constListWhile } from '@/router/Authority'
 import { constTeacherWhile } from '@/router/Authority'
 import { consStundenWhilet } from '@/router/Authority'
+import { constRouterMap } from '@/router/Authority'
 // 公共js
 import '@/utils/start'
 // axios 配置
@@ -54,11 +55,11 @@ router.beforeEach((to, from, next) => {
       }
     } else if (isClassState == 1) {
       if (constTeacherWhile().indexOf(to.path) == -1) {
-        router.push({ path: '/' })
+        // router.push({ path: '/' })
       }
     } else if (isClassState == 3) {
       if (consStundenWhilet().indexOf(to.path) == -1) {
-        router.push({ path: '/' })
+        // router.push({ path: '/' })
       }
     }
     next()
