@@ -220,7 +220,20 @@ export default {
           this.attList=res.data.data;
         })
       }else{
-
+        this.$http(api.sstudentAttendance,{
+          params:{
+            token:getToken(),
+            page:this.currentPage,
+            curpage:this.pageSize,
+            operate_start_time:this.stime,
+            operate_end_time:this.etime
+          }
+        }).then((res)=>{
+          console.log(res)
+          this.currentPage=res.data.page;
+          this.total=res.data.all_pagecount;
+          this.attList=res.data.data;
+        })
       }
     }else if(isClass==2){
       //老师考勤记录

@@ -21,7 +21,7 @@
                 </div>
                 <!--考勤统计-->
                 <div v-if="state==3">
-                  <attendance :total="total" :list="attList" :isClassLogin="isClassLogin" @sAttendance="attendanceList"></attendance>
+                  <attendance :total="total" :list="attList" :isClassLogin="isClassLogin" @sAttendance="attendanceList" @attTimeChange="attTimeChange"></attendance>
                 </div>
                 <!--待我审批-->
               <div v-if="state==4">
@@ -257,6 +257,12 @@ export default {
         this.attType=val;
         this.stime=stime;
         this.etime=etime;
+      },
+      //考勤统计时间选择
+      attTimeChange(stime,etime){
+        this.stime=stime;
+        this.etime=etime;
+        this.refreshList();
       }
     },
     watch:{
