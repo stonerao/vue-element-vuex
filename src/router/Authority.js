@@ -19,6 +19,11 @@ import gradeVue from '@/view/class/index'
 import Attendance from '@/view/attendance/index'
 //权限管理
 import Authority from '@/view/authority/index'
+
+/* 
+    版权中心
+*/
+import allOrder from '@/view/order/index'
 /*
   左侧图标以及点击后的图标
 */
@@ -290,6 +295,7 @@ export const constList = [
 
 ]
 // 学生
+
 export const ListStundent = [
     {
         path: '/set',
@@ -390,9 +396,9 @@ export const ListStundent = [
             }
         ]
     }, {
-        path: '/set',
+        path: '/order_al',
         name: '订单管理',
-        redirect: '/set/index',
+        redirect: '/order_al/index',
         icon: pmsd,
         iconActive: pmsd_active,
         component: Layout,
@@ -495,7 +501,7 @@ export const ListTeacher = [
                 component: setVue,
             }
         ]
-    },{
+    }, {
         path: '/attendance',
         name: '考勤管理',
         redirect: '/attendance/index',
@@ -509,7 +515,7 @@ export const ListTeacher = [
                 component: Attendance,
             }
         ]
-    },  {
+    }, {
         path: '/set',
         name: '素材库',
         redirect: '/set/index',

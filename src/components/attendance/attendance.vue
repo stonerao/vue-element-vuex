@@ -11,10 +11,10 @@
       </el-col>
     </el-row>
     <el-table :data="list" style="width: 100%">
-      <el-table-column prop="apply_time" label="月份时段"  show-overflow-tooltip></el-table-column>
-      <el-table-column prop="time" label="应上课时"></el-table-column>
-      <el-table-column prop="time" label="实上课时数"></el-table-column>
-      <el-table-column prop="time" label="缺勤课时数"></el-table-column>
+      <el-table-column prop="m" label="月份时段"  show-overflow-tooltip></el-table-column>
+      <el-table-column prop="total_time" label="应上课时"></el-table-column>
+      <el-table-column prop="actual_time" label="实上课时数"></el-table-column>
+      <el-table-column prop="absence_time" label="缺勤课时数"></el-table-column>
     </el-table>
   </div>
 </template>
@@ -34,6 +34,7 @@
         let arr=val.split(' ');
         this.startTime=Date.parse(arr[0]);
         this.endTime=Date.parse(arr[2]);
+        this.$emit('attTimeChange',this.startTime,this.endTime)
       }
     },
     watch:{
