@@ -340,9 +340,7 @@ export default {
             
         }
     },
-    created() {
-        console.log(this.dataObj)
-         alert(1)
+    created() { 
         if (this.state == 1) {
 
         } else if (this.state == 2) {
