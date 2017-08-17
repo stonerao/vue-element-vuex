@@ -24,7 +24,7 @@ Vue.use(Router)
   children 前缀必须加一个标识符
 */
 // 学校管理 模块组件
-export const constListMap = constList; 
+export const constListMap = constList;
 // 分权限 
 export function constListFun() {
   let arr = [];
@@ -33,7 +33,7 @@ export function constListFun() {
     window.location.href = "./#/admin"
     return
   }
-  return lginState == 1 ? constListMap : (lginState == 2 ? ListTeacher: ListStundent );
+  return lginState == 1 ? constListMap : (lginState == 2 ? ListTeacher : ListStundent);
 }
 // 登录
 import login from '@/view/login/login'
@@ -79,7 +79,8 @@ export default new Router({
     ...constRouterMap,
     ...router_l,
     ...router_z,
-
+    ...ListStundent,
+    ...ListTeacher,
   ],
   linkActiveClass: 'active',
 })

@@ -30,8 +30,7 @@ axios.defaults.transformRequest = [function (data) {
   return ret
 }]
 Vue.prototype.$http = axios;
-Vue.config.productionTip = false
-
+Vue.config.productionTip = false 
 /* UI */
 Vue.use(ElementUI);
 const whileList = ['/login', '/reg', '/admin'];//白名单

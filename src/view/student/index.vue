@@ -263,7 +263,7 @@ export default {
             }
             this.state = index;
             this.t_data = [];
-            this.studentAjax();
+            
         },
         promptsTem(status) {
             console.log(status)
@@ -343,6 +343,11 @@ export default {
 
             } else {
                 this.$refs.multipleTable.clearSelection();
+            }
+        },
+        state(val){
+            if(val==0){
+                this.studentAjax();
             }
         }
     }
