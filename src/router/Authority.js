@@ -24,6 +24,8 @@ import Authority from '@/view/authority/index'
     版权中心
 */
 import allOrder from '@/view/order/index'
+// 教材中心
+import teaching from '@/view/teaching/index'
 /*
   左侧图标以及点击后的图标
 */
@@ -354,9 +356,9 @@ export const ListStundent = [
             }
         ]
     }, {
-        path: '/set',
+        path: '/teaching',
         name: '教材中心',
-        redirect: '/set/index',
+        redirect: '/teaching/index',
         icon: pmsd,
         iconActive: pmsd_active,
         component: Layout,
@@ -364,7 +366,7 @@ export const ListStundent = [
             {
                 path: 'index',
                 name: '-教材中心',
-                component: setVue,
+                component: teaching,
             }
         ]
     }, {
@@ -406,7 +408,7 @@ export const ListStundent = [
             {
                 path: 'index',
                 name: '-订单管理',
-                component: setVue,
+                component: allOrder,
             }
         ]
     },
@@ -544,9 +546,9 @@ export const ListTeacher = [
             }
         ]
     }, {
-        path: '/set',
+        path: '/teaching',
         name: '教材中心',
-        redirect: '/set/index',
+        redirect: '/teaching/index',
         icon: pmsd,
         iconActive: pmsd_active,
         component: Layout,
@@ -554,7 +556,7 @@ export const ListTeacher = [
             {
                 path: 'index',
                 name: '-教材中心',
-                component: setVue,
+                component: teaching,
             }
         ]
     }, {

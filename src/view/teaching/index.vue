@@ -9,10 +9,12 @@
                 <description :prompts="prompts" @PromPts="promptsTem"></description>
                 <!--模块开始  -->
                 <div v-if="state==0">
-
+                    <!--我的书架  -->
+                    <myTeaching></myTeaching>
                 </div>
-                <div v-if="state==0">
-                    
+                <div v-if="state==1">
+                    <!--我的书架  -->
+                    <spaceBuy></spaceBuy>
                 </div>
     
             </div>
@@ -26,24 +28,28 @@ import titleItem from '@/components/main/title.vue'
 import titleActive from '@/components/main/titleActive.vue'
 import description from '@/components/main/description.vue'
 import bottomItem from '@/components/bottom/bottom.vue'
+import myTeaching from '@/components/teaching/myTeaching.vue'
+import spaceBuy from '@/components/teaching/spaceBuy.vue'
+
+
 export default {
     data() {
         return {
             titleItem: [
-                { name: "科目管理", index: 0 },
-                { name: "增加科目", index: 1 },
+                { name: "我的书架", index: 0 },
+                { name: "空间购买", index: 1 },
             ],
             prompts: [
-                `该页面展示管理员的操作日志，可进行删除。`,
-                `侧边栏可以进行高级搜索`
+                `历史考试`,
+                `xxxxxxxx`
             ],
-            state: 0, 
+            state: 0,
         }
     },
     created() {
     },
     components: {
-        titleItem, titleActive, description, bottomItem
+        titleItem, titleActive, description, bottomItem, myTeaching,spaceBuy
     },
     methods: {
         emitTransfer(index) {
