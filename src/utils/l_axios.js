@@ -394,7 +394,8 @@ export default {
                         this.studyType = res.data.data.time_line;
                         this.model.deparId = res.data.data.department_id;
                         this.default_day = res.data.data.default_day;
-
+                        this.loading = false;
+                        
                         let virtStep2Data = res.data.data.list;
                         virtStep2Data.forEach((x) => {
                             x.class_timeS = [];

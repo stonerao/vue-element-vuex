@@ -1,103 +1,105 @@
 <template>
 	<div>
-		<div v-if="virtual_1">
-			<div class="l_virtual_wraper">
-				<div class="form_group">
-					<ul class="clearfloat">
-						<li class="header">模板名称：</li>
-						<li>{{moduleName}}</li>
-					</ul>
-				</div>
-				<div class="form_group">
-					<ul class="clearfloat">
-						<li class="header">*授课日期：</li>
-						<li>
-							<el-checkbox-group v-model="week_checkList">
-							    <el-checkbox v-for="(week,index) in weekList" :label="index" :key="week">{{week}}</el-checkbox>
-						  	</el-checkbox-group>
-						</li>
-					</ul>
-				</div>
-				<div class="form_group">
-					<ul class="clearfloat">
-						<li class="header">*每天上课节数：</li>
-						<li>
-							<el-form :inline="true" :model="studyNum" class="demo-form-inline">
-								<el-form-item label="早读">
-									<el-select v-model="studyNum.morbefore" placeholder="选节">
-										<el-option v-for="each in studyEach.mobefore" :label="each" :value="each"></el-option>
-									</el-select>
-								</el-form-item>
-								<el-form-item label="上午">
-									<el-select v-model="studyNum.morning" placeholder="选节">
-										<el-option v-for="each in studyEach.morning" :label="each" :value="each"></el-option>
-									</el-select>
-								</el-form-item>
-								<el-form-item label="下午">
-									<el-select v-model="studyNum.afternoon" placeholder="选节">
-										<el-option v-for="each in studyEach.afternoon" :label="each" :value="each"></el-option>
-									</el-select>
-								</el-form-item>
-								<el-form-item label="晚自习">
-									<el-select v-model="studyNum.night" placeholder="选节">
-										<el-option v-for="each in studyEach.night" :label="each" :value="each"></el-option>
-									</el-select>
-								</el-form-item>
-							</el-form>
-						</li>
-					</ul>
-				</div>
-				<div class="form_group">
-					<ul class="clearfloat">
-						<li class="header">*作息方式：</li>
-						<li>
-							<el-checkbox-group v-model="rest_checkList" :max="1">
-							    <el-checkbox v-for="(rest,index) in restList" :label="index" :key="rest">{{rest}}</el-checkbox>
-						  	</el-checkbox-group>
-						</li>
-					</ul>
-				</div>
-				<div class="form_group">
-					<ul class="clearfloat">
-						<li class="header">夏令作息执行时间：</li>
-						<li>
-							<div class="inline-block">
-								<el-date-picker v-model="startTimeVal" type="date" placeholder="选择日期" :disabled="canNot"></el-date-picker>
-							</div>
-							<div class="inline-block middle_zhi">至</div>
-							<div class="inline-block">
-								<el-date-picker v-model="endTimeVal" type="date" placeholder="选择日期" :picker-options="pickerOptions1" :disabled="canNot"></el-date-picker>
-							</div>
-						</li>
-					</ul>
-				</div>
-				<div class="form_group">
-					<ul class="clearfloat">
-						<li class="header">冬令作息执行时间：</li>
-						<li>
-							<div class="inline-block">
-								<el-date-picker v-model="startTimeVal_W" type="date" placeholder="选择日期" :disabled="canNot"></el-date-picker>
-							</div>
-							<div class="inline-block middle_zhi">至</div>
-							<div class="inline-block">
-								<el-date-picker v-model="endTimeVal_W" type="date" placeholder="选择日期" :picker-options="pickerOptions2" :disabled="canNot"></el-date-picker>
-							</div>
-						</li>
-					</ul>
-				</div>
-				<div class="form_group">
-					<ul class="clearfloat">
-						<li class="header"></li>
-						<li>
-							<el-button type="primary" @click.native="goNext">下一步</el-button>
-							<el-button @click.native="cancel">取消</el-button>
-						</li>
-					</ul>
+		<div>
+			<div v-if="virtual_1">
+				<div class="l_virtual_wraper">
+					<div class="form_group">
+						<ul class="clearfloat">
+							<li class="header">模板名称：</li>
+							<li>{{moduleName}}</li>
+						</ul>
+					</div>
+					<div class="form_group">
+						<ul class="clearfloat">
+							<li class="header">*授课日期：</li>
+							<li>
+								<el-checkbox-group v-model="week_checkList">
+								    <el-checkbox v-for="(week,index) in weekList" :label="index" :key="week">{{week}}</el-checkbox>
+							  	</el-checkbox-group>
+							</li>
+						</ul>
+					</div>
+					<div class="form_group">
+						<ul class="clearfloat">
+							<li class="header">*每天上课节数：</li>
+							<li>
+								<el-form :inline="true" :model="studyNum" class="demo-form-inline">
+									<el-form-item label="早读">
+										<el-select v-model="studyNum.morbefore" placeholder="选节">
+											<el-option v-for="each in studyEach.mobefore" :label="each" :value="each"></el-option>
+										</el-select>
+									</el-form-item>
+									<el-form-item label="上午">
+										<el-select v-model="studyNum.morning" placeholder="选节">
+											<el-option v-for="each in studyEach.morning" :label="each" :value="each"></el-option>
+										</el-select>
+									</el-form-item>
+									<el-form-item label="下午">
+										<el-select v-model="studyNum.afternoon" placeholder="选节">
+											<el-option v-for="each in studyEach.afternoon" :label="each" :value="each"></el-option>
+										</el-select>
+									</el-form-item>
+									<el-form-item label="晚自习">
+										<el-select v-model="studyNum.night" placeholder="选节">
+											<el-option v-for="each in studyEach.night" :label="each" :value="each"></el-option>
+										</el-select>
+									</el-form-item>
+								</el-form>
+							</li>
+						</ul>
+					</div>
+					<div class="form_group">
+						<ul class="clearfloat">
+							<li class="header">*作息方式：</li>
+							<li>
+								<el-checkbox-group v-model="rest_checkList" :max="1">
+								    <el-checkbox v-for="(rest,index) in restList" :label="index" :key="rest">{{rest}}</el-checkbox>
+							  	</el-checkbox-group>
+							</li>
+						</ul>
+					</div>
+					<div class="form_group">
+						<ul class="clearfloat">
+							<li class="header">夏令作息执行时间：</li>
+							<li>
+								<div class="inline-block">
+									<el-date-picker v-model="startTimeVal" type="date" placeholder="选择日期" :disabled="canNot"></el-date-picker>
+								</div>
+								<div class="inline-block middle_zhi">至</div>
+								<div class="inline-block">
+									<el-date-picker v-model="endTimeVal" type="date" placeholder="选择日期" :picker-options="pickerOptions1" :disabled="canNot"></el-date-picker>
+								</div>
+							</li>
+						</ul>
+					</div>
+					<div class="form_group">
+						<ul class="clearfloat">
+							<li class="header">冬令作息执行时间：</li>
+							<li>
+								<div class="inline-block">
+									<el-date-picker v-model="startTimeVal_W" type="date" placeholder="选择日期" :disabled="canNot"></el-date-picker>
+								</div>
+								<div class="inline-block middle_zhi">至</div>
+								<div class="inline-block">
+									<el-date-picker v-model="endTimeVal_W" type="date" placeholder="选择日期" :picker-options="pickerOptions2" :disabled="canNot"></el-date-picker>
+								</div>
+							</li>
+						</ul>
+					</div>
+					<div class="form_group">
+						<ul class="clearfloat">
+							<li class="header"></li>
+							<li>
+								<el-button type="primary" @click.native="goNext">下一步</el-button>
+								<el-button @click.native="cancel">取消</el-button>
+							</li>
+						</ul>
+					</div>
 				</div>
 			</div>
-		</div>
-		<div v-if="virtual_2">
-			<virtualStep2 :modelId="modelId" @backFirst="backfirst"></virtualStep2>
+			<div v-if="virtual_2">
+				<virtualStep2 :modelId="modelId" @backFirst="backfirst"></virtualStep2>
+			</div>
 		</div>
 	</div>
 </template>
@@ -143,8 +145,8 @@ export default {
 	        pickerOptions1: {},
 	        pickerOptions2: {},
 	        canNot: false,
-	        virtual_1: false,   //虚拟班编排第一步
-	        virtual_2: true,   //虚拟班编排第二步
+	        virtual_1: true,   //虚拟班编排第一步
+	        virtual_2: false,   //虚拟班编排第二步
 	        modelId: 0,   //虚拟班编排第二步初始传值modelId
 	        classId: 0,   //虚拟班编排第二步初始传值班级id
         }
