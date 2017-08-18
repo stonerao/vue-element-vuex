@@ -54,7 +54,7 @@ export default {
             input: '',
             checked: false,
             form: {
-                username: 'rao123',
+                username: '123456123456',
                 password: '123456',
                 school_identify: '001',
                 verify: '1111'
