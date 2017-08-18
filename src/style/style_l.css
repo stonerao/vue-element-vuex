@@ -144,6 +144,12 @@
 .l_layout_outer .l_schedule_outer .sche_table {
   padding: 0px 20px;
 }
+.l_layout_outer .l_schedule_outer .sche_table.virStep2Table {
+  padding: 0px;
+}
+.l_layout_outer .l_schedule_outer .sche_table.virStep2Table .el-table__row .el-table_1_column_2 .cell {
+  padding: 5px;
+}
 .l_layout_outer .l_schedule_outer .sche_table .el-table__row td .cell > div {
   display: -webkit-box;
   display: -webkit-flex;
@@ -159,11 +165,11 @@
 }
 .l_layout_outer .l_schedule_outer .sche_table .el-table__header-wrapper colgroup col:nth-child(1),
 .l_layout_outer .l_schedule_outer .sche_table .el-table__body-wrapper colgroup col:nth-child(1) {
-  width: 59px;
+  width: 60px;
 }
 .l_layout_outer .l_schedule_outer .sche_table .el-table__header-wrapper colgroup col:nth-child(2),
 .l_layout_outer .l_schedule_outer .sche_table .el-table__body-wrapper colgroup col:nth-child(2) {
-  width: 110px;
+  min-width: 110px;
 }
 .l_layout_outer .l_schedule_outer .sche_table .el-table__header-wrapper .el-select .el-input__inner,
 .l_layout_outer .l_schedule_outer .sche_table .el-table__body-wrapper .el-select .el-input__inner {
@@ -171,6 +177,14 @@
 }
 .l_layout_outer .l_schedule_outer .l_save {
   padding: 10px 20px 22px 20px;
+}
+.l_layout_outer .l_schedule_outer .l_save.virt_btn2 button:nth-child(2) {
+  background: #fff;
+  color: #1f2d3d;
+}
+.l_layout_outer .l_schedule_outer .l_save.virt_btn2 button:nth-child(2):hover {
+  color: #1d90e6;
+  border-color: #1d90e6;
 }
 .l_layout_outer .l_schedule_outer .l_save button:nth-child(2) {
   background: #e5e5e5;

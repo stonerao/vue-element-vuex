@@ -94,6 +94,9 @@
 		.sche_list_header{
 			padding: 27px 22px 21px 22px;
 			border-bottom: 2px solid @blue0;
+			&.virStep2Header{
+				// border-bottom: none;
+			}
 			li{
 				float: left;
 				font-size: 18px;
@@ -146,6 +149,16 @@
 		}
 		.sche_table{
 			padding: 0px 20px;
+			&.virStep2Table{
+				padding: 0px;
+				.el-table__row{
+					.el-table_1_column_2{
+						.cell{
+							padding: 5px;
+						}
+					}
+				}
+			}
 			.el-table__row{
 				td{
 					.cell>div{
@@ -166,10 +179,10 @@
 			.el-table__header-wrapper,.el-table__body-wrapper{
 				colgroup{
 					col:nth-child(1){
-						width: 59px
+						width: 60px
 					}
 					col:nth-child(2){
-						width: 110px;
+						min-width: 110px;
 					}
 				}
 				.el-select{
@@ -294,6 +307,16 @@
 		}
 		.l_save{
 			padding: 10px 20px 22px 20px;
+			&.virt_btn2{
+				button:nth-child(2){
+					background: #fff;
+					color: #1f2d3d;
+					&:hover{
+						color: #1d90e6;
+					    border-color: #1d90e6;
+					}
+				}
+			}
 			button:nth-child(2){
 				background: #e5e5e5;
 				color: @gray2;

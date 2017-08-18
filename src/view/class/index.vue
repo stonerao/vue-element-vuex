@@ -70,7 +70,7 @@
                             <div class="sche_list_header">
                                 <ul class="clearfloat">
                                     <!-- <li>初2017级年级1班课表1</li> -->
-                                    <li>{{this.editData.scheTableOrder}}课表1</li>
+                                    <li v-bind:class="{ active: isActive }">{{this.editData.scheTableOrder}}</li>
                                 </ul>
                             </div>
                             <div class="l_search0">
@@ -286,6 +286,7 @@ export default {
             taData: [],  //提交的json数据
             tabsStatus: false,
             derpartId: 0,
+            isActive: true,
         }
     },
     created() {
