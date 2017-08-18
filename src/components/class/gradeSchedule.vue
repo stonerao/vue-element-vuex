@@ -37,54 +37,56 @@
                     <template scope="scope">{{scope.row.school_time}}</template>
                 </el-table-column>
                 <el-table-column label="星期一">
-                    <template scope="scope" v-if="scope.row.content.day1">
-                        <div v-if="scope.row.content.day1.s_name&&scope.row.content.day1.teacher_name">
+                    <template scope="scope">
+                        <div v-if="scope.row.content.day1">
+                           <!--  <span v-html="scope.row.content.day1.s_name"></span> - 
+                            <span v-html="scope.row.content.day1.teacher_name"></span> -->
                             {{scope.row.content.day1.s_name}} - {{scope.row.content.day1.teacher_name}}
                         </div>
                     </template>
                 </el-table-column>
                 <el-table-column label="星期二">
-                    <template scope="scope" v-if="scope.row.content.day2">
-                        <div v-if="scope.row.content.day2.s_name&&scope.row.content.day2.teacher_name">
+                    <template scope="scope">
+                       <div v-if="scope.row.content.day2">
                             {{scope.row.content.day2.s_name}} - {{scope.row.content.day2.teacher_name}}
                         </div>
                     </template>
                 </el-table-column>
                 <el-table-column label="星期三">
-                    <template scope="scope" v-if="scope.row.content.day3">
-                        <div v-if="scope.row.content.day3.s_name&&scope.row.content.day3.teacher_name">
+                    <template scope="scope">
+                        <div v-if="scope.row.content.day3">
                             {{scope.row.content.day3.s_name}} - {{scope.row.content.day3.teacher_name}}
                         </div>
                     </template>
                 </el-table-column>
                 <el-table-column label="星期四">
-                    <template scope="scope" v-if="scope.row.content.day4">
-                        <div v-if="scope.row.content.day4.s_name&&scope.row.content.day4.teacher_name">
+                    <template scope="scope">
+                        <div v-if="scope.row.content.day4">
                             {{scope.row.content.day4.s_name}} - {{scope.row.content.day4.teacher_name}}
                         </div>
                     </template>
                 </el-table-column>
                 <el-table-column label="星期五">
-                    <template scope="scope" v-if="scope.row.content.day5">
-                        <div v-if="scope.row.content.day5.s_name&&scope.row.content.day5.teacher_name">
+                    <template scope="scope">
+                        <div v-if="scope.row.content.day5">
                             {{scope.row.content.day5.s_name}} - {{scope.row.content.day5.teacher_name}}
                         </div>
                     </template>
                 </el-table-column>
-                <!-- <el-table-column label="星期六">
-                    <template scope="scope" v-if="scope.row.content.day6">
-                        <div v-if="scope.row.content.day6.s_name&&scope.row.content.day6.teacher_name">
+                <el-table-column label="星期六">
+                    <template scope="scope">
+                        <div v-if="scope.row.content.day6">
                             {{scope.row.content.day6.s_name}} - {{scope.row.content.day6.teacher_name}}
                         </div>
                     </template>
                 </el-table-column>
                 <el-table-column label="星期日">
-                    <template scope="scope" v-if="scope.row.content.day7">
-                        <div v-if="scope.row.content.day7.s_name&&scope.row.content.day7.teacher_name">
+                    <template scope="scope">
+                        <div v-if="scope.row.content.day7">
                             {{scope.row.content.day7.s_name}} - {{scope.row.content.day7.teacher_name}}
                         </div>
                     </template>
-                </el-table-column> -->
+                </el-table-column>
             </el-table>
         </div>
     </div>
