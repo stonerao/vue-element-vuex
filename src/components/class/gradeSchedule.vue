@@ -33,9 +33,15 @@
                         <span v-if="scope.row.lesson == 4">晚上</span>
                     </template>
                 </el-table-column>
-                <el-table-column label="节次">
+                <el-table-column :label="sesson">
                     <template scope="scope">{{scope.row.school_time}}</template>
-                </el-table-column>
+                </el-table-column> 
+                <!-- <el-table-column label="冬季节次" v-if="this.sessonStatus == 1">
+                    <template scope="scope">{{scope.row.school_time}}</template>
+                </el-table-column> 
+                <el-table-column label="全年节次" v-if="this.sessonStatus == 1">
+                    <template scope="scope">{{scope.row.school_time}}</template>
+                </el-table-column> -->
                 <el-table-column label="星期一">
                     <template scope="scope">
                         <div v-if="scope.row.content.day1">
@@ -107,6 +113,7 @@ export default {
             },
             schedule_id: 0, //课表id
             isActive: 0,  //表头切换active效果
+            sesson:'',
         }
     },
     created() {
@@ -114,6 +121,7 @@ export default {
             // 课表名称
             info.classSche.call(this,this.derpartId);
         }
+
     },
     components: {
         

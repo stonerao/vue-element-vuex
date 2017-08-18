@@ -280,6 +280,13 @@ export default {
                             end_time: unixTimestampe.toLocaleString(),
                         }
                         this.schedData = res.data.data.model_common;
+                        if(res.data.data.school_time_type == 1){
+                            this.sesson = '夏季节次'
+                        }else if(res.data.data.school_time_type == 2){
+                            this.sesson = '冬季节次'
+                        }else if(res.data.data.school_time_type == 3){
+                            this.sesson = '全年节次'
+                        }
                     }else{
                         this.$notify.error({
                             message: res.data.data.error

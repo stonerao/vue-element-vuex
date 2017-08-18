@@ -101,6 +101,7 @@
                                         </template>
                                     </el-table-column>
                                     <el-table-column prop="school_time" label="节次"></el-table-column>
+
                                     <el-table-column label="星期一">
                                         <template scope="scope">
                                             <div v-if="show_select&&scope.row.timetable.day1">
