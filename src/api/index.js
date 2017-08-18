@@ -26,4 +26,7 @@ export const api = {
     position_edit:"Admin/position/position_edit",//编辑职位
     position_delete:"Admin/position/position_delete",//删除职位
     position_list:"Admin/position/position_list",//职位列表
+    teaching_interface:"Student/SchoolStudent/teaching_interface",//教材列表
+    teaching_classlist:"Student/SchoolStudent/teaching_classlist",//教材分类
+    teaching_info:"Student/SchoolStudent/teaching_info",//教材详情
 }

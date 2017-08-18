@@ -10,7 +10,7 @@
             <el-breadcrumb separator="》" class="r-shoping-line">
               <el-breadcrumb-item :to="{ path: '/' }">学生管理中心</el-breadcrumb-item>
               <el-breadcrumb-item>教材中心</el-breadcrumb-item>
-              <el-breadcrumb-item>某某教材</el-breadcrumb-item>
+              <el-breadcrumb-item>{{datas.paper_name}}</el-breadcrumb-item>
             </el-breadcrumb>
           </el-col>
           <el-col :span="12" class="r-shoping-line">
@@ -36,32 +36,35 @@
         </div>
         <div class="r-shoping-right">
           <div class="r-shoping--info">
-            <div class="r-shoping--title">【中共教育】广西公务员2018年广西考试教材</div>
-            <p class="r-shoping--code">编号：GSADASD</p>
+            <div class="r-shoping--title">{{datas.paper_name}}</div> 
             <p class="r-shoping-price">
               <a class="letter-spacing">价格</a>
-              <span>￥654654.00</span>
+              <span>￥{{datas.paper_price}}</span>
             </p>
             <ul class="r-shoping-listinfo">
               <li>
-                <span>教材所属费雷：</span>
-                <span>打撒大</span>
+                <span>教材所属分类：</span>
+                <span>{{datas.tc_name}}</span>
               </li>
               <li>
-                <span>教材所属费雷：</span>
-                <span>打撒大</span>
+                <span>出版社：</span>
+                <span>{{datas.publish_name}}</span>
               </li>
               <li>
-                <span>教材所属费雷：</span>
-                <span>打撒大</span>
+                <span>出版时间：</span>
+                <span>{{datas.publish_time}}</span>
               </li>
               <li>
-                <span>教材所属费雷：</span>
-                <span>打撒大</span>
+                <span>版次：</span>
+                <span>{{datas.revision}}</span>
               </li>
               <li>
-                <span>教材所属费雷：</span>
-                <span>打撒大</span>
+                <span>ISNB号：</span>
+                <span>{{datas.isnb_number}}</span>
+              </li>
+              <li>
+                <span>数量：</span>
+                <span><input type="number"/></span>
               </li>
             </ul>
           </div>
@@ -80,23 +83,26 @@
           <li>
             <img src="../../assets/index/fenm.jpg" />
           </li>
-        </ul> 
+        </ul>
       </div>
     </div>
   </div>
 </template>
 <script>
 import { HeadSide } from '@/view/layout/index.js'
+import store from '@/utils/teaching'
 export default {
   data() {
     return {
-      swiper: []
+      swiper: [],
+      datas:{}
     }
   },
   components: {
     HeadSide,
   },
   created() {
+    this.dataAjax()
   },
   methods: {
     onSlideChangeStart(currentPage) {
@@ -104,6 +110,9 @@ export default {
     },
     onSlideChangeEnd(currentPage) {
       console.log('onSlideChangeEnd', currentPage);
+    },
+    dataAjax(){
+      store.teaching_info.call(this)
     }
   }
 }
