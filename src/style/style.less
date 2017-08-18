@@ -891,7 +891,8 @@ body,
 }
 
 .r-shoping {
-    background:#f7f7f7;
+    background: #f7f7f7;
+    overflow-y: auto;
     >div {
         padding: 0 30px;
     }
@@ -915,48 +916,115 @@ body,
                     height: 100%;
                 }
             }
-            .r-shoping-shar {}
-        }
-        .r-shoping-right { 
-            margin-left:480px+25px;
-            .letter-spacing{
-                letter-spacing:30px;
-                color:#999;
+            .r-shoping-shar {
+                margin-top: 20px;
+                img {
+                    .icon-img(@size: 16px);
+                    position: relative;
+                    top: -1px;
+                    margin-right: 4px;
+                }
+                span {
+                    cursor: pointer;
+                }
+                span.float-right {
+                    color: #999;
+                }
             }
-            .r-shoping--info { 
+        }
+        .r-shoping-right {
+            margin-left: 480px+25px;
+            .letter-spacing {
+                letter-spacing: 30px;
+                color: #999;
+            }
+            .r-shoping--info {
+                height: 610px;
             }
             .r-shoping--title {
-                line-height:40px;
-                font-size:18px;
+                line-height: 40px;
+                font-size: 18px;
             }
             .r-shoping--code {
-               color:#999;
-               margin-top:10px;
-               line-height:45px;
+                color: #999;
+                margin-top: 10px;
+                line-height: 45px;
             }
             .r-shoping-price {
-                background:#fff;
-                color:#999;
-                line-height:60px;
-                height:60px;
-                padding-left:10px;
-                >span{
-                    color:#fb6337;
-                    font-size:26px;
-                    margin-left:20px;
+                background: #fff;
+                color: #999;
+                line-height: 60px;
+                height: 60px;
+                padding-left: 30px;
+                >span {
+                    color: #fb6337;
+                    font-size: 26px;
+                    margin-left: 20px;
                 }
             }
             .r-shoping-listinfo {
-                padding-top:10p;x
-                li{
-                    padding-left:30px;
-                    line-height:36px;
-                    >span:frst-child{
-                        color:#999;
+                padding-top: 10px;
+                li {
+                    padding-left: 30px;
+                    line-height: 36px;
+                    >span:first-child {
+                        color: #999;
+                        padding-right: 5px;
                     }
                 }
             }
-            .r-shoping-btns {}
+            .r-shoping-btns {
+                button {
+                    width: 150px;
+                    height: 45px;
+                    color: #fff;
+                    font-size: 18px;
+                    margin-left: 20px;
+                    background: #aaa;
+                    border: 0;
+                    border-radius: 5px;
+                }
+                button:nth-child(1) {
+                    background: #ea6200
+                }
+                button:nth-child(2) {
+                    background: #0069b7
+                }
+                button:nth-child(3) {
+                    background: #097d25
+                }
+            }
         }
     }
+            .r-shoping-swiper {
+                overflow: hidden;
+                .r-shoping-swiper-title {
+                    width: 60px;
+                    height: 160px;
+                    background: #0069b7;
+                    color: #fff;
+                    font-size: 18px;
+                    font-weight: bold;
+                    text-align:center;
+                    writing-mode:tb-rl;
+                    line-height:60px;letter-spacing: 5px;
+                    float: left;
+                }
+                .r-shoping-swiper-list{
+                    padding-left:20px;
+                    overflow: hidden;
+                    background:#fff;
+                    height:161px;
+                    border:1px solid #eee;
+                    li{
+                        float:left;
+                        vertical-align:middle;
+                        line-height: 161px;
+                        margin-top:15px;
+                        img{
+                            height:132px;
+                        }
+                    }
+                }
+            }
 }
