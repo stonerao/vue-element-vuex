@@ -237,10 +237,11 @@ export default {
                     id: deparId 
                 }
             }).then((res) => {
-                // console.log(res);
+                console.log(res);
                 if (res.status === 200) {
                     if(res.data.code!=400){
                         this.schedule_id = res.data.data[0].schedule_id;
+                        this.scheduleId = this.schedule_id;   //编辑实体班课表时用
                         this.scheTableHeader = res.data.data
                         this.Ajax(this.schedule_id);
                     }else{
@@ -280,6 +281,7 @@ export default {
                             end_time: unixTimestampe.toLocaleString(),
                         }
                         this.schedData = res.data.data.model_common;
+                        this.vloading = false;
                         if(res.data.data.school_time_type == 1){
                             this.sesson = '夏季节次'
                         }else if(res.data.data.school_time_type == 2){
@@ -287,6 +289,13 @@ export default {
                         }else if(res.data.data.school_time_type == 3){
                             this.sesson = '全年节次'
                         }
+
+                        this.searchInlin = {
+                            name: res.data.data.schedule_name,
+                            startTime: unixTimestamps.toLocaleString(),
+                            endTime: unixTimestampe.toLocaleString()
+                        }
+
                     }else{
                         this.$notify.error({
                             message: res.data.data.error

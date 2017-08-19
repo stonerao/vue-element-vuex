@@ -201,7 +201,7 @@
 
                         <div v-if="tab_2" class="l_schedule_outer">
                             <!-- 查看课表 -->
-                            <checkGradeSchedule :derpartId="derpartId" :tabsStatus="tabsStatus" @BackCli="Setback"></checkGradeSchedule>
+                            <checkGradeSchedule :derpartId="derpartId" :classType="classType" :tabsStatus="tabsStatus" @BackCli="Setback"></checkGradeSchedule>
                         </div>
                     </div>
                     <div v-if="state===1" class="l_timetable_outer">
@@ -287,6 +287,7 @@ export default {
             taData: [],  //提交的json数据
             tabsStatus: false,
             derpartId: 0,
+            classType: 0,
             isActive: true,
         }
     },
@@ -334,6 +335,7 @@ export default {
         },
         checkSchedule(id,type){
             this.derpartId = id;
+            this.classType = type;
             this.loading = true;
             this.tab_0 = false;
             this.tab_2 = true;
