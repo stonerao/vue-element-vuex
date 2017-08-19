@@ -158,6 +158,25 @@ export default {
             })
         },
 
+        //编辑初始获取科目
+        subjectEdit() {
+            this.$http(api.subjectData, {
+                params: {
+                    token: getToken(),
+                }
+            }).then((res) => {
+                if (res.status === 200) {
+                    let data = res.data.data;
+                    data.forEach((x)=> {
+                        if(x.s_id!=''&&x.s_id!=0){
+                            this.ajax(x.s_id);
+                        }
+                    })
+                    this.subject = data;
+                }
+            })
+        },
+
         // 联动获取老师
         teacherData(id) {
             this.$http(api.teacherData, {
@@ -174,7 +193,7 @@ export default {
             })
         },
 
-        //班级课表编辑保存数据
+        //班级课表--添加--保存数据
         scheduleSave(mod,search) {
             if(search.startTime != '' && search.endTime != ''){
                 search.startTime = search.startTime.getFullYear() + '-' + (search.startTime.getMonth() + 1) + '-' + search.startTime.getDate();
@@ -220,11 +239,13 @@ export default {
                         this.$notify.error({
                             message: res.data.data.error
                         });
+                        this.taData = [];
                     }
                 }else {
                     this.$notify.error({
                         message: res.data.data.error
                     });
+                    this.taData = [];
                 }
             })
         },
@@ -237,7 +258,7 @@ export default {
                     id: deparId 
                 }
             }).then((res) => {
-                console.log(res);
+                // console.log(res);
                 if (res.status === 200) {
                     if(res.data.code!=400){
                         this.schedule_id = res.data.data[0].schedule_id;
@@ -281,7 +302,7 @@ export default {
                             end_time: unixTimestampe.toLocaleString(),
                         }
                         this.schedData = res.data.data.model_common;
-                        this.vloading = false;
+                        // console.log(this.schedData);
                         if(res.data.data.school_time_type == 1){
                             this.sesson = '夏季节次'
                         }else if(res.data.data.school_time_type == 2){
@@ -290,12 +311,19 @@ export default {
                             this.sesson = '全年节次'
                         }
 
+                        //编辑实体班课表初始数据绑定
+                        this.vloading = false;
                         this.searchInlin = {
                             name: res.data.data.schedule_name,
                             startTime: unixTimestamps.toLocaleString(),
                             endTime: unixTimestampe.toLocaleString()
                         }
-
+                        this.classGrade = res.data.data.department_name;
+                        this.model = {
+                            id: res.data.data.model_id,
+                            type: res.data.data.class_type,
+                            deparId: res.data.data.department_id
+                        };
                     }else{
                         this.$notify.error({
                             message: res.data.data.error
@@ -306,6 +334,64 @@ export default {
                     this.$notify.error({
                         message: res.data.data.error
                     });
+                }
+            })
+        },
+
+        //实体班级课表--编辑--保存数据
+        editSubstSave(mod,search) {
+            if(search.startTime != '' && search.endTime != ''){
+                search.startTime = search.startTime.getFullYear() + '-' + (search.startTime.getMonth() + 1) + '-' + search.startTime.getDate();
+                search.endTime = search.endTime.getFullYear() + '-' + (search.endTime.getMonth() + 1) + '-' + search.endTime.getDate();
+            }
+            let _begin = this.tableData;
+            _begin.forEach((data) => {   //进入每一行
+                let time = data.timetable;  //进入每一个的timetable
+                let circle =[time.day1, time.day2, time.day3, time.day4, time.day5, time.day6, time.day7];
+                circle.forEach((x) => {
+                    if(x){
+                        this.taData.push(x);
+                    }
+                })
+            });
+            console.log(this.taData);
+            this.$http({
+                url: api.scheduleEditSave,
+                method: 'post',
+                data: {
+                    token: getToken(),
+                    name: search.name,  //学期名字
+                    start_time: search.startTime,
+                    end_time: search.endTime,
+                    model_type: mod.type,
+                    model_id: mod.id,
+                    department_id: mod.deparId,   //班级id
+                    timetable: encodeUnicode(JSON.stringify(this.taData)),
+                }
+            }).then((res) => {
+                console.log(res)
+                if (res.status == 200) {
+                    this.model={};
+                    if(res.data.code!=400){
+                        this.$notify({
+                            message: res.data.data,
+                            type: 'success',
+                            duration: 1000,
+                            onClose: () => {
+                                // window.location.reload(true);
+                            }
+                        });
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                        this.taData = [];
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                    this.taData = [];
                 }
             })
         },

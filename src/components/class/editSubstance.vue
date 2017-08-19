@@ -2,26 +2,11 @@
     <div>
         <div v-loading="vloading">
             <div class="l_schedule_outer">
-
-                <!-- <div class="check_schedule sche_list_header">
+                <div class="sche_list_header">
                     <ul class="clearfloat">
-                        <li v-for="(sche,index) in scheTableHeader" @click="scheduleTab(sche.schedule_id,index)" v-bind:class="{ active: isActive==index }">{{sche.schedule_name}}</li>
+                        <li v-bind:class="{ active: isActive }">{{classGrade}}</li>
                     </ul>
                 </div>
-                <div class="l_search1">
-                    <el-row class="l_check_outer">
-                        <el-col  :gutter="20" :span="24" class="check_header">
-                            <div class="term_name">学期名称：<span class="blue_1">{{scheHeader.name}}</span></div>
-                            <div class="schedule_time">课表有效期：<span class="blue_1">{{scheHeader.start_time}}</span> 至 <span class="blue_1">{{scheHeader.end_time}}</span></div>
-                        </el-col>
-                    </el-row>
-                </div> -->
-
-                <!-- <div class="sche_list_header">
-                    <ul class="clearfloat">
-                        <li v-bind:class="{ active: isActive }">{{editData.scheTableOrder}}</li>
-                    </ul>
-                </div> -->
                 <div class="l_search0">
                     <el-row :gutter="20" class="l_search_outer">
                         <el-col :span="24" class="class-searchs">
@@ -52,54 +37,88 @@
                         <el-table-column :label="sesson">
                             <template scope="scope">{{scope.row.school_time}}</template>
                         </el-table-column> 
+
                         <el-table-column label="星期一">
                             <template scope="scope">
                                 <div v-if="scope.row.content.day1">
-                                   <!--  <span v-html="scope.row.content.day1.s_name"></span> - 
-                                    <span v-html="scope.row.content.day1.teacher_name"></span> -->
-                                    {{scope.row.content.day1.s_name}} - {{scope.row.content.day1.teacher_name}}
+                                    <el-select v-model="scope.row.content.day1.s_id" placeholder="科目" @change="teachLoad(scope.row.content.day1.s_id)">
+                                        <el-option v-for="options in subject" :key="options.s_id" :label="options.s_name" :value="options.s_id"></el-option>
+                                    </el-select>
+                                    <el-select v-model="scope.row.content.day1.teacher_id" :disabled="scope.row.content.day1.s_id==''" placeholder="老师" @change="clearTeacher">
+                                        <el-option v-for="option in teacher" :key="option.teacher_id" :label="option.teacher_name" :value="option.teacher_id"></el-option>
+                                    </el-select>
                                 </div>
                             </template>
                         </el-table-column>
                         <el-table-column label="星期二">
                             <template scope="scope">
-                               <div v-if="scope.row.content.day2">
-                                    {{scope.row.content.day2.s_name}} - {{scope.row.content.day2.teacher_name}}
+                                <div v-if="scope.row.content.day2">
+                                    <el-select v-model="scope.row.content.day2.s_id" placeholder="科目" @change="teachLoad(scope.row.content.day2.s_id)">
+                                        <el-option v-for="options in subject" :key="options.s_id" :label="options.s_name" :value="options.s_id"></el-option>
+                                    </el-select>
+                                    <el-select v-model="scope.row.content.day2.teacher_id" :disabled="scope.row.content.day2.s_id==''" placeholder="老师" @change="clearTeacher">
+                                        <el-option v-for="option in teacher" :key="option.teacher_id" :label="option.teacher_name" :value="option.teacher_id"></el-option>
+                                    </el-select>
                                 </div>
                             </template>
                         </el-table-column>
                         <el-table-column label="星期三">
                             <template scope="scope">
                                 <div v-if="scope.row.content.day3">
-                                    {{scope.row.content.day3.s_name}} - {{scope.row.content.day3.teacher_name}}
+                                    <el-select v-model="scope.row.content.day3.s_id" placeholder="科目" @change="teachLoad(scope.row.content.day3.s_id)">
+                                        <el-option v-for="options in subject" :key="options.s_id" :label="options.s_name" :value="options.s_id"></el-option>
+                                    </el-select>
+                                    <el-select v-model="scope.row.content.day3.teacher_id" :disabled="scope.row.content.day3.s_id==''" placeholder="老师" @change="clearTeacher">
+                                        <el-option v-for="option in teacher" :key="option.teacher_id" :label="option.teacher_name" :value="option.teacher_id"></el-option>
+                                    </el-select>
                                 </div>
                             </template>
                         </el-table-column>
                         <el-table-column label="星期四">
                             <template scope="scope">
                                 <div v-if="scope.row.content.day4">
-                                    {{scope.row.content.day4.s_name}} - {{scope.row.content.day4.teacher_name}}
+                                    <el-select v-model="scope.row.content.day4.s_id" placeholder="科目" @change="teachLoad(scope.row.content.day4.s_id)">
+                                        <el-option v-for="options in subject" :key="options.s_id" :label="options.s_name" :value="options.s_id"></el-option>
+                                    </el-select>
+                                    <el-select v-model="scope.row.content.day4.teacher_id" :disabled="scope.row.content.day4.s_id==''" placeholder="老师" @change="clearTeacher">
+                                        <el-option v-for="option in teacher" :key="option.teacher_id" :label="option.teacher_name" :value="option.teacher_id"></el-option>
+                                    </el-select>
                                 </div>
                             </template>
                         </el-table-column>
                         <el-table-column label="星期五">
                             <template scope="scope">
                                 <div v-if="scope.row.content.day5">
-                                    {{scope.row.content.day5.s_name}} - {{scope.row.content.day5.teacher_name}}
+                                    <el-select v-model="scope.row.content.day5.s_id" placeholder="科目" @change="teachLoad(scope.row.content.day5.s_id)">
+                                        <el-option v-for="options in subject" :key="options.s_id" :label="options.s_name" :value="options.s_id"></el-option>
+                                    </el-select>
+                                    <el-select v-model="scope.row.content.day5.teacher_id" :disabled="scope.row.content.day5.s_id==''" placeholder="老师" @change="clearTeacher">
+                                        <el-option v-for="option in teacher" :key="option.teacher_id" :label="option.teacher_name" :value="option.teacher_id"></el-option>
+                                    </el-select>
                                 </div>
                             </template>
                         </el-table-column>
                         <el-table-column label="星期六">
                             <template scope="scope">
                                 <div v-if="scope.row.content.day6">
-                                    {{scope.row.content.day6.s_name}} - {{scope.row.content.day6.teacher_name}}
+                                    <el-select v-model="scope.row.content.day6.s_id" placeholder="科目" @change="teachLoad(scope.row.content.day6.s_id)">
+                                        <el-option v-for="options in subject" :key="options.s_id" :label="options.s_name" :value="options.s_id"></el-option>
+                                    </el-select>
+                                    <el-select v-model="scope.row.content.day6.teacher_id" :disabled="scope.row.content.day6.s_id==''" placeholder="老师" @change="clearTeacher">
+                                        <el-option v-for="option in teacher" :key="option.teacher_id" :label="option.teacher_name" :value="option.teacher_id"></el-option>
+                                    </el-select>
                                 </div>
                             </template>
                         </el-table-column>
-                        <el-table-column label="星期日">
+                        <el-table-column label="星期天">
                             <template scope="scope">
                                 <div v-if="scope.row.content.day7">
-                                    {{scope.row.content.day7.s_name}} - {{scope.row.content.day7.teacher_name}}
+                                    <el-select v-model="scope.row.content.day7.s_id" placeholder="科目" @change="teachLoad(scope.row.content.day7.s_id)">
+                                        <el-option v-for="options in subject" :key="options.s_id" :label="options.s_name" :value="options.s_id"></el-option>
+                                    </el-select>
+                                    <el-select v-model="scope.row.content.day7.teacher_id" :disabled="scope.row.content.day7.s_id==''" placeholder="老师" @change="clearTeacher">
+                                        <el-option v-for="option in teacher" :key="option.teacher_id" :label="option.teacher_name" :value="option.teacher_id"></el-option>
+                                    </el-select>
                                 </div>
                             </template>
                         </el-table-column>
@@ -123,32 +142,27 @@ export default {
         return {
             isActive: true,
             vloading: true,
-            gradeS: '',  //年级select的值
-            classS: '', //班级select的值
             searchInlin: {  //按年级班级搜索
               name: '',
               startTime: '',
               endTime: ''
             },
             gradeList: [],  //班级课表初始数据
-            graClaId:{    //初始化年级班级id
-                p_id : 0,
-                c_id : 0,
-            },
-            gradeModel:{
-                departId: '',  //排课班级id
-                classType: '',  //实体班，虚体班
-            },
-            editData: {
-                scheTableOrder: 1,  //课表编号
-                editAllData: '',  //课表编辑请求数据
-            },
+            // graClaId:{    //初始化年级班级id
+            //     p_id : '',
+            //     c_id : '',
+            // },
+            // gradeModel:{
+            //     departId: '',  //排课班级id
+            //     classType: '',  //实体班，虚体班
+            // },
             schedData:[],  //表数据
             subject: [],  //学习科目数据
             teacher: [], //老师数据 
             model:{},  //初始储存model_id,model_type,department_id三个属性
             taData: [],  //提交的json数据
             sesson: '',
+            classGrade: '',
         }
     },
     created() {
@@ -156,20 +170,31 @@ export default {
         // console.log(this.classType)
         // console.log(this.scheduleId)
         info.checkGradeSche.call(this,this.derpartId,this.scheduleId);
+        info.subjectEdit.call(this);  //加载科目数据
     },
     components: {
         
     },
     methods: {
         editSave(){
-
+            console.log(this.schedData);
+            info.editSubstSave.call(this,this.model,this.searchInlin);
         },
         goLookover(){
             this.$emit("EDITBACK");
+        },
+        teachLoad(id){
+            info.teacherData.call(this,id);
+        },
+        clearTeacher(){
+            this.teacher = [];
+        },
+        ajax(sId){
+           info.teacherData.call(this,sId); 
         }
     },
     watch:{
-
+        
     }
 }
 </script>
