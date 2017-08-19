@@ -15,9 +15,9 @@
                     </el-col>
                     <el-col :span="12" class="check_handle">
                         <el-button-group>
-                          <el-button type="primary" icon="plus" size="small">代课</el-button>
-                          <el-button type="primary" icon="plus" size="small">停课</el-button>
-                          <el-button type="primary" icon="plus" size="small">调课</el-button>
+                          <el-button type="primary" icon="plus" size="small" @click="takeover">代课</el-button>
+                          <el-button type="primary" icon="plus" size="small" @click="takestop">停课</el-button>
+                          <el-button type="primary" icon="plus" size="small" @click="adjust">调课</el-button>
                           <el-button type="primary" icon="plus" size="small" @click="edit">编辑</el-button>
                           <el-button type="primary" icon="plus" size="small" @click="back">返回</el-button>
                         </el-button-group>
@@ -99,6 +99,233 @@
             <!-- 编辑虚拟班 -->
             <editVirtual :derpartId="derpartId" :classType="classType" :scheduleId="scheduleId"></editVirtual>
         </div>
+        <div v-if="class_takeover">
+            <!-- 班级代课 -->
+            <div class="l_virtual_wraper">
+                <div class="form_group">
+                    <ul class="clearfloat">
+                        <li class="header">代课时间段：</li>
+                        <li>
+                            <div class="inline-block">
+                                <el-date-picker v-model="takeStart" type="date" placeholder="选择日期"></el-date-picker>
+                            </div>
+                            <div class="inline-block middle_zhi">至</div>
+                            <div class="inline-block">
+                                <el-date-picker v-model="takeEnd" type="date" placeholder="选择日期" :picker-options="pickerOptions2" :disabled="cannot"></el-date-picker>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="form_group">
+                    <ul class="clearfloat">
+                        <li class="header">代课科目：</li>
+                        <li>
+                            <el-select v-model="subjectVal" placeholder="请选择科目">
+                                <el-option v-for="item in subject" :key="item.subject_id" :label="item.subject_name" :value="item.subject_id"></el-option>
+                            </el-select>
+                        </li>
+                    </ul>
+                </div>
+                <div class="form_group">
+                    <ul class="clearfloat">
+                        <li class="header">代课老师：</li>
+                        <li>
+                            <el-select v-model="teacherVal" placeholder="请选择老师">
+                                <el-option v-for="item in teacher" :key="item.teacher_id" :label="item.teacher_name" :value="item.teacher_id"></el-option>
+                            </el-select>
+                        </li>
+                    </ul>
+                </div>
+                <div class="form_group">
+                    <ul class="clearfloat">
+                        <li class="header">代课原因：</li>
+                        <li style="width: 550px;height: auto;line-height: 23px;">
+                           <el-input type="textarea" v-model="textareaVal"></el-input>
+                        </li>
+                    </ul>
+                </div>
+                <div class="form_group">
+                    <ul class="clearfloat">
+                        <li class="header"></li>
+                        <li>
+                            <el-button type="primary" @click.native="takeoverClass">保存</el-button>
+                            <el-button @click.native="cancel">取消</el-button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div v-if="class_stop">
+            <!-- 班级停课 -->
+            <div class="l_virtual_wraper">
+                <div class="form_group">
+                    <ul class="clearfloat">
+                        <li class="header">停课范围：</li>
+                        <li>{{stopArea}}</li>
+                    </ul>
+                </div>
+                <div class="form_group">
+                    <ul class="clearfloat">
+                        <li class="header">停课时间段：</li>
+                        <li>
+                            <div class="inline-block">
+                                <el-date-picker v-model="stoPstart" type="datetime" placeholder="选择日期"></el-date-picker>
+                            </div>
+                            <div class="inline-block middle_zhi">至</div>
+                            <div class="inline-block">
+                                <el-date-picker v-model="stoPtime.end" type="datetime" placeholder="选择日期" :picker-options="pickerOptions3"></el-date-picker>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="form_group">
+                    <ul class="clearfloat">
+                        <li class="header">停课原因：</li>
+                        <li style="width: 550px;height: auto;line-height: 23px;">
+                           <el-input type="textarea" v-model="stopareaVal"></el-input>
+                        </li>
+                    </ul>
+                </div>
+                <div class="form_group">
+                    <ul class="clearfloat">
+                        <li class="header"></li>
+                        <li>
+                            <el-button type="primary" @click.native="stopSave">保存</el-button>
+                            <el-button @click.native="stopCancel">取消</el-button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div v-if="class_adjust">
+            <!-- 班级调课 -->
+            <div v-if="adj_step1">
+                <div class="l_virtual_wraper">
+                    <div class="form_group">
+                        <ul class="clearfloat">
+                            <li class="header">调课范围：</li>
+                            <li>{{adjArea}}</li>
+                        </ul>
+                    </div>
+                    <div class="form_group">
+                        <ul class="clearfloat">
+                            <li class="header">调课方式：</li>
+                            <li style="margin-right: 20px;">
+                                <el-radio class="radio" v-model="radio" label="1">按天</el-radio>
+                            </li>
+                            <li>
+                                <el-radio class="radio" v-model="radio" label="2">按课时</el-radio>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="form_group">
+                        <ul class="clearfloat">
+                            <li class="header">调课原因：</li>
+                            <li style="width: 550px;height: auto;line-height: 23px;">
+                               <el-input type="textarea" v-model="adjResson"></el-input>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="form_group">
+                        <ul class="clearfloat">
+                            <li class="header"></li>
+                            <li>
+                                <el-button type="primary" @click.native="adjNext">下一步</el-button>
+                                <el-button @click.native="adjCancel">取消</el-button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div v-if="adj_step2_A">
+                <div class="l_virtual_wraper">
+                    <div class="form_group">
+                        <ul class="clearfloat">
+                            <li class="header">调换日期1：</li>
+                            <li>
+                                <div class="inline-block">
+                                    <el-date-picker v-model="AdayOld" type="date" placeholder="选择日期"></el-date-picker>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="form_group">
+                        <ul class="clearfloat">
+                            <li class="header">调换日期2：</li>
+                            <li>
+                                <div class="inline-block">
+                                    <el-date-picker v-model="AdayNew" type="date" placeholder="选择日期"></el-date-picker>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="form_group">
+                        <ul class="clearfloat">
+                            <li class="header"></li>
+                            <li>
+                                <el-button type="primary" @click.native="AadjGofirst">上一步</el-button>
+                                <el-button @click.native="AadjSave">保存</el-button>
+                                <el-button @click.native="AadjCancel">取消</el-button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div v-if="adj_step2_B">
+                <div class="l_virtual_wraper">
+                    <div class="form_group">
+                        <ul class="clearfloat">
+                            <li class="header">调换课时1：</li>
+                            <li>
+                                <div class="inline-block">
+                                    <el-date-picker v-model="BdayOld" type="date" placeholder="选择日期"></el-date-picker>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="form_group">
+                        <ul class="clearfloat">
+                            <li class="header"></li>
+                            <li v-for="time in timelineList" style="margin-right: 20px;">
+                                <div class="inline-block">
+                                    <el-radio class="radio" v-model="timeline1" :label="time.school_time">{{time.jieci}}</el-radio>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="form_group">
+                        <ul class="clearfloat">
+                            <li class="header">调换课时2：</li>
+                            <li>
+                                <div class="inline-block">
+                                    <el-date-picker v-model="BdayNew" type="date" placeholder="选择日期"></el-date-picker>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="form_group">
+                        <ul class="clearfloat">
+                            <li class="header"></li>
+                            <li v-for="time in timelineList" style="margin-right: 20px;">
+                                <div class="inline-block">
+                                    <el-radio class="radio" v-model="timeline2" :label="time.school_time">{{time.jieci}}</el-radio>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="form_group">
+                        <ul class="clearfloat">
+                            <li class="header"></li>
+                            <li>
+                                <el-button type="primary" @click.native="BadjGofirst">上一步</el-button>
+                                <el-button @click.native="BadjSave">保存</el-button>
+                                <el-button @click.native="BadjCancel">取消</el-button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -124,7 +351,54 @@ export default {
             lookover: true, //查看课程表
             edit_substance: false, //编辑实体班
             edit_virtual: false, //编辑虚拟班
+            class_takeover: false,
+            class_stop: false,
             scheduleId: 0,
+            takeStart: '',  //开始时间段
+            takeEnd: '',  //结束时间段
+            stoPtime: {
+                start: '',  //停课开始时间段
+                end: '',  //结束时间段
+            },
+            stoPstart: '',
+            pickerOptions2: {},
+            pickerOptions3: {},
+            time: {
+                start: '',
+                end: '',
+            },
+            subject: [],  //科目数据
+            teacher: [],  //老师数据
+            subjectVal: '',
+            teacherVal: '',
+            textareaVal: '',
+            cannot: true,
+            stopArea: '',  //停课范围
+            stopareaVal: '',  //停课原因
+            class_adjust: false,  //调课
+            adj_step1: false,
+            adj_step2_A: false,
+            adj_step2_B: false,
+            adjArea: '',
+            adjResson: '',
+            radio: '1',
+            recordId: 0,
+            changetype: 1,   //按天  按课时
+            AdayOld: '',
+            AdayNew: '',
+            BdayOld: '',
+            BdayNew: '',
+            adjTime1:{
+                A: '',
+                B: ''
+            },
+            adjTime2:{
+                A: '',
+                B: ''
+            },
+            timelineList: [],
+            timeline1: '',
+            timeline2: '',
         }
     },
     created() {
@@ -134,12 +408,40 @@ export default {
         }
         // console.log(this.classType);
         // console.log(this.derpartId);
-
     },
     components: {
         editSubstance, editVirtual
     },
     methods: {
+        BadjSave(){
+            info.adjustStepBs.call(this,this.recordId,this.adjTime1,this.adjTime2)
+        },
+        AadjSave(){
+            info.adjustStepBs.call(this,this.recordId,this.adjTime1,this.adjTime2)
+        },
+        adjustAjax(rec){
+            info.adjustStepB.call(this,rec);
+        },
+        adjNext(){
+            info.adjustStepAs.call(this,this.schedule_id,this.classType,this.radio,this.adjResson);
+        },
+        adjust(){
+            this.lookover = false;
+            this.class_adjust = true;
+            this.adj_step1 = true;
+            info.adjustStepA.call(this,this.schedule_id,this.classType);
+        },
+        stopSave(){
+            info.classStopSave.call(this,this.classType,this.stoPtime,this.stopareaVal);
+        },
+        takestop(){
+            this.lookover = false;
+            this.class_stop = true;
+            info.classStopBegin.call(this,this.schedule_id);
+        },
+        takeoverClass(){
+            info.takeoverSubmit.call(this,this.schedule_id,this.time,this.subjectVal);
+        },
         scheduleTab(id,index){
             this.isActive = index;
             this.schedule_id = id;
@@ -164,10 +466,93 @@ export default {
         subEditBack(){
             this.lookover = true;
             this.edit_substance = false;
+        },
+        takeover(){  //代课
+            this.lookover = false;
+            this.class_takeover = true;
+        },
+        cancel(){
+            this.lookover = true;
+            this.class_takeover = false;
+        },
+        stopCancel(){
+            this.lookover = true;
+            this.class_stop = false;
+        },
+        adjCancel(){
+            this.lookover = true;
+            this.adj_step1 = false;
+            this.class_adjust = false;
+        },
+        BadjCancel(){
+            this.lookover = true;
+            this.adj_step2_B = false;
+        },
+        AadjGofirst(){
+            adj_step1: true;
+            adj_step2_A: false;
+        },
+        AadjCancel(){
+            this.lookover = true;
+            this.adj_step2_A = false;
+        },
+        BadjGofirst(){
+            adj_step1: true;
+            adj_step2_B: false;
         }
     },
     watch:{
-        
+        takeStart(val){
+            if(val!=''){
+                this.time.start = val.getTime()/1000;
+            }
+            this.cannot = false;
+            this.pickerOptions2 = {
+                disabledDate(time) {
+                    return time.getTime() < val.getTime() + 24*60*60*1000;
+                }
+            }
+            if(this.time.start != ''&&this.time.end != ''){
+                info.takeTiToSub.call(this,this.schedule_id,this.time);
+            }
+        },
+        takeEnd(val){
+            if(val!=''){
+                this.time.end = val.getTime()/1000;
+            }
+            if(this.time.start != ''&&this.time.end != ''){
+                info.takeTiToSub.call(this,this.schedule_id,this.time);
+            }
+        },
+        subjectVal(val){
+            info.takeSubToTeac.call(this,this.schedule_id,this.time,val);
+        },
+        stoPstart(val){
+            this.stoPtime.start = val;
+            this.pickerOptions3 = {
+                disabledDate(time) {
+                    return time.getTime() > val.getTime() + 24*60*60*1000;
+                }
+            }
+        },
+        AdayOld(val){
+            this.adjTime1.A = val;
+        },
+        AdayNew(val){
+            this.adjTime1.B = val;
+        },
+        BdayOld(val){
+            this.adjTime1.A = val;
+        },
+        BdayNew(val){
+            this.adjTime1.B = val;
+        },
+        timeline1(val){
+            this.adjTime2.A = val;
+        },
+        timeline2(val){
+            this.adjTime2.B = val;
+        }
     }
 }
 </script>

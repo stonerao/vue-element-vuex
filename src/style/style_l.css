@@ -273,6 +273,9 @@
   height: 36px;
   line-height: 36px;
 }
+.l_layout_outer .l_virtual_wraper .form_group ul li textarea {
+  min-height: 140px;
+}
 .l_layout_outer .l_virtual_wraper .form_group ul li.header {
   width: 140px;
   text-align: right;
