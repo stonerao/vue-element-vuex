@@ -315,12 +315,13 @@ export default {
                         this.vloading = false;
                         this.searchInlin = {
                             name: res.data.data.schedule_name,
-                            startTime: unixTimestamps.toLocaleString(),
-                            endTime: unixTimestampe.toLocaleString()
+                            startTime: unixTimestamps,
+                            endTime: unixTimestampe
                         }
                         this.classGrade = res.data.data.department_name;
                         this.model = {
-                            id: res.data.data.model_id,
+                            id: res.data.data.schedule_id,
+                            mid: res.data.data.model_id,
                             type: res.data.data.class_type,
                             deparId: res.data.data.department_id
                         };
@@ -344,12 +345,17 @@ export default {
                 search.startTime = search.startTime.getFullYear() + '-' + (search.startTime.getMonth() + 1) + '-' + search.startTime.getDate();
                 search.endTime = search.endTime.getFullYear() + '-' + (search.endTime.getMonth() + 1) + '-' + search.endTime.getDate();
             }
-            let _begin = this.tableData;
+            let _begin = this.schedData;
             _begin.forEach((data) => {   //进入每一行
-                let time = data.timetable;  //进入每一个的timetable
+                let time = data.content;  //进入每一个的timetable
                 let circle =[time.day1, time.day2, time.day3, time.day4, time.day5, time.day6, time.day7];
                 circle.forEach((x) => {
                     if(x){
+                        delete x.contents_id;
+                        delete x.s_name;
+                        delete x.school_identify;
+                        delete x.teacher_name;
+                        delete x.schedule_id;
                         this.taData.push(x);
                     }
                 })
@@ -360,11 +366,12 @@ export default {
                 method: 'post',
                 data: {
                     token: getToken(),
+                    id: mod.id,
                     name: search.name,  //学期名字
                     start_time: search.startTime,
                     end_time: search.endTime,
                     model_type: mod.type,
-                    model_id: mod.id,
+                    model_id: mod.mid,
                     department_id: mod.deparId,   //班级id
                     timetable: encodeUnicode(JSON.stringify(this.taData)),
                 }
