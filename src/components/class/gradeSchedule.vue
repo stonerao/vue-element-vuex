@@ -36,12 +36,6 @@
                 <el-table-column :label="sesson">
                     <template scope="scope">{{scope.row.school_time}}</template>
                 </el-table-column> 
-                <!-- <el-table-column label="冬季节次" v-if="this.sessonStatus == 1">
-                    <template scope="scope">{{scope.row.school_time}}</template>
-                </el-table-column> 
-                <el-table-column label="全年节次" v-if="this.sessonStatus == 1">
-                    <template scope="scope">{{scope.row.school_time}}</template>
-                </el-table-column> -->
                 <el-table-column label="星期一">
                     <template scope="scope">
                         <div v-if="scope.row.content.day1">
