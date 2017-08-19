@@ -147,15 +147,6 @@ export default {
               startTime: '',
               endTime: ''
             },
-            gradeList: [],  //班级课表初始数据
-            // graClaId:{    //初始化年级班级id
-            //     p_id : '',
-            //     c_id : '',
-            // },
-            // gradeModel:{
-            //     departId: '',  //排课班级id
-            //     classType: '',  //实体班，虚体班
-            // },
             schedData:[],  //表数据
             subject: [],  //学习科目数据
             teacher: [], //老师数据 
@@ -185,6 +176,7 @@ export default {
         },
         teachLoad(id){
             info.teacherData.call(this,id);
+            this.teacher = [];
         },
         clearTeacher(){
             this.teacher = [];

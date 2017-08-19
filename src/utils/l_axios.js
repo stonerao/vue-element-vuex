@@ -154,6 +154,7 @@ export default {
                 if (res.status === 200) {
                     let data = res.data.data;
                     this.subject = data;
+                    this.teacher = [];
                 }
             })
         },
@@ -385,7 +386,7 @@ export default {
                             type: 'success',
                             duration: 1000,
                             onClose: () => {
-                                // window.location.reload(true);
+                                window.location.reload(true);
                             }
                         });
                     }else{
