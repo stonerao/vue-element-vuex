@@ -21,12 +21,46 @@
                 </div>
                 <!--考勤统计-->
                 <div v-if="state==3">
-                  <attendance :total="total" :list="attList" :isClassLogin="isClassLogin" @sAttendance="attendanceList" @attTimeChange="attTimeChange"></attendance>
+                  <attendance :total="total" :list="attList" :isClassLogin="isClassLogin" @attTimeChange="attTimeChange"></attendance>
                 </div>
                 <!--待我审批-->
               <div v-if="state==4">
                 <waitApprove :total="total" :checkTypeList="checkTypeList" :list="waitList" @apply="showAdd" @typeChange="changeType" @chooseApprove="approveChoose"></waitApprove>
               </div>
+              <!--老师考勤-->
+              <div v-if="state==5">
+                <el-row class="class-header">
+                  <el-col :span="11" class="class-titles">
+                    <img src="../../assets/index/shuaxin.png" class="icon-img-xs cursor"/>刷新-共{{total}} 条记录
+                  </el-col>
+                </el-row>
+                <el-row>
+                  <el-col :span="4">
+                    <el-input  placeholder="请输入姓名"></el-input>
+                  </el-col>
+                  <el-col :span="6">
+                    <el-date-picker  type="date" placeholder="选择开始日期" class="rt"></el-date-picker>
+                  </el-col>
+                  <el-col :span="1" style="text-align: center;line-height: 40px">—</el-col>
+                  <el-col :span="6">
+                    <el-date-picker  type="date" placeholder="选择结束日期" class="lf"></el-date-picker>
+                  </el-col>
+                  <el-col :span="6">
+                    <el-button type="primary" class="lf">搜索</el-button>
+                  </el-col>
+                </el-row>
+                <el-table  style="width: 100%">
+                  <el-table-column prop="" label="姓名"  show-overflow-tooltip></el-table-column>
+                  <el-table-column prop="" label="应上课时"></el-table-column>
+                  <el-table-column prop="" label="实上课时数"></el-table-column>
+                  <el-table-column prop="" label="缺勤课时数"></el-table-column>
+                  <el-table-column prop="" label="请假课时数"></el-table-column>
+                </el-table>
+              </div>
+              <!--学生考勤-->
+              <div v-if="state==5"></div>
+              <!--班级考勤-->
+              <div v-if="state==5"></div>
                 <!--填写申请-->
                 <div v-if="addState==1">
                   <applyAdd :state="state" @changeAddState="changeAdd" @submit="submitApply"></applyAdd>
@@ -68,18 +102,12 @@ import { getToken } from '@/utils/auth'
 export default {
     data() {
         return {
-            titleItem: [
-                { name: "请假管理", index: 0 },
-                { name: "调课管理", index: 1 },
-                { name: "代课管理", index: 2 },
-                { name: "考勤统计", index: 3 },
-                { name: "待我审批", index: 4 },
-            ],
+            titleItem: [],
             prompts: [
                 `该页面展示管理员的操作日志，可进行删除。`,
                 `侧边栏可以进行高级搜索`
             ],
-            state: 3,
+            state: 5,
             addState:0,//显示申请页面
             promptsPad: true,
             total:0,//总条数
@@ -95,14 +123,13 @@ export default {
             searchMsg:'',//搜索
             Msg:'',//左下角选择框
             isClassLogin:1,//登录状态（1.管理员；2.老师；3.学生）
-            attType:true,//老师考勤/学生考勤
             stime:'',//考勤统计时间开始
             etime:'',//考勤统计时间结束
         }
     },
     created() {
       this.refreshList();
-//      this.isClassLogin=getClass();
+      this.isClassLogin=getClass();
       if(this.isClassLogin==2){
         this.titleItem=[
           { name: "请假管理", index: 0 },
@@ -111,10 +138,17 @@ export default {
           { name: "考勤统计", index: 3 },
           { name: "待我审批", index: 4 }
         ]
+      }else if(this.isClassLogin==1){
+        this.titleItem=[
+          { name: "请假管理", index: 0 },
+          { name: "老师考勤", index: 5 },
+          { name: "学生考勤", index: 6 },
+          { name: "班级考勤", index: 7 },
+        ]
       }else{
         this.titleItem=[
           { name: "请假管理", index: 0 },
-          { name: "考勤统计", index: 3 }
+          { name: "考勤统计", index: 3 },
         ]
       }
     },
@@ -171,7 +205,7 @@ export default {
         }else if(this.state==2){
           att.relieve_list.call(this);
         }else if(this.state==3){
-          att.attendance_list.call(this,this.attType)
+          att.attendance_list.call(this)
         }else{
           att.approve_list.call(this)
         }
@@ -251,12 +285,6 @@ export default {
             });
           });
         }
-      },
-      //考勤管理
-      attendanceList(val,stime,etime){
-        this.attType=val;
-        this.stime=stime;
-        this.etime=etime;
       },
       //考勤统计时间选择
       attTimeChange(stime,etime){
