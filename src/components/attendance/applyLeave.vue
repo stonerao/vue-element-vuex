@@ -4,7 +4,7 @@
       <el-col :span="4" class="class-titles">
         <img src="../../assets/index/shuaxin.png" class="icon-img-xs cursor"/>刷新-共{{total}}条记录
       </el-col>
-      <el-col v-if="isClassLogin==2" :span="8">
+      <el-col v-if="isClassLogin!=1" :span="8">
         <el-button type="primary" @click="apply"><b>+</b>请假申请</el-button>
       </el-col>
       <el-col v-if="isClassLogin!=1" :span="12">

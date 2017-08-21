@@ -15,4 +15,6 @@ export const api={
   sapplyLeave:'Admin/Timetag/leave_approve',//老师请假审批
   steacherAttendance:'Admin/Grade/show_teacher_attendance_by_month',//按月查看老师考勤统计
   sstudentAttendance:'Admin/Grade/show_student_attendance_by_month',//按月查看学生考勤统计
+  stuleaveList:'Student/SchoolStudent/leave_list',//学生请假记录
+  stuApplyLeave:'Student/SchoolStudent/apply_leave',//学生请假申请
 }

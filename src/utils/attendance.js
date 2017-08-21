@@ -29,7 +29,7 @@ export default {
         }
         console.log(getToken())
       })
-    }else{
+    }else if(isClass==1){
       this.$http(api.sleaveLlist,{
         params:{
           token:getToken(),
@@ -51,25 +51,48 @@ export default {
           this.checkTypeList.push(obj);
         }
       })
+    }else{
+      //学生请假列表
+      this.$http(api.stuleaveList,{
+        params:{
+          token:getToken(),
+          curpage:this.currentPage,
+          page:this.pageSize,
+        }
+      }).then((res)=>{
+        console.log(res)
+        console.log(getToken())
+      })
     }
   },
   //请假申请提交
   apply_leave(data){
-    this.$http({
-      url:api.applyLeave,
-      method:'post',
-      data:data
-    }).then((res)=>{
-      if(res.data.code==200){
-        this.$message({
-          message: res.data.data,
-          type: 'success'
-        });
-        this.addState=0;
-      }else{
-        this.$message.error(res.data.data.error)
-      }
-    })
+    const isClass=getClass();
+    if(isClass==2){
+      this.$http({
+        url:api.applyLeave,
+        method:'post',
+        data:data
+      }).then((res)=>{
+        if(res.data.code==200){
+          this.$message({
+            message: res.data.data,
+            type: 'success'
+          });
+          this.addState=0;
+        }else{
+          this.$message.error(res.data.data.error)
+        }
+      })
+    }else{
+      this.$http({
+        url:api.stuApplyLeave,
+        method:'post',
+        data:data
+      }).then((res)=>{
+
+      })
+    }
   },
   // 调课列表
   change_list(){
