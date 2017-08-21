@@ -790,8 +790,14 @@ export default {
                     winter_hours_start_time: time.start_w,   
                     winter_hours_end_time: time.end_w,   
             };
+            if(this.distinguish){
+                this.urlData = api.virtualB;
+            }else{  
+                this.urlData = api.EditVirtStep_A;
+                this.formData.schedule_id = this.editScheID;
+            }
             this.$http({
-                url: api.virtualB,
+                url: this.urlData,
                 method: 'post',
                 data: this.formData
             }).then((res) => {
@@ -811,7 +817,7 @@ export default {
                             });
                         }else{   //编辑虚拟班提交
                             let _change = [this.formData.department_id, this.formData.model_name, this.formData.teaching_day, this.formData.teaching_num, this.formData.hours_type, this.formData.summer_hours_start_time, this.formData.summer_hours_end_time, this.formData.winter_hours_start_time, this.formData.winter_hours_end_time];
-                            let _changeBefore = [this.editVirBeginData.department_id, this.editVirBeginData.model_name, this.editVirBeginData.teaching_day, this.editVirBeginData.teaching_num, this.editVirBeginData.hours_type, this.editVirBeginData.summer_hours_start_time, this.editVirBeginData.summer_hours_end_time, this.editVirBeginData.winter_hours_start_time, this.editVirBeginData.winter_hours_end_time];
+                            let _changeBefore = [this.editVirBeginData.department_id, this.editVirBeginData.department_name, this.editVirBeginData.teaching_day, this.editVirBeginData.teaching_num, this.editVirBeginData.hours_type, this.editVirBeginData.summer_hours_start_time, this.editVirBeginData.summer_hours_end_time, this.editVirBeginData.winter_hours_start_time, this.editVirBeginData.winter_hours_end_time];
                             let _status = false;  //数据没改变
                             _change.forEach((data,index)=> {
                                 if(data != _changeBefore[index]){
@@ -819,19 +825,21 @@ export default {
                                     return;
                                 }
                             })
+                            this.editStatus = true;
                             if(_status){
+                                this.editStepTwoA = true;
+                                this.editModelID = res.data.data.model_id;  //编辑第二步展示页面传输数据
                                 this.$notify({    
                                     message: '初始变更！',
                                     type: 'success',
                                     duration: 1000,
                                     onClose: () => {
-                                        this.editStep2_A = true;
-                                        this.editStatus = this.editStep2_A;
                                         this.virtual_1 = false;
                                         this.virtual_2 = true;
                                     }
                                 });
                             }else{
+                                this.editStepTwoB = true;
                                 this.$notify({
                                     message: '初始未改变！',
                                     type: 'success',
@@ -898,7 +906,7 @@ export default {
         },
 
         //虚拟班排课第二步--保存
-        virtualArrangeD(mod,search) {
+        virtualArrangeD(mod,search,sid) {
             // 有效期转换
             if(search.startTime != '' && search.endTime != ''){
                 search.startTime = search.startTime.getFullYear() + '-' + (search.startTime.getMonth() + 1) + '-' + search.startTime.getDate();
@@ -964,10 +972,28 @@ export default {
                 this.summerYearTime = this.summerYearTime.substring(0,this.summerYearTime.length-1);
                 this.winerYearTime = this.winerYearTime.substring(0,this.winerYearTime.length-1);
             }
-
+            this.formDataA = {
+                token: getToken(),
+                name: search.name,  //学期名字
+                model_id: mod.id,
+                department_id: mod.deparId,   //班级id
+                end_time: search.endTime,
+                start_time: search.startTime,
+                teaching_each_day: this.teachingsDay,
+                summer_hours_time: this.summerYearTime,
+                winter_hours_time: this.winerYearTime,
+                year_hours_time: this.allYeartime,
+                timetable: encodeUnicode(JSON.stringify(this.virtDataTable)),
+            }
+            if(editVStakeover){  //编辑第二步保存
+                this.formDataA.schedule_id = sid;
+                this.apiURL = api.EditVirtStep_B1;
+            }else{
+                this.apiURL = api.virtualD;
+            }
             // console.log(this.virtDataTable);
             this.$http({
-                url: api.virtualD,
+                url: this.apiURL,
                 method: 'post',
                 data: {
                     token: getToken(),
@@ -1015,11 +1041,12 @@ export default {
                     schedule_id: sid
                 }
             }).then((res) => {
-                console.log(res);
+                // console.log(res);
                 if (res.status === 200) {
                     if(res.data.code!=400){
                         this.moduleName = res.data.data.department_name;   
                         this.editVirBeginData = res.data.data;
+                        this.editScheID = res.data.data.schedule_id;   //编辑第二步
                         let week_begin = (res.data.data.teaching_day).split(',');
                             week_begin.forEach((x)=> {
                                 x = parseInt(x) - 1;
@@ -1044,6 +1071,161 @@ export default {
                             this.startTimeVal_W = this.formatMd(res.data.data.winter_hours_start_time);
                             this.endTimeVal_W = this.formatMd(res.data.data.winter_hours_end_time);
                         }
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
+        // 虚拟班-编辑-第二步展示页面
+        EditVirtStep_b(mid,sid) {
+            this.$http(api.EditVirtStep_b, {
+                params: {
+                    token: getToken(),
+                    model_id: mid,
+                    schedule_id: sid,
+                }
+            }).then((res) => {
+                console.log(res);
+                if (res.status === 200) {
+                    if(res.data.code!=400){
+                        this.moduleName = res.data.data.model_name;
+                        this.studyType = res.data.data.time_line;
+                        this.model.deparId = res.data.data.department_id;
+                        this.default_day = res.data.data.default_day;
+                        this.loading = false;
+                        
+                        let virtStep2Data = res.data.data.list;
+                        virtStep2Data.forEach((x) => {
+                            x.class_timeS = [];
+                            x.class_timeW = [];
+                            x.class_time = [];
+                            x.teachDay = [];
+                            this.virtStep2Data.push(x)
+                        });
+                        this.loading =false;
+                    }else{
+                        this.$notify({
+                            message: res.data.data.error,
+                            type: 'error',
+                            duration: '1000',
+                            onClose: () => {
+                                window.location.reload(true);
+                            }
+                        });
+                        this.loading = false;
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
+        //虚拟班-编辑-第二步--保存（初始数据改变了）
+        EditVirtStep_B1(mod,search,sid) {
+            // 有效期转换
+            if(search.startTime != '' && search.endTime != ''){
+                search.startTime = search.startTime.getFullYear() + '-' + (search.startTime.getMonth() + 1) + '-' + search.startTime.getDate();
+                search.endTime = search.endTime.getFullYear() + '-' + (search.endTime.getMonth() + 1) + '-' + search.endTime.getDate();
+            }
+            let _handle = this.virtStep2Data;
+            _handle.forEach((data) => {   //进入每一行
+                let time = data.timetable;  //进入每一个的timetable对象
+                let circle =[time.day1, time.day2, time.day3, time.day4, time.day5, time.day6, time.day7];
+                let rownull = 0;
+                let circul = 0;
+                let split = "#";
+                let classTime = data.class_time;
+                let clasTimeS = data.class_timeS;  
+                let clasTimeW = data.class_timeW;
+                if(this.studyType == 1){ //全年制数据
+                    if(classTime.length == 2){
+                        classTime = this.formatHourM(classTime[0]) + "-" + this.formatHourM(classTime[1]);
+                    }
+                    this.allYeartime += classTime + ",";
+                } else if(this.studyType == 2){
+                    if(clasTimeS.length == 2){
+                        clasTimeS = this.formatHourM(clasTimeS[0]) + "-" + this.formatHourM(clasTimeS[1]);
+                    }
+                    this.summerYearTime += clasTimeS + ",";
+
+                    if(clasTimeW.length == 2){
+                        clasTimeW = this.formatHourM(clasTimeW[0]) + "-" + this.formatHourM(clasTimeW[1]);
+                    }
+                    this.winerYearTime += clasTimeW + ",";
+                }
+
+                circle.forEach((x) => {
+                    if(x){
+                        circul++;
+                        if(x.s_id != ''){  //进入每一个对象筛选s_sid是否为空
+                            data.teachDay.push(x.week_day);
+
+                            if(this.studyType == 1){
+                                x.class_time = classTime;
+                            } else if(this.studyType == 2){
+                                x.class_time += clasTimeS + "," + clasTimeW;
+                            }
+                            this.virtDataTable.push(x);
+                        } else{
+                            rownull++;
+                        }
+                    }
+                });
+                if(rownull == circul){
+                    split = this.default_day + "#";
+                };
+                this.teachingsDay += data.teachDay.sort().join(",") + split;
+
+            });
+            this.teachingsDay = this.teachingsDay.substring(0,this.teachingsDay.length-1);
+            if(this.studyType == 1){
+                this.summerYearTime = "";
+                this.winerYearTime = "";
+                this.allYeartime = this.allYeartime.substring(0,this.allYeartime.length-1);
+            }else if(this.studyType == 2){
+                this.allYeartime = "";
+                this.summerYearTime = this.summerYearTime.substring(0,this.summerYearTime.length-1);
+                this.winerYearTime = this.winerYearTime.substring(0,this.winerYearTime.length-1);
+            }
+            this.$http({
+                url: api.EditVirtStep_B1,
+                method: 'post',
+                data: {
+                    token: getToken(),
+                    schedule_id: sid,
+                    name: search.name,  //学期名字
+                    model_id: mod.id,
+                    department_id: mod.deparId,   //班级id
+                    end_time: search.endTime,
+                    start_time: search.startTime,
+                    teaching_each_day: this.teachingsDay,
+                    summer_hours_time: this.summerYearTime,
+                    winter_hours_time: this.winerYearTime,
+                    year_hours_time: this.allYeartime,
+                    timetable: encodeUnicode(JSON.stringify(this.virtDataTable)),
+                }
+            }).then((res) => {
+                console.log(res)
+                if (res.status == 200) {
+                    if(res.data.code!=400){
+                        this.$notify({
+                            message: res.data.data,
+                            type: 'success',
+                            duration: 1000,
+                            onClose: () => {
+                                window.location.reload(true);
+                            }
+                        });
                     }else{
                         this.$notify.error({
                             message: res.data.data.error

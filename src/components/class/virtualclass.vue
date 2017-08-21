@@ -98,7 +98,7 @@
 				</div>
 			</div>
 			<div v-if="virtual_2">
-				<virtualStep2 :modelId="modelId" :editStatus="editStatus" @backFirst="backfirst"></virtualStep2>
+				<virtualStep2 :modelId="modelId" :editStatus="editStatus" :editScheID="editScheID" :editModelID="editModelID" :editStepTwoA="editStepTwoA" :editStepTwoB="editStepTwoB" @backFirst="backfirst"></virtualStep2>
 			</div>
 		</div>
 	</div>
@@ -152,12 +152,14 @@ export default {
 	        modelId: 0,   //虚拟班编排第二步初始传值modelId
 	        classId: 0,   //虚拟班编排第二步初始传值班级id
 	        editVirBeginData: {},   //虚拟班初始数据保存
-	        beginChecked: [1,2], 
+	        urlData: '',  //区分编辑及排课的url地址
 	        distinguish: false,  //虚拟班第一步区分排课操作及编辑操作
 	        formData: {}, //表单提价数据
+	        editModelID: 0,
+	        editScheID: 0,
 	        editStatus: false,
-	        editStep2_A: false, //第一步数据改变-第二步表单提交状态
-	        editStep2_B: false, //第一步数据未改变-第二步表单提交状态
+	        editStepTwoA: false, //第一步数据改变-第二步表单提交状态
+	        editStepTwoB: false, //第一步数据未改变-第二步表单提交状态
         }
     },
     created() {

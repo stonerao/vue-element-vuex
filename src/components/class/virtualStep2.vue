@@ -147,7 +147,7 @@
 import info from '@/utils/l_axios'
 
 export default {
-    props: ['modelId','backFirst','editStatus'],
+    props: ['modelId','backFirst','editStatus','editScheID','editModelID','editStepTwoA','editStepTwoB'],
     data() {
         return {
         	searchInline: {  //按年级班级搜索
@@ -172,11 +172,23 @@ export default {
             winerYearTime: '',
             virtDataTable: [],
             loading: false,
+	        formDataA: {}, //表单提价数据
+	        editVStakeover: false,  //区分排课第二步保存与编辑第二步保存
+	        editVStake: false,   //编辑第二步保存区分
+	        apiURL: '',
         }
     },
     created() {
     	if(this.editStatus){    //编辑
-    		// console.log('初始数据改变编辑操作！');
+			this.loading = true;
+    		this.editVStakeover = true;
+			info.EditVirtStep_b.call(this,this.editModelID,this.editScheID);
+	       	info.subjectData.call(this);  //加载科目
+    		if(this.editStepTwoA){
+    			// console.log("初始数据变更！")
+    		}else if(this.editStepTwoB){
+    			// console.log("初始数据未变更！")
+    		}
     	}else{    //排课
     		this.loading = true;
 	       	info.virtualArrangeC.call(this,this.modelId);
@@ -197,11 +209,20 @@ export default {
         	this.$emit("backFirst");
         },
         goToNext(){
-        	this.model.id = this.modelId;
-        	info.virtualArrangeD.call(this,this.model,this.searchInline);
-        },
+        	if(this.editStatus){ 
+	    		if(this.editStepTwoA){   //编辑-初始数据改变-第二步保存
+			       	this.model.id = this.editModelID;
+		       		info.virtualArrangeD.call(this,this.model,this.searchInline,this.editScheID);
+	    		}else if(this.editStepTwoB){
+	    			
+	    		}
+	    	}else{ //排课
+		       this.model.id = this.modelId;
+		       info.virtualArrangeD.call(this,this.model,this.searchInline);
+	       	}
+	   	},
         cancelEdit(){
-
+        	window.location.reload(true);
         },
         formatHourM(date){
         	return info.formatHM.call(this,date);
