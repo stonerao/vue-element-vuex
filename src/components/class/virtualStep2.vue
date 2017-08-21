@@ -147,7 +147,7 @@
 import info from '@/utils/l_axios'
 
 export default {
-    props: ['modelId','backFirst'],
+    props: ['modelId','backFirst','editStatus'],
     data() {
         return {
         	searchInline: {  //按年级班级搜索
@@ -175,9 +175,13 @@ export default {
         }
     },
     created() {
-    	this.loading = true;
-       	info.virtualArrangeC.call(this,this.modelId);
-       	info.subjectData.call(this);  //加载科目
+    	if(this.editStatus){    //编辑
+    		// console.log('初始数据改变编辑操作！');
+    	}else{    //排课
+    		this.loading = true;
+	       	info.virtualArrangeC.call(this,this.modelId);
+	       	info.subjectData.call(this);  //加载科目
+    	}
     },
     components: {
         

@@ -694,7 +694,7 @@ export default {
             })
         },
 
-        // 虚拟班排课第一步--保存
+        // 虚拟班代课第一步--保存
         takeoverSubmit(sid,time,subId) {
             this.$http({
                 url: api.takeoverSubmit,
@@ -769,15 +769,16 @@ export default {
                 this.week_checkList_string = newWeek.sort().join(",");
             }
             if(hourType == 2){
-                time.start = this.formatDate(time.start);
-                time.end = this.formatDate(time.end);
-                time.start_w = this.formatDate(time.start_w);
-                time.end_w = this.formatDate(time.end_w);
+                let _time = [time.start ,time.end, time.start_w, time.end_w];  //处理编辑情况第一步时间处理
+                _time.forEach((x)=> {
+                    if((String(x)).indexOf('-') != -1){   
+                        x = (x).split('-')[1] + (x).split('-')[2];
+                    }else{
+                        x = this.formatDate(x);
+                    };
+                })
             }
-            this.$http({
-                url: api.virtualB,
-                method: 'post',
-                data: {
+            this.formData = {
                     token: getToken(),
                     department_id: departId,
                     model_name: this.moduleName,
@@ -788,21 +789,61 @@ export default {
                     summer_hours_end_time: time.end,   
                     winter_hours_start_time: time.start_w,   
                     winter_hours_end_time: time.end_w,   
-                }
+            };
+            this.$http({
+                url: api.virtualB,
+                method: 'post',
+                data: this.formData
             }).then((res) => {
                 console.log(res);
                 if (res.status === 200) {
                     if(res.data.code!=400){
-                        this.modelId = res.data.model_id;
-                        this.$notify({
-                            message: res.data.data,
-                            type: 'success',
-                            duration: 1000,
-                            onClose: () => {
-                                this.virtual_1 = false;
-                                this.virtual_2 = true;
+                        if(this.distinguish){
+                            this.modelId = res.data.model_id;
+                            this.$notify({
+                                message: res.data.data,
+                                type: 'success',
+                                duration: 1000,
+                                onClose: () => {
+                                    this.virtual_1 = false;
+                                    this.virtual_2 = true;
+                                }
+                            });
+                        }else{   //编辑虚拟班提交
+                            let _change = [this.formData.department_id, this.formData.model_name, this.formData.teaching_day, this.formData.teaching_num, this.formData.hours_type, this.formData.summer_hours_start_time, this.formData.summer_hours_end_time, this.formData.winter_hours_start_time, this.formData.winter_hours_end_time];
+                            let _changeBefore = [this.editVirBeginData.department_id, this.editVirBeginData.model_name, this.editVirBeginData.teaching_day, this.editVirBeginData.teaching_num, this.editVirBeginData.hours_type, this.editVirBeginData.summer_hours_start_time, this.editVirBeginData.summer_hours_end_time, this.editVirBeginData.winter_hours_start_time, this.editVirBeginData.winter_hours_end_time];
+                            let _status = false;  //数据没改变
+                            _change.forEach((data,index)=> {
+                                if(data != _changeBefore[index]){
+                                    _status = true;
+                                    return;
+                                }
+                            })
+                            if(_status){
+                                this.$notify({    
+                                    message: '初始变更！',
+                                    type: 'success',
+                                    duration: 1000,
+                                    onClose: () => {
+                                        this.editStep2_A = true;
+                                        this.editStatus = this.editStep2_A;
+                                        this.virtual_1 = false;
+                                        this.virtual_2 = true;
+                                    }
+                                });
+                            }else{
+                                this.$notify({
+                                    message: '初始未改变！',
+                                    type: 'success',
+                                    duration: 1000,
+                                    onClose: () => {
+                                        // this.virtual_1 = false;
+                                        // this.virtual_2 = true;
+                                    }
+                                });
                             }
-                        });
+                            // console.log(this.editVirBeginData);
+                        }
                     }else{
                         this.$notify.error({
                             message: res.data.data.error
@@ -978,6 +1019,31 @@ export default {
                 if (res.status === 200) {
                     if(res.data.code!=400){
                         this.moduleName = res.data.data.department_name;   
+                        this.editVirBeginData = res.data.data;
+                        let week_begin = (res.data.data.teaching_day).split(',');
+                            week_begin.forEach((x)=> {
+                                x = parseInt(x) - 1;
+                                this.week_checkList.push(x);   //虚拟班初始星期日
+                            });
+                        let studyNum_begin = (res.data.data.teaching_num).split(',');
+                        let study_cache = [];
+                            studyNum_begin.forEach((x)=> {
+                                x = parseInt(x);
+                                study_cache.push(x);   //虚拟班初始星期日
+                            });
+                        this.studyNum = {   //虚拟班初始初始科目数
+                            morbefore: study_cache[0],
+                            morning: study_cache[1],
+                            afternoon: study_cache[2],
+                            night: study_cache[3]
+                        }
+                        this.rest_checkList.push(parseInt(res.data.data.hours_type)-1);
+                        if(this.rest_checkList[0] == 1){  //分季节
+                            this.startTimeVal = this.formatMd(res.data.data.summer_hours_start_time);
+                            this.endTimeVal = this.formatMd(res.data.data.summer_hours_end_time);
+                            this.startTimeVal_W = this.formatMd(res.data.data.winter_hours_start_time);
+                            this.endTimeVal_W = this.formatMd(res.data.data.winter_hours_end_time);
+                        }
                     }else{
                         this.$notify.error({
                             message: res.data.data.error
@@ -1066,13 +1132,12 @@ export default {
         },
 
         // 标准中国时间转换获取月日
-        formatDate(date) {  
-            let y = date.getFullYear();  
+        formatDate(date) {
             let m = date.getMonth() + 1;  
                 m = m < 10 ? '0' + m : m;  
             let d = date.getDate();  
                 d = d < 10 ? ('0' + d) : d;  
-            return  m + d;  
+            return  m + d; 
         }, 
 
         // 标准中国时间转换获取时分
@@ -1080,5 +1145,13 @@ export default {
             let h = date.getHours();  
             let m = date.getMinutes();  
             return  h + ":" + m  
+        },
+
+        // 月日拼接
+        formatMD(data) {  
+            let date = new Date;
+            let year = date.getFullYear(); 
+            let _begin = data.split('');
+            return  year + '-' + _begin[0] + _begin[1] + '-' + _begin[2] + _begin[3];  
         }, 
 }
