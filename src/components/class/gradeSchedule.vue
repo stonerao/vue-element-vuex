@@ -97,7 +97,7 @@
         </div>
         <div v-if="edit_virtual">
             <!-- 编辑虚拟班 -->
-            <editVirtual :derpartId="derpartId" :classType="classType" :scheduleId="scheduleId"></editVirtual>
+            <editVirtual :derpartId="derpartId" :classType="classType" :scheduleId="scheduleId" :editVirtStatus="editVirtStatus" :ScheduID="ScheduID" @Cancel="Setback_v"></editVirtual>
         </div>
         <div v-if="class_takeover">
             <!-- 班级代课 -->
@@ -332,7 +332,7 @@
 <script>
 import info from '@/utils/l_axios'
 import editSubstance from '@/components/class/editSubstance'
-import editVirtual from '@/components/class/editVirtual'
+import editVirtual from '@/components/class/virtualclass'
 
 export default {
     props: ['tabsStatus', 'derpartId', 'classType'],
@@ -399,6 +399,8 @@ export default {
             timelineList: [],
             timeline1: '',
             timeline2: '',
+            editVirtStatus: true,   //虚拟班编辑课课表组件区分内容判断
+            ScheduID: 0,   //虚拟把编辑初步展示页面请求内容
         }
     },
     created() {
@@ -499,6 +501,9 @@ export default {
         BadjGofirst(){
             adj_step1: true;
             adj_step2_B: false;
+        },
+        Setback_v(){
+            window.location.reload(true);
         }
     },
     watch:{

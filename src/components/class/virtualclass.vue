@@ -109,7 +109,7 @@ import info from '@/utils/l_axios'
 import virtualStep2 from '@/components/class/virtualStep2'
 
 export default {
-    props: ['derpartId','conpVirtual','conpGrade'],
+    props: ['derpartId','conpVirtual','conpGrade','editVirtStatus','ScheduID'],
     data() {
         return {
             loading: false,
@@ -154,9 +154,12 @@ export default {
     created() {
     	if(this.conpVirtual){
     		info.virtualArrangeA.call(this,this.derpartId);
-    		console.log('这是虚拟班排课组件！');
+    		// console.log('这是虚拟班排课组件！');
     	}else if(this.conpGrade){
     		console.log('这是年级排课组件！');
+    	} else if(this.editVirtStatus){
+    		info.EditVirtStep_a.call(this,this.ScheduID);
+    		// console.log('这是虚拟班编辑第一步！');
     	}
     },
     components: {

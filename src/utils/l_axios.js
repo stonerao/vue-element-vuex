@@ -208,8 +208,13 @@ export default {
                     if(res.data.code!=400){
                        this.adjArea = res.data.data.range_name;
                     }else{
-                        this.$notify.error({
-                            message: res.data.data.error
+                        this.$notify({
+                            message: res.data.data.error,
+                            type: 'error',
+                            duration: 1000,
+                            onClose: () => {
+                                window.location.reload(true);
+                            }
                         });
                         this.loading = false;
                     }
@@ -412,6 +417,7 @@ export default {
                     if(res.data.code!=400){
                         this.schedule_id = res.data.data[0].schedule_id;
                         this.scheduleId = this.schedule_id;   //编辑实体班课表时用
+                        this.ScheduID = this.schedule_id;   //编辑虚拟班时用
                         this.scheTableHeader = res.data.data
                         this.Ajax(this.schedule_id);
                     }else{
@@ -670,8 +676,13 @@ export default {
                     if(res.data.code!=400){
                         this.stopArea = res.data.data.range_name;
                     }else{
-                        this.$notify.error({
-                            message: res.data.data.error
+                        this.$notify({
+                            message: res.data.data.error,
+                            type: 'error',
+                            duration: 1000,
+                            onClose: () => {
+                                window.location.reload(true);
+                            }
                         });
                         this.loading = false;
                     }
@@ -942,6 +953,31 @@ export default {
                                 window.location.reload(true);
                             }
                         });
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
+        // 虚拟班-编辑-第一步-展示页面
+        EditVirtStep_a(sid) {
+            this.$http(api.EditVirtStep_a, {
+                params: {
+                    token: getToken(),
+                    schedule_id: sid
+                }
+            }).then((res) => {
+                console.log(res);
+                if (res.status === 200) {
+                    if(res.data.code!=400){
+                        this.moduleName = res.data.data.department_name;   
                     }else{
                         this.$notify.error({
                             message: res.data.data.error
