@@ -10,7 +10,7 @@
                 <!--模块开始  -->
                 <div v-if="state==0">
                     <!--教材订单  -->
-                    <teachingOrder @timeChoose="chooseTime" :orderList="orderList"></teachingOrder>
+                    <teachingOrder @delete="deleteId" @timeChoose="chooseTime" :orderList="orderList" :total="total"></teachingOrder>
                 </div>
                 <div v-if="state==1">
                     <!--空间购买  -->
@@ -19,10 +19,10 @@
               <div class="kd-page">
                 <el-row>
                   <el-col :span="12" style="padding-left:15px">
-                    <el-button type="primary" size="mini">删除</el-button>
+                    <el-button @click="deleteList" type="primary" size="mini">删除</el-button>
                   </el-col>
                   <el-col :span="12">
-                    <el-pagination class="float-right" :current-page="5" :page-sizes="[10, 15, 20, 25]" :page-size="5" layout="total, sizes, prev, pager, next, jumper" :total="total">
+                    <el-pagination class="float-right" :current-page="5" :page-sizes="[10, 15, 20, 25]" :page-size="5" layout="total, sizes, prev, pager, next, jumper" :total="total" @size-change="handleSizeChange" @current-change="handleCurrentChange">
                     </el-pagination>
                   </el-col>
                 </el-row>
@@ -61,6 +61,7 @@ export default {
             sTime:'',//开始日期
             eTime:'',//结束日期
             orderList:[],//订单列表
+            orderId:'',//删除订单id
         }
     },
     created() {
@@ -79,11 +80,46 @@ export default {
         promptsTem(status) {
             console.log(status)
         },
+      //刷新列表
+      refreshList(){
+        order.order_list.call(this)
+      },
+      //选择日期范围
       chooseTime(val){
           let arr=val.split(' ');
           this.sTime=arr[0];
           this.eTime=arr[2];
-          console.log(this.sTime,this.eTime)
+        this.refreshList();
+      },
+      //每页条数变化
+      handleSizeChange(val) {
+        this.pageSize=val;
+        this.refreshList();
+      },
+      //点击翻页
+      handleCurrentChange(val) {
+        this.currentPage=val;
+        this.refreshList();
+      },
+      //删除订单
+      deleteId(val){
+        this.orderId=val;
+      },
+      deleteList(){
+        if(this.orderId!=""){
+          this.$confirm('此操作将永久删除该订单, 是否继续?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            order.t_delete.call(this)
+          }).catch(() => {
+            this.$message({
+              type: 'info',
+              message: '已取消删除'
+            });
+          });
+        }
       }
     }
 }

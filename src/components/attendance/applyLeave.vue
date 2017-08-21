@@ -36,8 +36,8 @@
         </el-table-column>
         <el-table-column  label="审批状态" width="100">
           <template scope="scope">
-            <span v-if="scope.row.apply_stutas=='待审批'" class="blue">待审批</span>
-            <span v-else-if="scope.row.apply_stutas=='同意'" class="warning">同意</span>
+            <span v-if="scope.row.apply_stutas==1" class="blue">待审批</span>
+            <span v-else-if="scope.row.apply_stutas==2" class="warning">同意</span>
             <span v-else class="danger">未批准</span>
           </template>
         </el-table-column>

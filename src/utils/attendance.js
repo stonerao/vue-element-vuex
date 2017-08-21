@@ -56,12 +56,12 @@ export default {
       this.$http(api.stuleaveList,{
         params:{
           token:getToken(),
-          curpage:this.currentPage,
-          page:this.pageSize,
+          page:this.currentPage,
+          curpage:this.pageSize,
         }
       }).then((res)=>{
         console.log(res)
-        console.log(getToken())
+        this.leaveList=res.data.data;
       })
     }
   },
@@ -85,12 +85,24 @@ export default {
         }
       })
     }else{
+      data.start_time=Date.parse(data.start_time);
+      data.end_time=Date.parse(data.end_time);
+      console.log(data)
       this.$http({
         url:api.stuApplyLeave,
         method:'post',
         data:data
       }).then((res)=>{
-
+        console.log(res)
+        if(res.data.code==200){
+          this.$message({
+            message: res.data.data,
+            type: 'success'
+          });
+          this.addState=0;
+        }else{
+          this.$message.error(res.data.data.error)
+        }
       })
     }
   },

@@ -3,7 +3,7 @@
         <el-row :gutter="10" class="class-header">
             <el-col :span="14" class="class-titles">
                 <span>
-                    <img src="../../assets/index/shuaxin.png" class="icon-img-xs marginleft5" />刷新-共1条记录
+                    <img src="../../assets/index/shuaxin.png" class="icon-img-xs marginleft5" />刷新-共{{total}}条记录
                 </span>
             </el-col>
             <el-col :span="10">
@@ -20,17 +20,16 @@
                 </el-table-column>
               <el-table-column label="图片" width="180">
                 <template scope="scope">
-                  <img :src="scope.row.paper_img" alt="">
+                  <img :src="scope.row.paper_img" alt="" style="width: 100px;height: 120px;margin-top: 5px;">
                 </template>
               </el-table-column>
                 <el-table-column prop="paper_name" label="教材名称" show-overflow-tooltip>
                 </el-table-column>
-                <el-table-column label="教材大小" width="180">
+                <el-table-column label="教材大小" width="150">
                     <template scope="scope">
                         <span>￥{{scope.row.paper_size}}</span>
                     </template>
                 </el-table-column>
-
                 <el-table-column label="价格" width="100">
                     <template scope="scope">
                         <span class="color-red">￥{{scope.row.paper_price}}</span>
@@ -44,7 +43,7 @@
 </template>
 <script>
 export default {
-    props:['orderList'],
+    props:['orderList','total'],
     data() {
         return {
             time:'',//选择日期
@@ -52,15 +51,19 @@ export default {
                 go: '',
                 over: ''
             },
-
         }
     },
     methods: {
         dataAjax(val) {
 
         },
-        SelectionChange() {
-
+        SelectionChange(val) {
+          let id="";
+          val.forEach(function(item){
+            id +=`,${item.order_id}`
+          });
+          id=id.substr(1);//要删除的id
+          this.$emit('delete',id)
         },
         timeChange(val){
           this.$emit('timeChoose',val)
