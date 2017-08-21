@@ -9,12 +9,10 @@
                 <description :prompts="prompts" @PromPts="promptsTem"></description>
                 <!--模块开始  -->
                 <div v-if="state==0">
-                    <!--我的书架  -->
-                    <myTeaching :state="isLoginState"></myTeaching>
+                    <myPapers></myPapers>
                 </div>
                 <div v-if="state==1">
-                    <!--我的书架  -->
-                    <spaceBuy></spaceBuy>
+                    <history></history>
                 </div>
     
             </div>
@@ -28,28 +26,26 @@ import titleItem from '@/components/main/title.vue'
 import titleActive from '@/components/main/titleActive.vue'
 import description from '@/components/main/description.vue'
 import bottomItem from '@/components/bottom/bottom.vue'
-import myTeaching from '@/components/teaching/myTeaching.vue'
-import spaceBuy from '@/components/teaching/spaceBuy.vue'
-import { isClassLogin } from '@/utils/auth'
+import myPapers from '@/components/examination/myPapers.vue'
+import history from '@/components/examination/history.vue'
 export default {
     data() {
         return {
             titleItem: [
-                { name: "我的书架", index: 0 },
-                { name: "空间购买", index: 1 },
+                { name: "我的试卷", index: 0 },
+                { name: "历史考试", index: 1 },
             ],
             prompts: [
-                `历史考试`,
-                `xxxxxxxx`
+                `该页面展示管理员的操作日志，可进行删除。`,
+                `侧边栏可以进行高级搜索`
             ],
             state: 0,
-            isLoginState:isClassLogin()
         }
     },
-    created() { 
+    created() {
     },
     components: {
-        titleItem, titleActive, description, bottomItem, myTeaching,spaceBuy
+        titleItem, titleActive, description, bottomItem, myPapers, history
     },
     methods: {
         emitTransfer(index) {

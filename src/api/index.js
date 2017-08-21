@@ -28,5 +28,9 @@ export const api = {
     position_list:"Admin/position/position_list",//职位列表
     teaching_interface:"Student/SchoolStudent/teaching_interface",//教材列表
     teaching_classlist:"Student/SchoolStudent/teaching_classlist",//教材分类
+    Teacher_teaching_classlist:"Teacher/Teaching/teaching_classlist",//老师 教材分类
     teaching_info:"Student/SchoolStudent/teaching_info",//教材详情
+    Teacher_teaching_info:"Teacher/Teaching/teaching_info",//教材详情
+    Teacher_teaching_interface:"Teacher/Teaching/teaching_interface",//老师 教材详情
+    teaching_collect:"Teacher/Teaching/teaching_collect",//教材领取老师 
 }

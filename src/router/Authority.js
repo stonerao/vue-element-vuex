@@ -26,6 +26,8 @@ import Authority from '@/view/authority/index'
 import allOrder from '@/view/order/index'
 // 教材中心
 import teaching from '@/view/teaching/index'
+// 考试中心
+import examination from '@/view/examination/index'
 /*
   左侧图标以及点击后的图标
 */
@@ -314,9 +316,9 @@ export const ListStundent = [
             }
         ]
     }, {
-        path: '/set',
+        path: '/examination',
         name: '我的考试',
-        redirect: '/set/index',
+        redirect: '/examination/index',
         icon: pmsd,
         iconActive: pmsd_active,
         component: Layout,
@@ -324,7 +326,7 @@ export const ListStundent = [
             {
                 path: 'index',
                 name: '-我的考试',
-                component: setVue,
+                component: examination,
             }
         ]
     }, {

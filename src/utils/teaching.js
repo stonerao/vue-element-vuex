@@ -1,12 +1,13 @@
 import { api } from '@/api/index'
 import { getToken } from '@/utils/auth'
 export default {
-    teachingList(id, name) {
-        this.$http(api.teaching_interface, {
+    teachingList(id, state) {
+        state = this.state;
+        this.$http(state == '2' ? api.Teacher_teaching_interface : api.teaching_interface, {
             params: {
                 page: this.currentPage,//当前页数
                 curpage: this.pageSize,//页面数量
-                tc_id: id||'',
+                tc_id: id || '',
                 paper_name: this.seach,
                 token: getToken()
             }
@@ -18,8 +19,10 @@ export default {
         })
     },
     teaching_classlist(id, state) {
+        // 登录状态 2是老师3是学生
+        let status = this.state;
         state = parseInt(state)
-        this.$http(api.teaching_classlist, {
+        this.$http(status == '2' ? api.Teacher_teaching_classlist : api.teaching_classlist, {
             params: {
                 tc_id: id,
                 token: getToken()
@@ -46,15 +49,37 @@ export default {
 
         })
     },
-    teaching_info(){
+    teaching_info() {
         // 教材详情
-        this.$http(api.teaching_info,{
-            params:{
-                token:getToken(),
-                paper_id:this.$route.query.id
+        let state = this.thisState;
+        this.$http(state == '2' ? api.Teacher_teaching_info : api.teaching_info, {
+            params: {
+                token: getToken(),
+                paper_id: this.$route.query.id
             }
-        }).then((res)=>{
+        }).then((res) => {
             this.datas = res.data.datas;
+        })
+    },
+    teaching_collect(id) {
+        this.$http({
+            method: 'post',
+            url: api.teaching_collect,
+            data: {
+                paper_id: id, token: getToken()
+            }
+        }).then((res) => {
+            if (res.data.code == 200) {
+                this.$message({
+                    type: 'success',
+                    message: res.data.datas
+                });
+            } else {
+                this.$message({
+                    type: 'success',
+                    message: res.data.datas.error
+                });
+            }
         })
     }
 }
