@@ -63,11 +63,11 @@
 							<li class="header">夏令作息执行时间：</li>
 							<li>
 								<div class="inline-block">
-									<el-date-picker v-model="startTimeVal" type="date" placeholder="选择日期" :disabled="canNot"></el-date-picker>
+									<el-date-picker v-model="startTimeVal" type="date" placeholder="选择日期" :disabled="canNot" format="MM-dd"></el-date-picker>
 								</div>
 								<div class="inline-block middle_zhi">至</div>
 								<div class="inline-block">
-									<el-date-picker v-model="endTimeVal" type="date" placeholder="选择日期" :picker-options="pickerOptions1" :disabled="canNot"></el-date-picker>
+									<el-date-picker v-model="endTimeVal" type="date" placeholder="选择日期" :picker-options="pickerOptions1" :disabled="canNot" format="MM-dd"></el-date-picker>
 								</div>
 							</li>
 						</ul>
@@ -77,11 +77,11 @@
 							<li class="header">冬令作息执行时间：</li>
 							<li>
 								<div class="inline-block">
-									<el-date-picker v-model="startTimeVal_W" type="date" placeholder="选择日期" :disabled="canNot"></el-date-picker>
+									<el-date-picker v-model="startTimeVal_W" type="date" placeholder="选择日期" :disabled="canNot" format="MM-dd"></el-date-picker>
 								</div>
 								<div class="inline-block middle_zhi">至</div>
 								<div class="inline-block">
-									<el-date-picker v-model="endTimeVal_W" type="date" placeholder="选择日期" :picker-options="pickerOptions2" :disabled="canNot"></el-date-picker>
+									<el-date-picker v-model="endTimeVal_W" type="date" placeholder="选择日期" :picker-options="pickerOptions2" :disabled="canNot" format="MM-dd"></el-date-picker>
 								</div>
 							</li>
 						</ul>
@@ -98,7 +98,7 @@
 				</div>
 			</div>
 			<div v-if="virtual_2">
-				<virtualStep2 :modelId="modelId" @backFirst="backfirst"></virtualStep2>
+				<virtualStep2 :modelId="modelId" :editStatus="editStatus" :derpartID="derpartID" :editScheID="editScheID" :editModelID="editModelID" :editStepTwoA="editStepTwoA" :editStepTwoB="editStepTwoB" @backFirst="backfirst"></virtualStep2>
 			</div>
 		</div>
 	</div>
@@ -108,13 +108,15 @@
 import info from '@/utils/l_axios'
 import virtualStep2 from '@/components/class/virtualStep2'
 
+const dayOptions = ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日']
+const typeOptions = ['全年制', '冬夏分时制']
 export default {
-    props: ['derpartId','conpVirtual','conpGrade'],
+    props: ['derpartId','conpVirtual','conpGrade','editVirtStatus','ScheduID'],
     data() {
         return {
             loading: false,
-            weekList: ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'],
-            restList: ['全年制', '冬夏分时制'],
+            weekList: dayOptions,
+            restList: typeOptions,
             week_checkList: [],   //周一到周日可点模板区域
             week_checkList_string: "",   //周一到周日可点模板区域
             rest_checkList: [],  //作息方式
@@ -138,7 +140,7 @@ export default {
             },
             studyNum_str:"",
             moduleName: '',   //模板课表名称
-            startTimeVal:'',
+            startTimeVal: '',
             endTimeVal:'',
             startTimeVal_W:'',
             endTimeVal_W:'',
@@ -149,14 +151,29 @@ export default {
 	        virtual_2: false,   //虚拟班编排第二步
 	        modelId: 0,   //虚拟班编排第二步初始传值modelId
 	        classId: 0,   //虚拟班编排第二步初始传值班级id
+	        editVirBeginData: {},   //虚拟班初始数据保存
+	        urlData: '',  //区分编辑及排课的url地址
+	        distinguish: false,  //虚拟班第一步区分排课操作及编辑操作
+	        formData: {}, //表单提价数据
+	        editModelID: 0,
+	        editScheID: 0,
+	        editStatus: false,
+	        editStepTwoA: false, //第一步数据改变-第二步表单提交状态
+	        editStepTwoB: false, //第一步数据未改变-第二步表单提交状态
+	        derpartID: 0,
+	        timeHandle: [],
         }
     },
     created() {
     	if(this.conpVirtual){
+    		this.distinguish = true;
     		info.virtualArrangeA.call(this,this.derpartId);
-    		console.log('这是虚拟班排课组件！');
+    		// console.log('这是虚拟班排课组件！');
     	}else if(this.conpGrade){
     		console.log('这是年级排课组件！');
+    	} else if(this.editVirtStatus){
+    		info.EditVirtStep_a.call(this,this.ScheduID);
+    		// console.log('这是虚拟班编辑第一步！');
     	}
     },
     components: {
@@ -176,6 +193,9 @@ export default {
         backfirst(){
         	this.virtual_1=true; 
 	        this.virtual_2=false;
+        },
+        formatMd(data){
+        	return info.formatMD.call(this,data);
         }
     },
     watch:{

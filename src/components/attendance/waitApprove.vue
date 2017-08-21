@@ -14,6 +14,8 @@
     <el-table :data="list">
       <el-table-column prop="operate_type" label="调课/代课" width="100">
       </el-table-column>
+      <el-table-column prop="operate_person" label="申请人" show-overflow-tooltip >
+      </el-table-column>
       <el-table-column prop="operate_reason" label="原因" show-overflow-tooltip >
       </el-table-column>
       <el-table-column prop="change_time" label="调换时间" show-overflow-tooltip>

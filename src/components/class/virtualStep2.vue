@@ -147,7 +147,7 @@
 import info from '@/utils/l_axios'
 
 export default {
-    props: ['modelId','backFirst'],
+    props: ['modelId','backFirst','editStatus','editScheID','editModelID','editStepTwoA','editStepTwoB','derpartID'],
     data() {
         return {
         	searchInline: {  //按年级班级搜索
@@ -172,12 +172,34 @@ export default {
             winerYearTime: '',
             virtDataTable: [],
             loading: false,
+	        formDataA: {}, //表单提价数据
+	        editVStakeover: false,  //区分排课第二步保存与编辑第二步保存
+	        editVStake: false,   //编辑第二步保存区分
+	        apiURL: '',
+	        ApiUrlData: '',
+	        editFormData: {},
+	        ApUrlData: '',
         }
     },
     created() {
-    	this.loading = true;
-       	info.virtualArrangeC.call(this,this.modelId);
-       	info.subjectData.call(this);  //加载科目
+    	if(this.editStatus){    //编辑
+			this.loading = true;
+    		this.editVStakeover = true;
+    		if(this.editStepTwoA){
+    			console.log("初始数据变更！")
+    			info.EditVirtStep_b.call(this,this.editModelID,this.editScheID);  //初始获取数据
+	       		info.subjectData.call(this);  //加载科目
+    		}else if(this.editStepTwoB){
+    			console.log("初始数据未变更！")
+    			this.editVStake = true;
+    			info.EditVirtStep_b.call(this,this.editModelID,this.editScheID,this.derpartID);  //初始获取数据
+	       		info.subjectEdit.call(this);  
+    		}
+    	}else{    //排课
+    		this.loading = true;
+	       	info.virtualArrangeC.call(this,this.modelId);
+	       	info.subjectData.call(this);  //加载科目
+    	}
     },
     components: {
         
@@ -193,14 +215,27 @@ export default {
         	this.$emit("backFirst");
         },
         goToNext(){
-        	this.model.id = this.modelId;
-        	info.virtualArrangeD.call(this,this.model,this.searchInline);
-        },
+        	if(this.editStatus){ 
+	    		if(this.editStepTwoA){   //编辑-初始数据改变-第二步保存
+			       	this.model.id = this.editModelID;
+		       		info.EditVirtStep_B1.call(this,this.model,this.searchInline,this.editScheID);
+	    		}else if(this.editStepTwoB){
+	    			this.model.id = this.editModelID;
+		       		info.EditVirtStep_B1.call(this,this.model,this.searchInline,this.editScheID);
+	    		}
+	    	}else{ //排课
+		       this.model.id = this.modelId;
+		       info.virtualArrangeD.call(this,this.model,this.searchInline);
+	       	}
+	   	},
         cancelEdit(){
-
+        	window.location.reload(true);
         },
         formatHourM(date){
         	return info.formatHM.call(this,date);
+        },
+        ajax(id){
+        	info.teacherData.call(this,id);
         }
     },
     watch:{
