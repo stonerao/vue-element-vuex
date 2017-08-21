@@ -64,7 +64,7 @@
               </li>
               <li>
                 <span>数量：</span>
-                <span><input type="number"/></span>
+                <span><el-input-number size="small" v-model="num"></el-input-number></span>
               </li>
             </ul>
           </div>
@@ -95,7 +95,8 @@ export default {
   data() {
     return {
       swiper: [],
-      datas:{}
+      datas:{},
+      num:1
     }
   },
   components: {
@@ -118,5 +119,7 @@ export default {
 }
 </script>
 <style>
-
+  .r-shoping-listinfo .el-input-number__decrease, .el-input-number__increase{
+    top:3px;
+  }
 </style>
