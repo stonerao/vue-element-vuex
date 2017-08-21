@@ -1162,9 +1162,7 @@ export default {
                             let virtStep2Data = res.data.data.model_common;
                             if(this.studyType = 1){
                                 virtStep2Data.forEach((x) => {
-                                    // x.class_timeS = [new Date(2016, 9, 10, x.schedule_time.split(',')[0].split(':')[0]),new Date(2016, 9, 10, x.schedule_time.split(',')[0].split(':')[0])];
                                     x.class_timeS = [];
-                                    // x.class_timeW = [new Date(2016, 9, 10, x.schedule_time.split(',')[1].split(':')[0]),new Date(2016, 9, 10, x.schedule_time.split(',')[1].split(':')[0])];
                                     x.class_timeW = [];
                                     x.class_time = [new Date(2016, 9, 10, x.schedule_time.split('-')[0].split(':')[0], x.schedule_time.split('-')[0].split(':')[1]),new Date(2016, 9, 10, x.schedule_time.split('-')[1].split(':')[0], x.schedule_time.split('-')[0].split(':')[1])];
                                     x.teachDay = [];
