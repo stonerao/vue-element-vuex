@@ -70,7 +70,7 @@
                             <div class="sche_list_header">
                                 <ul class="clearfloat">
                                     <!-- <li>初2017级年级1班课表1</li> -->
-                                    <li>{{this.editData.scheTableOrder}}课表1</li>
+                                    <li v-bind:class="{ active: isActive }">{{this.editData.scheTableOrder}}</li>
                                 </ul>
                             </div>
                             <div class="l_search0">
@@ -101,6 +101,7 @@
                                         </template>
                                     </el-table-column>
                                     <el-table-column prop="school_time" label="节次"></el-table-column>
+
                                     <el-table-column label="星期一">
                                         <template scope="scope">
                                             <div v-if="show_select&&scope.row.timetable.day1">
@@ -200,7 +201,7 @@
 
                         <div v-if="tab_2" class="l_schedule_outer">
                             <!-- 查看课表 -->
-                            <checkGradeSchedule :derpartId="derpartId" :tabsStatus="tabsStatus" @BackCli="Setback"></checkGradeSchedule>
+                            <checkGradeSchedule :derpartId="derpartId" :classType="classType" :tabsStatus="tabsStatus" @BackCli="Setback"></checkGradeSchedule>
                         </div>
                     </div>
                     <div v-if="state===1" class="l_timetable_outer">
@@ -286,6 +287,8 @@ export default {
             taData: [],  //提交的json数据
             tabsStatus: false,
             derpartId: 0,
+            classType: 0,
+            isActive: true,
         }
     },
     created() {
@@ -332,6 +335,7 @@ export default {
         },
         checkSchedule(id,type){
             this.derpartId = id;
+            this.classType = type;
             this.loading = true;
             this.tab_0 = false;
             this.tab_2 = true;

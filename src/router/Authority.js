@@ -20,7 +20,7 @@ import Attendance from '@/view/attendance/index'
 //权限管理
 import Authority from '@/view/authority/index'
 
-/* 
+/*
     版权中心
 */
 import allOrder from '@/view/order/index'
@@ -370,18 +370,18 @@ export const ListStundent = [
             }
         ]
     }, {
-        path: '/set',
+        path: '/attendance',
         name: '考勤管理',
-        redirect: '/set/index',
-        icon: pmsd,
-        iconActive: pmsd_active,
+        redirect: '/attendance/index',
+        icon: sj,
+        iconActive: sj_active,
         component: Layout,
         children: [
-            {
-                path: 'index',
-                name: '-考勤管理',
-                component: setVue,
-            }
+          {
+            path: 'index',
+            name: '-考勤管理',
+            component: Attendance,
+          }
         ]
     }, {
         path: '/set',
@@ -601,4 +601,4 @@ export function consStundenWhilet() {
         arr.push(x.redirect);
     })
     return arr;
-} 
+}

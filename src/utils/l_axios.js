@@ -154,6 +154,26 @@ export default {
                 if (res.status === 200) {
                     let data = res.data.data;
                     this.subject = data;
+                    this.teacher = [];
+                }
+            })
+        },
+
+        //编辑初始获取科目
+        subjectEdit() {
+            this.$http(api.subjectData, {
+                params: {
+                    token: getToken(),
+                }
+            }).then((res) => {
+                if (res.status === 200) {
+                    let data = res.data.data;
+                    data.forEach((x)=> {
+                        if(x.s_id!=''&&x.s_id!=0){
+                            this.ajax(x.s_id);
+                        }
+                    })
+                    this.subject = data;
                 }
             })
         },
@@ -174,11 +194,159 @@ export default {
             })
         },
 
-        //班级课表编辑保存数据
+        // 调课第一步
+        adjustStepA(sid,type) {
+            this.$http(api.adjustStepA, {
+                params: {
+                    token: getToken(),
+                    id: sid,
+                    type: type
+                }
+            }).then((res) => {
+                console.log(res);
+                if (res.status === 200) {
+                    if(res.data.code!=400){
+                       this.adjArea = res.data.data.range_name;
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                        this.loading = false;
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
+        // 调课第二步
+        adjustStepB(rec) {
+            this.$http(api.adjustStepB, {
+                params: {
+                    token: getToken(),
+                    record_id: rec
+                }
+            }).then((res) => {
+                console.log(res);
+                if (res.status === 200) {
+                    if(res.data.code!=400){
+                        this.changetype = res.data.data.change_type;
+                        if(this.changetype == 1){
+                            this.adj_step1 = false;
+                            this.adj_step2_A = true;
+                        } else if(this.changetype == 2){
+                            this.adj_step1 = false;
+                            this.adj_step2_B = true;
+                            this.timelineList = res.data.data.line;
+                        }
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                        this.loading = false;
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
+        //调课第二步--保存
+        adjustStepBs(recid,adjTime1,adjTime2) {
+            adjTime1.A = adjTime1.A.getFullYear() + '-' + (adjTime1.A.getMonth() + 1) + '-' + adjTime1.A.getDate();
+            adjTime1.B = adjTime1.B.getFullYear() + '-' + (adjTime1.B.getMonth() + 1) + '-' + adjTime1.B.getDate();
+            if(this.changetype == 1){
+                adjTime2 = {
+                    A : 0,
+                    B : 0
+                }
+            }
+            this.$http({
+                url: api.adjustStepBs,
+                method: 'post',
+                data: {
+                    token: getToken(),
+                    record_id: recid,
+                    change_time1: adjTime1.A,  
+                    change_time2: adjTime1.B,
+                    school_time1: adjTime2.A,
+                    school_time2: adjTime2.B,
+                }
+            }).then((res) => {
+                console.log(res)
+                if (res.status == 200) {
+                    if(res.data.code!=400){
+                        this.$notify({
+                            message: '操作成功！',
+                            type: 'success',
+                            duration: 1000,
+                            onClose: () => {
+                                window.location.reload(true);
+                            }
+                        });
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
+        //调课第一步--保存
+        adjustStepAs(sid,type,cType,reason) {
+            this.$http({
+                url: api.adjustStepAs,
+                method: 'post',
+                data: {
+                    token: getToken(),
+                    id: sid,
+                    type: type,
+                    change_type: cType,
+                    operate_reason: reason
+                }
+            }).then((res) => {
+                // console.log(res)
+                if (res.status == 200) {
+                    if(res.data.code!=400){
+                        this.recordId = res.data.data.record_id;    //日志
+                        this.$notify({
+                            message: '操作成功！',
+                            type: 'success',
+                            duration: 1000,
+                            onClose: () => {
+                                this.adjustAjax(res.data.data.record_id);
+                            }
+                        });
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
+
+        //班级课表--添加--保存数据
         scheduleSave(mod,search) {
             if(search.startTime != '' && search.endTime != ''){
                 search.startTime = search.startTime.getFullYear() + '-' + (search.startTime.getMonth() + 1) + '-' + search.startTime.getDate();
                 search.endTime = search.endTime.getFullYear() + '-' + (search.endTime.getMonth() + 1) + '-' + search.endTime.getDate();
+            } else {
+                return;
             }
             let _begin = this.tableData;
             _begin.forEach((data) => {   //进入每一行
@@ -220,11 +388,13 @@ export default {
                         this.$notify.error({
                             message: res.data.data.error
                         });
+                        this.taData = [];
                     }
                 }else {
                     this.$notify.error({
                         message: res.data.data.error
                     });
+                    this.taData = [];
                 }
             })
         },
@@ -241,6 +411,7 @@ export default {
                 if (res.status === 200) {
                     if(res.data.code!=400){
                         this.schedule_id = res.data.data[0].schedule_id;
+                        this.scheduleId = this.schedule_id;   //编辑实体班课表时用
                         this.scheTableHeader = res.data.data
                         this.Ajax(this.schedule_id);
                     }else{
@@ -266,7 +437,7 @@ export default {
                     schedule_id: scheid
                 }
             }).then((res) => {
-                console.log(res);
+                // console.log(res);
                 if (res.status === 200) {
                     if(res.data.code!=400){
                         Date.prototype.toLocaleString = function() {
@@ -280,11 +451,268 @@ export default {
                             end_time: unixTimestampe.toLocaleString(),
                         }
                         this.schedData = res.data.data.model_common;
+                        // console.log(this.schedData);
+                        if(res.data.data.school_time_type == 1){
+                            this.sesson = '夏季节次'
+                        }else if(res.data.data.school_time_type == 2){
+                            this.sesson = '冬季节次'
+                        }else if(res.data.data.school_time_type == 3){
+                            this.sesson = '全年节次'
+                        }
+
+                        //编辑实体班课表初始数据绑定
+                        this.vloading = false;
+                        this.searchInlin = {
+                            name: res.data.data.schedule_name,
+                            startTime: unixTimestamps,
+                            endTime: unixTimestampe
+                        }
+                        this.classGrade = res.data.data.department_name;
+                        this.model = {
+                            id: res.data.data.schedule_id,
+                            mid: res.data.data.model_id,
+                            type: res.data.data.class_type,
+                            deparId: res.data.data.department_id
+                        };
+
+                        //代课
+                        this.scheduleId = res.data.data.schedule_id;
                     }else{
                         this.$notify.error({
                             message: res.data.data.error
                         });
                         this.loading = false;
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
+        //实体班级--停课--保存数据
+        classStopSave(type,stoPtime,reason) {
+            if(stoPtime.start != '' &&  stoPtime.end != ''){
+                stoPtime.start = stoPtime.start.getFullYear() + '-' + (stoPtime.start.getMonth()+1) + '-' + stoPtime.start.getDate() + ' ' + stoPtime.start.getHours() + ':' + stoPtime.start.getMinutes();
+                stoPtime.end = stoPtime.end.getFullYear() + '-' + (stoPtime.end.getMonth()+1) + '-' + stoPtime.end.getDate() + ' ' + stoPtime.end.getHours() + ':' + stoPtime.end.getMinutes();
+            } else{
+                return;
+            }
+            this.$http({
+                url: api.classStopSave,
+                method: 'post',
+                data: {
+                    token: getToken(),
+                    stop_start_time: stoPtime.start,
+                    stop_end_time: stoPtime.end,
+                    operate_reason: reason
+                }
+            }).then((res) => {
+                console.log(res)
+                if (res.status == 200) {
+                    if(res.data.code!=400){
+                        this.$notify({
+                            message: res.data.data,
+                            type: 'success',
+                            duration: 1000,
+                            onClose: () => {
+                                window.location.reload(true);
+                            }
+                        });
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                        this.stoPtime.start = '';
+                        this.stoPtime.end = '';
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
+        //实体班级课表--编辑--保存数据
+        editSubstSave(mod,search) {
+            if(search.startTime != '' && search.endTime != ''){
+                search.startTime = search.startTime.getFullYear() + '-' + (search.startTime.getMonth() + 1) + '-' + search.startTime.getDate();
+                search.endTime = search.endTime.getFullYear() + '-' + (search.endTime.getMonth() + 1) + '-' + search.endTime.getDate();
+            }
+            let _begin = this.schedData;
+            _begin.forEach((data) => {   //进入每一行
+                let time = data.content;  //进入每一个的timetable
+                let circle =[time.day1, time.day2, time.day3, time.day4, time.day5, time.day6, time.day7];
+                circle.forEach((x) => {
+                    if(x){
+                        delete x.contents_id;
+                        delete x.s_name;
+                        delete x.school_identify;
+                        delete x.teacher_name;
+                        delete x.schedule_id;
+                        this.taData.push(x);
+                    }
+                })
+            });
+            // console.log(this.taData);
+            this.$http({
+                url: api.scheduleEditSave,
+                method: 'post',
+                data: {
+                    token: getToken(),
+                    id: mod.id,
+                    name: search.name,  //学期名字
+                    start_time: search.startTime,
+                    end_time: search.endTime,
+                    model_type: mod.type,
+                    model_id: mod.mid,
+                    department_id: mod.deparId,   //班级id
+                    timetable: encodeUnicode(JSON.stringify(this.taData)),
+                }
+            }).then((res) => {
+                // console.log(res)
+                if (res.status == 200) {
+                    this.model={};
+                    if(res.data.code!=400){
+                        this.$notify({
+                            message: res.data.data,
+                            type: 'success',
+                            duration: 1000,
+                            onClose: () => {
+                                window.location.reload(true);
+                            }
+                        });
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                        this.taData = [];
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                    this.taData = [];
+                }
+            })
+        },
+
+        // 代课根据时间获取科目
+        takeTiToSub(sid,time) {
+            this.$http(api.timeToSub, {
+                params: {
+                    token: getToken(),
+                    schedule_id: sid,
+                    replace_start_time: time.start,
+                    replace_end_time: time.end
+                }
+            }).then((res) => {
+                console.log(res);
+                if (res.status === 200) {
+                    if(res.data.code!=400){
+                        this.subject = res.data.data;
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                        this.loading = false;
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
+        // 代课根据科目获取老师
+        takeSubToTeac(sid,time,subId) {
+            this.$http(api.subToteacher, {
+                params: {
+                    token: getToken(),
+                    schedule_id: sid,
+                    subject_id: subId,
+                    replace_start_time: time.start,
+                    replace_end_time: time.end
+                }
+            }).then((res) => {
+                console.log(res);
+                if (res.status === 200) {
+                    if(res.data.code!=400){
+                        this.teacher = res.data.data;
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                        this.loading = false;
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
+        // 停课初始数据获取
+        classStopBegin(sid) {
+            this.$http(api.classStopBegin, {
+                params: {
+                    token: getToken(),
+                    id: sid,
+                    type: this.classType
+                }
+            }).then((res) => {
+                console.log(res);
+                if (res.status === 200) {
+                    if(res.data.code!=400){
+                        this.stopArea = res.data.data.range_name;
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                        this.loading = false;
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
+        // 虚拟班排课第一步--保存
+        takeoverSubmit(sid,time,subId) {
+            this.$http({
+                url: api.takeoverSubmit,
+                method: 'post',
+                data: {
+                    token: getToken(),
+                    schedule_id: sid,
+                    subject_id: subId,
+                    teacher_id: this.teacherVal,
+                    replace_start_time: time.start,
+                    replace_end_time: time.end,
+                    operate_reason: this.textareaVal
+                }
+            }).then((res) => {
+                console.log(res);
+                if (res.status === 200) {
+                    if(res.data.code!=400){
+                        this.$notify({
+                            message: res.data.data,
+                            type: 'success',
+                            duration: 1000,
+                            onClose: () => {
+                                window.location.reload(true);
+                            }
+                        });
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
                     }
                 }else {
                     this.$notify.error({
@@ -354,7 +782,16 @@ export default {
                 console.log(res);
                 if (res.status === 200) {
                     if(res.data.code!=400){
-
+                        this.modelId = res.data.model_id;
+                        this.$notify({
+                            message: res.data.data,
+                            type: 'success',
+                            duration: 1000,
+                            onClose: () => {
+                                this.virtual_1 = false;
+                                this.virtual_2 = true;
+                            }
+                        });
                     }else{
                         this.$notify.error({
                             message: res.data.data.error
@@ -370,6 +807,153 @@ export default {
             })
         },
 
+        // 虚拟班排课第二步--展示页面
+        virtualArrangeC(id) {
+            this.$http(api.virtualC, {
+                params: {
+                    token: getToken(),
+                    model_id: id,
+                }
+            }).then((res) => {
+                console.log(res);
+                if (res.status === 200) {
+                    if(res.data.code!=400){
+                        this.moduleName = res.data.data.model_name;
+                        this.studyType = res.data.data.time_line;
+                        this.model.deparId = res.data.data.department_id;
+                        this.default_day = res.data.data.default_day;
+                        this.loading = false;
+                        
+                        let virtStep2Data = res.data.data.list;
+                        virtStep2Data.forEach((x) => {
+                            x.class_timeS = [];
+                            x.class_timeW = [];
+                            x.class_time = [];
+                            x.teachDay = [];
+                            this.virtStep2Data.push(x)
+                        });
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
+        //虚拟班排课第二步--保存
+        virtualArrangeD(mod,search) {
+            // 有效期转换
+            if(search.startTime != '' && search.endTime != ''){
+                search.startTime = search.startTime.getFullYear() + '-' + (search.startTime.getMonth() + 1) + '-' + search.startTime.getDate();
+                search.endTime = search.endTime.getFullYear() + '-' + (search.endTime.getMonth() + 1) + '-' + search.endTime.getDate();
+            }
+            let _handle = this.virtStep2Data;
+            _handle.forEach((data) => {   //进入每一行
+                let time = data.timetable;  //进入每一个的timetable对象
+                let circle =[time.day1, time.day2, time.day3, time.day4, time.day5, time.day6, time.day7];
+                let rownull = 0;
+                let circul = 0;
+                let split = "#";
+                let classTime = data.class_time;
+                let clasTimeS = data.class_timeS;  
+                let clasTimeW = data.class_timeW;
+                if(this.studyType == 1){ //全年制数据
+                    if(classTime.length == 2){
+                        classTime = this.formatHourM(classTime[0]) + "-" + this.formatHourM(classTime[1]);
+                    }
+                    this.allYeartime += classTime + ",";
+                } else if(this.studyType == 2){
+                    if(clasTimeS.length == 2){
+                        clasTimeS = this.formatHourM(clasTimeS[0]) + "-" + this.formatHourM(clasTimeS[1]);
+                    }
+                    this.summerYearTime += clasTimeS + ",";
+
+                    if(clasTimeW.length == 2){
+                        clasTimeW = this.formatHourM(clasTimeW[0]) + "-" + this.formatHourM(clasTimeW[1]);
+                    }
+                    this.winerYearTime += clasTimeW + ",";
+                }
+
+                circle.forEach((x) => {
+                    if(x){
+                        circul++;
+                        if(x.s_id != ''){  //进入每一个对象筛选s_sid是否为空
+                            data.teachDay.push(x.week_day);
+
+                            if(this.studyType == 1){
+                                x.class_time = classTime;
+                            } else if(this.studyType == 2){
+                                x.class_time += clasTimeS + "," + clasTimeW;
+                            }
+                            this.virtDataTable.push(x);
+                        } else{
+                            rownull++;
+                        }
+                    }
+                });
+                if(rownull == circul){
+                    split = this.default_day + "#";
+                };
+                this.teachingsDay += data.teachDay.sort().join(",") + split;
+
+            });
+            this.teachingsDay = this.teachingsDay.substring(0,this.teachingsDay.length-1);
+            if(this.studyType == 1){
+                this.summerYearTime = "";
+                this.winerYearTime = "";
+                this.allYeartime = this.allYeartime.substring(0,this.allYeartime.length-1);
+            }else if(this.studyType == 2){
+                this.allYeartime = "";
+                this.summerYearTime = this.summerYearTime.substring(0,this.summerYearTime.length-1);
+                this.winerYearTime = this.winerYearTime.substring(0,this.winerYearTime.length-1);
+            }
+
+            // console.log(this.virtDataTable);
+            this.$http({
+                url: api.virtualD,
+                method: 'post',
+                data: {
+                    token: getToken(),
+                    name: search.name,  //学期名字
+                    model_id: mod.id,
+                    department_id: mod.deparId,   //班级id
+                    end_time: search.endTime,
+                    start_time: search.startTime,
+                    teaching_each_day: this.teachingsDay,
+                    summer_hours_time: this.summerYearTime,
+                    winter_hours_time: this.winerYearTime,
+                    year_hours_time: this.allYeartime,
+                    timetable: encodeUnicode(JSON.stringify(this.virtDataTable)),
+                }
+            }).then((res) => {
+                // console.log(res)
+                if (res.status == 200) {
+                    if(res.data.code!=400){
+                        this.$notify({
+                            message: res.data.data,
+                            type: 'success',
+                            duration: 1000,
+                            onClose: () => {
+                                window.location.reload(true);
+                            }
+                        });
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
 
         // 年级列表
         gradeAllList(obj) {
@@ -453,5 +1037,12 @@ export default {
             let d = date.getDate();  
                 d = d < 10 ? ('0' + d) : d;  
             return  m + d;  
+        }, 
+
+        // 标准中国时间转换获取时分
+        formatHM(date) {  
+            let h = date.getHours();  
+            let m = date.getMinutes();  
+            return  h + ":" + m  
         }, 
 }
