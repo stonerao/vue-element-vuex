@@ -63,7 +63,7 @@
     </el-row>
     <el-row :gutter="20" style="margin-top: 30px">
       <el-col :span="4">
-        <div class="att-name rt">申请代课原因：</div>
+        <div class="att-name rt">申请原因：</div>
       </el-col>
       <el-col :span="15">
         <el-form>
@@ -81,6 +81,7 @@
 </template>
 <script>
   import {getToken} from '@/utils/auth'
+  import { getClass } from '@/utils/auth'
   import att from '@/utils/attendance'
   export default({
     props:['state','addState'],
@@ -103,7 +104,11 @@
         otherId:0,//他人课节id
         meId:0,//本人课节id
         otherClassList:[],//其他老师当天课程
+        isClassLogin:1,//登录状态（1.管理员；2.老师；3.学生）
       }
+    },
+    created(){
+      this.isClassLogin=getClass();
     },
     watch:{
       state(){
@@ -120,12 +125,23 @@
       applySubmit(num){
         let data={};
         if(num==0){
-          data={
-            token:getToken(),
-            start_time:this.leaveStart,
-            end_time:this.leaveEnd,
-            content:this.msg
-          };
+          if(this.isClassLogin==2){
+            //老师请假提交
+            data={
+              token:getToken(),
+              start_time:this.leaveStart,
+              end_time:this.leaveEnd,
+              content:this.msg
+            }
+          }else{
+            //学生请假提交
+            data={
+              token:getToken(),
+              start_time:this.leaveStart,
+              end_time:this.leaveEnd,
+              leave_desc:this.msg
+            };
+          }
         }else if(num==1){
           data={
             token:getToken(),

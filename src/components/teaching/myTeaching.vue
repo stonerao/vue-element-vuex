@@ -59,6 +59,7 @@
 <script>
 import store from '@/utils/teaching'
 export default {
+    props:['state'],
     data() {
         return { 
             val1: '',
@@ -142,7 +143,7 @@ export default {
         this.dataAjax()
     },
     mounted() {
-
+        console.log(this.state)
     },
     watch: {
         dateGo(val) {

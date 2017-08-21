@@ -29,38 +29,14 @@
               </div>
               <!--老师考勤-->
               <div v-if="state==5">
-                <el-row class="class-header">
-                  <el-col :span="11" class="class-titles">
-                    <img src="../../assets/index/shuaxin.png" class="icon-img-xs cursor"/>刷新-共{{total}} 条记录
-                  </el-col>
-                </el-row>
-                <el-row>
-                  <el-col :span="4">
-                    <el-input  placeholder="请输入姓名"></el-input>
-                  </el-col>
-                  <el-col :span="6">
-                    <el-date-picker  type="date" placeholder="选择开始日期" class="rt"></el-date-picker>
-                  </el-col>
-                  <el-col :span="1" style="text-align: center;line-height: 40px">—</el-col>
-                  <el-col :span="6">
-                    <el-date-picker  type="date" placeholder="选择结束日期" class="lf"></el-date-picker>
-                  </el-col>
-                  <el-col :span="6">
-                    <el-button type="primary" class="lf">搜索</el-button>
-                  </el-col>
-                </el-row>
-                <el-table  style="width: 100%">
-                  <el-table-column prop="" label="姓名"  show-overflow-tooltip></el-table-column>
-                  <el-table-column prop="" label="应上课时"></el-table-column>
-                  <el-table-column prop="" label="实上课时数"></el-table-column>
-                  <el-table-column prop="" label="缺勤课时数"></el-table-column>
-                  <el-table-column prop="" label="请假课时数"></el-table-column>
-                </el-table>
+                <sAttendance :total="total" :list="attList" :isClassLogin="isClassLogin"></sAttendance>
               </div>
               <!--学生考勤-->
-              <div v-if="state==5"></div>
+              <div v-if="state==6">
+                <sAttendance :total="total" :list="attList" :isClassLogin="isClassLogin"></sAttendance>
+              </div>
               <!--班级考勤-->
-              <div v-if="state==5"></div>
+              <div v-if="state==7"></div>
                 <!--填写申请-->
                 <div v-if="addState==1">
                   <applyAdd :state="state" @changeAddState="changeAdd" @submit="submitApply"></applyAdd>
@@ -96,6 +72,7 @@ import changeClass from '@/components/attendance/changeClass'
 import relieveClass from '@/components/attendance/relieveClass'
 import attendance from '@/components/attendance/attendance'
 import waitApprove from '@/components/attendance/waitApprove'
+import sAttendance from '@/components/attendance/sAttendance'
 import att from '@/utils/attendance'
 import { getClass } from '@/utils/auth'
 import { getToken } from '@/utils/auth'
@@ -107,7 +84,7 @@ export default {
                 `该页面展示管理员的操作日志，可进行删除。`,
                 `侧边栏可以进行高级搜索`
             ],
-            state: 5,
+            state: 0,
             addState:0,//显示申请页面
             promptsPad: true,
             total:0,//总条数
@@ -153,7 +130,7 @@ export default {
       }
     },
     components: {
-        titleItem, titleActive, description, bottomItem,applyAdd,applyLeave,changeClass,relieveClass,attendance,waitApprove
+        titleItem, titleActive, description, bottomItem,applyAdd,applyLeave,changeClass,relieveClass,attendance,waitApprove,sAttendance
     },
     methods: {
         emitTransfer(index) {

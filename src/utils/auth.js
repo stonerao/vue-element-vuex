@@ -3,6 +3,8 @@ import Cookies from 'js-cookie'
 const TokenKey = 'admin-login'
 export function getToken() {
   return Cookies.get(TokenKey)
+  // return "37e0e061fa6e7e7676e6dce82de1356c"//老师
+  // return "00c9f07b1f0782613ee5d3133d28cc01"//学校中心
 }
 
 export function setToken(token) {
