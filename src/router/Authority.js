@@ -560,19 +560,19 @@ export const ListTeacher = [
             }
         ]
     }, {
-        path: '/set',
-        name: '订单中心',
-        redirect: '/set/index',
-        icon: pmsd,
-        iconActive: pmsd_active,
-        component: Layout,
-        children: [
-            {
-                path: 'index',
-                name: '-订单中心',
-                component: setVue,
-            }
-        ]
+      path: '/order_al',
+      name: '订单管理',
+      redirect: '/order_al/index',
+      icon: pmsd,
+      iconActive: pmsd_active,
+      component: Layout,
+      children: [
+        {
+          path: 'index',
+          name: '-订单管理',
+          component: allOrder,
+        }
+      ]
     },
 
     {
