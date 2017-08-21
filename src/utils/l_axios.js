@@ -761,6 +761,7 @@ export default {
 
         // 虚拟班排课第一步--保存
         virtualArrangeB(departId,teachStr,teachNum,hourType,time) {
+            console.log(time);
             if(teachStr){
                 let newWeek = teachStr;
                 for(var i=0;i<newWeek.length;i++){
@@ -769,14 +770,31 @@ export default {
                 this.week_checkList_string = newWeek.sort().join(",");
             }
             if(hourType == 2){
-                let _time = [time.start ,time.end, time.start_w, time.end_w];  //处理编辑情况第一步时间处理
-                _time.forEach((x)=> {
-                    if((String(x)).indexOf('-') != -1){   
-                        x = (x).split('-')[1] + (x).split('-')[2];
-                    }else{
-                        x = this.formatDate(x);
-                    };
-                })
+                // let _time = [time.start ,time.end, time.start_w, time.end_w];  //处理编辑情况第一步时间处理
+                // _time.forEach((x)=> {
+                //     console.log(x);
+                //     if((String(x)).indexOf('-') != -1){  
+                //         x = (x).split('-')[1] + (x).split('-')[2];
+                //     }else{
+                //         x = this.formatDate(x);
+                //     };
+                // })
+                if((String(time.start)).indexOf('-') != -1){
+                }else{
+                    time.start= this.formatDate(time.start);
+                }
+                if((String(time.end)).indexOf('-') != -1){
+                }else{
+                    time.end= this.formatDate(time.end);
+                }
+                if((String(time.start_w)).indexOf('-') != -1){
+                }else{
+                    time.start_w= this.formatDate(time.start_w);
+                }
+                if((String(time.end_w)).indexOf('-') != -1){
+                }else{
+                    time.end_w= this.formatDate(time.end_w);
+                }
             }
             this.formData = {
                     token: getToken(),
@@ -801,13 +819,12 @@ export default {
                 method: 'post',
                 data: this.formData
             }).then((res) => {
-                console.log(res);
                 if (res.status === 200) {
                     if(res.data.code!=400){
                         if(this.distinguish){
-                            this.modelId = res.data.model_id;
+                            this.modelId = res.data.data.model_id;
                             this.$notify({
-                                message: res.data.data,
+                                message: res.data.data.data,
                                 type: 'success',
                                 duration: 1000,
                                 onClose: () => {
@@ -826,9 +843,9 @@ export default {
                                 }
                             })
                             this.editStatus = true;
+                            this.editModelID = res.data.data.model_id;  //编辑第二步展示页面传输数据
                             if(_status){
                                 this.editStepTwoA = true;
-                                this.editModelID = res.data.data.model_id;  //编辑第二步展示页面传输数据
                                 this.$notify({    
                                     message: '初始变更！',
                                     type: 'success',
@@ -840,13 +857,14 @@ export default {
                                 });
                             }else{
                                 this.editStepTwoB = true;
+                                this.derpartID = res.data.data.department_id;
                                 this.$notify({
                                     message: '初始未改变！',
                                     type: 'success',
                                     duration: 1000,
                                     onClose: () => {
-                                        // this.virtual_1 = false;
-                                        // this.virtual_2 = true;
+                                        this.virtual_1 = false;
+                                        this.virtual_2 = true;
                                     }
                                 });
                             }
@@ -894,12 +912,12 @@ export default {
                         });
                     }else{
                         this.$notify.error({
-                            message: res.data.data.error
+                            message: res.data.data
                         });
                     }
                 }else {
                     this.$notify.error({
-                        message: res.data.data.error
+                        message: res.data.data
                     });
                 }
             })
@@ -985,7 +1003,7 @@ export default {
                 year_hours_time: this.allYeartime,
                 timetable: encodeUnicode(JSON.stringify(this.virtDataTable)),
             }
-            if(editVStakeover){  //编辑第二步保存
+            if(this.editVStakeover){  //编辑第二步保存
                 this.formDataA.schedule_id = sid;
                 this.apiURL = api.EditVirtStep_B1;
             }else{
@@ -1085,31 +1103,85 @@ export default {
         },
 
         // 虚拟班-编辑-第二步展示页面
-        EditVirtStep_b(mid,sid) {
-            this.$http(api.EditVirtStep_b, {
-                params: {
+        EditVirtStep_b(mid,sid,did) {
+            if(this.editStepTwoA){
+                this.ApiUrlData = api.EditVirtStep_b;
+                this.editFormData = {
                     token: getToken(),
                     model_id: mid,
                     schedule_id: sid,
                 }
+            }else if(this.editStepTwoB){
+                this.ApiUrlData = api.checkGradeSche;
+                this.editFormData = {
+                    token: getToken(),
+                    id: did,
+                    schedule_id: sid,
+                }
+            }
+            this.$http(this.ApiUrlData, {
+                params: this.editFormData
             }).then((res) => {
                 console.log(res);
                 if (res.status === 200) {
                     if(res.data.code!=400){
-                        this.moduleName = res.data.data.model_name;
-                        this.studyType = res.data.data.time_line;
-                        this.model.deparId = res.data.data.department_id;
-                        this.default_day = res.data.data.default_day;
-                        this.loading = false;
-                        
-                        let virtStep2Data = res.data.data.list;
-                        virtStep2Data.forEach((x) => {
-                            x.class_timeS = [];
-                            x.class_timeW = [];
-                            x.class_time = [];
-                            x.teachDay = [];
-                            this.virtStep2Data.push(x)
-                        });
+                       if(this.editStepTwoA){
+                            this.moduleName = res.data.data.model_name;
+                            this.studyType = res.data.data.time_line;
+                            this.model.deparId = res.data.data.department_id;
+                            this.default_day = res.data.data.default_day;
+                            this.loading = false;
+                            
+                            let virtStep2Data = res.data.data.list;
+                            virtStep2Data.forEach((x) => {
+                                x.class_timeS = [];
+                                x.class_timeW = [];
+                                x.class_time = [];
+                                x.teachDay = [];
+                                this.virtStep2Data.push(x)
+                            });
+                        }else if(this.editStepTwoB){
+                            //时间戳转换年月日
+                            Date.prototype.toLocaleString = function() {
+                                return this.getFullYear() + "-" + (this.getMonth() + 1) + "-" + this.getDate();
+                            };
+                            let unixTimestamps = new Date( res.data.data.schedule_start_time*1000),
+                                unixTimestampe = new Date( res.data.data.schedule_end_time*1000);
+                            this.searchInline={
+                                name: res.data.data.schedule_name,
+                                startTime: unixTimestamps.toLocaleString(),
+                                endTime: unixTimestampe.toLocaleString(),
+                            }
+                            this.moduleName = res.data.data.department_name;
+                            if(res.data.data.school_time_type == 3){  //判断全年制与冬夏制度
+                                this.studyType = 1;
+                            }else{
+                                this.studyType = 2;
+                            }
+
+                            let virtStep2Data = res.data.data.model_common;
+                            if(this.studyType = 1){
+                                virtStep2Data.forEach((x) => {
+                                    // x.class_timeS = [new Date(2016, 9, 10, x.schedule_time.split(',')[0].split(':')[0]),new Date(2016, 9, 10, x.schedule_time.split(',')[0].split(':')[0])];
+                                    x.class_timeS = [];
+                                    // x.class_timeW = [new Date(2016, 9, 10, x.schedule_time.split(',')[1].split(':')[0]),new Date(2016, 9, 10, x.schedule_time.split(',')[1].split(':')[0])];
+                                    x.class_timeW = [];
+                                    x.class_time = [new Date(2016, 9, 10, x.schedule_time.split('-')[0].split(':')[0], x.schedule_time.split('-')[0].split(':')[1]),new Date(2016, 9, 10, x.schedule_time.split('-')[1].split(':')[0], x.schedule_time.split('-')[0].split(':')[1])];
+                                    x.teachDay = [];
+                                    x.timetable = x.content;
+                                    this.virtStep2Data.push(x);
+                                });
+                            }else{
+                                virtStep2Data.forEach((x) => {
+                                    x.class_timeS = [new Date(2016, 9, 10, x.schedule_time.split(',')[0].split(':')[0]),new Date(2016, 9, 10, x.schedule_time.split(',')[0].split(':')[0])];
+                                    x.class_timeW = [new Date(2016, 9, 10, x.schedule_time.split(',')[1].split(':')[0]),new Date(2016, 9, 10, x.schedule_time.split(',')[1].split(':')[0])];
+                                    x.class_time = [];
+                                    x.teachDay = [];
+                                    x.timetable = x.content;
+                                    this.virtStep2Data.push(x);
+                                });
+                            }
+                        }
                         this.loading =false;
                     }else{
                         this.$notify({
@@ -1132,10 +1204,23 @@ export default {
 
         //虚拟班-编辑-第二步--保存（初始数据改变了）
         EditVirtStep_B1(mod,search,sid) {
+            if(!this.editVStake){
+                this.ApUrlData =  api.EditVirtStep_B1;
+            }else{
+                this.ApUrlData =  api.EditVirtStep_B2;
+            }
             // 有效期转换
             if(search.startTime != '' && search.endTime != ''){
-                search.startTime = search.startTime.getFullYear() + '-' + (search.startTime.getMonth() + 1) + '-' + search.startTime.getDate();
-                search.endTime = search.endTime.getFullYear() + '-' + (search.endTime.getMonth() + 1) + '-' + search.endTime.getDate();
+                if((String(search.startTime)).indexOf('-') != -1){
+
+                }else{
+                    search.startTime = search.startTime.getFullYear() + '-' + (search.startTime.getMonth() + 1) + '-' + search.startTime.getDate();
+                };
+                if((String(search.endTime)).indexOf('-') != -1){
+
+                }else{
+                    search.endTime = search.endTime.getFullYear() + '-' + (search.endTime.getMonth() + 1) + '-' + search.endTime.getDate();
+                };
             }
             let _handle = this.virtStep2Data;
             _handle.forEach((data) => {   //进入每一行
@@ -1197,8 +1282,9 @@ export default {
                 this.summerYearTime = this.summerYearTime.substring(0,this.summerYearTime.length-1);
                 this.winerYearTime = this.winerYearTime.substring(0,this.winerYearTime.length-1);
             }
+            console.log(this.virtDataTable)
             this.$http({
-                url: api.EditVirtStep_B1,
+                url: this.ApUrlData,
                 method: 'post',
                 data: {
                     token: getToken(),

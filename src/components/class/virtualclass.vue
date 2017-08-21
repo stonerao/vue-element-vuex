@@ -98,7 +98,7 @@
 				</div>
 			</div>
 			<div v-if="virtual_2">
-				<virtualStep2 :modelId="modelId" :editStatus="editStatus" :editScheID="editScheID" :editModelID="editModelID" :editStepTwoA="editStepTwoA" :editStepTwoB="editStepTwoB" @backFirst="backfirst"></virtualStep2>
+				<virtualStep2 :modelId="modelId" :editStatus="editStatus" :derpartID="derpartID" :editScheID="editScheID" :editModelID="editModelID" :editStepTwoA="editStepTwoA" :editStepTwoB="editStepTwoB" @backFirst="backfirst"></virtualStep2>
 			</div>
 		</div>
 	</div>
@@ -140,7 +140,7 @@ export default {
             },
             studyNum_str:"",
             moduleName: '',   //模板课表名称
-            startTimeVal:'',
+            startTimeVal: '',
             endTimeVal:'',
             startTimeVal_W:'',
             endTimeVal_W:'',
@@ -160,6 +160,8 @@ export default {
 	        editStatus: false,
 	        editStepTwoA: false, //第一步数据改变-第二步表单提交状态
 	        editStepTwoB: false, //第一步数据未改变-第二步表单提交状态
+	        derpartID: 0,
+	        timeHandle: [],
         }
     },
     created() {

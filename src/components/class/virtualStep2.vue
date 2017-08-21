@@ -147,7 +147,7 @@
 import info from '@/utils/l_axios'
 
 export default {
-    props: ['modelId','backFirst','editStatus','editScheID','editModelID','editStepTwoA','editStepTwoB'],
+    props: ['modelId','backFirst','editStatus','editScheID','editModelID','editStepTwoA','editStepTwoB','derpartID'],
     data() {
         return {
         	searchInline: {  //按年级班级搜索
@@ -176,18 +176,24 @@ export default {
 	        editVStakeover: false,  //区分排课第二步保存与编辑第二步保存
 	        editVStake: false,   //编辑第二步保存区分
 	        apiURL: '',
+	        ApiUrlData: '',
+	        editFormData: {},
+	        ApUrlData: '',
         }
     },
     created() {
     	if(this.editStatus){    //编辑
 			this.loading = true;
     		this.editVStakeover = true;
-			info.EditVirtStep_b.call(this,this.editModelID,this.editScheID);
-	       	info.subjectData.call(this);  //加载科目
     		if(this.editStepTwoA){
-    			// console.log("初始数据变更！")
+    			console.log("初始数据变更！")
+    			info.EditVirtStep_b.call(this,this.editModelID,this.editScheID);  //初始获取数据
+	       		info.subjectData.call(this);  //加载科目
     		}else if(this.editStepTwoB){
-    			// console.log("初始数据未变更！")
+    			console.log("初始数据未变更！")
+    			this.editVStake = true;
+    			info.EditVirtStep_b.call(this,this.editModelID,this.editScheID,this.derpartID);  //初始获取数据
+	       		info.subjectEdit.call(this);  
     		}
     	}else{    //排课
     		this.loading = true;
@@ -212,9 +218,10 @@ export default {
         	if(this.editStatus){ 
 	    		if(this.editStepTwoA){   //编辑-初始数据改变-第二步保存
 			       	this.model.id = this.editModelID;
-		       		info.virtualArrangeD.call(this,this.model,this.searchInline,this.editScheID);
+		       		info.EditVirtStep_B1.call(this,this.model,this.searchInline,this.editScheID);
 	    		}else if(this.editStepTwoB){
-	    			
+	    			this.model.id = this.editModelID;
+		       		info.EditVirtStep_B1.call(this,this.model,this.searchInline,this.editScheID);
 	    		}
 	    	}else{ //排课
 		       this.model.id = this.modelId;
@@ -226,6 +233,9 @@ export default {
         },
         formatHourM(date){
         	return info.formatHM.call(this,date);
+        },
+        ajax(id){
+        	info.teacherData.call(this,id);
         }
     },
     watch:{

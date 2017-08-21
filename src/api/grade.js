@@ -25,6 +25,7 @@ export const api = {
     EditVirtStep_A:'Admin/Grade/virtual_schedule_model_edit',  //虚拟班--编辑--第一项--保存
     EditVirtStep_b:'Admin/Grade/virtual_schedule_edit_show',  //虚拟班--编辑--第二项--展示页面
     EditVirtStep_B1:'Admin/Grade/virtual_schedule_edit1',  //虚拟班--编辑初始改变--第二项--保存
+    EditVirtStep_B2:'/Admin/Grade/virtual_schedule_edit2',  //虚拟班--编辑初始未改变--第二项--保存
     gradeAllList:'Admin/Grade/grade_list',  //年级课表总列表
     gradeCheckModle:'Admin/Grade/show_grade_info',  //年级课表总列表--查看模板
 }
