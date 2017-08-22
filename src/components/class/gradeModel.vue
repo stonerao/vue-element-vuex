@@ -277,6 +277,8 @@ export default {
 	        },
 	        backModel_id: '', //第一步保存的回传的模板id
 	        EditBeginData: {}, //编辑第一步储存初始数据
+	        EditStatus: false,  //编辑第一步数据改变否
+	        _Status: false,   //
         }
     },
     created() {
@@ -317,8 +319,11 @@ export default {
         	return info.formatHM.call(this,date);
         },
         goToNext(){  //保存
-        	// console.log(this.EditGradeData);
-        	info.creatGradeModelB.call(this,this.backModel_id)
+        	if(this.creatGrade){  //创建模板身份认证
+        		info.creatGradeModelB.call(this,this.backModel_id);
+    		}else if(this.editDrade){
+        		info.creatGradeModelB.call(this,this.EditModuleID);
+    		}
         },
         cancelEdit(){  //清空
         	if(this.creatGrade){
@@ -331,6 +336,9 @@ export default {
             this.week_checkList = [];
             this.rest_checkList = [0];
             this.canNot = true;
+        },
+        editStepTwo(mid){  
+        	info.creatGradeModelb.call(this,mid);
         }
     },
     watch:{
@@ -355,13 +363,20 @@ export default {
        	},
        	endTimeVal_W(val){
             this.time.end_w = val;
+            if(this.editDrade){
+	        	this._Status = true;
+	        }
        	},
        	rest_checkList(val){
+
        		if(val == 0){
        			this.canNot = true;
        		}else{
        			this.canNot = false;
        		}
+       	},
+       	week_checkList(val){
+
        	}
     }
 }

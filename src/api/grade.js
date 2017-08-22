@@ -34,4 +34,6 @@ export const api = {
     creatGradeModelB:'Admin/Grade/grade_add_two',   //年级模板创建---第二步保存 
     editGradeModel_a:'Admin/Grade/show_grade_edit_one',   //年级模板编辑 --  第一步-展示
     editGradeModel_A:'Admin/Grade/grade_edit_one',   //年级模板编辑 --  第一步-保存
+    editGradeModel_b:'Admin/Grade/show_grade_edit_two',   //年级模板编辑 --  第二步-展示
+    editGradeModel_B:'Admin/Grade/grade_edit_two',   //年级模板编辑 --  第二步-保存
 }

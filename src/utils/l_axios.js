@@ -1538,34 +1538,42 @@ export default {
                                 }
                             });
                         }else if(this.editDrade){   //编辑
-                            let _change = [this.commonSubmit_A.formData.department_id, this.commonSubmit_A.formData.model_name, this.commonSubmit_A.formData.teaching_day, this.commonSubmit_A.formData.teaching_num, this.commonSubmit_A.formData.hours_type, this.commonSubmit_A.formData.summer_hours_start_time, this.commonSubmit_A.formData.summer_hours_end_time, this.commonSubmit_A.formData.winter_hours_start_time, this.commonSubmit_A.formData.winter_hours_end_time];
-                            let _changeBefore = [this.EditBeginData.department_id, this.EditBeginData.department_name, this.EditBeginData.teaching_day, this.EditBeginData.teaching_num, this.EditBeginData.hours_type, this.EditBeginData.summer_hours_start_time, this.EditBeginData.summer_hours_end_time, this.EditBeginData.winter_hours_start_time, this.EditBeginData.winter_hours_end_time];
+
+                            let _change = [ this.commonSubmit_A.formData.model_name, this.commonSubmit_A.formData.teaching_day, this.commonSubmit_A.formData.teaching_num, this.commonSubmit_A.formData.hours_type, this.commonSubmit_A.formData.summer_hours_start_time, this.commonSubmit_A.formData.summer_hours_end_time, this.commonSubmit_A.formData.winter_hours_start_time, this.commonSubmit_A.formData.winter_hours_end_time];
+                            let _changeBefore = [this.EditBeginData.model_name, this.EditBeginData.teaching_day, this.EditBeginData.teaching_num, this.EditBeginData.hours_type, this.EditBeginData.summer_hours_start_time, this.EditBeginData.summer_hours_end_time, this.EditBeginData.winter_hours_start_time, this.EditBeginData.winter_hours_end_time];
                             let _status = false;  //数据没改变
+                            let _panduan = 0;
+
                             _change.forEach((data,index)=> {
+                                if(String(data).indexOf("-") !=-1){
+                                    _panduan++;
+                                }
                                 if(data != _changeBefore[index]){
                                     _status = true;
-                                    return;
+                                    this.EditStatus = _status;
                                 }
                             })
-                            if(_status){
+                            if(this._status){
                                 this.$notify({    
                                     message: '初始变更！',
                                     type: 'success',
                                     duration: 1000,
                                     onClose: () => {
-                                        // this.virtual_1 = false;
-                                        // this.virtual_2 = true;
+                                        this.gradeModel_1 = false;
+                                        this.gradeModel_2 = true;
+                                        this.editStepTwo(this.EditModuleID);
                                     }
                                 });
                             }else{
-                                // this.derpartID = res.data.data.department_id;
-                                this.$notify({
-                                    message: '初始未改变！',
+                                this.$notify({    
+                                    message: '初始未变更！',
                                     type: 'success',
                                     duration: 1000,
                                     onClose: () => {
-                                        // this.virtual_1 = false;
-                                        // this.virtual_2 = true;
+                                        this.loading = true;
+                                        this.gradeModel_1 = false;
+                                        this.gradeModel_2 = true;
+                                        this.editStepTwo(this.EditModuleID);
                                     }
                                 });
                             }
@@ -1596,27 +1604,77 @@ export default {
                     }
                 }
             }else if(this.editDrade){   //编辑
-
+                this.commonSubmit_b = {
+                    apiUrl: api.editGradeModel_b,
+                    formData: {
+                        token: getToken(),
+                        model_id: mid,
+                    }
+                }
             }
             this.$http(this.commonSubmit_b.apiUrl, {
                 params: this.commonSubmit_b.formData
             }).then((res) => {
-                // console.log(res);
+                console.log(res);
                 if (res.status === 200) {
                     if(res.data.code!=400){
-                        this.loading = false;
-                        this.studyType = res.data.data.time_line;
-                        this.default_day = res.data.data.default_day;
-                        this.moduleName = res.data.data.model_name;
-                        // res.data.data.department_id;
-                        let EditGradeData = res.data.data.list;   //初始创建字段
-                        EditGradeData.forEach((x) => {
-                            x.class_timeS = [];
-                            x.class_timeW = [];
-                            x.class_time = [];
-                            x.teachDay = [];
-                            this.EditGradeData.push(x);
-                        });
+                        if(this.creatGrade){
+                            this.loading = false;
+                            this.studyType = res.data.data.time_line;
+                            this.default_day = res.data.data.default_day;
+                            this.moduleName = res.data.data.model_name;
+
+                            let EditGradeData = res.data.data.list;   //初始创建字段
+                            EditGradeData.forEach((x) => {
+                                x.class_timeS = [];
+                                x.class_timeW = [];
+                                x.class_time = [];
+                                x.teachDay = [];
+                                this.EditGradeData.push(x);
+                            });
+                        }else if(this.editDrade){
+                            this.loading = false;
+                            this.studyType = res.data.data.time_line;
+                            this.default_day = res.data.data.default_day;
+                            this.moduleName = res.data.data.model_name;
+                            if(this.EditStatus){  //初始数据变更
+                                let EditGradeData = res.data.data.list;   //初始创建字段
+                                EditGradeData.forEach((x) => {
+                                    x.class_timeS = [];
+                                    x.class_timeW = [];
+                                    x.class_time = [];
+                                    x.teachDay = [];
+                                    let timetable = x.timetable;
+                                    let day = [x.timetable.day1,x.timetableday2,x.timetable,x.timetable.day3,x.timetable.day4,x.timetable.day5,x.timetable.day6,x.timetable.day7];
+                                        day.forEach((data) => {
+                                            if(data){
+                                                data.is_check = true;
+                                            }
+                                        })
+                                    this.EditGradeData.push(x);
+                                });
+                            }else{
+                                if(this.studyType == 1){
+                                    let EditGradeData = res.data.data.list;   //初始创建字段
+                                    EditGradeData.forEach((x) => {
+                                        x.class_timeS = [];
+                                        x.class_timeW = [];
+                                        x.class_time = [new Date(2016, 9, 10, x.year_time.split('-')[0].split(':')[0], x.year_time.split('-')[0].split(':')[1]),new Date(2016, 9, 10, x.year_time.split('-')[1].split(':')[0], x.year_time.split('-')[0].split(':')[1])];
+                                        x.teachDay = [];
+                                        this.EditGradeData.push(x);
+                                    });
+                                }else{
+                                    let EditGradeData = res.data.data.list;   //初始创建字段
+                                    EditGradeData.forEach((x) => {
+                                        x.class_timeS = [new Date(2016, 9, 10, x.sumber_time.split(',')[0].split(':')[0]),new Date(2016, 9, 10, x.sumber_time.split(',')[0].split(':')[0])];
+                                        x.class_timeW = [new Date(2016, 9, 10, x.winer_time.split(',')[1].split(':')[0]),new Date(2016, 9, 10, x.winer_time.split(',')[1].split(':')[0])];
+                                        x.class_time = [];
+                                        x.teachDay = [];
+                                        this.EditGradeData.push(x);
+                                    });
+                                }
+                            }
+                        } 
                     }else{
                         this.$notify.error({
                             message: res.data.data
@@ -1701,8 +1759,7 @@ export default {
             if(this.creatGrade){  //创建
                 this.commonSubmit_B.apiUrl = api.creatGradeModelB;
             }else if(this.editDrade){
-                // this.formDataA.schedule_id = sid;
-                // this.apiURL = api.EditVirtStep_B1;
+                this.commonSubmit_B.apiUrl = api.editGradeModel_B;
             }
             this.$http({
                 url: this.commonSubmit_B.apiUrl,
