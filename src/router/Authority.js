@@ -28,6 +28,8 @@ import allOrder from '@/view/order/index'
 import teaching from '@/view/teaching/index'
 // 考试中心
 import examination from '@/view/examination/index'
+// 通知中心
+import notice from '@/view/notice/index'
 /*
   左侧图标以及点击后的图标
 */
@@ -250,9 +252,9 @@ export const constList = [
             }
         ]
     }, {
-        path: '/set',
+        path: '/notice',
         name: '通知管理',
-        redirect: '/set/index',
+        redirect: '/notice/index',
         icon: xx,
         iconActive: xx_active,
         component: Layout,
@@ -260,7 +262,7 @@ export const constList = [
             {
                 path: 'index',
                 name: '-通知管理',
-                component: setVue,
+                component: notice,
             }
         ]
     }, {
@@ -386,9 +388,9 @@ export const ListStundent = [
           }
         ]
     }, {
-        path: '/set',
+        path: '/notice',
         name: '通知管理',
-        redirect: '/set/index',
+        redirect: '/notice/index',
         icon: pmsd,
         iconActive: pmsd_active,
         component: Layout,
@@ -396,7 +398,7 @@ export const ListStundent = [
             {
                 path: 'index',
                 name: '-通知管理',
-                component: setVue,
+                component: notice,
             }
         ]
     }, {
