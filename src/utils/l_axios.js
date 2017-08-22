@@ -35,7 +35,7 @@ export default {
                     id: objId.c_id
                 }
             }).then((res) => {
-                console.log(res);
+                // console.log(res);
                 if (res.status === 200) {
                     let data = res.data.data.list;
                     if (data.length != 0) {
@@ -84,7 +84,7 @@ export default {
                     type: obj.classType
                 }
             }).then((res) => {
-                console.log(res);
+                // console.log(res);
                 this.model = {};
                 if (res.status === 200) {
                     if(obj.classType == 1){
@@ -114,7 +114,7 @@ export default {
                                 x.length = days.length;
                                 this.tableData.push(x)
                             });
-                            console.log(this.tableData);
+                            // console.log(this.tableData);
                             this.ajax();  //请求科目列表
                             this.editData.scheTableOrder = res.data.data.department_name;
                         }else{
@@ -203,7 +203,7 @@ export default {
                     type: type
                 }
             }).then((res) => {
-                console.log(res);
+                // console.log(res);
                 if (res.status === 200) {
                     if(res.data.code!=400){
                        this.adjArea = res.data.data.range_name;
@@ -234,7 +234,7 @@ export default {
                     record_id: rec
                 }
             }).then((res) => {
-                console.log(res);
+                // console.log(res);
                 if (res.status === 200) {
                     if(res.data.code!=400){
                         this.changetype = res.data.data.change_type;
@@ -282,7 +282,7 @@ export default {
                     school_time2: adjTime2.B,
                 }
             }).then((res) => {
-                console.log(res)
+                // console.log(res)
                 if (res.status == 200) {
                     if(res.data.code!=400){
                         this.$notify({
@@ -363,7 +363,7 @@ export default {
                     }
                 })
             });
-            console.log(this.taData);
+            // console.log(this.taData);
             this.$http({
                 url: api.scheduleSave,
                 method: 'post',
@@ -515,7 +515,7 @@ export default {
                     operate_reason: reason
                 }
             }).then((res) => {
-                console.log(res)
+                // console.log(res)
                 if (res.status == 200) {
                     if(res.data.code!=400){
                         this.$notify({
@@ -615,7 +615,7 @@ export default {
                     replace_end_time: time.end
                 }
             }).then((res) => {
-                console.log(res);
+                // console.log(res);
                 if (res.status === 200) {
                     if(res.data.code!=400){
                         this.subject = res.data.data;
@@ -644,7 +644,7 @@ export default {
                     replace_end_time: time.end
                 }
             }).then((res) => {
-                console.log(res);
+                // console.log(res);
                 if (res.status === 200) {
                     if(res.data.code!=400){
                         this.teacher = res.data.data;
@@ -671,7 +671,7 @@ export default {
                     type: this.classType
                 }
             }).then((res) => {
-                console.log(res);
+                // console.log(res);
                 if (res.status === 200) {
                     if(res.data.code!=400){
                         this.stopArea = res.data.data.range_name;
@@ -709,7 +709,7 @@ export default {
                     operate_reason: this.textareaVal
                 }
             }).then((res) => {
-                console.log(res);
+                // console.log(res);
                 if (res.status === 200) {
                     if(res.data.code!=400){
                         this.$notify({
@@ -761,7 +761,7 @@ export default {
 
         // 虚拟班排课第一步--保存
         virtualArrangeB(departId,teachStr,teachNum,hourType,time) {
-            console.log(time);
+            // console.log(time);
             if(teachStr){
                 let newWeek = teachStr;
                 for(var i=0;i<newWeek.length;i++){
@@ -893,7 +893,7 @@ export default {
                     model_id: id,
                 }
             }).then((res) => {
-                console.log(res);
+                // console.log(res);
                 if (res.status === 200) {
                     if(res.data.code!=400){
                         this.moduleName = res.data.data.model_name;
@@ -1153,12 +1153,16 @@ export default {
                                 endTime: unixTimestampe.toLocaleString(),
                             }
                             this.moduleName = res.data.data.department_name;
-                            if(res.data.data.school_time_type == 3){  //判断全年制与冬夏制度
-                                this.studyType = 1;
-                            }else{
+                            if(res.data.data.school_time_type == 1){
+                                this.sesson = '夏季节次'
                                 this.studyType = 2;
+                            }else if(res.data.data.school_time_type == 2){
+                                this.sesson = '冬季节次'
+                                this.studyType = 2;
+                            }else if(res.data.data.school_time_type == 3){
+                                this.sesson = '全年节次'
+                                this.studyType = 1;
                             }
-
                             let virtStep2Data = res.data.data.model_common;
                             if(this.studyType = 1){
                                 virtStep2Data.forEach((x) => {
@@ -1280,7 +1284,7 @@ export default {
                 this.summerYearTime = this.summerYearTime.substring(0,this.summerYearTime.length-1);
                 this.winerYearTime = this.winerYearTime.substring(0,this.winerYearTime.length-1);
             }
-            console.log(this.virtDataTable)
+            // console.log(this.virtDataTable)
             this.$http({
                 url: this.ApUrlData,
                 method: 'post',
@@ -1299,7 +1303,7 @@ export default {
                     timetable: encodeUnicode(JSON.stringify(this.virtDataTable)),
                 }
             }).then((res) => {
-                console.log(res)
+                // console.log(res)
                 if (res.status == 200) {
                     if(res.data.code!=400){
                         this.$notify({
@@ -1332,7 +1336,7 @@ export default {
                     curpage: obj.one_pagenum,
                 }
             }).then((res) => {
-                console.log(res);
+                // console.log(res);
                 if (res.status === 200) {
                     if(res.data.code!=400){
                         let data = res.data.data;
