@@ -119,7 +119,7 @@ export default {
             restList: typeOptions,
             week_checkList: [],   //周一到周日可点模板区域
             week_checkList_string: "",   //周一到周日可点模板区域
-            rest_checkList: [],  //作息方式
+            rest_checkList: [0],  //作息方式
             studyEach: {
             	mobefore :[0,1,2],
             	morning :[1,2,3,4,5],
@@ -146,7 +146,7 @@ export default {
             endTimeVal_W:'',
 	        pickerOptions1: {},
 	        pickerOptions2: {},
-	        canNot: false,
+	        canNot: true,
 	        virtual_1: true,   //虚拟班编排第一步
 	        virtual_2: false,   //虚拟班编排第二步
 	        modelId: 0,   //虚拟班编排第二步初始传值modelId
@@ -170,8 +170,9 @@ export default {
     		info.virtualArrangeA.call(this,this.derpartId);
     		// console.log('这是虚拟班排课组件！');
     	}else if(this.conpGrade){
-    		console.log('这是年级排课组件！');
+    		// console.log('这是年级排课组件！');
     	} else if(this.editVirtStatus){
+    		this.rest_checkList = [];
     		info.EditVirtStep_a.call(this,this.ScheduID);
     		// console.log('这是虚拟班编辑第一步！');
     	}

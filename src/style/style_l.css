@@ -150,6 +150,30 @@
 .l_layout_outer .l_schedule_outer .sche_table.virStep2Table .el-table__row .el-table_1_column_2 .cell {
   padding: 5px;
 }
+.l_layout_outer .l_schedule_outer .sche_table.createCheckbox .el-table__row .cell {
+  padding: 0px;
+  text-align: center;
+}
+.l_layout_outer .l_schedule_outer .sche_table.createCheckbox .el-table__row .cell .el-checkbox,
+.l_layout_outer .l_schedule_outer .sche_table.createCheckbox .el-table__row .cell .el-checkbox__inner,
+.l_layout_outer .l_schedule_outer .sche_table.createCheckbox .el-table__row .cell .el-checkbox__input {
+  display: block;
+  width: 100%;
+  height: 40px;
+  border: none;
+  border-radius: 0px;
+}
+.l_layout_outer .l_schedule_outer .sche_table.createCheckbox .el-table__row .cell .el-checkbox:after,
+.l_layout_outer .l_schedule_outer .sche_table.createCheckbox .el-table__row .cell .el-checkbox__inner:after,
+.l_layout_outer .l_schedule_outer .sche_table.createCheckbox .el-table__row .cell .el-checkbox__input:after {
+  border: none;
+}
+.l_layout_outer .l_schedule_outer .sche_table.createCheckbox .el-table__row .cell .el-checkbox__input.is-disabled.is-checked .el-checkbox__inner {
+  background: #1997e4;
+}
+.l_layout_outer .l_schedule_outer .sche_table.createCheckbox .el-table__row .cell .el-checkbox__input.is-disabled .el-checkbox__inner {
+  background: #fff;
+}
 .l_layout_outer .l_schedule_outer .sche_table .el-table__row td .cell > div {
   display: -webkit-box;
   display: -webkit-flex;
