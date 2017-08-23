@@ -203,7 +203,7 @@ export default {
                     type: type
                 }
             }).then((res) => {
-                // console.log(res);
+                console.log(res);
                 if (res.status === 200) {
                     if(res.data.code!=400){
                        this.adjArea = res.data.data.range_name;
@@ -213,7 +213,7 @@ export default {
                             type: 'error',
                             duration: 1000,
                             onClose: () => {
-                                window.location.reload(true);
+                                // window.location.reload(true);
                             }
                         });
                         this.loading = false;
@@ -222,6 +222,7 @@ export default {
                     this.$notify.error({
                         message: res.data.data.error
                     });
+                    window.location.reload(true);
                 }
             })
         },
@@ -532,6 +533,7 @@ export default {
                         });
                         this.stoPtime.start = '';
                         this.stoPtime.end = '';
+                        // window.location.reload(true);
                     }
                 }else {
                     this.$notify.error({
@@ -664,14 +666,23 @@ export default {
 
         // 停课初始数据获取
         classStopBegin(sid) {
-            this.$http(api.classStopBegin, {
-                params: {
+            if(this.tabsStatus){
+                this.allFormData = {
                     token: getToken(),
                     id: sid,
                     type: this.classType
                 }
+            }else if(this.stopGrade){
+                this.allFormData = {
+                    token: getToken(),
+                    id: sid.MID,
+                    type: sid.TYPE
+                }
+            }
+            this.$http(api.classStopBegin, {
+                params: this.allFormData
             }).then((res) => {
-                // console.log(res);
+                console.log(res);
                 if (res.status === 200) {
                     if(res.data.code!=400){
                         this.stopArea = res.data.data.range_name;
@@ -923,7 +934,7 @@ export default {
                         this.default_day = res.data.data.default_day;
                         this.loading = false;
                         this.virtStep2Data = [];
-                        
+
                         let virtStep2Data = res.data.data.list;
                         virtStep2Data.forEach((x) => {
                             x.class_timeS = [];

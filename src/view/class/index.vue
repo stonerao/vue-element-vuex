@@ -336,6 +336,7 @@ export default {
         checkSchedule(id,type){
             this.derpartId = id;
             this.classType = type;
+            this.tabsStatus = true;
             this.loading = true;
             this.tab_0 = false;
             this.tab_2 = true;
