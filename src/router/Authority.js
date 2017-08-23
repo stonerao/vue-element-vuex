@@ -19,6 +19,8 @@ import gradeVue from '@/view/class/index'
 import Attendance from '@/view/attendance/index'
 //权限管理
 import Authority from '@/view/authority/index'
+//我的班级
+import myClass from '@/view/myClass/index'
 
 /*
     版权中心
@@ -429,17 +431,17 @@ export const ListStundent = [
 // 老师
 export const ListTeacher = [
     {
-        path: '/set',
+        path: '/myClass',
         name: '我的班级',
-        redirect: '/set/index',
-        icon: pmsd,
-        iconActive: pmsd_active,
+        redirect: '/myClass/index',
+        icon: bj,
+        iconActive: bj_active,
         component: Layout,
         children: [
             {
                 path: 'index',
                 name: '-我的班级',
-                component: setVue,
+                component: myClass,
             }
         ]
     }, {
