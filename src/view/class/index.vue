@@ -207,6 +207,9 @@
                     <div v-if="state===1" class="l_schedule_outer l_timetable_outer">
                         <gradeList :state="state"></gradeList>
                     </div>
+                    <div v-if="state===2" class="l_schedule_outer">
+                        <allSuspend :state="state"></allSuspend>
+                    </div>
                 </div>
             </div>
             <bottomItem></bottomItem>
@@ -222,6 +225,7 @@ import bottomItem from '@/components/bottom/bottom.vue'
 import checkGradeSchedule from '@/components/class/gradeSchedule'
 import gradeList from '@/components/class/gradelist'
 import virtualclass from '@/components/class/virtualclass'
+import allSuspend from '@/components/class/allSuspend'
 import info from '@/utils/l_axios'
 
 export default {
@@ -236,7 +240,7 @@ export default {
                 `该页面展示管理员的操作日志，可进行删除。`,
                 `侧边栏可以进行高级搜索`
             ],
-            state: 1,  //tabs的header
+            state: 2,  //tabs的header
             tab_0: true, //总课表及排课切换
             tab_1: false, 
             tab_2: false, 
@@ -299,7 +303,7 @@ export default {
         info.timeTable.call(this,this.gradeListParams,this.graClaId)   //总课表
     },
     components: {
-        titleItem, titleActive, description, bottomItem, checkGradeSchedule, gradeList, virtualclass
+        titleItem, titleActive, description, bottomItem, checkGradeSchedule, gradeList, virtualclass, allSuspend
     },
     methods: {
         emitTransfer(index) {
