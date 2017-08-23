@@ -11,12 +11,13 @@
 									<li v-bind:class="{ active: isActive }">{{moduleName}}</li>
 								</ul>
 							</div>
-	                        <el-button-group style="position: absolute;right: 0px;bottom: 10px;">
-	                          <el-button type="primary" icon="plus" size="small" @click="adjust">调课</el-button>
-	                          <el-button type="primary" icon="plus" size="small" @click="takestop">停课</el-button>
-	                          <el-button type="primary" icon="plus" size="small" @click="edit">编辑</el-button>
-	                          <el-button type="primary" icon="plus" size="small" @click="back">返回</el-button>
-	                        </el-button-group>
+							<el-button-group style="position: absolute;right: 0px;bottom: 10px;">
+								<el-button type="primary" icon="plus" size="small" @click="adjust"  v-if="whertherShow">调课</el-button>
+								<el-button type="primary" icon="plus" size="small" @click="takestop"  v-if="whertherShow">停课</el-button>
+								<el-button type="primary" icon="plus" size="small" @click.native="DeleteModel">删除</el-button>
+								<el-button type="primary" icon="plus" size="small" @click="edit">编辑</el-button>
+								<el-button type="primary" icon="plus" size="small" @click="back">返回</el-button>
+							</el-button-group>
 	                    </el-col>
 	                </el-row>
 	            </div>
@@ -112,9 +113,17 @@
 					</el-table>
 				</div>
 			</div>
+			<!-- 编辑模板 -->
 			<div v-if="gradeHandle_edit">
-				<!-- 编辑模板 -->
 	        	<editModel :editDrade="editDrade" :EditModuleID="EditModuleID" @Cancel="gobefore" @BackDetail="backdetail"></editModel>
+			</div>
+			<!-- 模板停课 -->
+			<div v-if="gradeHandle_stop">
+	        	<bothModel :stopGrade="stopGrade" :BOTHDATA="BOTHDATA" @Cancel="stopGetBack"></bothModel>
+			</div>
+			<!-- 模板调课 -->
+			<div v-if="gradeHandle_adjust">
+	        	<bothModel :adjGrade="adjGrade" :BOTHDATA="BOTHDATA" @Cancel="stopGetBack2"></bothModel>
 			</div>
 		</div>
 	</div>
@@ -123,6 +132,7 @@
 <script>
 import info from '@/utils/l_axios'
 import editModel from '@/components/class/gradeModel'
+import bothModel from '@/components/class/gradeSchedule'
 
 const dayOptions = ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日']
 const typeOptions = ['全年制', '冬夏分时制']
@@ -194,20 +204,33 @@ export default {
 	        backModel_id: '', //第一步保存的回传的模板id
 	        gradeHandle_check: true,  //查看模板  
 	        gradeHandle_edit: false,  //编辑模板
+	        gradeHandle_stop: false,  //年级停课
+	        gradeHandle_adjust: false,  //年级调课
+	        whertherShow: true,  //是否展示按钮
 	        whetherEdit: true,   //禁止编辑 
 	        EditModuleID: 0,
 	        editDrade: true,   //编辑模板身份证
+	        stopGrade: false,  //停课身份证
+	        adjGrade: false,  //调课身份证
+	        BOTHDATA: {   //停课调课共用
+	        	MID: 0,
+	        	TYPE: 2   //年级
+ 	        }, 
         }
     },
     created() {
     	this.loading = true;
       	this.EditModuleID = this.ModuleID;
       	info.gradeCheckModle.call(this,this.ModuleID);
+      	info.whetherShowBtn.call(this,this.ModuleID);
     },
     components: {
-        editModel
+        editModel,bothModel
     },
     methods: {
+        DeleteModel(){   //删除模板
+        	info.deleteGrade.call(this,this.ModuleID);
+        },
         cancel(){
         	this.$emit("Cancel");
         },
@@ -243,11 +266,17 @@ export default {
             this.rest_checkList = [0];
             this.canNot = true;
         },
-        adjust(){
-
+        adjust(){  //调课
+        	this.BOTHDATA.MID = this.ModuleID;
+        	this.adjGrade = true;  //身份激活
+        	this.gradeHandle_check = false;
+        	this.gradeHandle_adjust = true;
         },
-        takestop(){
-
+        takestop(){  //停课
+        	this.BOTHDATA.MID = this.ModuleID;
+        	this.stopGrade = true;  //身份激活
+    		this.gradeHandle_check = false;
+	        this.gradeHandle_stop = true;
         },
         edit(){
         	this.gradeHandle_check = false;
@@ -259,6 +288,14 @@ export default {
         backdetail(){
         	this.gradeHandle_check = true;
 	        this.gradeHandle_edit = false;
+        },
+        stopGetBack(){   //停课取消
+    		this.gradeHandle_check = true;
+	        this.gradeHandle_stop = false;
+        },
+        stopGetBack2(){   //停课取消
+    		this.gradeHandle_check = true;
+	        this.gradeHandle_adjust = false;
         }
     },
     watch:{

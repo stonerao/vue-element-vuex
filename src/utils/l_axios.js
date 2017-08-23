@@ -203,7 +203,7 @@ export default {
                     type: type
                 }
             }).then((res) => {
-                // console.log(res);
+                console.log(res);
                 if (res.status === 200) {
                     if(res.data.code!=400){
                        this.adjArea = res.data.data.range_name;
@@ -213,7 +213,7 @@ export default {
                             type: 'error',
                             duration: 1000,
                             onClose: () => {
-                                window.location.reload(true);
+                                // window.location.reload(true);
                             }
                         });
                         this.loading = false;
@@ -222,6 +222,7 @@ export default {
                     this.$notify.error({
                         message: res.data.data.error
                     });
+                    window.location.reload(true);
                 }
             })
         },
@@ -443,9 +444,14 @@ export default {
                     schedule_id: scheid
                 }
             }).then((res) => {
-                // console.log(res);
+                console.log(res);
                 if (res.status === 200) {
                     if(res.data.code!=400){
+                        if(res.data.data.schedule_status != 1){
+                            this.WhetherShowDel = true;
+                        }else{
+                            this.WhetherShowDel = false;
+                        }
                         Date.prototype.toLocaleString = function() {
                             return this.getFullYear() + "/" + (this.getMonth() + 1) + "/" + this.getDate();
                         };
@@ -474,6 +480,7 @@ export default {
                             endTime: unixTimestampe
                         }
                         this.classGrade = res.data.data.department_name;
+
                         this.model = {
                             id: res.data.data.schedule_id,
                             mid: res.data.data.model_id,
@@ -532,6 +539,7 @@ export default {
                         });
                         this.stoPtime.start = '';
                         this.stoPtime.end = '';
+                        // window.location.reload(true);
                     }
                 }else {
                     this.$notify.error({
@@ -664,14 +672,23 @@ export default {
 
         // 停课初始数据获取
         classStopBegin(sid) {
-            this.$http(api.classStopBegin, {
-                params: {
+            if(this.tabsStatus){
+                this.allFormData = {
                     token: getToken(),
                     id: sid,
                     type: this.classType
                 }
+            }else if(this.stopGrade){
+                this.allFormData = {
+                    token: getToken(),
+                    id: sid.MID,
+                    type: sid.TYPE
+                }
+            }
+            this.$http(api.classStopBegin, {
+                params: this.allFormData
             }).then((res) => {
-                // console.log(res);
+                console.log(res);
                 if (res.status === 200) {
                     if(res.data.code!=400){
                         this.stopArea = res.data.data.range_name;
@@ -923,7 +940,7 @@ export default {
                         this.default_day = res.data.data.default_day;
                         this.loading = false;
                         this.virtStep2Data = [];
-                        
+
                         let virtStep2Data = res.data.data.list;
                         virtStep2Data.forEach((x) => {
                             x.class_timeS = [];
@@ -1175,6 +1192,8 @@ export default {
                                 endTime: unixTimestampe.toLocaleString(),
                             }
                             this.moduleName = res.data.data.department_name;
+                            this.virtStep2Data = [];
+
                             if(res.data.data.school_time_type == 1){
                                 this.sesson = '夏季节次'
                                 this.studyType = 2;
@@ -1190,15 +1209,15 @@ export default {
                                 virtStep2Data.forEach((x) => {
                                     x.class_timeS = [];
                                     x.class_timeW = [];
-                                    x.class_time = [new Date(2016, 9, 10, x.schedule_time.split('-')[0].split(':')[0], x.schedule_time.split('-')[0].split(':')[1]),new Date(2016, 9, 10, x.schedule_time.split('-')[1].split(':')[0], x.schedule_time.split('-')[0].split(':')[1])];
+                                    x.class_time = [new Date(2016, 9, 10, String(x.schedule_tim).split('-')[0].split(':')[0], String(x.schedule_time).split('-')[0].split(':')[1]),new Date(2016, 9, 10, String(x.schedule_time).split('-')[1].split(':')[0], String(x.schedule_time).split('-')[0].split(':')[1])];
                                     x.teachDay = [];
                                     x.timetable = x.content;
                                     this.virtStep2Data.push(x);
                                 });
                             }else{
                                 virtStep2Data.forEach((x) => {
-                                    x.class_timeS = [new Date(2016, 9, 10, x.schedule_time.split(',')[0].split(':')[0]),new Date(2016, 9, 10, x.schedule_time.split(',')[0].split(':')[0])];
-                                    x.class_timeW = [new Date(2016, 9, 10, x.schedule_time.split(',')[1].split(':')[0]),new Date(2016, 9, 10, x.schedule_time.split(',')[1].split(':')[0])];
+                                    x.class_timeS = [new Date(2016, 9, 10, String(x.sumber_time).split(',')[0].split(':')[0], String(x.sumber_time).split('-')[0].split(':')[1]),new Date(2016, 9, 10, String(x.sumber_time).split(',')[1].split(':')[0], String(x.sumber_time).split('-')[1].split(':')[1])];
+                                    x.class_timeW = [new Date(2016, 9, 10, String(x.winer_time).split(',')[0].split(':')[0], String(x.winer_time).split('-')[0].split(':')[1]),new Date(2016, 9, 10, String(x.winer_time).split(',')[1].split(':')[0], String(x.winer_time).split('-')[1].split(':')[1])];
                                     x.class_time = [];
                                     x.teachDay = [];
                                     x.timetable = x.content;
@@ -1811,6 +1830,100 @@ export default {
                     if(res.data.code!=400){
                         this.$notify({
                             message: res.data.data,
+                            type: 'success',
+                            duration: 1000,
+                            onClose: () => {
+                                window.location.reload(true);
+                            }
+                        });
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
+        // 年级课表模板是否展示按钮
+        whetherShowBtn(mid) {
+            this.$http(api.whetherShowBtn, {
+                params: {
+                    token: getToken(),
+                    id: mid,
+                }
+            }).then((res) => {
+                // console.log(res);
+                if (res.status === 200) {
+                    if(res.data.code!=400){
+                        if(res.data.data.is_show == 1){
+                            this.whertherShow = true;
+                        }else if(res.data.data.is_show == 2){
+                            this.whertherShow = false;
+                        }
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                        this.loading = false;
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        }, 
+
+        // 年级课表模板-删除
+        deleteGrade(mid) {
+            this.$http(api.deleteGrade, {
+                params: {
+                    token: getToken(),   //这个key有误
+                    model_id: mid,
+                }
+            }).then((res) => {
+                console.log(res);
+                if (res.status === 200) {
+                    if(res.data.code!=400){
+                        this.$notify({
+                            message: '删除成功',
+                            type: 'success',
+                            duration: 1000,
+                            onClose: () => {
+                                window.location.reload(true);
+                            }
+                        });
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
+        // 班级课表模板-删除
+        deleteClass(id) {
+            this.$http(api.deleteClass, {
+                params: {
+                    token: getToken(),   //这个key有误
+                    id: id,
+                }
+            }).then((res) => {
+                console.log(res);
+                if (res.status === 200) {
+                    if(res.data.code!=400){
+                        this.$notify({
+                            message: '删除成功',
                             type: 'success',
                             duration: 1000,
                             onClose: () => {
