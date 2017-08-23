@@ -11,12 +11,13 @@
 									<li v-bind:class="{ active: isActive }">{{moduleName}}</li>
 								</ul>
 							</div>
-	                        <el-button-group style="position: absolute;right: 0px;bottom: 10px;">
-	                          <el-button type="primary" icon="plus" size="small" @click="adjust">调课</el-button>
-	                          <el-button type="primary" icon="plus" size="small" @click="takestop">停课</el-button>
-	                          <el-button type="primary" icon="plus" size="small" @click="edit">编辑</el-button>
-	                          <el-button type="primary" icon="plus" size="small" @click="back">返回</el-button>
-	                        </el-button-group>
+							<el-button-group style="position: absolute;right: 0px;bottom: 10px;">
+								<el-button type="primary" icon="plus" size="small" @click="adjust"  v-if="whertherShow">调课</el-button>
+								<el-button type="primary" icon="plus" size="small" @click="takestop"  v-if="whertherShow">停课</el-button>
+								<el-button type="primary" icon="plus" size="small" @click.native="DeleteModel">删除</el-button>
+								<el-button type="primary" icon="plus" size="small" @click="edit">编辑</el-button>
+								<el-button type="primary" icon="plus" size="small" @click="back">返回</el-button>
+							</el-button-group>
 	                    </el-col>
 	                </el-row>
 	            </div>
@@ -205,6 +206,7 @@ export default {
 	        gradeHandle_edit: false,  //编辑模板
 	        gradeHandle_stop: false,  //年级停课
 	        gradeHandle_adjust: false,  //年级调课
+	        whertherShow: true,  //是否展示按钮
 	        whetherEdit: true,   //禁止编辑 
 	        EditModuleID: 0,
 	        editDrade: true,   //编辑模板身份证
@@ -220,11 +222,15 @@ export default {
     	this.loading = true;
       	this.EditModuleID = this.ModuleID;
       	info.gradeCheckModle.call(this,this.ModuleID);
+      	info.whetherShowBtn.call(this,this.ModuleID);
     },
     components: {
         editModel,bothModel
     },
     methods: {
+        DeleteModel(){   //删除模板
+        	info.deleteGrade.call(this,this.ModuleID);
+        },
         cancel(){
         	this.$emit("Cancel");
         },

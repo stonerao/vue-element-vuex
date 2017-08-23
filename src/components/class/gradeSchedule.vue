@@ -18,6 +18,7 @@
                           <el-button type="primary" icon="plus" size="small" @click="takeover">代课</el-button>
                           <el-button type="primary" icon="plus" size="small" @click="takestop">停课</el-button>
                           <el-button type="primary" icon="plus" size="small" @click="adjust">调课</el-button>
+                          <el-button type="primary" icon="plus" size="small" @click="delet" v-if="WhetherShowDel">删除</el-button>
                           <el-button type="primary" icon="plus" size="small" @click="edit">编辑</el-button>
                           <el-button type="primary" icon="plus" size="small" @click="back">返回</el-button>
                         </el-button-group>
@@ -407,6 +408,7 @@ export default {
             editVirtStatus: true,   //虚拟班编辑课课表组件区分内容判断
             ScheduID: 0,   //虚拟把编辑初步展示页面请求内容
             allFormData: {},
+            WhetherShowDel: false,
         }
     },
     created() {
@@ -431,6 +433,9 @@ export default {
         editSubstance, editVirtual
     },
     methods: {
+        delet(){
+            info.deleteClass.call(this,this.schedule_id);
+        },
         BadjSave(){
             info.adjustStepBs.call(this,this.recordId,this.adjTime1,this.adjTime2)
         },

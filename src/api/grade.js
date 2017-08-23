@@ -36,4 +36,7 @@ export const api = {
     editGradeModel_A:'Admin/Grade/grade_edit_one',   //年级模板编辑 --  第一步-保存
     editGradeModel_b:'Admin/Grade/show_grade_edit_two',   //年级模板编辑 --  第二步-展示
     editGradeModel_B:'Admin/Grade/grade_edit_two',   //年级模板编辑 --  第二步-保存
+    whetherShowBtn:'Admin/Grade/show_class_change_button',   //年级模板是否展示‘调课停课’按钮
+    deleteGrade:'Admin/Grade/grade_del',   //年级模板-删除
+    deleteClass:'Admin/Grade/class_del',   //班级课表-删除
 }

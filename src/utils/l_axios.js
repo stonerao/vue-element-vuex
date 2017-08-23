@@ -444,9 +444,14 @@ export default {
                     schedule_id: scheid
                 }
             }).then((res) => {
-                // console.log(res);
+                console.log(res);
                 if (res.status === 200) {
                     if(res.data.code!=400){
+                        if(res.data.data.schedule_status != 1){
+                            this.WhetherShowDel = true;
+                        }else{
+                            this.WhetherShowDel = false;
+                        }
                         Date.prototype.toLocaleString = function() {
                             return this.getFullYear() + "/" + (this.getMonth() + 1) + "/" + this.getDate();
                         };
@@ -475,6 +480,7 @@ export default {
                             endTime: unixTimestampe
                         }
                         this.classGrade = res.data.data.department_name;
+
                         this.model = {
                             id: res.data.data.schedule_id,
                             mid: res.data.data.model_id,
@@ -1824,6 +1830,100 @@ export default {
                     if(res.data.code!=400){
                         this.$notify({
                             message: res.data.data,
+                            type: 'success',
+                            duration: 1000,
+                            onClose: () => {
+                                window.location.reload(true);
+                            }
+                        });
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
+        // 年级课表模板是否展示按钮
+        whetherShowBtn(mid) {
+            this.$http(api.whetherShowBtn, {
+                params: {
+                    token: getToken(),
+                    id: mid,
+                }
+            }).then((res) => {
+                // console.log(res);
+                if (res.status === 200) {
+                    if(res.data.code!=400){
+                        if(res.data.data.is_show == 1){
+                            this.whertherShow = true;
+                        }else if(res.data.data.is_show == 2){
+                            this.whertherShow = false;
+                        }
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                        this.loading = false;
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        }, 
+
+        // 年级课表模板-删除
+        deleteGrade(mid) {
+            this.$http(api.deleteGrade, {
+                params: {
+                    token: getToken(),   //这个key有误
+                    model_id: mid,
+                }
+            }).then((res) => {
+                console.log(res);
+                if (res.status === 200) {
+                    if(res.data.code!=400){
+                        this.$notify({
+                            message: '删除成功',
+                            type: 'success',
+                            duration: 1000,
+                            onClose: () => {
+                                window.location.reload(true);
+                            }
+                        });
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
+        // 班级课表模板-删除
+        deleteClass(id) {
+            this.$http(api.deleteClass, {
+                params: {
+                    token: getToken(),   //这个key有误
+                    id: id,
+                }
+            }).then((res) => {
+                console.log(res);
+                if (res.status === 200) {
+                    if(res.data.code!=400){
+                        this.$notify({
+                            message: '删除成功',
                             type: 'success',
                             duration: 1000,
                             onClose: () => {

@@ -106,7 +106,8 @@ export default {
         gobefore(){  //创建模板第一步返回
         	this.switch_0 = true;
         	this.switch_2 = false;
-        }
+        },
+
     },
     watch:{
        
