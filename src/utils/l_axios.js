@@ -1054,11 +1054,20 @@ export default {
                 this.apiURL = api.virtualD;
             }
 
-            console.log(this.virtDataTable);
-            console.log(this.teachingsDay)
-            console.log(this.summerYearTime)
-            console.log(this.allYeartime)
-            console.log(this.winerYearTime)
+            // let form={
+            //         token: getToken(),
+            //         name: search.name,  //学期名字
+            //         model_id: mod.id,
+            //         department_id: mod.deparId,   //班级id
+            //         end_time: search.endTime,
+            //         start_time: search.startTime,
+            //         teaching_each_day: this.teachingsDay,
+            //         summer_hours_time: this.summerYearTime,
+            //         winter_hours_time: this.winerYearTime,
+            //         year_hours_time: this.allYeartime,
+            //         timetable: this.virtDataTable,
+            // }
+            // console.log(form)
 
             this.$http({
                 url: this.apiURL,
@@ -1085,7 +1094,7 @@ export default {
                             type: 'success',
                             duration: 1000,
                             onClose: () => {
-                                // window.location.reload(true);
+                                window.location.reload(true);
                             }
                         });
                     }else{
@@ -1388,7 +1397,7 @@ export default {
                     curpage: obj.one_pagenum,
                 }
             }).then((res) => {
-                // console.log(res);
+                console.log(res);
                 if (res.status === 200) {
                     if(res.data.code!=400){
                         let data = res.data.data;
@@ -1588,6 +1597,8 @@ export default {
                 this.commonSubmit_A.apiUrl = api.editGradeModel_A;
                 this.commonSubmit_A.formData.model_id = this.EditModuleID;
             }
+
+
             this.$http({
                 url: this.commonSubmit_A.apiUrl,
                 method: 'post',
@@ -1831,6 +1842,10 @@ export default {
             }else if(this.editDrade){
                 this.commonSubmit_B.apiUrl = api.editGradeModel_B;
             }
+
+            console.log('查看----')
+            console.log(this.commonSubmit_B.formData)
+
             this.$http({
                 url: this.commonSubmit_B.apiUrl,
                 method: 'post',
@@ -1844,7 +1859,7 @@ export default {
                             type: 'success',
                             duration: 1000,
                             onClose: () => {
-                                window.location.reload(true);
+                                // window.location.reload(true);
                             }
                         });
                     }else{
