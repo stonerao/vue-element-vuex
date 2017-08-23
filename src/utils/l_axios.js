@@ -807,31 +807,34 @@ export default {
                 if((String(time.start)).indexOf('-') != -1){
                     time.start= String(time.start).split('-')[1] + String(time.start).split('-')[2];
                 }else{
-                    if(String(time.start) > 4){
+                    if(String(time.start).length > 4){
                         time.start= this.formatDate(time.start);
                     }
                 }
                 if((String(time.end)).indexOf('-') != -1){
                     time.end= String(time.end).split('-')[1] + String(time.end).split('-')[2];
                 }else{
-                    if(String(time.end) > 4){
+                    if(String(time.end).length > 4){
                          time.end= this.formatDate(time.end);
                     }
                 }
                 if((String(time.start_w)).indexOf('-') != -1){
                     time.start_w= String(time.start_w).split('-')[1] + String(time.start_w).split('-')[2];
                 }else{
-                    if(String(time.start_w) > 4){
+                    if(String(time.start_w).length > 4){
                         time.start_w= this.formatDate(time.start_w);
                     }
                 }
                 if((String(time.end_w)).indexOf('-') != -1){
                     time.end_w= String(time.end_w).split('-')[1] + String(time.end_w).split('-')[2];
                 }else{
-                    if(String(time.end_w) > 4){
+                    if(String(time.end_w).length > 4){
                         time.end_w= this.formatDate(time.end_w);
                     }
                 }
+
+                console.log(time.start);
+
             }
             this.formData = {
                     token: getToken(),
@@ -969,6 +972,8 @@ export default {
                 search.startTime = search.startTime.getFullYear() + '-' + (search.startTime.getMonth() + 1) + '-' + search.startTime.getDate();
                 search.endTime = search.endTime.getFullYear() + '-' + (search.endTime.getMonth() + 1) + '-' + search.endTime.getDate();
             }
+            console.log(this.virtStep2Data)
+
             let _handle = this.virtStep2Data;
             _handle.forEach((data) => {   //进入每一行
                 let time = data.timetable;  //进入每一个的timetable对象
@@ -987,13 +992,16 @@ export default {
                 } else if(this.studyType == 2){
                     if(clasTimeS.length == 2){
                         clasTimeS = this.formatHourM(clasTimeS[0]) + "-" + this.formatHourM(clasTimeS[1]);
+                        console.log('clasTimeS-----'+clasTimeS)
                     }
                     this.summerYearTime += clasTimeS + ",";
+                    console.log('clasTimeS-----'+this.summerYearTime)
 
                     if(clasTimeW.length == 2){
                         clasTimeW = this.formatHourM(clasTimeW[0]) + "-" + this.formatHourM(clasTimeW[1]);
                     }
                     this.winerYearTime += clasTimeW + ",";
+                    console.log('clasTimeS-----'+this.winerYearTime)
                 }
 
                 circle.forEach((x) => {
@@ -1066,7 +1074,7 @@ export default {
                     timetable: encodeUnicode(JSON.stringify(this.virtDataTable)),
                 }
             }).then((res) => {
-                // console.log(res)
+                console.log(res)
                 if (res.status == 200) {
                     if(res.data.code!=400){
                         this.$notify({
@@ -1074,7 +1082,7 @@ export default {
                             type: 'success',
                             duration: 1000,
                             onClose: () => {
-                                window.location.reload(true);
+                                // window.location.reload(true);
                             }
                         });
                     }else{
@@ -1533,28 +1541,28 @@ export default {
                 if((String(time.start)).indexOf('-') != -1){
                     time.start= String(time.start).split('-')[1] + String(time.start).split('-')[2];
                 }else{
-                    if(String(time.start) > 4){
+                    if(String(time.start).length > 4){
                         time.start= this.formatDate(time.start);
                     }
                 }
                 if((String(time.end)).indexOf('-') != -1){
                     time.end= String(time.end).split('-')[1] + String(time.end).split('-')[2];
                 }else{
-                    if(String(time.end) > 4){
+                    if(String(time.end).length > 4){
                         time.end= this.formatDate(time.end);
                     }
                 }
                 if((String(time.start_w)).indexOf('-') != -1){
                     time.start_w= String(time.start_w).split('-')[1] + String(time.start_w).split('-')[2];
                 }else{
-                    if(String(time.start_w) > 4){
+                    if(String(time.start_w).length > 4){
                         time.start_w= this.formatDate(time.start_w);
                     }
                 }
                 if((String(time.end_w)).indexOf('-') != -1){
                     time.end_w= String(time.end_w).split('-')[1] + String(time.end_w).split('-')[2];
                 }else{
-                    if(String(time.end_w) > 4){
+                    if(String(time.end_w).length > 4){
                         time.end_w= this.formatDate(time.end_w);
                     }
                 }
