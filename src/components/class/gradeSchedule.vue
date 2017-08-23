@@ -18,6 +18,7 @@
                           <el-button type="primary" icon="plus" size="small" @click="takeover">代课</el-button>
                           <el-button type="primary" icon="plus" size="small" @click="takestop">停课</el-button>
                           <el-button type="primary" icon="plus" size="small" @click="adjust">调课</el-button>
+                          <el-button type="primary" icon="plus" size="small" @click="delet" v-if="WhetherShowDel">删除</el-button>
                           <el-button type="primary" icon="plus" size="small" @click="edit">编辑</el-button>
                           <el-button type="primary" icon="plus" size="small" @click="back">返回</el-button>
                         </el-button-group>
@@ -169,7 +170,7 @@
                         <li class="header">停课时间段：</li>
                         <li>
                             <div class="inline-block">
-                                <el-date-picker v-model="stoPstart" type="datetime" placeholder="选择日期"></el-date-picker>
+                                <el-date-picker v-model="stoPstart" type="datetime" placeholder="选择日期" :picker-options="pickerOptions1"></el-date-picker>
                             </div>
                             <div class="inline-block middle_zhi">至</div>
                             <div class="inline-block">
@@ -335,7 +336,7 @@ import editSubstance from '@/components/class/editSubstance'
 import editVirtual from '@/components/class/virtualclass'
 
 export default {
-    props: ['tabsStatus', 'derpartId', 'classType'],
+    props: ['tabsStatus', 'derpartId', 'classType', 'BOTHDATA', 'stopGrade', 'adjGrade'],
     data() {
         return {
             schedData: [],
@@ -362,6 +363,11 @@ export default {
             },
             stoPstart: '',
             pickerOptions2: {},
+            pickerOptions1: {
+                disabledDate(time) {
+                    return time.getTime() < Date.now() - 8.64e7;
+                }
+            },
             pickerOptions3: {},
             time: {
                 start: '',
@@ -401,12 +407,24 @@ export default {
             timeline2: '',
             editVirtStatus: true,   //虚拟班编辑课课表组件区分内容判断
             ScheduID: 0,   //虚拟把编辑初步展示页面请求内容
+            allFormData: {},
+            WhetherShowDel: false,
         }
     },
     created() {
-        if(!this.tabsStatus){
+        if(this.tabsStatus){
             // 课表名称
             info.classSche.call(this,this.derpartId);
+        }else if(this.stopGrade){  //年级停课
+            // console.log(this.BOTHDATA)
+            this.lookover = false;
+            this.class_stop = true;
+            info.classStopBegin.call(this,this.BOTHDATA);
+        }else if(this.adjGrade){   //年级调课
+            this.lookover = false;
+            this.class_adjust = true;
+            this.adj_step1 = true;
+            info.adjustStepA.call(this,this.BOTHDATA.MID,this.BOTHDATA.TYPE);
         }
         // console.log(this.classType);
         // console.log(this.derpartId);
@@ -415,6 +433,9 @@ export default {
         editSubstance, editVirtual
     },
     methods: {
+        delet(){
+            info.deleteClass.call(this,this.schedule_id);
+        },
         BadjSave(){
             info.adjustStepBs.call(this,this.recordId,this.adjTime1,this.adjTime2)
         },
@@ -425,7 +446,12 @@ export default {
             info.adjustStepB.call(this,rec);
         },
         adjNext(){
-            info.adjustStepAs.call(this,this.schedule_id,this.classType,this.radio,this.adjResson);
+            if(this.adjGrade){
+                info.adjustStepAs.call(this,this.BOTHDATA.MID,this.BOTHDATA.TYPE,this.radio,this.adjResson);
+            }else{
+                info.adjustStepAs.call(this,this.schedule_id,this.classType,this.radio,this.adjResson);
+            }
+
         },
         adjust(){
             this.lookover = false;
@@ -436,7 +462,7 @@ export default {
         stopSave(){
             info.classStopSave.call(this,this.classType,this.stoPtime,this.stopareaVal);
         },
-        takestop(){
+        takestop(){  //停课
             this.lookover = false;
             this.class_stop = true;
             info.classStopBegin.call(this,this.schedule_id);
@@ -478,29 +504,46 @@ export default {
             this.class_takeover = false;
         },
         stopCancel(){
-            this.lookover = true;
-            this.class_stop = false;
+            if(this.tabsStatus){
+                this.lookover = true;
+                this.class_stop = false;
+            }else if(this.stopGrade){
+                this.$emit("Cancel");
+            }
         },
         adjCancel(){
-            this.lookover = true;
-            this.adj_step1 = false;
-            this.class_adjust = false;
+            if(this.tabsStatus){
+                this.lookover = true;
+                this.adj_step1 = false;
+                this.class_adjust = false;
+            }else if(this.adjGrade){
+                this.$emit("Cancel");
+            }
+
         },
         BadjCancel(){
-            this.lookover = true;
-            this.adj_step2_B = false;
+            if(this.tabsStatus){
+                this.lookover = true;
+                this.adj_step2_B = false;
+            }else if(this.adjGrade){
+                this.$emit("Cancel");
+            }
         },
         AadjGofirst(){
-            adj_step1: true;
-            adj_step2_A: false;
-        },
-        AadjCancel(){
-            this.lookover = true;
+            this.adj_step1 = true;
             this.adj_step2_A = false;
         },
+        AadjCancel(){
+            if(this.tabsStatus){
+                this.lookover = true;
+                this.adj_step2_A = false;
+            }else if(this.adjGrade){
+                this.$emit("Cancel");
+            }
+        },
         BadjGofirst(){
-            adj_step1: true;
-            adj_step2_B: false;
+            this.adj_step1 = true;
+            this.adj_step2_B = false;
         },
         Setback_v(){
             window.location.reload(true);
@@ -536,7 +579,7 @@ export default {
             this.stoPtime.start = val;
             this.pickerOptions3 = {
                 disabledDate(time) {
-                    return time.getTime() > val.getTime() + 24*60*60*1000;
+                    return time.getTime() < val.getTime() + 24*60*60*1000;
                 }
             }
         },

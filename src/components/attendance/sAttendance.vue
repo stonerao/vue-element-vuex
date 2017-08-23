@@ -43,8 +43,7 @@
       search(){
         let data={
 
-        }
-        console.log(data);
+        };
       }
     }
   }

@@ -8,13 +8,25 @@
             <div class="kd-box-content">
                 <description :prompts="prompts" @PromPts="promptsTem"></description>
                 <!--模块开始  -->
+              <el-row :gutter="10" class="class-header">
+                <el-col :span="14" class="class-titles">
+                <span>
+                    <img src="../../assets/index/shuaxin.png" class="icon-img-xs marginleft5" />刷新-共{{total}}条记录
+                </span>
+                </el-col>
+                <el-col :span="10">
+                  <div class="float-right">
+                    <el-date-picker v-model="time" @change="timeChange" type="daterange" placeholder="选择日期范围" class="rt"></el-date-picker>
+                  </div>
+                </el-col>
+              </el-row>
                 <div v-if="state==0">
                     <!--教材订单  -->
-                    <teachingOrder @delete="deleteId" @timeChoose="chooseTime" :orderList="orderList" :total="total"></teachingOrder>
+                    <teachingOrder @delete="deleteId" :orderList="orderList"></teachingOrder>
                 </div>
                 <div v-if="state==1">
                     <!--空间购买  -->
-                    <spaceBuy></spaceBuy>
+                    <spaceBuy :spaceList="spaceList"  @delete="deleteId" @deleteMore="deleteMore" @buy="buyId"></spaceBuy>
                 </div>
               <div class="kd-page">
                 <el-row>
@@ -54,18 +66,21 @@ export default {
                 `历史考试`,
                 `xxxxxxxx`
             ],
-            state: 0,
+            state: 1,
             total:0,//总条数
             currentPage:1,//当前页
             pageSize:10,//每页显示数量
+            time:'',//选择日期
             sTime:'',//开始日期
             eTime:'',//结束日期
-            orderList:[],//订单列表
-            orderId:'',//删除订单id
+            orderList:[],//教材订单列表
+            orderId:'',//删除教材订单id
+            spaceList:[],//空间订单列表
+
         }
     },
     created() {
-      order.order_list.call(this)
+      this.refreshList();
     },
     components: {
         titleItem, titleActive, description, bottomItem,teachingOrder,spaceBuy
@@ -82,13 +97,17 @@ export default {
         },
       //刷新列表
       refreshList(){
-        order.order_list.call(this)
+          if(this.state==0){
+            order.order_list.call(this);
+          }else{
+            order.space_list.call(this);
+          }
       },
       //选择日期范围
-      chooseTime(val){
-          let arr=val.split(' ');
-          this.sTime=arr[0];
-          this.eTime=arr[2];
+      timeChange(val){
+        let arr=val.split(' ');
+        this.sTime=arr[0];
+        this.eTime=arr[2];
         this.refreshList();
       },
       //每页条数变化
@@ -104,6 +123,12 @@ export default {
       //删除订单
       deleteId(val){
         this.orderId=val;
+        if(this.state==1){
+          this.deleteList();
+        }
+      },
+      deleteMore(val){
+        this.orderId=val;
       },
       deleteList(){
         if(this.orderId!=""){
@@ -112,7 +137,11 @@ export default {
             cancelButtonText: '取消',
             type: 'warning'
           }).then(() => {
-            order.t_delete.call(this)
+            if(this.state==0){
+              order.t_delete.call(this)
+            }else{
+              order.space_list_delete.call(this)
+            }
           }).catch(() => {
             this.$message({
               type: 'info',
@@ -120,8 +149,34 @@ export default {
             });
           });
         }
+      },
+      //空间购买
+      buyId(id){
+        this.orderId=id;
+        if(this.orderId!=""){
+          this.$confirm('是否确定购买此空间?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            order.space_list_buy.call(this)
+          }).catch(() => {
+            this.$message({
+              type: 'info',
+              message: '已取消购买'
+            });
+          });
+        }
       }
-    }
+    },
+  watch:{
+      state(){
+        this.total=0;//总条数
+        this.currentPage=1;//当前页
+        this.pageSize=10;//每页显示数量
+        this.refreshList();
+      }
+  }
 }
 </script>
 
