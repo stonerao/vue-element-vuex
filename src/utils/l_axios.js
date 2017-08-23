@@ -1186,6 +1186,8 @@ export default {
                                 endTime: unixTimestampe.toLocaleString(),
                             }
                             this.moduleName = res.data.data.department_name;
+                            this.virtStep2Data = [];
+
                             if(res.data.data.school_time_type == 1){
                                 this.sesson = '夏季节次'
                                 this.studyType = 2;
