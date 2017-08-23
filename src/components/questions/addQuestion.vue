@@ -9,52 +9,58 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="所属分类">
-                    <el-select v-model="form.region" placeholder="请选择题库分类" class="width125" style="font-size:14px">
-                        <el-option label="区域一" value="shanghai"></el-option>
-                        <el-option label="区域二" value="beijing"></el-option>
+                    <el-select v-model="belongClass1" placeholder="题库一级分类" class="width125" style="font-size:14px">
+                        <el-option :label="item.qc_name" :value="item.qc_id" v-for="(item,index) in belongClass.items1" :key="index"></el-option>
+                    </el-select>
+                    <el-select v-model="belongClass2" placeholder="题库二级分类" class="width125" style="font-size:14px" v-if="belongClass1&&belongClass.items2.length!=0">
+                        <el-option :label="item.qc_name" :value="item.qc_id" v-for="(item,index) in belongClass.items2" :key="index"></el-option>
+                    </el-select>
+                    <el-select v-model="belongClass3" placeholder="题库三级分类" class="width125" style="font-size:14px" v-if="belongClass2&&belongClass.items3.length!=0">
+                        <el-option :label="item.qc_name" :value="item.qc_id" v-for="(item,index) in belongClass.items3" :key="index"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="年/班级、科目">
-                    <el-select v-model="form.region" placeholder="年纪" class="width125">
-                        <el-option label="区域一" value="shanghai"></el-option>
-                        <el-option label="区域二" value="beijing"></el-option>
-                    </el-select>
-                    <el-select v-model="form.region" placeholder="班级" class="width125">
-                        <el-option label="区域一" value="shanghai"></el-option>
-                        <el-option label="区域二" value="beijing"></el-option>
-                    </el-select>
-                    <el-select v-model="form.region" placeholder="科目" class="width125">
-                        <el-option label="区域一" value="shanghai"></el-option>
-                        <el-option label="区域二" value="beijing"></el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="试题来源：">
-                    <div style="display: inline-block;">
-                        <span>
-                            <el-select v-model="form.region" placeholder="科目" class="width100">
-                                <el-option label="区域一" value="shanghai"></el-option>
-                                <el-option label="区域二" value="beijing"></el-option>
-                            </el-select>
-                        </span>
-                        <span>
-                            <a class="marginleft15">试题难度：</a>
-                            <el-select v-model="form.region" placeholder="科目" class="width100">
-                                <el-option label="区域一" value="shanghai"></el-option>
-                                <el-option label="区域二" value="beijing"></el-option>
-                            </el-select>
-                        </span>
-                        <span>
-                            <a class="marginleft15">试题状态：</a>
-                            <el-select v-model="form.region" placeholder="科目" class="width100">
-                                <el-option label="区域一" value="shanghai"></el-option>
-                                <el-option label="区域二" value="beijing"></el-option>
-                            </el-select>
-                            <a class="hui-color">学生自测可见</a>
-                        </span>
-                    </div>
-                </el-form-item>
+                <!-- <el-form-item label="年/班级、科目">
+                                    <el-select v-model="form.region" placeholder="年纪" class="width125">
+                                        <el-option label="区域一" value="shanghai"></el-option>
+                                        <el-option label="区域二" value="beijing"></el-option>
+                                    </el-select>
+                                    <el-select v-model="form.region" placeholder="班级" class="width125">
+                                        <el-option label="区域一" value="shanghai"></el-option>
+                                        <el-option label="区域二" value="beijing"></el-option>
+                                    </el-select>
+                                    <el-select v-model="form.region" placeholder="科目" class="width125">
+                                        <el-option label="区域一" value="shanghai"></el-option>
+                                        <el-option label="区域二" value="beijing"></el-option>
+                                    </el-select>
+                                </el-form-item> -->
+                <!-- <el-form-item label="试题来源：">
+                                            <div style="display: inline-block;">
+                                                <span>
+                                                    <el-select v-model="form.region" placeholder="科目" class="width100">
+                                                        <el-option label="区域一" value="shanghai"></el-option>
+                                                        <el-option label="区域二" value="beijing"></el-option>
+                                                    </el-select>
+                                                </span>
+                                                <span>
+                                                    <a class="marginleft15">试题难度：</a>
+                                                    <el-select v-model="form.region" placeholder="科目" class="width100">
+                                                        <el-option label="区域一" value="shanghai"></el-option>
+                                                        <el-option label="区域二" value="beijing"></el-option>
+                                                    </el-select>
+                                                </span>
+                                                <span>
+                                                    <a class="marginleft15">试题状态：</a>
+                                                    <el-select v-model="form.region" placeholder="科目" class="width100">
+                                                        <el-option label="区域一" value="shanghai"></el-option>
+                                                        <el-option label="区域二" value="beijing"></el-option>
+                                                    </el-select>
+                                                    <a class="hui-color">学生自测可见</a>
+                                                </span>
+                                            </div>
+                                        </el-form-item> -->
                 <el-form-item label="试题题干">
-                    <el-input type="textarea" :rows="3" v-model="form.desc"></el-input>
+                    <!-- <el-input type="textarea" :rows="3" v-model="form.desc"></el-input> -->
+                    <quillEditor v-model="textF" style="min-height:200px"></quillEditor>
                 </el-form-item>
                 <el-form-item label="相关相片附件">
                     <el-upload action="https://jsonplaceholder.typicode.com/posts/" list-type="picture-card" :on-preview="handlePictureCardPreview" :on-remove="handleRemove">
@@ -64,10 +70,11 @@
                         <img width="100%" :src="dialogImageUrl" alt="">
                     </el-dialog>
                 </el-form-item>
+                <!-- 单选题 -->
                 <div v-if="questionClass==1">
                     <el-form-item label="选项设置">
                         <p>
-                            <el-button type="info" @click="pushRadio">增加选项</el-button>
+                            <button class="r-ques-addbutton" @click="pushRadio">增加选项</button>
                         </p>
                         <div class="r-question-radio" v-if="radioItems.length>0">
                             <el-row v-for="(item,index) in radioItems" :key="index">
@@ -83,32 +90,100 @@
                                 <el-col :span="2">
                                     <i class="el-icon-circle-close r-ques-delet" @click="delectRadio(index)"></i>
                                 </el-col>
-                            </el-row> 
+                            </el-row>
                         </div>
                     </el-form-item>
-                    <el-form-item label="试题解析" v-if="radioItems.length>0">
-                        <el-input type="textarea" :rows="3" v-model="form.desc"></el-input>
+    
+                </div>
+                <!-- 多选题 -->
+                <div v-if="questionClass==2">
+                    <el-form-item label="选项设置">
+                        <p>
+                            <button class="r-ques-addbutton" @click="pushRadio">增加选项</button>
+                        </p>
+                        <div class="r-question-radio" v-if="radioItems.length>0">
+                            <el-row v-for="(item,index) in radioItems" :key="index">
+                                <el-col :span="2">
+                                    <label>
+                                        <span class="marginright5">选项{{fileNum(index)}}</span>
+                                        <input type="checkbox" class="r-question-radio-select" v-model="radio" :value="index" />
+                                    </label>
+                                </el-col>
+                                <el-col :span="14">
+                                    <el-input type="textarea" :rows="2" v-model="item.title" placeholder="请输入相应题目" style="inline-block"></el-input>
+                                </el-col>
+                                <el-col :span="2">
+                                    <i class="el-icon-circle-close r-ques-delet" @click="delectRadio(index)"></i>
+                                </el-col>
+                            </el-row>
+                        </div>
+                    </el-form-item>
+    
+                </div>
+                <div v-if="questionClass==3">
+                    <el-form-item label="答案设置">
+                        <label>
+                            <input type="radio" class="r-question-radio-select" v-model="radio" value="1" />
+                            <span class="marginright5">正确</span>
+                        </label>
+                        <label class="marginleft10">
+                            <input type="radio" class="r-question-radio-select" v-model="radio" value="2" />
+                            <span class="marginright5">错误</span>
+                        </label>
+                    </el-form-item>
+                </div>
+                <div v-if="questionClass==4">
+                    <el-form-item label="答案设置">
+                        <p>
+                            <button class="r-ques-addbutton" @click="pushRadio">增加选项</button>
+                            <span class="hui-color">混杂模式批改（不按答题顺序批改用户答案）</span>
+                        </p>
+                        <div class="r-question-radio" v-if="radioItems.length>0" style="padding-bottom:0">
+                            <div class="r-duo-select" v-for="(item,index) in radioItems" :key="index">
+                                1：
+                                <el-input v-model="radio" placeholder="请输入内容" class="width125 marginleft5" size="small"></el-input>
+                                <i class="el-icon-circle-close r-ques-delet" @click="delectRadio(index)"></i>
+                            </div>
+    
+                            </el-row>
+                        </div>
                     </el-form-item>
                 </div>
                 <div v-if="questionClass==5">
                     <el-form-item label="答案设置">
                         <el-input type="textarea" :rows="3" v-model="form.desc"></el-input>
                     </el-form-item>
-                    <el-form-item label="参考答案">
+    
+                </div>
+                <div v-if="questionClass==6">
+                    <el-form-item label="答案设置">
                         <el-input type="textarea" :rows="3" v-model="form.desc"></el-input>
                     </el-form-item>
                 </div>
+                <el-form-item label="试题解析">
+                    <el-input type="textarea" :rows="3" v-model="form.desc"></el-input>
+                </el-form-item>
+                <el-form-item label="参考答案" v-if="questionClass!=1&&questionClass!=2&&questionClass!=3">
+                    <el-input type="textarea" :rows="3" v-model="referenceAnswer"></el-input>
+                </el-form-item>
+                <el-form-item label="是否共享题目">
+                    <el-switch v-model="selectVal" on-color="#13ce66" off-color="" on-text="是" off-text="否">
+                    </el-switch>
+                </el-form-item>
                 <el-form-item label=" ">
                     <el-button type="primary" @click="onSubmit">立即创建</el-button>
                     <el-button type="success">预览试题</el-button>
                     <el-button>取消</el-button>
                 </el-form-item>
             </el-form>
+    
         </div>
     </div>
 </template>
 <script>
 import store from '@/utils/questions'
+import Vue from 'vue'
+import { quillEditor } from 'vue-quill-editor'
 export default {
     data() {
         return {
@@ -125,25 +200,54 @@ export default {
             },
             dialogImageUrl: '',
             dialogVisible: false,
+            textF: '',//富文本编辑
             obj: {
                 questionClass: [],//试题分类
             },
             questionClass: '1',//试题分类
+            // 所属分类
+            belongClass: {
+                items1: [],
+                items2: [],
+                items3: [],
+            },
+            belongClass1: '',
+            belongClass2: '',
+            belongClass3: '',
+            isBelongSelect: false,//是否选择完成 为true表示没有下一级
             A_Z: ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "X", "Y", "Z"],
-            radio: '',//单选
-            radioItems: [],//单选题目 
             fileNum: (num) => {
                 num = parseInt(num);
                 if (num != NaN) {
                     return this.A_Z[num]
                 }
-            }
+            },
+            radio: '',//单选
+            radioItems: [{ title: '', name: '' }, { title: '', name: '' }, { title: '', name: '' }],//单选题目 
+            checkbox: '',//多选题
+            checkboxItems: [],//单选题目 
+            selectVal: true,//是否共享题目
+            referenceAnswer: '',//参考答案
         }
     },
     methods: {
         onSubmit() {
-            console.log('submit!');
-            console.log(this.radioItems)
+            let title, answer;
+            let status = parseInt(this.questionClass);
+            switch (status) {
+                case 1:
+                    // 选择题
+                    title = this.radioItems;
+                    answer = this.A_Z[this.radio];
+                    console.log(title, answer)
+                    break;
+                case 2: break;
+                case 3: break;
+                case 4: break;
+                case 5: break;
+                case 6: break;
+            }
+            store.questions_add.call(this, title, answer);
         },
         handleRemove(file, fileList) {
             console.log(file, fileList);
@@ -167,11 +271,18 @@ export default {
         delectRadio(index) {
             // 删除单选框
             this.radioItems.splice(index, 1)
-        }
+        },
+        question_classlist(id, status) {
+            // 所属分类
+            store.question_classlist.call(this, id, status)
+        },
+
     },
     created() {
         // 获取题干类型
         store.question_type.call(this)
+        // 获取所属分类第一集
+        this.question_classlist("", 1)
     },
     mounted() {
 
@@ -180,7 +291,35 @@ export default {
         questionClass(val) {
             // change question class
             this.form.questionClass = val;
+        },
+        belongClass1(val) {
+            // 所属分类1
+            this.belongClass.item2 = [];
+            this.belongClass.item3 = [];
+            this.belongClass2 = '';
+            this.belongClass3 = '';
+            this.question_classlist(val, 2);
+        },
+        belongClass2(val) {
+            // 所属分类2
+            this.belongClass.item3 = [];
+            this.belongClass3 = '';
+            this.question_classlist(val, 3);
         }
+    },
+    components: {
+        quillEditor
     }
 }
 </script>
+<<style>
+.ql-container,.ql-editor{
+    height:auto;
+    min-height:100px;
+}
+/* .el-upload--picture-card{
+        width: 100px;
+    height: 100px;line-height: 100px;
+} */
+
+</style>

@@ -125,7 +125,7 @@ export default {
             }
         }).then((res) => {
             if (res.status === 200) {
-                let data = res.data.data; 
+                let data = res.data.data;
                 data.forEach((x) => {
                     x.sex = x.st_sex == '1' ? '保密' : (x.st_sex == '2' ? '男' : '女');
                     x.cer = x.st_certificates == '0' ? '无' : (x.st_certificates == '2' ? '身份证' : '学生证');
@@ -224,7 +224,8 @@ export default {
     class_list(id) {
         this.$http(api.class_list, {
             params: {
-                id: id
+                id: id,
+                token: getToken(),
             }
         }).then((res) => {
             if (res.data.code == 200) {
