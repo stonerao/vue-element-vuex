@@ -12,7 +12,7 @@
                 <div v-if="state==0">
                     <setQuestion></setQuestion>
                 </div>
-                <div v-if="state==0">
+                <div v-if="state==1">
                     <addQuestion></addQuestion>
                 </div>
     
