@@ -278,7 +278,7 @@ export default {
 	        backModel_id: '', //第一步保存的回传的模板id
 	        EditBeginData: {}, //编辑第一步储存初始数据
 	        EditStatus: false,  //编辑第一步数据改变否
-	        _Status: false,   //
+	        backFirst: false,  //返回上一步辅助
         }
     },
     created() {
@@ -334,8 +334,21 @@ export default {
         	this.gradeModel_2 = false;
             this.gradeModel_1 = true;
             this.week_checkList = [];
-            this.rest_checkList = [0];
-            this.canNot = true;
+            this.rest_checkList = [];
+            this.studyNum = {   //虚拟班初始初始科目数
+                morbefore: 1,
+                morning: 1,
+                afternoon: 1,
+                night: 1
+            };
+            this.time = {
+            	start: '',
+            	end: '',
+            	start_w: '',
+            	end_w: ''
+            };
+            this.backFirst = true;
+    		info.creatGradeModela.call(this);
         },
         editStepTwo(mid){  
         	info.creatGradeModelb.call(this,mid);
@@ -368,15 +381,11 @@ export default {
 	        }
        	},
        	rest_checkList(val){
-
        		if(val == 0){
        			this.canNot = true;
        		}else{
        			this.canNot = false;
        		}
-       	},
-       	week_checkList(val){
-
        	}
     }
 }
