@@ -159,6 +159,30 @@
 					}
 				}
 			}
+			&.createCheckbox{
+				.el-table__row{
+					.cell{
+						padding: 0px;
+						text-align: center;
+						.el-checkbox,.el-checkbox__inner,.el-checkbox__input{
+							display: block;
+							width: 100%;
+							height: 40px;
+							border: none;
+    						border-radius:0px;
+    						&:after{
+    							border: none;
+    						}
+						}
+						.el-checkbox__input.is-disabled.is-checked .el-checkbox__inner{
+							background: #1997e4;
+						}
+						.el-checkbox__input.is-disabled .el-checkbox__inner{
+							background: #fff;
+						}
+					}
+				}
+			}
 			.el-table__row{
 				td{
 					.cell>div{
