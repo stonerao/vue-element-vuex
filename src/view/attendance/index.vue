@@ -9,19 +9,19 @@
                 <description :prompts="prompts" @PromPts="promptsTem"></description>
                 <!--请假管理-->
                 <div v-if="state==0&&addState!=1">
-                  <applyLeave :isClassLogin="isClassLogin" :total="total" :checkTypeList="checkTypeList" :list="leaveList" @apply="showAdd" @typeChange="changeType" @leaveApply="applyLeave"></applyLeave>
+                  <applyLeave :underTeacherList="underTeacherList" :isClassLogin="isClassLogin" :total="total" :checkTypeList="checkTypeList" :list="leaveList" @apply="showAdd" @typeChange="changeType" @leaveApply="applyLeave" @ChooseTeacher="teacherChoose"></applyLeave>
                 </div>
                 <!--调课管理-->
                 <div v-if="state==1&&addState!=1">
-                  <changeClass :total="total" :checkTypeList="checkTypeList" :list="changeList" @apply="showAdd" @typeChange="changeType"></changeClass>
+                  <changeClass :total="total" :checkTypeList="checkTypeList" :list="changeList" :underTeacherList="underTeacherList" @ChooseTeacher="teacherChoose" @apply="showAdd" @typeChange="changeType"></changeClass>
                 </div>
                 <!--代课管理-->
                 <div v-if="state==2&&addState!=1">
-                  <relieveClass :total="total" :checkTypeList="checkTypeList" :list="relList" @apply="showAdd" @typeChange="changeType"></relieveClass>
+                  <relieveClass :total="total" :checkTypeList="checkTypeList" :list="relList" @apply="showAdd" @typeChange="changeType" :underTeacherList="underTeacherList" @ChooseTeacher="teacherChoose" ></relieveClass>
                 </div>
                 <!--考勤统计-->
                 <div v-if="state==3">
-                  <attendance :total="total" :list="attList" :isClassLogin="isClassLogin" @attTimeChange="attTimeChange"></attendance>
+                  <attendance :total="total" :list="attList" :isClassLogin="isClassLogin" @attTimeChange="attTimeChange" :underTeacherList="underTeacherList" @ChooseTeacher="teacherChoose" ></attendance>
                 </div>
                 <!--待我审批-->
               <div v-if="state==4">
@@ -102,6 +102,7 @@ export default {
             isClassLogin:1,//登录状态（1.管理员；2.老师；3.学生）
             stime:'',//考勤统计时间开始
             etime:'',//考勤统计时间结束
+            underTeacherList:{},//获取某老师所处节点及向下所有节点的组织部门ID+老师ID+老师姓名
         }
     },
     created() {
@@ -127,7 +128,8 @@ export default {
           { name: "请假管理", index: 0 },
           { name: "考勤统计", index: 3 },
         ]
-      }
+      };
+      att.under_teacher_list.call(this);
     },
     components: {
         titleItem, titleActive, description, bottomItem,applyAdd,applyLeave,changeClass,relieveClass,attendance,waitApprove,sAttendance
@@ -267,6 +269,10 @@ export default {
       attTimeChange(stime,etime){
         this.stime=stime;
         this.etime=etime;
+        this.refreshList();
+      },
+      //获取某老师所处节点及向下所有节点的组织部门ID+老师ID+老师姓名
+      teacherChoose(){
         this.refreshList();
       }
     },
