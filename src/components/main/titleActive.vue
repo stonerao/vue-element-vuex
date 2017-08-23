@@ -1,6 +1,6 @@
 <template>
     <div>
-        <section class="kd-title-items">
+        <section class="kd-title-items" v-if="titles.length>0">
             <span class="kd-title-item" :class="state==item.index?'active':''" @click="emitTransfer(item.index,state)" v-for="(item,index) in titles">{{item.name}}</span>
         </section>
         

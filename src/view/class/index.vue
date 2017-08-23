@@ -204,7 +204,7 @@
                             <checkGradeSchedule :derpartId="derpartId" :classType="classType" :tabsStatus="tabsStatus" @BackCli="Setback"></checkGradeSchedule>
                         </div>
                     </div>
-                    <div v-if="state===1" class="l_timetable_outer">
+                    <div v-if="state===1" class="l_schedule_outer l_timetable_outer">
                         <gradeList :state="state"></gradeList>
                     </div>
                 </div>
@@ -236,7 +236,7 @@ export default {
                 `该页面展示管理员的操作日志，可进行删除。`,
                 `侧边栏可以进行高级搜索`
             ],
-            state: 0,  //tabs的header
+            state: 1,  //tabs的header
             tab_0: true, //总课表及排课切换
             tab_1: false, 
             tab_2: false, 

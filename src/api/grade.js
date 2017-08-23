@@ -21,6 +21,19 @@ export const api = {
     virtualB:'Admin/Grade/virtual_schedule_model_add',  //虚拟班排课第一步保存
     virtualC:'Admin/Grade/virtual_schedule_show',  //虚拟班排课第二步展示页面
     virtualD:'Admin/Grade/virtual_schedule_add',  //虚拟班排课第二步保存页面
+    EditVirtStep_a:'Admin/Grade/virtual_schedule_model_edit_show',  //虚拟班--编辑--第一项--展示页面
+    EditVirtStep_A:'Admin/Grade/virtual_schedule_model_edit',  //虚拟班--编辑--第一项--保存
+    EditVirtStep_b:'Admin/Grade/virtual_schedule_edit_show',  //虚拟班--编辑--第二项--展示页面
+    EditVirtStep_B1:'Admin/Grade/virtual_schedule_edit1',  //虚拟班--编辑初始改变--第二项--保存
+    EditVirtStep_B2:'/Admin/Grade/virtual_schedule_edit2',  //虚拟班--编辑初始未改变--第二项--保存
     gradeAllList:'Admin/Grade/grade_list',  //年级课表总列表
     gradeCheckModle:'Admin/Grade/show_grade_info',  //年级课表总列表--查看模板
+    creatGradeModela:'Admin/Grade/show_grade_add_one',   //年级模板创建---第一步展示 
+    creatGradeModelA:'Admin/Grade/grade_add_one',   //年级模板创建---第一步保存 
+    creatGradeModelb:'Admin/Grade/show_grade_add_two',   //年级模板创建---第二步展示 
+    creatGradeModelB:'Admin/Grade/grade_add_two',   //年级模板创建---第二步保存 
+    editGradeModel_a:'Admin/Grade/show_grade_edit_one',   //年级模板编辑 --  第一步-展示
+    editGradeModel_A:'Admin/Grade/grade_edit_one',   //年级模板编辑 --  第一步-保存
+    editGradeModel_b:'Admin/Grade/show_grade_edit_two',   //年级模板编辑 --  第二步-展示
+    editGradeModel_B:'Admin/Grade/grade_edit_two',   //年级模板编辑 --  第二步-保存
 }

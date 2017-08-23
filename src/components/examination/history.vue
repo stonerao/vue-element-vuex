@@ -47,7 +47,7 @@
             </el-table-column>
             <el-table-column prop="fen" label="试卷得分" show-overflow-tooltip>
             </el-table-column>
-            <el-table-column label="及格试卷/卷面总分" show-overflow-tooltip>
+            <el-table-column label="及格试卷/卷面总分"   width="160"  show-overflow-tooltip>
                 <template scope="scope">
                     90/150
                 </template>

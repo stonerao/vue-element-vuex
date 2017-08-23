@@ -54,7 +54,7 @@
             </el-table-column>
             <el-table-column prop="address" label="操作" show-overflow-tooltip>
                 <template scope="scope">
-                    <el-button size="mini" icon='edit'>进入考试</el-button>
+                    <el-button size="mini" icon='edit' @click="goExam">进入考试</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -64,10 +64,12 @@
                 </el-pagination> -->
             </el-col>
         </el-row>
+        <!-- <alertExam></alertExam> -->
     </div>
 </template>
 
 <script>
+import alertExam from '@/components/examination/alertExam'
 export default {
     data() {
         return {
@@ -113,7 +115,15 @@ export default {
         },
         handleSelectionChange(val) {
             this.multipleSelection = val;
+        },
+        goExam(id){
+            // 开始考试
+
+
         }
+    },
+    components:{
+        alertExam
     }
 }
 </script>

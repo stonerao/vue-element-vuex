@@ -35,7 +35,7 @@ export default {
                     id: objId.c_id
                 }
             }).then((res) => {
-                console.log(res);
+                // console.log(res);
                 if (res.status === 200) {
                     let data = res.data.data.list;
                     if (data.length != 0) {
@@ -84,7 +84,7 @@ export default {
                     type: obj.classType
                 }
             }).then((res) => {
-                console.log(res);
+                // console.log(res);
                 this.model = {};
                 if (res.status === 200) {
                     if(obj.classType == 1){
@@ -114,7 +114,7 @@ export default {
                                 x.length = days.length;
                                 this.tableData.push(x)
                             });
-                            console.log(this.tableData);
+                            // console.log(this.tableData);
                             this.ajax();  //请求科目列表
                             this.editData.scheTableOrder = res.data.data.department_name;
                         }else{
@@ -203,13 +203,18 @@ export default {
                     type: type
                 }
             }).then((res) => {
-                console.log(res);
+                // console.log(res);
                 if (res.status === 200) {
                     if(res.data.code!=400){
                        this.adjArea = res.data.data.range_name;
                     }else{
-                        this.$notify.error({
-                            message: res.data.data.error
+                        this.$notify({
+                            message: res.data.data.error,
+                            type: 'error',
+                            duration: 1000,
+                            onClose: () => {
+                                window.location.reload(true);
+                            }
                         });
                         this.loading = false;
                     }
@@ -229,7 +234,7 @@ export default {
                     record_id: rec
                 }
             }).then((res) => {
-                console.log(res);
+                // console.log(res);
                 if (res.status === 200) {
                     if(res.data.code!=400){
                         this.changetype = res.data.data.change_type;
@@ -277,7 +282,7 @@ export default {
                     school_time2: adjTime2.B,
                 }
             }).then((res) => {
-                console.log(res)
+                // console.log(res)
                 if (res.status == 200) {
                     if(res.data.code!=400){
                         this.$notify({
@@ -358,7 +363,7 @@ export default {
                     }
                 })
             });
-            console.log(this.taData);
+            // console.log(this.taData);
             this.$http({
                 url: api.scheduleSave,
                 method: 'post',
@@ -412,6 +417,7 @@ export default {
                     if(res.data.code!=400){
                         this.schedule_id = res.data.data[0].schedule_id;
                         this.scheduleId = this.schedule_id;   //编辑实体班课表时用
+                        this.ScheduID = this.schedule_id;   //编辑虚拟班时用
                         this.scheTableHeader = res.data.data
                         this.Ajax(this.schedule_id);
                     }else{
@@ -509,7 +515,7 @@ export default {
                     operate_reason: reason
                 }
             }).then((res) => {
-                console.log(res)
+                // console.log(res)
                 if (res.status == 200) {
                     if(res.data.code!=400){
                         this.$notify({
@@ -609,7 +615,7 @@ export default {
                     replace_end_time: time.end
                 }
             }).then((res) => {
-                console.log(res);
+                // console.log(res);
                 if (res.status === 200) {
                     if(res.data.code!=400){
                         this.subject = res.data.data;
@@ -638,7 +644,7 @@ export default {
                     replace_end_time: time.end
                 }
             }).then((res) => {
-                console.log(res);
+                // console.log(res);
                 if (res.status === 200) {
                     if(res.data.code!=400){
                         this.teacher = res.data.data;
@@ -665,13 +671,18 @@ export default {
                     type: this.classType
                 }
             }).then((res) => {
-                console.log(res);
+                // console.log(res);
                 if (res.status === 200) {
                     if(res.data.code!=400){
                         this.stopArea = res.data.data.range_name;
                     }else{
-                        this.$notify.error({
-                            message: res.data.data.error
+                        this.$notify({
+                            message: res.data.data.error,
+                            type: 'error',
+                            duration: 1000,
+                            onClose: () => {
+                                window.location.reload(true);
+                            }
                         });
                         this.loading = false;
                     }
@@ -683,7 +694,7 @@ export default {
             })
         },
 
-        // 虚拟班排课第一步--保存
+        // 虚拟班代课第一步--保存
         takeoverSubmit(sid,time,subId) {
             this.$http({
                 url: api.takeoverSubmit,
@@ -698,7 +709,7 @@ export default {
                     operate_reason: this.textareaVal
                 }
             }).then((res) => {
-                console.log(res);
+                // console.log(res);
                 if (res.status === 200) {
                     if(res.data.code!=400){
                         this.$notify({
@@ -750,6 +761,7 @@ export default {
 
         // 虚拟班排课第一步--保存
         virtualArrangeB(departId,teachStr,teachNum,hourType,time) {
+            // console.log(time);
             if(teachStr){
                 let newWeek = teachStr;
                 for(var i=0;i<newWeek.length;i++){
@@ -758,15 +770,33 @@ export default {
                 this.week_checkList_string = newWeek.sort().join(",");
             }
             if(hourType == 2){
-                time.start = this.formatDate(time.start);
-                time.end = this.formatDate(time.end);
-                time.start_w = this.formatDate(time.start_w);
-                time.end_w = this.formatDate(time.end_w);
+                // let _time = [time.start ,time.end, time.start_w, time.end_w];  //处理编辑情况第一步时间处理
+                // _time.forEach((x)=> {
+                //     console.log(x);
+                //     if((String(x)).indexOf('-') != -1){  
+                //         x = (x).split('-')[1] + (x).split('-')[2];
+                //     }else{
+                //         x = this.formatDate(x);
+                //     };
+                // })
+                if((String(time.start)).indexOf('-') != -1){
+                }else{
+                    time.start= this.formatDate(time.start);
+                }
+                if((String(time.end)).indexOf('-') != -1){
+                }else{
+                    time.end= this.formatDate(time.end);
+                }
+                if((String(time.start_w)).indexOf('-') != -1){
+                }else{
+                    time.start_w= this.formatDate(time.start_w);
+                }
+                if((String(time.end_w)).indexOf('-') != -1){
+                }else{
+                    time.end_w= this.formatDate(time.end_w);
+                }
             }
-            this.$http({
-                url: api.virtualB,
-                method: 'post',
-                data: {
+            this.formData = {
                     token: getToken(),
                     department_id: departId,
                     model_name: this.moduleName,
@@ -777,21 +807,69 @@ export default {
                     summer_hours_end_time: time.end,   
                     winter_hours_start_time: time.start_w,   
                     winter_hours_end_time: time.end_w,   
-                }
+            };
+            if(this.distinguish){
+                this.urlData = api.virtualB;
+            }else{  
+                this.urlData = api.EditVirtStep_A;
+                this.formData.schedule_id = this.editScheID;
+            }
+            this.$http({
+                url: this.urlData,
+                method: 'post',
+                data: this.formData
             }).then((res) => {
-                console.log(res);
                 if (res.status === 200) {
                     if(res.data.code!=400){
-                        this.modelId = res.data.model_id;
-                        this.$notify({
-                            message: res.data.data,
-                            type: 'success',
-                            duration: 1000,
-                            onClose: () => {
-                                this.virtual_1 = false;
-                                this.virtual_2 = true;
+                        if(this.distinguish){
+                            this.modelId = res.data.data.model_id;
+                            this.$notify({
+                                message: res.data.data.data,
+                                type: 'success',
+                                duration: 1000,
+                                onClose: () => {
+                                    this.virtual_1 = false;
+                                    this.virtual_2 = true;
+                                }
+                            });
+                        }else{   //编辑虚拟班提交
+                            let _change = [this.formData.department_id, this.formData.model_name, this.formData.teaching_day, this.formData.teaching_num, this.formData.hours_type, this.formData.summer_hours_start_time, this.formData.summer_hours_end_time, this.formData.winter_hours_start_time, this.formData.winter_hours_end_time];
+                            let _changeBefore = [this.editVirBeginData.department_id, this.editVirBeginData.department_name, this.editVirBeginData.teaching_day, this.editVirBeginData.teaching_num, this.editVirBeginData.hours_type, this.editVirBeginData.summer_hours_start_time, this.editVirBeginData.summer_hours_end_time, this.editVirBeginData.winter_hours_start_time, this.editVirBeginData.winter_hours_end_time];
+                            let _status = false;  //数据没改变
+                            _change.forEach((data,index)=> {
+                                if(data != _changeBefore[index]){
+                                    _status = true;
+                                    return;
+                                }
+                            })
+                            this.editStatus = true;
+                            this.editModelID = res.data.data.model_id;  //编辑第二步展示页面传输数据
+                            if(_status){
+                                this.editStepTwoA = true;
+                                this.$notify({    
+                                    message: '初始变更！',
+                                    type: 'success',
+                                    duration: 1000,
+                                    onClose: () => {
+                                        this.virtual_1 = false;
+                                        this.virtual_2 = true;
+                                    }
+                                });
+                            }else{
+                                this.editStepTwoB = true;
+                                this.derpartID = res.data.data.department_id;
+                                this.$notify({
+                                    message: '初始未改变！',
+                                    type: 'success',
+                                    duration: 1000,
+                                    onClose: () => {
+                                        this.virtual_1 = false;
+                                        this.virtual_2 = true;
+                                    }
+                                });
                             }
-                        });
+                            // console.log(this.editVirBeginData);
+                        }
                     }else{
                         this.$notify.error({
                             message: res.data.data.error
@@ -815,7 +893,7 @@ export default {
                     model_id: id,
                 }
             }).then((res) => {
-                console.log(res);
+                // console.log(res);
                 if (res.status === 200) {
                     if(res.data.code!=400){
                         this.moduleName = res.data.data.model_name;
@@ -834,19 +912,19 @@ export default {
                         });
                     }else{
                         this.$notify.error({
-                            message: res.data.data.error
+                            message: res.data.data
                         });
                     }
                 }else {
                     this.$notify.error({
-                        message: res.data.data.error
+                        message: res.data.data
                     });
                 }
             })
         },
 
         //虚拟班排课第二步--保存
-        virtualArrangeD(mod,search) {
+        virtualArrangeD(mod,search,sid) {
             // 有效期转换
             if(search.startTime != '' && search.endTime != ''){
                 search.startTime = search.startTime.getFullYear() + '-' + (search.startTime.getMonth() + 1) + '-' + search.startTime.getDate();
@@ -912,13 +990,307 @@ export default {
                 this.summerYearTime = this.summerYearTime.substring(0,this.summerYearTime.length-1);
                 this.winerYearTime = this.winerYearTime.substring(0,this.winerYearTime.length-1);
             }
-
-            // console.log(this.virtDataTable);
+            this.formDataA = {
+                token: getToken(),
+                name: search.name,  //学期名字
+                model_id: mod.id,
+                department_id: mod.deparId,   //班级id
+                end_time: search.endTime,
+                start_time: search.startTime,
+                teaching_each_day: this.teachingsDay,
+                summer_hours_time: this.summerYearTime,
+                winter_hours_time: this.winerYearTime,
+                year_hours_time: this.allYeartime,
+                timetable: encodeUnicode(JSON.stringify(this.virtDataTable)),
+            }
+            if(this.editVStakeover){  //编辑第二步保存
+                this.formDataA.schedule_id = sid;
+                this.apiURL = api.EditVirtStep_B1;
+            }else{
+                this.apiURL = api.virtualD;
+            }
+            console.log(this.virtDataTable);
             this.$http({
-                url: api.virtualD,
+                url: this.apiURL,
                 method: 'post',
                 data: {
                     token: getToken(),
+                    name: search.name,  //学期名字
+                    model_id: mod.id,
+                    department_id: mod.deparId,   //班级id
+                    end_time: search.endTime,
+                    start_time: search.startTime,
+                    teaching_each_day: this.teachingsDay,
+                    summer_hours_time: this.summerYearTime,
+                    winter_hours_time: this.winerYearTime,
+                    year_hours_time: this.allYeartime,
+                    timetable: encodeUnicode(JSON.stringify(this.virtDataTable)),
+                }
+            }).then((res) => {
+                // console.log(res)
+                if (res.status == 200) {
+                    if(res.data.code!=400){
+                        this.$notify({
+                            message: res.data.data,
+                            type: 'success',
+                            duration: 1000,
+                            onClose: () => {
+                                window.location.reload(true);
+                            }
+                        });
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
+        // 虚拟班-编辑-第一步-展示页面
+        EditVirtStep_a(sid) {
+            this.$http(api.EditVirtStep_a, {
+                params: {
+                    token: getToken(),
+                    schedule_id: sid
+                }
+            }).then((res) => {
+                // console.log(res);
+                if (res.status === 200) {
+                    if(res.data.code!=400){
+                        this.moduleName = res.data.data.department_name;   
+                        this.editVirBeginData = res.data.data;
+                        this.editScheID = res.data.data.schedule_id;   //编辑第二步
+                        let week_begin = (res.data.data.teaching_day).split(',');
+                            week_begin.forEach((x)=> {
+                                x = parseInt(x) - 1;
+                                this.week_checkList.push(x);   //虚拟班初始星期日
+                            });
+                        let studyNum_begin = (res.data.data.teaching_num).split(',');
+                        let study_cache = [];
+                            studyNum_begin.forEach((x)=> {
+                                x = parseInt(x);
+                                study_cache.push(x);   //虚拟班初始星期日
+                            });
+                        this.studyNum = {   //虚拟班初始初始科目数
+                            morbefore: study_cache[0],
+                            morning: study_cache[1],
+                            afternoon: study_cache[2],
+                            night: study_cache[3]
+                        }
+                        this.rest_checkList.push(parseInt(res.data.data.hours_type)-1);
+                        if(this.rest_checkList[0] == 1){  //分季节
+                            this.startTimeVal = this.formatMd(res.data.data.summer_hours_start_time);
+                            this.endTimeVal = this.formatMd(res.data.data.summer_hours_end_time);
+                            this.startTimeVal_W = this.formatMd(res.data.data.winter_hours_start_time);
+                            this.endTimeVal_W = this.formatMd(res.data.data.winter_hours_end_time);
+                        }
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
+        // 虚拟班-编辑-第二步展示页面
+        EditVirtStep_b(mid,sid,did) {
+            if(this.editStepTwoA){
+                this.ApiUrlData = api.EditVirtStep_b;
+                this.editFormData = {
+                    token: getToken(),
+                    model_id: mid,
+                    schedule_id: sid,
+                }
+            }else if(this.editStepTwoB){
+                this.ApiUrlData = api.checkGradeSche;
+                this.editFormData = {
+                    token: getToken(),
+                    id: did,
+                    schedule_id: sid,
+                }
+            }
+            this.$http(this.ApiUrlData, {
+                params: this.editFormData
+            }).then((res) => {
+                console.log(res);
+                if (res.status === 200) {
+                    if(res.data.code!=400){
+                       if(this.editStepTwoA){
+                            this.moduleName = res.data.data.model_name;
+                            this.studyType = res.data.data.time_line;
+                            this.model.deparId = res.data.data.department_id;
+                            this.default_day = res.data.data.default_day;
+                            this.loading = false;
+                            
+                            let virtStep2Data = res.data.data.list;
+                            virtStep2Data.forEach((x) => {
+                                x.class_timeS = [];
+                                x.class_timeW = [];
+                                x.class_time = [];
+                                x.teachDay = [];
+                                this.virtStep2Data.push(x)
+                            });
+                        }else if(this.editStepTwoB){
+                            //时间戳转换年月日
+                            Date.prototype.toLocaleString = function() {
+                                return this.getFullYear() + "-" + (this.getMonth() + 1) + "-" + this.getDate();
+                            };
+                            let unixTimestamps = new Date( res.data.data.schedule_start_time*1000),
+                                unixTimestampe = new Date( res.data.data.schedule_end_time*1000);
+                            this.searchInline={
+                                name: res.data.data.schedule_name,
+                                startTime: unixTimestamps.toLocaleString(),
+                                endTime: unixTimestampe.toLocaleString(),
+                            }
+                            this.moduleName = res.data.data.department_name;
+                            if(res.data.data.school_time_type == 1){
+                                this.sesson = '夏季节次'
+                                this.studyType = 2;
+                            }else if(res.data.data.school_time_type == 2){
+                                this.sesson = '冬季节次'
+                                this.studyType = 2;
+                            }else if(res.data.data.school_time_type == 3){
+                                this.sesson = '全年节次'
+                                this.studyType = 1;
+                            }
+                            let virtStep2Data = res.data.data.model_common;
+                            if(this.studyType = 1){
+                                virtStep2Data.forEach((x) => {
+                                    x.class_timeS = [];
+                                    x.class_timeW = [];
+                                    x.class_time = [new Date(2016, 9, 10, x.schedule_time.split('-')[0].split(':')[0], x.schedule_time.split('-')[0].split(':')[1]),new Date(2016, 9, 10, x.schedule_time.split('-')[1].split(':')[0], x.schedule_time.split('-')[0].split(':')[1])];
+                                    x.teachDay = [];
+                                    x.timetable = x.content;
+                                    this.virtStep2Data.push(x);
+                                });
+                            }else{
+                                virtStep2Data.forEach((x) => {
+                                    x.class_timeS = [new Date(2016, 9, 10, x.schedule_time.split(',')[0].split(':')[0]),new Date(2016, 9, 10, x.schedule_time.split(',')[0].split(':')[0])];
+                                    x.class_timeW = [new Date(2016, 9, 10, x.schedule_time.split(',')[1].split(':')[0]),new Date(2016, 9, 10, x.schedule_time.split(',')[1].split(':')[0])];
+                                    x.class_time = [];
+                                    x.teachDay = [];
+                                    x.timetable = x.content;
+                                    this.virtStep2Data.push(x);
+                                });
+                            }
+                        }
+                        this.loading =false;
+                    }else{
+                        this.$notify({
+                            message: res.data.data.error,
+                            type: 'error',
+                            duration: '1000',
+                            onClose: () => {
+                                window.location.reload(true);
+                            }
+                        });
+                        this.loading = false;
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
+        //虚拟班-编辑-第二步--保存（初始数据改变了）
+        EditVirtStep_B1(mod,search,sid) {
+            if(!this.editVStake){
+                this.ApUrlData =  api.EditVirtStep_B1;
+            }else{
+                this.ApUrlData =  api.EditVirtStep_B2;
+            }
+            // 有效期转换
+            if(search.startTime != '' && search.endTime != ''){
+                if((String(search.startTime)).indexOf('-') != -1){
+
+                }else{
+                    search.startTime = search.startTime.getFullYear() + '-' + (search.startTime.getMonth() + 1) + '-' + search.startTime.getDate();
+                };
+                if((String(search.endTime)).indexOf('-') != -1){
+
+                }else{
+                    search.endTime = search.endTime.getFullYear() + '-' + (search.endTime.getMonth() + 1) + '-' + search.endTime.getDate();
+                };
+            }
+            let _handle = this.virtStep2Data;
+            _handle.forEach((data) => {   //进入每一行
+                let time = data.timetable;  //进入每一个的timetable对象
+                let circle =[time.day1, time.day2, time.day3, time.day4, time.day5, time.day6, time.day7];
+                let rownull = 0;
+                let circul = 0;
+                let split = "#";
+                let classTime = data.class_time;
+                let clasTimeS = data.class_timeS;  
+                let clasTimeW = data.class_timeW;
+                if(this.studyType == 1){ //全年制数据
+                    if(classTime.length == 2){
+                        classTime = this.formatHourM(classTime[0]) + "-" + this.formatHourM(classTime[1]);
+                    }
+                    this.allYeartime += classTime + ",";
+                } else if(this.studyType == 2){
+                    if(clasTimeS.length == 2){
+                        clasTimeS = this.formatHourM(clasTimeS[0]) + "-" + this.formatHourM(clasTimeS[1]);
+                    }
+                    this.summerYearTime += clasTimeS + ",";
+
+                    if(clasTimeW.length == 2){
+                        clasTimeW = this.formatHourM(clasTimeW[0]) + "-" + this.formatHourM(clasTimeW[1]);
+                    }
+                    this.winerYearTime += clasTimeW + ",";
+                }
+
+                circle.forEach((x) => {
+                    if(x){
+                        circul++;
+                        if(x.s_id != ''){  //进入每一个对象筛选s_sid是否为空
+                            data.teachDay.push(x.week_day);
+
+                            if(this.studyType == 1){
+                                x.class_time = classTime;
+                            } else if(this.studyType == 2){
+                                x.class_time += clasTimeS + "," + clasTimeW;
+                            }
+                            this.virtDataTable.push(x);
+                        } else{
+                            rownull++;
+                        }
+                    }
+                });
+                if(rownull == circul){
+                    split = this.default_day + "#";
+                };
+                this.teachingsDay += data.teachDay.sort().join(",") + split;
+
+            });
+            this.teachingsDay = this.teachingsDay.substring(0,this.teachingsDay.length-1);
+            if(this.studyType == 1){
+                this.summerYearTime = "";
+                this.winerYearTime = "";
+                this.allYeartime = this.allYeartime.substring(0,this.allYeartime.length-1);
+            }else if(this.studyType == 2){
+                this.allYeartime = "";
+                this.summerYearTime = this.summerYearTime.substring(0,this.summerYearTime.length-1);
+                this.winerYearTime = this.winerYearTime.substring(0,this.winerYearTime.length-1);
+            }
+            // console.log(this.virtDataTable)
+            this.$http({
+                url: this.ApUrlData,
+                method: 'post',
+                data: {
+                    token: getToken(),
+                    schedule_id: sid,
                     name: search.name,  //学期名字
                     model_id: mod.id,
                     department_id: mod.deparId,   //班级id
@@ -964,7 +1336,7 @@ export default {
                     curpage: obj.one_pagenum,
                 }
             }).then((res) => {
-                console.log(res);
+                // console.log(res);
                 if (res.status === 200) {
                     if(res.data.code!=400){
                         let data = res.data.data;
@@ -1012,9 +1384,10 @@ export default {
                 // console.log(res);
                 if (res.status === 200) {
                     if(res.data.code!=400){
-                        this.switch_0 = false;
-                        this.switch_1 = true;
                         this.loading = false;
+                        this.moduleName = res.data.data.model_name;
+                        this.studyType = res.data.data.time_line;
+                        this.EditGradeData = res.data.data.list;
                     }else{
                         this.$notify.error({
                             message: res.data.data.error
@@ -1029,14 +1402,402 @@ export default {
             })
         },
 
+        // 年级模板创建--第一步-展示
+        creatGradeModela(did) {
+            if(this.creatGrade){
+                this.commonSubmit_a = {
+                    apiUrl: api.creatGradeModela,
+                    formData: {
+                        token: getToken(),
+                        department_id: did,
+                    }
+                }
+            }else if(this.editDrade){
+                this.commonSubmit_a = {
+                    apiUrl: api.editGradeModel_a,
+                    formData: {
+                        token: getToken(),
+                        model_id: this.EditModuleID,
+                    }
+                }
+            }
+            this.$http(this.commonSubmit_a.apiUrl, {
+                params: this.commonSubmit_a.formData
+            }).then((res) => {
+                console.log(res);
+                if (res.status === 200) {
+                    if(res.data.code!=400){
+                        if(this.creatGrade){  //创建模板
+                            this.moduleName = res.data.data.department_name;
+                        }else if(this.editDrade){  //编辑模板-第一步-展示
+                            this.moduleName = res.data.data.model_name;
+                            this.EditBeginData = res.data.data;   //储存编辑初始数据
+                            let week_begin = (res.data.data.teaching_day).split(',');
+                                week_begin.forEach((x)=> {
+                                    x = parseInt(x) - 1;
+                                    this.week_checkList.push(x);   //虚拟班初始星期日
+                                });
+                            let studyNum_begin = (res.data.data.teaching_num).split(',');
+                            let study_cache = [];
+                                studyNum_begin.forEach((x)=> {
+                                    x = parseInt(x);
+                                    study_cache.push(x);   //虚拟班初始星期日
+                                });
+                            this.studyNum = {   //虚拟班初始初始科目数
+                                morbefore: study_cache[0],
+                                morning: study_cache[1],
+                                afternoon: study_cache[2],
+                                night: study_cache[3]
+                            }
+                            this.rest_checkList.push(parseInt(res.data.data.hours_type)-1);
+                            if(this.rest_checkList[0] == 1){  //分季节
+                                this.startTimeVal = this.formatMd(res.data.data.summer_hours_start_time);
+                                this.endTimeVal = this.formatMd(res.data.data.summer_hours_end_time);
+                                this.startTimeVal_W = this.formatMd(res.data.data.winter_hours_start_time);
+                                this.endTimeVal_W = this.formatMd(res.data.data.winter_hours_end_time);
+                            }
+                        }
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                        this.loading = false;
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
+        // 创建年级模板-第一步--保存
+        creatGradeModelA(departId,teachStr,teachNum,hourType,time) {
+            if(teachStr){
+                let newWeek = teachStr;
+                for(var i=0;i<newWeek.length;i++){
+                    newWeek[i]++;
+                };
+                this.week_checkList_string = newWeek.sort().join(",");
+            }
+            if(hourType == 2){  //冬夏作息
+                if((String(time.start)).indexOf('-') != -1){
+                }else{
+                    time.start= this.formatDate(time.start);
+                }
+                if((String(time.end)).indexOf('-') != -1){
+                }else{
+                    time.end= this.formatDate(time.end);
+                }
+                if((String(time.start_w)).indexOf('-') != -1){
+                }else{
+                    time.start_w= this.formatDate(time.start_w);
+                }
+                if((String(time.end_w)).indexOf('-') != -1){
+                }else{
+                    time.end_w= this.formatDate(time.end_w);
+                }
+            }
+            this.commonSubmit_A.formData = {
+                    token: getToken(),
+                    department_id: departId,
+                    model_name: this.moduleName,
+                    teaching_day: this.week_checkList_string,
+                    teaching_num: teachNum,
+                    hours_type: hourType,   //作息方式
+                    summer_hours_start_time: time.start,
+                    summer_hours_end_time: time.end,   
+                    winter_hours_start_time: time.start_w,   
+                    winter_hours_end_time: time.end_w,   
+            };
+            if(this.creatGrade){  //创建
+                this.commonSubmit_A.apiUrl = api.creatGradeModelA;
+            }else if(this.editDrade){   //编辑
+                this.commonSubmit_A.apiUrl = api.editGradeModel_A;
+                this.commonSubmit_A.formData.model_id = this.EditModuleID;
+            }
+            this.$http({
+                url: this.commonSubmit_A.apiUrl,
+                method: 'post',
+                data: this.commonSubmit_A.formData
+            }).then((res) => {
+                console.log(res);
+                if (res.status === 200) {
+                    if(res.data.code!=400){
+                        if(this.creatGrade){
+                            this.backModel_id = res.data.data.model_id;  //为第二步展示页面用
+                            this.$notify({
+                                message: '进入下一步',
+                                type: 'success',
+                                duration: 1000,
+                                onClose: () => {
+                                    this.loading = true;
+                                    this.gradeModel_1 = false;
+                                    this.gradeModel_2 = true;
+                                    this.creatStep_b(this.backModel_id);
+                                }
+                            });
+                        }else if(this.editDrade){   //编辑
+
+                            let _change = [ this.commonSubmit_A.formData.model_name, this.commonSubmit_A.formData.teaching_day, this.commonSubmit_A.formData.teaching_num, this.commonSubmit_A.formData.hours_type, this.commonSubmit_A.formData.summer_hours_start_time, this.commonSubmit_A.formData.summer_hours_end_time, this.commonSubmit_A.formData.winter_hours_start_time, this.commonSubmit_A.formData.winter_hours_end_time];
+                            let _changeBefore = [this.EditBeginData.model_name, this.EditBeginData.teaching_day, this.EditBeginData.teaching_num, this.EditBeginData.hours_type, this.EditBeginData.summer_hours_start_time, this.EditBeginData.summer_hours_end_time, this.EditBeginData.winter_hours_start_time, this.EditBeginData.winter_hours_end_time];
+                            let _status = false;  //数据没改变
+                            let _panduan = 0;
+
+                            _change.forEach((data,index)=> {
+                                if(String(data).indexOf("-") !=-1){
+                                    _panduan++;
+                                }
+                                if(data != _changeBefore[index]){
+                                    _status = true;
+                                    this.EditStatus = _status;
+                                }
+                            })
+                            if(this._status){
+                                this.$notify({    
+                                    message: '初始变更！',
+                                    type: 'success',
+                                    duration: 1000,
+                                    onClose: () => {
+                                        this.gradeModel_1 = false;
+                                        this.gradeModel_2 = true;
+                                        this.editStepTwo(this.EditModuleID);
+                                    }
+                                });
+                            }else{
+                                this.$notify({    
+                                    message: '初始未变更！',
+                                    type: 'success',
+                                    duration: 1000,
+                                    onClose: () => {
+                                        this.loading = true;
+                                        this.gradeModel_1 = false;
+                                        this.gradeModel_2 = true;
+                                        this.editStepTwo(this.EditModuleID);
+                                    }
+                                });
+                            }
+                        }
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                        this.loading = false;
+                        this.week_checkList= [];
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
+        // 年级模板创建--第二步-展示
+        creatGradeModelb(mid) {
+            if(this.creatGrade){  //创建
+                this.commonSubmit_b = {
+                    apiUrl: api.creatGradeModelb,
+                    formData: {
+                        token: getToken(),
+                        model_id: mid,
+                    }
+                }
+            }else if(this.editDrade){   //编辑
+                this.commonSubmit_b = {
+                    apiUrl: api.editGradeModel_b,
+                    formData: {
+                        token: getToken(),
+                        model_id: mid,
+                    }
+                }
+            }
+            this.$http(this.commonSubmit_b.apiUrl, {
+                params: this.commonSubmit_b.formData
+            }).then((res) => {
+                console.log(res);
+                if (res.status === 200) {
+                    if(res.data.code!=400){
+                        if(this.creatGrade){
+                            this.loading = false;
+                            this.studyType = res.data.data.time_line;
+                            this.default_day = res.data.data.default_day;
+                            this.moduleName = res.data.data.model_name;
+
+                            let EditGradeData = res.data.data.list;   //初始创建字段
+                            EditGradeData.forEach((x) => {
+                                x.class_timeS = [];
+                                x.class_timeW = [];
+                                x.class_time = [];
+                                x.teachDay = [];
+                                this.EditGradeData.push(x);
+                            });
+                        }else if(this.editDrade){
+                            this.loading = false;
+                            this.studyType = res.data.data.time_line;
+                            this.default_day = res.data.data.default_day;
+                            this.moduleName = res.data.data.model_name;
+                            if(this.EditStatus){  //初始数据变更
+                                let EditGradeData = res.data.data.list;   //初始创建字段
+                                EditGradeData.forEach((x) => {
+                                    x.class_timeS = [];
+                                    x.class_timeW = [];
+                                    x.class_time = [];
+                                    x.teachDay = [];
+                                    let timetable = x.timetable;
+                                    let day = [x.timetable.day1,x.timetableday2,x.timetable,x.timetable.day3,x.timetable.day4,x.timetable.day5,x.timetable.day6,x.timetable.day7];
+                                        day.forEach((data) => {
+                                            if(data){
+                                                data.is_check = true;
+                                            }
+                                        })
+                                    this.EditGradeData.push(x);
+                                });
+                            }else{
+                                if(this.studyType == 1){
+                                    let EditGradeData = res.data.data.list;   //初始创建字段
+                                    EditGradeData.forEach((x) => {
+                                        x.class_timeS = [];
+                                        x.class_timeW = [];
+                                        x.class_time = [new Date(2016, 9, 10, x.year_time.split('-')[0].split(':')[0], x.year_time.split('-')[0].split(':')[1]),new Date(2016, 9, 10, x.year_time.split('-')[1].split(':')[0], x.year_time.split('-')[0].split(':')[1])];
+                                        x.teachDay = [];
+                                        this.EditGradeData.push(x);
+                                    });
+                                }else{
+                                    let EditGradeData = res.data.data.list;   //初始创建字段
+                                    EditGradeData.forEach((x) => {
+                                        x.class_timeS = [new Date(2016, 9, 10, x.sumber_time.split(',')[0].split(':')[0]),new Date(2016, 9, 10, x.sumber_time.split(',')[0].split(':')[0])];
+                                        x.class_timeW = [new Date(2016, 9, 10, x.winer_time.split(',')[1].split(':')[0]),new Date(2016, 9, 10, x.winer_time.split(',')[1].split(':')[0])];
+                                        x.class_time = [];
+                                        x.teachDay = [];
+                                        this.EditGradeData.push(x);
+                                    });
+                                }
+                            }
+                        } 
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data
+                        });
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data
+                    });
+                }
+            })
+        },
+
+         //年级排课第二步--保存
+        creatGradeModelB(mid) {
+            let _handle = this.EditGradeData;
+            _handle.forEach((data) => {   //进入每一行
+                let time = data.timetable;  //进入每一个的timetable对象
+                let circle =[time.day1, time.day2, time.day3, time.day4, time.day5, time.day6, time.day7];
+                let rownull = 0;
+                let circul = 0;
+                let split = "#";
+                let classTime = data.class_time;  //全年制时间
+                let clasTimeS = data.class_timeS;  
+                let clasTimeW = data.class_timeW;
+                if(this.studyType == 1){ //全年制数据
+                    if(classTime.length == 2){
+                        classTime = this.formatHourM(classTime[0]) + "-" + this.formatHourM(classTime[1]);
+                    }
+                    this.allYeartime += classTime + ",";
+                } else if(this.studyType == 2){
+                    if(clasTimeS.length == 2){
+                        clasTimeS = this.formatHourM(clasTimeS[0]) + "-" + this.formatHourM(clasTimeS[1]);
+                    }
+                    this.summerYearTime += clasTimeS + ",";
+
+                    if(clasTimeW.length == 2){
+                        clasTimeW = this.formatHourM(clasTimeW[0]) + "-" + this.formatHourM(clasTimeW[1]);
+                    }
+                    this.winerYearTime += clasTimeW + ",";
+                }
+                circle.forEach((x) => {
+                    if(x){
+                        circul++;
+                        if(x.is_check){  //看每一行的单元格是否被选中
+                            data.teachDay.push(x.week_day);
+                            if(this.studyType == 1){
+                                x.class_time = classTime;
+                            } else if(this.studyType == 2){
+                                x.class_time += clasTimeS + "," + clasTimeW;
+                            }
+                            this.EditSubmitData.push(x);
+                        } else{
+                            rownull++;
+                        }
+                    }
+                });
+                if(rownull == circul){   //如果这一行都没选
+                    split = this.default_day + "#";
+                };
+                this.teachingsDay += data.teachDay.sort().join(",") + split;
+            });
+            this.teachingsDay = this.teachingsDay.substring(0,this.teachingsDay.length-1);
+            if(this.studyType == 1){
+                this.summerYearTime = "";
+                this.winerYearTime = "";
+                this.allYeartime = this.allYeartime.substring(0,this.allYeartime.length-1);
+            }else if(this.studyType == 2){
+                this.allYeartime = "";
+                this.summerYearTime = this.summerYearTime.substring(0,this.summerYearTime.length-1);
+                this.winerYearTime = this.winerYearTime.substring(0,this.winerYearTime.length-1);
+            }
+            // console.log(this.EditSubmitData)
+            this.commonSubmit_B.formData = {
+                token: getToken(),
+                model_id: mid,
+                teaching_each_day: this.teachingsDay,
+                summer_hours_time: this.summerYearTime,
+                winter_hours_time: this.winerYearTime,
+                year_hours_time: this.allYeartime,
+            }
+            if(this.creatGrade){  //创建
+                this.commonSubmit_B.apiUrl = api.creatGradeModelB;
+            }else if(this.editDrade){
+                this.commonSubmit_B.apiUrl = api.editGradeModel_B;
+            }
+            this.$http({
+                url: this.commonSubmit_B.apiUrl,
+                method: 'post',
+                data: this.commonSubmit_B.formData
+            }).then((res) => {
+                console.log(res)
+                if (res.status == 200) {
+                    if(res.data.code!=400){
+                        this.$notify({
+                            message: res.data.data,
+                            type: 'success',
+                            duration: 1000,
+                            onClose: () => {
+                                window.location.reload(true);
+                            }
+                        });
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
+
         // 标准中国时间转换获取月日
-        formatDate(date) {  
-            let y = date.getFullYear();  
+        formatDate(date) {
             let m = date.getMonth() + 1;  
                 m = m < 10 ? '0' + m : m;  
             let d = date.getDate();  
                 d = d < 10 ? ('0' + d) : d;  
-            return  m + d;  
+            return  m + d; 
         }, 
 
         // 标准中国时间转换获取时分
@@ -1044,5 +1805,13 @@ export default {
             let h = date.getHours();  
             let m = date.getMinutes();  
             return  h + ":" + m  
+        },
+
+        // 月日拼接
+        formatMD(data) {  
+            let date = new Date;
+            let year = date.getFullYear(); 
+            let _begin = data.split('');
+            return  year + '-' + _begin[0] + _begin[1] + '-' + _begin[2] + _begin[3];  
         }, 
 }
