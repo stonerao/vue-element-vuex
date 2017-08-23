@@ -162,6 +162,7 @@ export default {
 	        editStepTwoB: false, //第一步数据未改变-第二步表单提交状态
 	        derpartID: 0,
 	        timeHandle: [],
+	        backFirst: false,
         }
     },
     created() {
@@ -192,8 +193,43 @@ export default {
         	return info.formatDate.call(this,date);
         },
         backfirst(){
-        	this.virtual_1=true; 
-	        this.virtual_2=false;
+        	if(this.conpVirtual){
+	        	this.virtual_1=true; 
+		        this.virtual_2=false;
+		        this.week_checkList = [];
+	            this.rest_checkList = [0];
+	            this.studyNum = {   //虚拟班初始初始科目数
+	                morbefore: 1,
+	                morning: 1,
+	                afternoon: 1,
+	                night: 1
+	            };
+	            this.time = {
+	            	start: '',
+	            	end: '',
+	            	start_w: '',
+	            	end_w: ''
+	            };
+        	}else if(this.editVirtStatus){
+	    		this.virtual_1=true; 
+		        this.virtual_2=false;
+		        this.week_checkList = [];
+	            this.rest_checkList = [];
+	            this.studyNum = {   //虚拟班初始初始科目数
+	                morbefore: 1,
+	                morning: 1,
+	                afternoon: 1,
+	                night: 1
+	            };
+	            this.time = {
+	            	start: '',
+	            	end: '',
+	            	start_w: '',
+	            	end_w: ''
+	            };
+	            this.backFirst = true;
+	    		info.EditVirtStep_a.call(this,this.ScheduID);
+	    	}
         },
         formatMd(data){
         	return info.formatMD.call(this,data);

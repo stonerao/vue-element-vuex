@@ -761,6 +761,14 @@ export default {
 
         // 虚拟班排课第一步--保存
         virtualArrangeB(departId,teachStr,teachNum,hourType,time) {
+            if(this.backFirst){  //第二步返回到这一步
+                time = {
+                    start: this.startTimeVal,
+                    end: this.endTimeVal,
+                    start_w: this.startTimeVal_W,
+                    end_w: this.endTimeVal_W
+                };
+            };
             // console.log(time);
             if(teachStr){
                 let newWeek = teachStr;
@@ -780,20 +788,32 @@ export default {
                 //     };
                 // })
                 if((String(time.start)).indexOf('-') != -1){
+                    time.start= String(time.start).split('-')[1] + String(time.start).split('-')[2];
                 }else{
-                    time.start= this.formatDate(time.start);
+                    if(String(time.start) > 4){
+                        time.start= this.formatDate(time.start);
+                    }
                 }
                 if((String(time.end)).indexOf('-') != -1){
+                    time.end= String(time.end).split('-')[1] + String(time.end).split('-')[2];
                 }else{
-                    time.end= this.formatDate(time.end);
+                    if(String(time.end) > 4){
+                         time.end= this.formatDate(time.end);
+                    }
                 }
                 if((String(time.start_w)).indexOf('-') != -1){
+                    time.start_w= String(time.start_w).split('-')[1] + String(time.start_w).split('-')[2];
                 }else{
-                    time.start_w= this.formatDate(time.start_w);
+                    if(String(time.start_w) > 4){
+                        time.start_w= this.formatDate(time.start_w);
+                    }
                 }
                 if((String(time.end_w)).indexOf('-') != -1){
+                    time.end_w= String(time.end_w).split('-')[1] + String(time.end_w).split('-')[2];
                 }else{
-                    time.end_w= this.formatDate(time.end_w);
+                    if(String(time.end_w) > 4){
+                        time.end_w= this.formatDate(time.end_w);
+                    }
                 }
             }
             this.formData = {
@@ -839,8 +859,9 @@ export default {
                             _change.forEach((data,index)=> {
                                 if(data != _changeBefore[index]){
                                     _status = true;
-                                    return;
+                                    return false;
                                 }
+                                return false;
                             })
                             this.editStatus = true;
                             this.editModelID = res.data.data.model_id;  //编辑第二步展示页面传输数据
@@ -901,6 +922,7 @@ export default {
                         this.model.deparId = res.data.data.department_id;
                         this.default_day = res.data.data.default_day;
                         this.loading = false;
+                        this.virtStep2Data = [];
                         
                         let virtStep2Data = res.data.data.list;
                         virtStep2Data.forEach((x) => {
@@ -1473,6 +1495,14 @@ export default {
 
         // 创建年级模板-第一步--保存
         creatGradeModelA(departId,teachStr,teachNum,hourType,time) {
+            if(this.backFirst){  //第二步返回到这一步
+                time = {
+                    start: this.startTimeVal,
+                    end: this.endTimeVal,
+                    start_w: this.startTimeVal_W,
+                    end_w: this.endTimeVal_W
+                };
+            };
             if(teachStr){
                 let newWeek = teachStr;
                 for(var i=0;i<newWeek.length;i++){
@@ -1482,36 +1512,48 @@ export default {
             }
             if(hourType == 2){  //冬夏作息
                 if((String(time.start)).indexOf('-') != -1){
+                    time.start= String(time.start).split('-')[1] + String(time.start).split('-')[2];
                 }else{
-                    time.start= this.formatDate(time.start);
+                    if(String(time.start) > 4){
+                        time.start= this.formatDate(time.start);
+                    }
                 }
                 if((String(time.end)).indexOf('-') != -1){
+                    time.end= String(time.end).split('-')[1] + String(time.end).split('-')[2];
                 }else{
-                    time.end= this.formatDate(time.end);
+                    if(String(time.end) > 4){
+                        time.end= this.formatDate(time.end);
+                    }
                 }
                 if((String(time.start_w)).indexOf('-') != -1){
+                    time.start_w= String(time.start_w).split('-')[1] + String(time.start_w).split('-')[2];
                 }else{
-                    time.start_w= this.formatDate(time.start_w);
+                    if(String(time.start_w) > 4){
+                        time.start_w= this.formatDate(time.start_w);
+                    }
                 }
                 if((String(time.end_w)).indexOf('-') != -1){
+                    time.end_w= String(time.end_w).split('-')[1] + String(time.end_w).split('-')[2];
                 }else{
-                    time.end_w= this.formatDate(time.end_w);
+                    if(String(time.end_w) > 4){
+                        time.end_w= this.formatDate(time.end_w);
+                    }
                 }
             }
             this.commonSubmit_A.formData = {
-                    token: getToken(),
-                    department_id: departId,
-                    model_name: this.moduleName,
-                    teaching_day: this.week_checkList_string,
-                    teaching_num: teachNum,
-                    hours_type: hourType,   //作息方式
-                    summer_hours_start_time: time.start,
-                    summer_hours_end_time: time.end,   
-                    winter_hours_start_time: time.start_w,   
-                    winter_hours_end_time: time.end_w,   
+                token: getToken(),
+                model_name: this.moduleName,
+                teaching_day: this.week_checkList_string,
+                teaching_num: teachNum,
+                hours_type: hourType,   //作息方式
+                summer_hours_start_time: time.start,
+                summer_hours_end_time: time.end,   
+                winter_hours_start_time: time.start_w,   
+                winter_hours_end_time: time.end_w,   
             };
             if(this.creatGrade){  //创建
                 this.commonSubmit_A.apiUrl = api.creatGradeModelA;
+                this.commonSubmit_A.formData.department_id = this.departId;
             }else if(this.editDrade){   //编辑
                 this.commonSubmit_A.apiUrl = api.editGradeModel_A;
                 this.commonSubmit_A.formData.model_id = this.EditModuleID;
@@ -1538,22 +1580,19 @@ export default {
                                 }
                             });
                         }else if(this.editDrade){   //编辑
-
-                            let _change = [ this.commonSubmit_A.formData.model_name, this.commonSubmit_A.formData.teaching_day, this.commonSubmit_A.formData.teaching_num, this.commonSubmit_A.formData.hours_type, this.commonSubmit_A.formData.summer_hours_start_time, this.commonSubmit_A.formData.summer_hours_end_time, this.commonSubmit_A.formData.winter_hours_start_time, this.commonSubmit_A.formData.winter_hours_end_time];
-                            let _changeBefore = [this.EditBeginData.model_name, this.EditBeginData.teaching_day, this.EditBeginData.teaching_num, this.EditBeginData.hours_type, this.EditBeginData.summer_hours_start_time, this.EditBeginData.summer_hours_end_time, this.EditBeginData.winter_hours_start_time, this.EditBeginData.winter_hours_end_time];
+                            let _change = [this.commonSubmit_A.formData.teaching_day, this.commonSubmit_A.formData.teaching_num, this.commonSubmit_A.formData.hours_type, this.commonSubmit_A.formData.summer_hours_start_time, this.commonSubmit_A.formData.summer_hours_end_time, this.commonSubmit_A.formData.winter_hours_start_time, this.commonSubmit_A.formData.winter_hours_end_time];
+                            let _changeBefore = [this.EditBeginData.teaching_day, this.EditBeginData.teaching_num, this.EditBeginData.hours_type, this.EditBeginData.summer_hours_start_time, this.EditBeginData.summer_hours_end_time, this.EditBeginData.winter_hours_start_time, this.EditBeginData.winter_hours_end_time];
                             let _status = false;  //数据没改变
-                            let _panduan = 0;
 
                             _change.forEach((data,index)=> {
-                                if(String(data).indexOf("-") !=-1){
-                                    _panduan++;
-                                }
                                 if(data != _changeBefore[index]){
                                     _status = true;
                                     this.EditStatus = _status;
+                                    return false;
                                 }
+                                return false;
                             })
-                            if(this._status){
+                            if(_status){
                                 this.$notify({    
                                     message: '初始变更！',
                                     type: 'success',
@@ -1623,7 +1662,7 @@ export default {
                             this.studyType = res.data.data.time_line;
                             this.default_day = res.data.data.default_day;
                             this.moduleName = res.data.data.model_name;
-
+                            this.EditGradeData = [];   //点击上一步返回在进行下一步时数据清空
                             let EditGradeData = res.data.data.list;   //初始创建字段
                             EditGradeData.forEach((x) => {
                                 x.class_timeS = [];
@@ -1637,6 +1676,7 @@ export default {
                             this.studyType = res.data.data.time_line;
                             this.default_day = res.data.data.default_day;
                             this.moduleName = res.data.data.model_name;
+                            this.EditGradeData = [];
                             if(this.EditStatus){  //初始数据变更
                                 let EditGradeData = res.data.data.list;   //初始创建字段
                                 EditGradeData.forEach((x) => {
@@ -1645,7 +1685,7 @@ export default {
                                     x.class_time = [];
                                     x.teachDay = [];
                                     let timetable = x.timetable;
-                                    let day = [x.timetable.day1,x.timetableday2,x.timetable,x.timetable.day3,x.timetable.day4,x.timetable.day5,x.timetable.day6,x.timetable.day7];
+                                    let day = [x.timetable.day1,x.timetable.day2,x.timetable.day3,x.timetable.day4,x.timetable.day5,x.timetable.day6,x.timetable.day7];
                                         day.forEach((data) => {
                                             if(data){
                                                 data.is_check = true;
@@ -1659,15 +1699,15 @@ export default {
                                     EditGradeData.forEach((x) => {
                                         x.class_timeS = [];
                                         x.class_timeW = [];
-                                        x.class_time = [new Date(2016, 9, 10, x.year_time.split('-')[0].split(':')[0], x.year_time.split('-')[0].split(':')[1]),new Date(2016, 9, 10, x.year_time.split('-')[1].split(':')[0], x.year_time.split('-')[0].split(':')[1])];
+                                        x.class_time = [new Date(2016, 9, 10, String(x.year_time).split('-')[0].split(':')[0], String(x.year_time).split('-')[0].split(':')[1]),new Date(2016, 9, 10, String(x.year_time).split('-')[1].split(':')[0], String(x.year_time).split('-')[0].split(':')[1])];
                                         x.teachDay = [];
                                         this.EditGradeData.push(x);
                                     });
                                 }else{
                                     let EditGradeData = res.data.data.list;   //初始创建字段
                                     EditGradeData.forEach((x) => {
-                                        x.class_timeS = [new Date(2016, 9, 10, x.sumber_time.split(',')[0].split(':')[0]),new Date(2016, 9, 10, x.sumber_time.split(',')[0].split(':')[0])];
-                                        x.class_timeW = [new Date(2016, 9, 10, x.winer_time.split(',')[1].split(':')[0]),new Date(2016, 9, 10, x.winer_time.split(',')[1].split(':')[0])];
+                                        x.class_timeS = [new Date(2016, 9, 10, String(x.sumber_time).split('-')[0].split(':')[0], String(x.sumber_time).split('-')[0].split(':')[1]),new Date(2016, 9, 10, String(x.sumber_time).split('-')[1].split(':')[0], String(x.sumber_time).split('-')[1].split(':')[1])];
+                                        x.class_timeW = [new Date(2016, 9, 10, String(x.winer_time).split('-')[0].split(':')[0], String(x.winer_time).split('-')[0].split(':')[1]),new Date(2016, 9, 10, String(x.winer_time).split('-')[1].split(':')[0], String(x.winer_time).split('-')[1].split(':')[1])];
                                         x.class_time = [];
                                         x.teachDay = [];
                                         this.EditGradeData.push(x);
