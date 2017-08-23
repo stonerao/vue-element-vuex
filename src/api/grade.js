@@ -39,4 +39,7 @@ export const api = {
     whetherShowBtn:'Admin/Grade/show_class_change_button',   //年级模板是否展示‘调课停课’按钮
     deleteGrade:'Admin/Grade/grade_del',   //年级模板-删除
     deleteClass:'Admin/Grade/class_del',   //班级课表-删除
+    suspendLog:'Admin/Grade/school_stop_record_list',   //全校停课日志
+    suspendAdd:'Admin/Grade/school_stop_class',   //添加全校停课
+    suspendCancel:'Admin/Grade/cancel_stop_class',   //取消停课
 }

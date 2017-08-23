@@ -217,6 +217,29 @@
 .l_layout_outer .l_schedule_outer .l_save button:nth-child(2):hover {
   border-color: #e5e5e5;
 }
+.l_layout_outer .l_schedule_outer .sus_header {
+  padding: 27px 22px 21px 22px;
+}
+.l_layout_outer .l_schedule_outer .sus_header .el-form-item {
+  margin-bottom: 0px;
+}
+.l_layout_outer .l_schedule_outer .sus_table .el-table__row .cell {
+  margin: 10px 0px;
+  text-align: center;
+  max-height: 47px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.l_layout_outer .l_schedule_outer .sus_table .el-table_1_column_3 .cell {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+.l_layout_outer .l_schedule_outer .sus_table .el-table__header-wrapper .cell {
+  text-align: center;
+}
 .l_layout_outer .l_check_outer .check_header {
   padding-top: 35px;
   padding-left: 23px;

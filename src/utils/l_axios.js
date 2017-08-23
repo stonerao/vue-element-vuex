@@ -56,10 +56,10 @@ export default {
                                 add_status: x.add_status,
                                 info_status: x.info_status
                             })
-                            this.gradeListParams.curpage = res.data.data.page;
-                            this.gradeListParams.page_count = res.data.data.page_count;
-                            this.gradeListParams.total_num = parseInt(res.data.data.rows);
                         })
+                        this.gradeListParams.curpage = res.data.data.page;
+                        this.gradeListParams.page_count = res.data.data.page_count;
+                        this.gradeListParams.total_num = parseInt(res.data.data.rows);
                     } else {
                         this.hasData = false;
                         this.hasNoData = true;
@@ -1393,10 +1393,10 @@ export default {
                                     special_tag: x.special_tag,
                                     have_model_status: x.have_model_status
                                 })
-                                this.gradeParams.curpage = res.data.page;
-                                this.gradeParams.page_count = res.data.all_pagecount;
-                                this.gradeParams.total_num = parseInt(res.data.page_total);
                             })
+                            this.gradeParams.curpage = res.data.page;
+                            this.gradeParams.page_count = res.data.all_pagecount;
+                            this.gradeParams.total_num = parseInt(res.data.page_total);
                         }else{
                             this.hasData = false;
                             this.gradeParams.total_num = parseInt(res.data.page_total);
@@ -1943,6 +1943,123 @@ export default {
             })
         },
 
+        //全校停课---全日志
+        suspendLog(obj, start, end) {
+            if(start.length != 0 && end.length != 0){
+                start =  Date.parse(new Date(start)) / 1000;
+                end =  Date.parse(new Date(end)) / 1000;
+            }else if(start.length != 0){
+                start =  Date.parse(new Date(start)) / 1000;
+            }else if(end.length != 0){
+                end =  Date.parse(new Date(end)) / 1000;
+            }
+            this.$http(api.suspendLog, {
+                params: {
+                    token: getToken(),
+                    page: obj.curpage,
+                    curpage: obj.one_pagenum,
+                    operate_start_time: start,
+                    operate_end_time: end
+                }
+            }).then((res) => {
+                console.log(res);
+                if (res.status === 200) {
+                        this.suspendData = [];  
+                        let _data = res.data.data;
+                        _data.forEach((x) => {
+                            this.suspendData.push({
+                                start: x.stop_start_time,
+                                end: x.stop_end_time,
+                                why: x.operate_reason,
+                                who: x.operate_person,
+                                when: this.formatAll(new Date(parseInt(x.operate_time)*1000)),
+                                whether: x.show_cancel,
+                                record: x.record_id,   //取消停课id
+                            })
+                        })
+                        this.pageParams.hasmore = res.data.hasmore;   
+                        this.pageParams.curpage = res.data.page;    //当前第几页
+                        this.pageParams.page_count = res.data.all_pagecount;  //总共多少页
+                        this.pageParams.total_num = parseInt(res.data.page_total);   //总共多少条数据
+                    }
+            })
+        },
+
+        //全校停课-添加
+        suspendAdd(start,end,reason) {
+            if(start.length == 0 || end.length == 0){
+                return
+            }else{
+                start = this.formatAll(start);
+                end = this.formatAll(end);
+            }
+            this.$http({
+                url: api.suspendAdd,
+                method: 'post',
+                data: {
+                    token: getToken(),
+                    stop_start_time: start,
+                    stop_end_time: end,
+                    operate_reason: reason
+                }
+            }).then((res) => {
+                // console.log(res)
+                if (res.status == 200) {
+                    if(res.data.code!=400){
+                        this.$notify({
+                            message: res.data.data,
+                            type: 'success',
+                            duration: 1000,
+                            onClose: () => {
+                                window.location.reload(true);
+                            }
+                        });
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        }, 
+
+        //全校停课-取消
+        suspendCancel(rid) {
+            this.$http({
+                url: api.suspendCancel,
+                method: 'post',
+                data: {
+                    token: getToken(),
+                    record_id: rid,
+                }
+            }).then((res) => {
+                // console.log(res)
+                if (res.status == 200) {
+                    if(res.data.code!=400){
+                        this.$notify({
+                            message: res.data.data,
+                            type: 'success',
+                            duration: 1000,
+                            onClose: () => {
+                                window.location.reload(true);
+                            }
+                        });
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
 
         // 标准中国时间转换获取月日
         formatDate(date) {
@@ -1967,4 +2084,9 @@ export default {
             let _begin = data.split('');
             return  year + '-' + _begin[0] + _begin[1] + '-' + _begin[2] + _begin[3];  
         }, 
+
+        //年月日时分秒
+        formatYMDHMS(data){
+            return data = data.getFullYear() + '-' + (data.getMonth()+1) + '-' + data.getDate() + ' ' + data.getHours() + ':' + data.getMinutes();
+        }
 }
