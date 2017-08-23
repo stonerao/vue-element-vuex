@@ -8,6 +8,7 @@
         <el-button type="primary" @click="apply"><b>+</b>申请代课</el-button>
       </el-col>
       <el-col :span="12">
+        <uteacher :underTeacherList="underTeacherList" @teacherChoose="teacher" class="lf"></uteacher>
         <el-select v-model="typeText2" @change="selectChange" placeholder="请选择审核状态" size="small" class="rt">
           <el-option v-for="item in checkTypeList" :key="item.value" :label="item.name" :value="item.value">
           </el-option>
@@ -36,12 +37,17 @@
   </div>
 </template>
 <script>
+  import uteacher from '@/components/attendance/underTeacher'
   export default{
-    props:['total','list','checkTypeList'],
+    props:['total','list','checkTypeList','underTeacherList'],
     data(){
       return{
-        typeText2:''
+        typeText2:'',
+
       }
+    },
+    components:{
+      uteacher
     },
     methods:{
       apply(){
@@ -50,6 +56,10 @@
       //选择审批状态
       selectChange(val){
         this.$emit('typeChange',val)
+      },
+      //选中节点下的老师
+      teacher(){
+        this.$emit('ChooseTeacher')
       }
     }
   }

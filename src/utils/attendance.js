@@ -317,5 +317,18 @@ export default {
         this.refreshList();
       }
     })
+  },
+  //获取某老师所处节点及向下所有节点的组织部门ID+老师ID+老师姓名
+  under_teacher_list(){
+    this.$http(api.underTeacherList,{
+      params:{
+        token:getToken()
+      }
+    }).then((res)=>{
+      console.log(res)
+      if(res.data.code==200){
+        this.underTeacherList=res.data.data;
+      }
+    })
   }
 }

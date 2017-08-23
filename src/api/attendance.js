@@ -17,4 +17,5 @@ export const api={
   sstudentAttendance:'Admin/Grade/show_student_attendance_by_month',//按月查看学生考勤统计
   stuleaveList:'Student/SchoolStudent/leave_list',//学生请假记录
   stuApplyLeave:'Student/SchoolStudent/apply_leave',//学生请假申请
+  underTeacherList:'Teacher/index/under_teacher_list',//获取某老师所处节点及向下所有节点的组织部门ID+老师ID+老师姓名
 }

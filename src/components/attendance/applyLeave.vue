@@ -7,13 +7,8 @@
       <el-col v-if="isClassLogin!=1" :span="8">
         <el-button type="primary" @click="apply"><b>+</b>请假申请</el-button>
       </el-col>
-      <el-col v-if="isClassLogin!=1" :span="12">
-        <el-select v-model="typeText1" @change="selectChange" placeholder="请选择审核状态" size="small" class="rt">
-          <el-option v-for="item in checkTypeList" :key="item.value" :label="item.name" :value="item.value">
-          </el-option>
-        </el-select>
-      </el-col>
-      <el-col v-else :span="20">
+      <el-col :span="12">
+        <uteacher :underTeacherList="underTeacherList" @teacherChoose="teacher" class="lf"></uteacher>
         <el-select v-model="typeText1" @change="selectChange" placeholder="请选择审核状态" size="small" class="rt">
           <el-option v-for="item in checkTypeList" :key="item.value" :label="item.name" :value="item.value">
           </el-option>
@@ -45,7 +40,7 @@
         </el-table-column>
         <el-table-column v-if="isClassLogin==1" label="操作" width="150">
           <template scope="scope">
-            <div v-if="scope.row.apply_stutas=='待审批'">
+            <div v-if="scope.row.apply_stutas==1">
               <el-button type="primary" size="small" @click="applyLeave(2,scope.row.sign_leaveid)">同意</el-button>
               <el-button size="small" @click="applyLeave(3,scope.row.sign_leaveid)">拒绝</el-button>
             </div>
@@ -56,12 +51,17 @@
   </div>
 </template>
 <script>
+  import uteacher from '@/components/attendance/underTeacher'
   export default{
-    props:['total','list','checkTypeList','isClassLogin'],
+    props:['total','list','checkTypeList','isClassLogin','underTeacherList'],
     data(){
       return{
         typeText1:'',//请假管理审核状态
+
       }
+    },
+    components:{
+      uteacher
     },
     methods:{
       apply(){
@@ -74,6 +74,10 @@
       //学校中心同意老师请假申请
       applyLeave(num,id){
         this.$emit('leaveApply',num,id)
+      },
+      //选中节点下的老师
+      teacher(){
+        this.$emit('ChooseTeacher')
       }
     }
   }
