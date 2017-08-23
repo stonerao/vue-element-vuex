@@ -972,7 +972,6 @@ export default {
                 search.startTime = search.startTime.getFullYear() + '-' + (search.startTime.getMonth() + 1) + '-' + search.startTime.getDate();
                 search.endTime = search.endTime.getFullYear() + '-' + (search.endTime.getMonth() + 1) + '-' + search.endTime.getDate();
             }
-            console.log(this.virtStep2Data)
 
             let _handle = this.virtStep2Data;
             _handle.forEach((data) => {   //进入每一行
@@ -981,7 +980,7 @@ export default {
                 let rownull = 0;
                 let circul = 0;
                 let split = "#";
-                let classTime = data.class_time;
+                let classTime = data.class_time;  //全年制
                 let clasTimeS = data.class_timeS;  
                 let clasTimeW = data.class_timeW;
                 if(this.studyType == 1){ //全年制数据
@@ -992,16 +991,13 @@ export default {
                 } else if(this.studyType == 2){
                     if(clasTimeS.length == 2){
                         clasTimeS = this.formatHourM(clasTimeS[0]) + "-" + this.formatHourM(clasTimeS[1]);
-                        console.log('clasTimeS-----'+clasTimeS)
                     }
                     this.summerYearTime += clasTimeS + ",";
-                    console.log('clasTimeS-----'+this.summerYearTime)
 
                     if(clasTimeW.length == 2){
                         clasTimeW = this.formatHourM(clasTimeW[0]) + "-" + this.formatHourM(clasTimeW[1]);
                     }
                     this.winerYearTime += clasTimeW + ",";
-                    console.log('clasTimeS-----'+this.winerYearTime)
                 }
 
                 circle.forEach((x) => {
@@ -1037,6 +1033,7 @@ export default {
                 this.summerYearTime = this.summerYearTime.substring(0,this.summerYearTime.length-1);
                 this.winerYearTime = this.winerYearTime.substring(0,this.winerYearTime.length-1);
             }
+
             this.formDataA = {
                 token: getToken(),
                 name: search.name,  //学期名字
@@ -1056,7 +1053,13 @@ export default {
             }else{
                 this.apiURL = api.virtualD;
             }
+
             console.log(this.virtDataTable);
+            console.log(this.teachingsDay)
+            console.log(this.summerYearTime)
+            console.log(this.allYeartime)
+            console.log(this.winerYearTime)
+
             this.$http({
                 url: this.apiURL,
                 method: 'post',
