@@ -40,7 +40,7 @@ export default {
                 `该页面展示管理员的操作日志，可进行删除。`,
                 `侧边栏可以进行高级搜索`
             ],
-            state: 0,
+            state: 1,
         }
     },
     created() {

@@ -34,4 +34,6 @@ export const api = {
     Teacher_teaching_interface:"Teacher/Teaching/teaching_interface",//老师 教材详情
     teaching_collect:"Teacher/Teaching/teaching_collect",//教材领取老师 
     question_type:"Teacher/Examinationcenter/question_type",//题干类型 
+    question_classlist:"Teacher/Examinationcenter/question_classlist",//题库分类列表 
+    questions_add:"Teacher/Examinationcenter/questions_add",//添加试题 
 }
