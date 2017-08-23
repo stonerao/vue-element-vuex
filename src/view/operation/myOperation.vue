@@ -8,10 +8,7 @@
             <div class="kd-box-content">
                 <description :prompts="prompts" @PromPts="promptsTem"></description>
                 <!--模块开始  -->
-                <!-- <div v-if="state==0">
-<notice></notice>
-                </div> -->
-                 <notice></notice>
+                <operation></operation>
     
             </div>
             <bottomItem></bottomItem>
@@ -24,7 +21,7 @@ import titleItem from '@/components/main/title.vue'
 import titleActive from '@/components/main/titleActive.vue'
 import description from '@/components/main/description.vue'
 import bottomItem from '@/components/bottom/bottom.vue'
-import notice from '@/components/notice/index'
+import operation from '@/components/operation/index.vue'
 export default {
     data() {
         return {
@@ -39,7 +36,7 @@ export default {
     created() {
     },
     components: {
-        titleItem, titleActive, description, bottomItem,notice
+        titleItem, titleActive, description, bottomItem,operation
     },
     methods: {
         emitTransfer(index) {

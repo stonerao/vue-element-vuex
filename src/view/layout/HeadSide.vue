@@ -40,7 +40,7 @@
                     </li>
                     <router-link tag="li" to="/" class="kd-header-icon">
                         <p class="kd-header-icons">
-                            <i class="el-icon-loading"></i>
+                            <i class="el-icon-menu"></i>
                         </p>
                         <p>回首页</p>
                     </router-link>

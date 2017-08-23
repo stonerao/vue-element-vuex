@@ -151,7 +151,7 @@ body,
             overflow-Y: auto;
         }
         .kd-box {
-            margin: 25px 25px 0 25px;
+            margin: 0px 25px 0 25px;
             position: absolute;
             top: 49px;
             left: 0;
@@ -185,6 +185,7 @@ body,
         } // 提示
         .kd-title-items {
             width: 100%;
+            margin-top: 25px;
             border-bottom: 1px solid @color;
             .kd-title-item {
                 position: relative;
@@ -1051,7 +1052,7 @@ body,
     bottom: 0;
     background: rgba(0, 0, 0, 0.5);
     z-index: 1000;
-    min-width:1200px;
+    min-width: 1200px;
     .r-alert-content {
         width: 1200px;
         position: absolute;
@@ -1070,6 +1071,16 @@ body,
         text-indent: 25px;
         border-bottom: 1px solid #ededed;
     }
+    .r-exam {
+        width: 465px;
+        height: 325px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: #fff;
+        border-radius: 10px;
+    }
 }
 
 .r-over {
@@ -1080,21 +1091,28 @@ body,
     border: 2px solid #666;
     position: relative;
     cursor: pointer;
-    top:10px;
-    right:10px;
+    top: 10px;
+    right: 10px;
 }
 
 .r-over::after {
     position: absolute;
     content: "x";
-    text-indent:0;
-    color:#666; 
+    text-indent: 0;
+    color: #666;
     line-height: auto;
-    left:50%;
-    top:50%;
-    line-height:0;
+    left: 50%;
+    top: 50%;
+    line-height: 0;
     text-align: center;
-    transform:translate(-50%,0%);
+    transform: translate(-50%, 0%);
     width: 22px;
     height: 22px;
+}
+.r-over:hover{
+    color:@color;
+    border-color:@color;
+}
+.r-over:hover::after{
+    color:@color;
 }

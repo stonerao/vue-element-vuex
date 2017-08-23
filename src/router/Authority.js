@@ -30,6 +30,9 @@ import teaching from '@/view/teaching/index'
 import examination from '@/view/examination/index'
 // 通知中心
 import notice from '@/view/notice/index'
+// 考试中心
+// 老师 试题库
+import questions from '@/view/questions/index'
 /*
   左侧图标以及点击后的图标
 */
@@ -238,9 +241,9 @@ export const constList = [
             }
         ]
     }, {
-        path: '/set',
+        path: '/questions',
         name: '试题库',
-        redirect: '/set/index',
+        redirect: '/questions/index',
         icon: st,
         iconActive: st_active,
         component: Layout,
@@ -248,7 +251,7 @@ export const constList = [
             {
                 path: 'index',
                 name: '-试题库',
-                component: setVue,
+                component: questions,
             }
         ]
     }, {
@@ -301,12 +304,14 @@ export const constList = [
 
 ]
 // 学生
+// 我的作业
+import operation from '@/view/operation/myOperation'
 
 export const ListStundent = [
     {
-        path: '/set',
+        path: '/operation',
         name: '我的作业',
-        redirect: '/set/index',
+        redirect: '/operation/index',
         icon: pmsd,
         iconActive: pmsd_active,
         component: Layout,
@@ -314,7 +319,7 @@ export const ListStundent = [
             {
                 path: 'index',
                 name: '-我的作业',
-                component: setVue,
+                component: operation,
             }
         ]
     }, {
@@ -452,9 +457,9 @@ export const ListTeacher = [
             }
         ]
     }, {
-        path: '/set',
+        path: '/questions',
         name: '试题库',
-        redirect: '/set/index',
+        redirect: '/questions/index',
         icon: pmsd,
         iconActive: pmsd_active,
         component: Layout,
@@ -462,7 +467,7 @@ export const ListTeacher = [
             {
                 path: 'index',
                 name: '-试题库',
-                component: setVue,
+                component: questions,
             }
         ]
     }, {

@@ -19,16 +19,26 @@
             <el-table-column label="id" width="80" show-overflow-tooltip>
                 <template scope="scope">{{ scope.row.id }}</template>
             </el-table-column>
-            <el-table-column prop="title" label="主题" show-overflow-tooltip>
-            </el-table-column>  
-            <el-table-column label="发布人" width="180"  show-overflow-tooltip>
-                <template scope="scope"><span class="index-color">{{scope.row.name}}</span></template>
+            <el-table-column prop="title" label="题干" show-overflow-tooltip>
             </el-table-column>
-            <el-table-column prop="date" width="220"  label="时间" show-overflow-tooltip>
+            <el-table-column label="试题类型" width="120" show-overflow-tooltip>
+                <template scope="scope">
+                    <span class="index-color">{{scope.row.select}}</span>
+                </template>
             </el-table-column>
-            <el-table-column prop="address" width="120" label="操作" show-overflow-tooltip>
+            <el-table-column prop="date" width="180" label="创建时间" show-overflow-tooltip>
+            </el-table-column>
+            <el-table-column width="120" label="是否共享" show-overflow-tooltip>
+                <template scope="scope">
+                    <el-switch v-model="scope.row.selectVal" on-color="#13ce66" off-color="" on-text="是" off-text="否">
+                    </el-switch>
+                </template>
+            </el-table-column>
+            <el-table-column width="180" label="操作" show-overflow-tooltip>
                 <template scope="scope">
                     <el-button size="mini">查看</el-button>
+                    <el-button size="mini">编辑</el-button>
+                    <el-button size="mini">删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -39,8 +49,10 @@
 export default {
     data() {
         return {
-            t_data: [{ id: '001', title: 'sdakhdahdjsa', name: 'fuck', date: '2017-8-22 09:13:08' }],
-            seach:''
+            t_data: [
+                { id: '001', title: 'sdakhdahdjsa', select: '多选', date: '2017-8-22 09:13:08',selectVal:'' }
+            ],
+            seach: ''
         }
     },
     methods: {
@@ -50,7 +62,7 @@ export default {
         seachClick() {
             // 搜索
         },
-        resh(){
+        resh() {
             // 刷新
 
         }
