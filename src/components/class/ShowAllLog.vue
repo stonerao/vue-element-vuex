@@ -4,7 +4,7 @@
         <div v-if="suspend_list">
             <div class="sus_header">
                 <el-row :span="24">
-                    <el-col :span="18">
+                    <el-col :span="19">
                         <el-form ref="form" label-width="80px">
                             <el-form-item label="操作日期">
                                 <el-col :span="5">
@@ -20,13 +20,13 @@
                                         <el-option v-for="item in typeList" :key="item.value" :label="item.label" :value="item.value"></el-option>
                                     </el-select>
                                 </el-col>
-                                <el-col :span="1" style="text-align: right;">
+                                <el-col :span="2" style="text-align: right;">
                                     <el-button type="primary" size="small" @click="sus_filter">确定</el-button>
                                 </el-col>
                             </el-form-item>
                         </el-form>
                     </el-col>
-                    <el-col :span="6" style="text-align: right;">
+                    <el-col :span="5" style="text-align: right;">
                         <el-button type="primary" size="small" @click="add_suspend">返回</el-button>
                     </el-col>
                 </el-row>

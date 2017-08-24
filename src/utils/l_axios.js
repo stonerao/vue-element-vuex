@@ -213,7 +213,7 @@ export default {
                             type: 'error',
                             duration: 1000,
                             onClose: () => {
-                                // window.location.reload(true);
+                                window.location.reload(true);
                             }
                         });
                         this.loading = false;
@@ -1053,20 +1053,20 @@ export default {
                 this.apiURL = api.virtualD;
             }
 
-            let form={
-                    token: getToken(),
-                    name: search.name,  //学期名字
-                    model_id: mod.id,
-                    department_id: mod.deparId,   //班级id
-                    end_time: search.endTime,
-                    start_time: search.startTime,
-                    teaching_each_day: this.teachingsDay,
-                    summer_hours_time: this.summerYearTime,
-                    winter_hours_time: this.winerYearTime,
-                    year_hours_time: this.allYeartime,
-                    timetable: this.virtDataTable,
-            }
-            console.log(form)
+            // let form={
+            //         token: getToken(),
+            //         name: search.name,  //学期名字
+            //         model_id: mod.id,
+            //         department_id: mod.deparId,   //班级id
+            //         end_time: search.endTime,
+            //         start_time: search.startTime,
+            //         teaching_each_day: this.teachingsDay,
+            //         summer_hours_time: this.summerYearTime,
+            //         winter_hours_time: this.winerYearTime,
+            //         year_hours_time: this.allYeartime,
+            //         timetable: this.virtDataTable,
+            // }
+            // console.log(form)
 
             this.$http({
                 url: this.apiURL,
@@ -1219,13 +1219,12 @@ export default {
                             this.moduleName = res.data.data.department_name;
                             this.virtStep2Data = [];
 
-                            if(parseInt(res.data.data.time_line) != 1){
+                            if(parseInt(res.data.data.time_line) != 3){  
                                 this.studyType = 2;
                             }else{
                                 this.studyType = 1;
                             }
-
-                            if(this.studyType == 1){
+                            if(this.studyType == 1){  //全年类型
                                 virtStep2Data.forEach((x) => {
                                     x.class_timeS = [];
                                     x.class_timeW = [];
@@ -1846,8 +1845,6 @@ export default {
                 this.commonSubmit_B.apiUrl = api.editGradeModel_B;
             }
 
-            // console.log('查看----')
-            // console.log(this.commonSubmit_B.formData)
 
             this.$http({
                 url: this.commonSubmit_B.apiUrl,
@@ -1862,7 +1859,7 @@ export default {
                             type: 'success',
                             duration: 1000,
                             onClose: () => {
-                                window.location.reload(true);
+                                window.location.reload(true); 
                             }
                         });
                     }else{
