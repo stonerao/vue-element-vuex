@@ -20,7 +20,7 @@
                                         <el-option v-for="item in typeList" :key="item.value" :label="item.label" :value="item.value"></el-option>
                                     </el-select>
                                 </el-col>
-                                <el-col :span="2" style="text-align: right;">
+                                <el-col :span="2" style="text-align: left;margin-left: 20px">
                                     <el-button type="primary" size="small" @click="sus_filter">确定</el-button>
                                 </el-col>
                             </el-form-item>

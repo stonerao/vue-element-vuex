@@ -349,10 +349,12 @@ export default {
         //班级课表--添加--保存数据
         scheduleSave(mod,search) {
             if(search.startTime != '' && search.endTime != ''){
-                search.startTime = search.startTime.getFullYear() + '-' + (search.startTime.getMonth() + 1) + '-' + search.startTime.getDate();
-                search.endTime = search.endTime.getFullYear() + '-' + (search.endTime.getMonth() + 1) + '-' + search.endTime.getDate();
-            } else {
-                return;
+                if(String(search.startTime).indexOf('-') == -1 ){
+                    search.startTime = search.startTime.getFullYear() + '-' + (search.startTime.getMonth() + 1) + '-' + search.startTime.getDate();
+                }
+                if(String(search.endTime).indexOf('-') == -1 ){
+                    search.endTime = search.endTime.getFullYear() + '-' + (search.endTime.getMonth() + 1) + '-' + search.endTime.getDate();
+                }
             }
             let _begin = this.tableData;
             _begin.forEach((data) => {   //进入每一行
@@ -832,9 +834,7 @@ export default {
                         time.end_w= this.formatDate(time.end_w);
                     }
                 }
-
-                console.log(time.start);
-
+                // console.log(time.start);
             }
             this.formData = {
                     token: getToken(),
@@ -969,9 +969,13 @@ export default {
         virtualArrangeD(mod,search,sid) {
             // 有效期转换
             if(search.startTime != '' && search.endTime != ''){
-                search.startTime = search.startTime.getFullYear() + '-' + (search.startTime.getMonth() + 1) + '-' + search.startTime.getDate();
-                search.endTime = search.endTime.getFullYear() + '-' + (search.endTime.getMonth() + 1) + '-' + search.endTime.getDate();
-            }
+                if(String(search.startTime).indexOf('-') == -1){
+                    search.startTime = search.startTime.getFullYear() + '-' + (search.startTime.getMonth() + 1) + '-' + search.startTime.getDate();
+                }
+                if(String(search.endTime).indexOf('-') == -1){
+                    search.endTime = search.endTime.getFullYear() + '-' + (search.endTime.getMonth() + 1) + '-' + search.endTime.getDate();
+                }
+            }   
 
             let _handle = this.virtStep2Data;
             _handle.forEach((data) => {   //进入每一行
@@ -1093,7 +1097,7 @@ export default {
                             type: 'success',
                             duration: 1000,
                             onClose: () => {
-                                // window.location.reload(true);
+                                window.location.reload(true);
                             }
                         });
                     }else{
@@ -1104,7 +1108,7 @@ export default {
                         this.summerYearTime = '';
                         this.winerYearTime = '';
                         this.allYeartime = '';
-                        this.virtDataTable = '';
+                        this.virtDataTable = [];
                     }
                 }else {
                     this.$notify.error({
@@ -1375,6 +1379,11 @@ export default {
                             }
                         });
                     }else{
+                        this.virtDataTable = [];
+                        this.teachingsDay = '';
+                        this.summerYearTime = '';
+                        this.winerYearTime = '';
+                        this.allYeartime = '';
                         this.$notify.error({
                             message: res.data.data.error
                         });
@@ -1665,7 +1674,9 @@ export default {
                             message: res.data.data.error
                         });
                         this.loading = false;
-                        this.week_checkList= [];
+                        this.week_checkList = [];
+                        this.week_checkList_string = '';
+                        teachNum = '';
                     }
                 }else {
                     this.$notify.error({
@@ -1863,6 +1874,11 @@ export default {
                             }
                         });
                     }else{
+                        this.EditSubmitData = [];
+                        this.teachingsDay = '';
+                        this.summerYearTime = '';
+                        this.winerYearTime = '';
+                        this.allYeartime = '';
                         this.$notify.error({
                             message: res.data.data.error
                         });
