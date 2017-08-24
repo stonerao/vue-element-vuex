@@ -4,7 +4,7 @@
         <div v-if="suspend_list">
             <div class="sus_header">
                 <el-row :span="24">
-                    <el-col :span="13">
+                    <el-col :span="19">
                         <el-form ref="form" label-width="80px">
                             <el-form-item label="操作日期">
                                 <el-col :span="5">
@@ -14,26 +14,32 @@
                                 <el-col :span="5">
                                     <el-date-picker type="date" placeholder="选择日期" v-model="search_end" style="width: 100%;" :picker-options="pickerOptions1" :disabled="canNot"></el-date-picker>
                                 </el-col>
-                                <el-col :span="2" style="text-align: right;">
+                                <el-col :span="2" style="text-align: center;">类型:</el-col>
+                                <el-col :span="4">
+                                    <el-select v-model="search_type" clearable placeholder="请选择">
+                                        <el-option v-for="item in typeList" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                                    </el-select>
+                                </el-col>
+                                <el-col :span="2" style="text-align: left;margin-left: 20px">
                                     <el-button type="primary" size="small" @click="sus_filter">确定</el-button>
                                 </el-col>
                             </el-form-item>
                         </el-form>
                     </el-col>
-                    <el-col :span="11" style="text-align: right;">
-                        <el-button type="primary" size="small" @click="add_suspend">新增停课</el-button>
+                    <el-col :span="5" style="text-align: right;">
+                        <el-button type="primary" size="small" @click="add_suspend">返回</el-button>
                     </el-col>
                 </el-row>
             </div>
             <div class="sus_table">
                 <el-table :data="suspendData" style="width: 100%">
-                    <el-table-column prop="start" label="开始时间"></el-table-column>
-                    <el-table-column prop="end" label="结束时间"></el-table-column>
-                    <el-table-column prop="why" label="停课原因"></el-table-column>
+                    <el-table-column prop="type" label="类型"></el-table-column>
+                    <el-table-column prop="why" label="原因"></el-table-column>
                     <el-table-column prop="who" label="操作人"></el-table-column>
                     <el-table-column prop="when" label="操作日期"></el-table-column>
                     <el-table-column label="操作">
                         <template scope="scope">
+                            <el-button type="primary" size="small" @click.native="showDetail(scope.row.record)">查看详情</el-button>
                             <el-button type="primary" size="small" v-if="scope.row.whether == 1" @click.native="sus_Cancel(scope.row.record)">取消</el-button>
                         </template>
                     </el-table-column>
@@ -46,65 +52,36 @@
                         </el-col>
                     </el-row>
                 </div>
+                <div class="myDialog">
+                    <div class="ownDailog" @click="Close_mask" v-if="Dailog">
+                        <div class="close_btn">
+                            <i class="el-icon-close"></i>
+                        </div>
+                        <div class="content">
+                            测试内容
+                        </div>
+                    </div>
+                    <div class="dialog_mask" v-if="Dailog" @click="Close_mask"></div>
+                </div>
             </div>
         </div>
 
-        <!-- 新增停课 -->
-        <div v-if="suspend_add">
-            <div class="l_virtual_wraper">
-                <div class="form_group">
-                    <ul class="clearfloat">
-                        <li class="header">停课范围：</li>
-                        <li>全校</li>
-                    </ul>
-                </div>
-                <div class="form_group">
-                    <ul class="clearfloat">
-                        <li class="header">停课时间：</li>
-                        <li>
-                            <div class="inline-block">
-                                <el-date-picker v-model="addStart" type="datetime" placeholder="选择日期"></el-date-picker>
-                            </div>
-                            <div class="inline-block middle_zhi">至</div>
-                            <div class="inline-block">
-                                <el-date-picker v-model="addEnd" type="datetime" placeholder="选择日期" :picker-options="pickerOptions2" :disabled="canNotc"></el-date-picker>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-                <div class="form_group">
-                    <ul class="clearfloat">
-                        <li class="header">停课原因：</li>
-                        <li style="width: 550px;height: auto;line-height: 23px;">
-                           <el-input type="textarea" v-model="susReason"></el-input>
-                        </li>
-                    </ul>
-                </div>
-                <div class="form_group">
-                    <ul class="clearfloat">
-                        <li class="header"></li>
-                        <li>
-                            <el-button type="primary" @click.native="susAdd">保存</el-button>
-                            <el-button @click.native="susCancel">取消</el-button>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
     </div>
+
 </template>
 
 <script>
 import info from '@/utils/l_axios'
 
 export default {
-    props: ['state'],
+    props: ['ClassIdentity','GradeIdentity','IDCard'],
     data() {
         return {
             suspend_list: true,
             suspend_add: false,
             search_begin: '',
             search_end: '',
+            search_type: '',
             canNot: true,
             canNotc: true,
             pickerOptions1: {},
@@ -120,11 +97,24 @@ export default {
             addStart: '',  //停课开始时间
             addEnd: '',  //结束时间
             susReason: '',  //原因
+            typeList: [{  //类型
+              value: '1',
+              label: '调课'
+            }, {
+              value: '2',
+              label: '停课'
+            }, {
+              value: '3',
+              label: '代课'
+            }],
+            Dailog: false,   //查看详情弹窗
         }
     },
     created() {
-        if(this.state == 2){
-            info.suspendLog.call(this,this.pageParams,this.search_begin,this.search_end);
+        if(this.ClassIdentity){   //班级日志
+            info.classGradeLog.call(this,this.IDCard,this.pageParams,this.search_begin,this.search_end,this.search_type);
+        }else if(this.GradeIdentity){   //年级日志
+            info.classGradeLog.call(this,this.IDCard,this.pageParams,this.search_begin,this.search_end,this.search_type);
         }
     },
     components: {
@@ -132,8 +122,7 @@ export default {
     },
     methods: {
         add_suspend(){  //新增停课
-            this.suspend_list = false;
-            this.suspend_add = true;
+            this.$emit("SHOWLOGBACK");
         },
         susAdd(){  //保存
             info.suspendAdd.call(this,this.addStart,this.addEnd,this.susReason);
@@ -146,18 +135,24 @@ export default {
             return info.formatYMDHMS.call(this,date);
         },
         sus_Cancel(rid){   //取消停课
-            info.suspendCancel.call(this,rid);
+            // info.suspendCancel.call(this,rid);
         },
         sus_filter(){
-            info.suspendLog.call(this,this.pageParams,this.search_begin,this.search_end);
+           info.classGradeLog.call(this,this.IDCard,this.pageParams,this.search_begin,this.search_end,this.search_type);
+        },
+        showDetail(rid){   //弹窗
+            this.Dailog = true;
+        },
+        Close_mask(){
+            this.Dailog = false;
         },
         handleSizeChange(val) {
             this.pageParams.one_pagenum = val;
-            info.suspendLog.call(this,this.pageParams,this.search_begin,this.search_end);
+            info.classGradeLog.call(this,this.IDCard,this.pageParams,this.search_begin,this.search_end,this.search_type);
         },
         handleCurrentChange(val) {
             this.pageParams.curpage = val;
-            info.suspendLog.call(this,this.pageParams,this.search_begin,this.search_end);
+            info.classGradeLog.call(this,this.IDCard,this.pageParams,this.search_begin,this.search_end,this.search_type);
         },
     },
     watch:{

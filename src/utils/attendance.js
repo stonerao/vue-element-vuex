@@ -3,7 +3,7 @@ import { getToken } from '@/utils/auth'
 import { getClass } from '@/utils/auth'
 
 export default {
-  // 请假列表
+  // 请假列表(学生列表接口等待修改)
   leave_list(){
     const isClass=getClass();
     if(isClass==2){
@@ -235,26 +235,28 @@ export default {
       }
     })
   },
-  //考勤记录
+  //考勤记录(未做完)
   attendance_list(){
     const isClass=getClass();
-    if(isClass==1){
-
-    }else if(isClass==2){
+    if(isClass==2){
       //老师个人考勤记录
       this.$http(api.attendanceList,{
         params:{
           token:getToken(),
           page:this.currentPage,
           pagesize:this.pageSize,
+          start_time:this.stime,
+          end_time:this.etime
         }
       }).then((res)=>{
-
+        if(res.data.code==200){
+          this.total=res.data.data.rows;
+          this.attList=res.data.data.list;
+        }
       })
     }else{
-
+      //学生考勤记录
     }
-
   },
   //审核调课/代课列表
   approve_list(){
@@ -325,9 +327,84 @@ export default {
         token:getToken()
       }
     }).then((res)=>{
-      console.log(res)
       if(res.data.code==200){
         this.underTeacherList=res.data.data;
+      }
+    })
+  },
+  //学生请假申请列表
+  stu_apply_list(){
+    this.$http(api.stuApplyList,{
+      params:{
+        token:getToken(),
+        apply_stutas:this.status
+      }
+    }).then((res)=>{
+      if(res.data.code==200){
+        this.total=res.data.all_pagecount;
+        this.stuApplyList=res.data.data;
+      }
+    })
+  },
+  //处理学生请假
+  stu_apply_approve(num,id){
+    this.$http(api.stuApplyApprove,{
+      params:{
+        token:getToken(),
+        sign_leaveid:id,
+        apply_stutas:num
+      }
+    }).then((res)=>{
+      if(res.data.code==200){
+        this.$message({
+          message: res.data.data,
+          type: 'success'
+        });
+        this.refreshList();
+      }
+    })
+  },
+  //学校中心班级考勤记录（获取年级和班级）
+  s_attendance_list(type,pid){
+    this.$http(api.gradeList,{
+      params:{
+        token:getToken(),
+        type:type,
+        pid:pid
+      }
+    }).then((res)=>{
+      if(res.data.code==200){
+        if(type==1){
+          if(pid==""){
+            this.gradeList=res.data.data;
+          }else{
+            this.classList=res.data.data;
+          }
+        }else{
+          this.classList=res.data.data;
+        }
+      }
+    })
+  },
+  //学校中心班级考勤记录（获取课节)
+  get_schedule_lesson(id,time){
+    this.$http(api.getScheduleLesson,{
+      params:{
+        token:getToken(),
+        search_time:time,
+        department_id:id
+      }
+    }).then((res)=>{
+      if(res.data.code==200){
+        this.lessonList=res.data.data;
+      }
+    })
+  },
+  //学校中心班级考勤记录（查看班级学生考勤统计)
+  show_classstudent_static(){
+    this.$http(api.showClassStudentStatic,{
+      params:{
+
       }
     })
   }

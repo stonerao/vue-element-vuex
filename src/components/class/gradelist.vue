@@ -20,7 +20,7 @@
 		                        <div class="button-group">
 		                            <el-button size="small" v-if="gra.have_model_status == 1" @click.native="checkModel(gra.model_id)">查看模板</el-button>
 		                            <el-button size="small" v-if="gra.have_model_status == 2" @click.native="buildModel(gra.department_id)">创建模板</el-button>
-		                            <el-button size="small">日志</el-button>
+		                            <el-button size="small" :disabled="gra.have_model_status == 2" @click.native="showClassLog(gra.department_id)">日志</el-button>
 		                        </div>
 		                    </div>
 		                </li>
@@ -32,7 +32,7 @@
 		        <div class="kd-page">
 		            <el-row>
 		                <el-col :span="24">
-		                    <el-pagination class="float-right" :current-page="gradeParams.curpage" :page-sizes="[15, 20, 25, 30]" :page-size="gradeParams.page_count" layout="total, sizes, prev, pager, next, jumper" :total="gradeParams.total_num">
+		                    <el-pagination class="float-right" :current-page="gradeParams.curpage" :page-sizes="[15, 20, 25, 30]" :page-size="gradeParams.page_count" layout="total, sizes, prev, pager, next, jumper" :total="gradeParams.total_num" @size-change="handleSizeChange" @current-change="handleCurrentChange">
 		                    </el-pagination>
 		                </el-col>
 		            </el-row>
@@ -46,6 +46,11 @@
 	        <div v-if="switch_2">
 	        	<buildModel :creatGrade="creatGrade" :departID="departID" @Cancel="gobefore"></buildModel>
 	        </div>
+            <!-- 查看日志 -->
+            <div v-if="switch_3">
+                <ShowAllLog :IDCard="IDCard" :GradeIdentity="GradeIdentity" @SHOWLOGBACK="LogoBack"></ShowAllLog>
+            </div>
+                
 	    </div>
 	</div>
 </template>
@@ -54,6 +59,7 @@
 import info from '@/utils/l_axios'
 import buildModel from '@/components/class/gradeModel'
 import checkModel from '@/components/class/gradeModelcheck'
+import ShowAllLog from '@/components/class/ShowAllLog'
 
 export default {
     props: ['state'],
@@ -74,9 +80,11 @@ export default {
             switch_0: true,
             switch_1: false, //年级查看模板
             switch_2: false, //年级创建模板
+            switch_3: false,
             gradeDetailData: [],
             departID: 0,
            	ModuleID: 0, //查看模板id 
+            GradeIdentity: true,
         }
     },
     created() {
@@ -85,7 +93,7 @@ export default {
     	}
     },
     components: {
-        buildModel,checkModel
+        buildModel,checkModel,ShowAllLog
     },
     methods: {
         checkModel(modelId){  //查看模版
@@ -107,7 +115,23 @@ export default {
         	this.switch_0 = true;
         	this.switch_2 = false;
         },
-
+        showClassLog(id){   //班级日志（暂时不做）
+            this.IDCard = id;
+            this.switch_0 = false;
+            this.switch_3 = true;
+        },
+        LogoBack(){
+            this.switch_0 = true;
+            this.switch_3 = false;
+        },
+        handleSizeChange(val) {
+            this.gradeParams.one_pagenum = val;
+            info.gradeAllList.call(this,this.gradeParams)
+        },
+        handleCurrentChange(val) {
+            this.gradeParams.curpage = val;
+            info.gradeAllList.call(this,this.gradeParams)
+        },
     },
     watch:{
        

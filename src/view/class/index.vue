@@ -46,7 +46,7 @@
                                             <div class="button-group">
                                                 <el-button size="small" :disabled="gra.add_status == 0" @click.native="schedule(gra.department_id,gra.special_tag)">排课</el-button>
                                                 <el-button size="small" :disabled="gra.info_status == 0" @click.native="checkSchedule(gra.department_id,gra.special_tag)">查课</el-button>
-                                                <el-button size="small">日志</el-button>
+                                                <el-button size="small" :disabled="gra.info_status == 0" @click.native="showClassLog(gra.department_id)">日志</el-button>
                                             </div>
                                         </div>
                                     </li>
@@ -58,7 +58,7 @@
                             <div class="kd-page">
                                 <el-row>
                                     <el-col :span="24">
-                                        <el-pagination class="float-right" :current-page="gradeListParams.curpage" :page-sizes="[15, 20, 25, 30]" :page-size="gradeListParams.page_count" layout="total, sizes, prev, pager, next, jumper" :total="gradeListParams.total_num">
+                                        <el-pagination class="float-right" :current-page="gradeListParams.curpage" :page-sizes="[15, 20, 25, 30]" :page-size="gradeListParams.page_count" layout="total, sizes, prev, pager, next, jumper" :total="gradeListParams.total_num" @size-change="handleSizeChange" @current-change="handleCurrentChange">
                                         </el-pagination>
                                     </el-col>
                                 </el-row>
@@ -203,6 +203,11 @@
                             <!-- 查看课表 -->
                             <checkGradeSchedule :derpartId="derpartId" :classType="classType" :tabsStatus="tabsStatus" @BackCli="Setback"></checkGradeSchedule>
                         </div>
+
+                        <div v-if="tab_3" class="l_schedule_outer">
+                            <!-- 班级日志 -->
+                            <ShowAllLog :IDCard="IDCard" :ClassIdentity="ClassIdentity" @SHOWLOGBACK="LogoBack"></ShowAllLog>
+                        </div>
                     </div>
                     <div v-if="state===1" class="l_schedule_outer l_timetable_outer">
                         <gradeList :state="state"></gradeList>
@@ -226,6 +231,7 @@ import checkGradeSchedule from '@/components/class/gradeSchedule'
 import gradeList from '@/components/class/gradelist'
 import virtualclass from '@/components/class/virtualclass'
 import allSuspend from '@/components/class/allSuspend'
+import ShowAllLog from '@/components/class/ShowAllLog'
 import info from '@/utils/l_axios'
 
 export default {
@@ -244,6 +250,7 @@ export default {
             tab_0: true, //总课表及排课切换
             tab_1: false, 
             tab_2: false, 
+            tab_3: false, 
             tab_x_1: false,  //虚拟班排课
             conpVirtual: true,  //此处调用虚拟班排课组件状态判断
             gradeS: '',  //年级select的值
@@ -293,6 +300,8 @@ export default {
             derpartId: 0,
             classType: 0,
             isActive: true,
+            ClassIdentity: true,
+            IDCard: 0,
         }
     },
     created() {
@@ -303,7 +312,7 @@ export default {
         info.timeTable.call(this,this.gradeListParams,this.graClaId)   //总课表
     },
     components: {
-        titleItem, titleActive, description, bottomItem, checkGradeSchedule, gradeList, virtualclass, allSuspend
+        titleItem, titleActive, description, bottomItem, checkGradeSchedule, gradeList, virtualclass, allSuspend, ShowAllLog
     },
     methods: {
         emitTransfer(index) {
@@ -376,7 +385,24 @@ export default {
             this.tab_0 = true;
             this.tab_x_1 = false;
             this.loading = false;
-        }
+        },
+        showClassLog(id){   //班级日志（暂时不做）
+            this.IDCard = id;
+            this.tab_0 = false;
+            this.tab_3 = true;
+        },
+        LogoBack(){
+            this.tab_3 = false;
+            this.tab_0 =true;
+        },
+        handleSizeChange(val) {
+            this.gradeListParams.one_pagenum = val;
+            info.timeTable.call(this,this.gradeListParams,this.graClaId);
+        },
+        handleCurrentChange(val) {
+            this.gradeListParams.curpage = val;
+            info.timeTable.call(this,this.gradeListParams,this.graClaId);
+        },
     },
     watch:{
         gradeS(val){

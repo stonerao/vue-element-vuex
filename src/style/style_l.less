@@ -23,6 +23,42 @@
 		font-size: 15px;
 		padding-bottom: 22px;
 	}
+	.myDialog{
+		.ownDailog{
+			position: fixed;
+			z-index: 3000;
+			background: #fff;
+			top: 50%;
+			left: 50%;
+			width: 600px;
+			min-height: 400px;
+			-webkit-transform: translate(-50%, -50%);
+		   	-moz-transform: translate(-50%, -50%);
+		    -ms-transform: translate(-50%, -50%);
+	        transform: translate(-50%, -50%);
+	        padding: 15px;
+	        padding-top: 45px;
+		}
+		.dialog_mask{
+			position: fixed;
+			background: black;
+			opacity: 0.6;
+			z-index: 2000;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			overflow: auto;
+		}
+		.close_btn{
+			.el-icon-close{
+				position: absolute;
+				size: 30px;
+				top: 15px;
+				right: 15px;
+			}
+		}
+	}
 
 	/* 年或班级排课 */
 	.l_search_header0{
@@ -39,7 +75,9 @@
 	.l_graCla_list{
 		padding: 30px 30px 5px 30px;
 		border-top: 2px solid @gray0;
-		box-sizing: border-box;
+		-webkit-box-sizing: border-box;
+		   -moz-box-sizing: border-box;
+		        box-sizing: border-box;
 		background: #fff;
 		overflow: hidden;
 		&>ul{
@@ -56,6 +94,8 @@
 			background: @blue1;
 			padding: 13px 16px;
 			cursor: default;
+			-webkit-transition: all .2s linear;
+			-moz-transition: all .2s linear;
 			transition: all .2s linear;
 			&:hover{
 				background: @blue0;
@@ -95,7 +135,7 @@
 			padding: 27px 22px 21px 22px;
 			border-bottom: 2px solid @blue0;
 			&.virStep2Header{
-				// border-bottom: none;
+				/* border-bottom: none;*/
 			}
 			li{
 				float: left;
@@ -113,8 +153,6 @@
 					width: 10px;
 					height: 10px;
 					-moz-border-radius: 10px;
-					-webkit-border-radius: 10px;
-					-ms-border-radius: 10px;
 					border-radius: 10px;
 					background: @gray0;
 					position: absolute;
@@ -169,7 +207,8 @@
 							width: 100%;
 							height: 40px;
 							border: none;
-    						border-radius:0px;
+    						-moz-border-radius:0px;
+    						     border-radius:0px;
     						&:after{
     							border: none;
     						}
@@ -216,117 +255,117 @@
 				}
 			}
 			.el-table__body{
-				// tr{
-				// 	td:nth-child(2){
-				// 		position: relative;
-				// 		&:before{
-				// 			content: '';
-				// 		    position: absolute;
-				// 		    left: 0;
-				// 		    bottom: 0;
-				// 		    background: url(../assets/icon/one.png) 0 0 no-repeat;
-				// 		    width: 24px;
-				// 		    height: 24px;
-				// 		    background-size: contain;
-				// 		}
-				// 	}
-				// 	&:nth-child(2){
-				// 		td:nth-child(1){
-				// 			border-bottom: none;
-				// 		}
-				// 	}
-				// 	&:nth-child(3){
-				// 		td:nth-child(1){
-				// 			opacity: 0;
-				// 			border-bottom: none;
-				// 		}
-				// 		td:nth-child(2){
-				// 			&:before{
-				// 			    background: url(../assets/icon/two.png) 0 0 no-repeat;
-				// 			    background-size: contain;
-				// 			}
-				// 		}
-				// 	}
-				// 	&:nth-child(4){
-				// 		td:nth-child(1){
-				// 			opacity: 0;
-				// 			border-bottom: none;
-				// 		}
-				// 		td:nth-child(2){
-				// 			&:before{
-				// 			    background: url(../assets/icon/three.png) 0 0 no-repeat;
-				// 			    background-size: contain;
-				// 			}
-				// 		}
-				// 	}
-				// 	&:nth-child(5){
-				// 		td:nth-child(1){
-				// 			opacity: 0;
-				// 		}
-				// 		td:nth-child(2){
-				// 			&:before{
-				// 			    background: url(../assets/icon/four.png) 0 0 no-repeat;
-				// 			    background-size: contain;
-				// 			}
-				// 		}
-				// 	}
-				// 	&:nth-child(6){
-				// 		td:nth-child(1){
-				// 			border-bottom: none;
-				// 		}
-				// 	}
-				// 	&:nth-child(7){
-				// 		td:nth-child(1){
-				// 			opacity: 0;
-				// 			border-bottom: none;
-				// 		}
-				// 		td:nth-child(2){
-				// 			&:before{
-				// 			    background: url(../assets/icon/two.png) 0 0 no-repeat;
-				// 			    background-size: contain;
-				// 			}
-				// 		}
-				// 	}
-				// 	&:nth-child(8){
-				// 		td:nth-child(1){
-				// 			opacity: 0;
-				// 			border-bottom: none;
-				// 		}
-				// 		td:nth-child(2){
-				// 			&:before{
-				// 			    background: url(../assets/icon/three.png) 0 0 no-repeat;
-				// 			    background-size: contain;
-				// 			}
-				// 		}
-				// 	}
-				// 	&:nth-child(9){
-				// 		td:nth-child(1){
-				// 			opacity: 0;
-				// 		}
-				// 		td:nth-child(2){
-				// 			&:before{
-				// 			    background: url(../assets/icon/four.png) 0 0 no-repeat;
-				// 			    background-size: contain;
-				// 			}
-				// 		}
-				// 	}
-				// 	&:nth-child(10){
-				// 		td:nth-child(1){
-				// 			border-bottom: none;
-				// 		}
-				// 	}
-				// 	&:nth-child(11){
-				// 		td:nth-child(1){
-				// 			opacity: 0;
-				// 		}
-				// 		td:nth-child(2){
-				// 			&:before{
-				// 			    background: url(../assets/icon/two.png) 0 0 no-repeat;
-				// 			    background-size: contain;
-				// 			}
-				// 		}
-				// 	}
-				// }
+				/* tr{*/
+				/* 	td:nth-child(2){*/
+				/* 		position: relative;*/
+				/* 		&:before{*/
+				/* 			content: '';*/
+				/* 		    position: absolute;*/
+				/* 		    left: 0;*/
+				/* 		    bottom: 0;*/
+				/* 		    background: url(../assets/icon/one.png) 0 0 no-repeat;*/
+				/* 		    width: 24px;*/
+				/* 		    height: 24px;*/
+				/* 		    background-size: contain;*/
+				/* 		}*/
+				/* 	}*/
+				/* 	&:nth-child(2){*/
+				/* 		td:nth-child(1){*/
+				/* 			border-bottom: none;*/
+				/* 		}*/
+				/* 	}*/
+				/* 	&:nth-child(3){*/
+				/* 		td:nth-child(1){*/
+				/* 			opacity: 0;*/
+				/* 			border-bottom: none;*/
+				/* 		}*/
+				/* 		td:nth-child(2){*/
+				/* 			&:before{*/
+				/* 			    background: url(../assets/icon/two.png) 0 0 no-repeat;*/
+				/* 			    background-size: contain;*/
+				/* 			}*/
+				/* 		}*/
+				/* 	}*/
+				/* 	&:nth-child(4){*/
+				/* 		td:nth-child(1){*/
+				/* 			opacity: 0;*/
+				/* 			border-bottom: none;*/
+				/* 		}*/
+				/* 		td:nth-child(2){*/
+				/* 			&:before{*/
+				/* 			    background: url(../assets/icon/three.png) 0 0 no-repeat;*/
+				/* 			    background-size: contain;*/
+				/* 			}*/
+				/* 		}*/
+				/* 	}*/
+				/* 	&:nth-child(5){*/
+				/* 		td:nth-child(1){*/
+				/* 			opacity: 0;*/
+				/* 		}*/
+				/* 		td:nth-child(2){*/
+				/* 			&:before{*/
+				/* 			    background: url(../assets/icon/four.png) 0 0 no-repeat;*/
+				/* 			    background-size: contain;*/
+				/* 			}*/
+				/* 		}*/
+				/* 	}*/
+				/* 	&:nth-child(6){*/
+				/* 		td:nth-child(1){*/
+				/* 			border-bottom: none;*/
+				/* 		}*/
+				/* 	}*/
+				/* 	&:nth-child(7){*/
+				/* 		td:nth-child(1){*/
+				/* 			opacity: 0;*/
+				/* 			border-bottom: none;*/
+				/* 		}*/
+				/* 		td:nth-child(2){*/
+				/* 			&:before{*/
+				/* 			    background: url(../assets/icon/two.png) 0 0 no-repeat;*/
+				/* 			    background-size: contain;*/
+				/* 			}*/
+				/* 		}*/
+				/* 	}*/
+				/* 	&:nth-child(8){*/
+				/* 		td:nth-child(1){*/
+				/* 			opacity: 0;*/
+				/* 			border-bottom: none;*/
+				/* 		}*/
+				/* 		td:nth-child(2){*/
+				/* 			&:before{*/
+				/* 			    background: url(../assets/icon/three.png) 0 0 no-repeat;*/
+				/* 			    background-size: contain;*/
+				/* 			}*/
+				/* 		}*/
+				/* 	}*/
+				/* 	&:nth-child(9){*/
+				/* 		td:nth-child(1){*/
+				/* 			opacity: 0;*/
+				/* 		}*/
+				/* 		td:nth-child(2){*/
+				/* 			&:before{*/
+				/* 			    background: url(../assets/icon/four.png) 0 0 no-repeat;*/
+				/* 			    background-size: contain;*/
+				/* 			}*/
+				/* 		}*/
+				/* 	}*/
+				/* 	&:nth-child(10){*/
+				/* 		td:nth-child(1){*/
+				/* 			border-bottom: none;*/
+				/* 		}*/
+				/* 	}*/
+				/* 	&:nth-child(11){*/
+				/* 		td:nth-child(1){*/
+				/* 			opacity: 0;*/
+				/* 		}*/
+				/* 		td:nth-child(2){*/
+				/* 			&:before{*/
+				/* 			    background: url(../assets/icon/two.png) 0 0 no-repeat;*/
+				/* 			    background-size: contain;*/
+				/* 			}*/
+				/* 		}*/
+				/* 	}*/
+				/* }*/
 			}
 		}
 		.l_save{
@@ -408,7 +447,7 @@
 		width: 80px;
 	}
 	.l_checkdetail_outer{
-		// padding: 0px 23px;
+		/* padding: 0px 23px;*/
 		.l_checkdetail{
 			margin-bottom: 0px!important;
 			.l_grade_detail_title{
@@ -427,8 +466,6 @@
 					    width: 10px;
 					    height: 10px;
 					    -moz-border-radius: 10px;
-					    -webkit-border-radius: 10px;
-					    -ms-border-radius: 10px;
 					    border-radius: 10px;
 					    background: #1997e4;
 					    position: absolute;
@@ -491,7 +528,8 @@
 							width: 100px;
 						}
 						.el-input__inner{
-							border-radius: 0px;
+							-moz-border-radius: 0px;
+							     border-radius: 0px;
 						}
 					}
 				}

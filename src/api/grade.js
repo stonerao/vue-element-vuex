@@ -42,4 +42,5 @@ export const api = {
     suspendLog:'Admin/Grade/school_stop_record_list',   //全校停课日志
     suspendAdd:'Admin/Grade/school_stop_class',   //添加全校停课
     suspendCancel:'Admin/Grade/cancel_stop_class',   //取消停课
+    classGradeLog:'Admin/Grade/schedule_change_record_list',   //班级年级日志
 }
