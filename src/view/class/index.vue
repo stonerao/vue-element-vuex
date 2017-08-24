@@ -240,7 +240,7 @@ export default {
                 `该页面展示管理员的操作日志，可进行删除。`,
                 `侧边栏可以进行高级搜索`
             ],
-            state: 2,  //tabs的header
+            state: 0,  //tabs的header
             tab_0: true, //总课表及排课切换
             tab_1: false, 
             tab_2: false, 

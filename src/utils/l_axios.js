@@ -56,10 +56,10 @@ export default {
                                 add_status: x.add_status,
                                 info_status: x.info_status
                             })
-                            this.gradeListParams.curpage = res.data.data.page;
-                            this.gradeListParams.page_count = res.data.data.page_count;
-                            this.gradeListParams.total_num = parseInt(res.data.data.rows);
                         })
+                        this.gradeListParams.curpage = res.data.data.page;
+                        this.gradeListParams.page_count = res.data.data.page_count;
+                        this.gradeListParams.total_num = parseInt(res.data.data.rows);
                     } else {
                         this.hasData = false;
                         this.hasNoData = true;
@@ -807,31 +807,34 @@ export default {
                 if((String(time.start)).indexOf('-') != -1){
                     time.start= String(time.start).split('-')[1] + String(time.start).split('-')[2];
                 }else{
-                    if(String(time.start) > 4){
+                    if(String(time.start).length > 4){
                         time.start= this.formatDate(time.start);
                     }
                 }
                 if((String(time.end)).indexOf('-') != -1){
                     time.end= String(time.end).split('-')[1] + String(time.end).split('-')[2];
                 }else{
-                    if(String(time.end) > 4){
+                    if(String(time.end).length > 4){
                          time.end= this.formatDate(time.end);
                     }
                 }
                 if((String(time.start_w)).indexOf('-') != -1){
                     time.start_w= String(time.start_w).split('-')[1] + String(time.start_w).split('-')[2];
                 }else{
-                    if(String(time.start_w) > 4){
+                    if(String(time.start_w).length > 4){
                         time.start_w= this.formatDate(time.start_w);
                     }
                 }
                 if((String(time.end_w)).indexOf('-') != -1){
                     time.end_w= String(time.end_w).split('-')[1] + String(time.end_w).split('-')[2];
                 }else{
-                    if(String(time.end_w) > 4){
+                    if(String(time.end_w).length > 4){
                         time.end_w= this.formatDate(time.end_w);
                     }
                 }
+
+                console.log(time.start);
+
             }
             this.formData = {
                     token: getToken(),
@@ -969,6 +972,7 @@ export default {
                 search.startTime = search.startTime.getFullYear() + '-' + (search.startTime.getMonth() + 1) + '-' + search.startTime.getDate();
                 search.endTime = search.endTime.getFullYear() + '-' + (search.endTime.getMonth() + 1) + '-' + search.endTime.getDate();
             }
+
             let _handle = this.virtStep2Data;
             _handle.forEach((data) => {   //进入每一行
                 let time = data.timetable;  //进入每一个的timetable对象
@@ -976,7 +980,7 @@ export default {
                 let rownull = 0;
                 let circul = 0;
                 let split = "#";
-                let classTime = data.class_time;
+                let classTime = data.class_time;  //全年制
                 let clasTimeS = data.class_timeS;  
                 let clasTimeW = data.class_timeW;
                 if(this.studyType == 1){ //全年制数据
@@ -1029,6 +1033,7 @@ export default {
                 this.summerYearTime = this.summerYearTime.substring(0,this.summerYearTime.length-1);
                 this.winerYearTime = this.winerYearTime.substring(0,this.winerYearTime.length-1);
             }
+
             this.formDataA = {
                 token: getToken(),
                 name: search.name,  //学期名字
@@ -1048,7 +1053,22 @@ export default {
             }else{
                 this.apiURL = api.virtualD;
             }
-            console.log(this.virtDataTable);
+
+            // let form={
+            //         token: getToken(),
+            //         name: search.name,  //学期名字
+            //         model_id: mod.id,
+            //         department_id: mod.deparId,   //班级id
+            //         end_time: search.endTime,
+            //         start_time: search.startTime,
+            //         teaching_each_day: this.teachingsDay,
+            //         summer_hours_time: this.summerYearTime,
+            //         winter_hours_time: this.winerYearTime,
+            //         year_hours_time: this.allYeartime,
+            //         timetable: this.virtDataTable,
+            // }
+            // console.log(form)
+
             this.$http({
                 url: this.apiURL,
                 method: 'post',
@@ -1066,7 +1086,7 @@ export default {
                     timetable: encodeUnicode(JSON.stringify(this.virtDataTable)),
                 }
             }).then((res) => {
-                // console.log(res)
+                console.log(res)
                 if (res.status == 200) {
                     if(res.data.code!=400){
                         this.$notify({
@@ -1377,7 +1397,7 @@ export default {
                     curpage: obj.one_pagenum,
                 }
             }).then((res) => {
-                // console.log(res);
+                console.log(res);
                 if (res.status === 200) {
                     if(res.data.code!=400){
                         let data = res.data.data;
@@ -1393,10 +1413,10 @@ export default {
                                     special_tag: x.special_tag,
                                     have_model_status: x.have_model_status
                                 })
-                                this.gradeParams.curpage = res.data.page;
-                                this.gradeParams.page_count = res.data.all_pagecount;
-                                this.gradeParams.total_num = parseInt(res.data.page_total);
                             })
+                            this.gradeParams.curpage = res.data.page;
+                            this.gradeParams.page_count = res.data.all_pagecount;
+                            this.gradeParams.total_num = parseInt(res.data.page_total);
                         }else{
                             this.hasData = false;
                             this.gradeParams.total_num = parseInt(res.data.page_total);
@@ -1533,28 +1553,28 @@ export default {
                 if((String(time.start)).indexOf('-') != -1){
                     time.start= String(time.start).split('-')[1] + String(time.start).split('-')[2];
                 }else{
-                    if(String(time.start) > 4){
+                    if(String(time.start).length > 4){
                         time.start= this.formatDate(time.start);
                     }
                 }
                 if((String(time.end)).indexOf('-') != -1){
                     time.end= String(time.end).split('-')[1] + String(time.end).split('-')[2];
                 }else{
-                    if(String(time.end) > 4){
+                    if(String(time.end).length > 4){
                         time.end= this.formatDate(time.end);
                     }
                 }
                 if((String(time.start_w)).indexOf('-') != -1){
                     time.start_w= String(time.start_w).split('-')[1] + String(time.start_w).split('-')[2];
                 }else{
-                    if(String(time.start_w) > 4){
+                    if(String(time.start_w).length > 4){
                         time.start_w= this.formatDate(time.start_w);
                     }
                 }
                 if((String(time.end_w)).indexOf('-') != -1){
                     time.end_w= String(time.end_w).split('-')[1] + String(time.end_w).split('-')[2];
                 }else{
-                    if(String(time.end_w) > 4){
+                    if(String(time.end_w).length > 4){
                         time.end_w= this.formatDate(time.end_w);
                     }
                 }
@@ -1577,6 +1597,8 @@ export default {
                 this.commonSubmit_A.apiUrl = api.editGradeModel_A;
                 this.commonSubmit_A.formData.model_id = this.EditModuleID;
             }
+
+
             this.$http({
                 url: this.commonSubmit_A.apiUrl,
                 method: 'post',
@@ -1820,6 +1842,10 @@ export default {
             }else if(this.editDrade){
                 this.commonSubmit_B.apiUrl = api.editGradeModel_B;
             }
+
+            console.log('查看----')
+            console.log(this.commonSubmit_B.formData)
+
             this.$http({
                 url: this.commonSubmit_B.apiUrl,
                 method: 'post',
@@ -1833,7 +1859,7 @@ export default {
                             type: 'success',
                             duration: 1000,
                             onClose: () => {
-                                window.location.reload(true);
+                                // window.location.reload(true);
                             }
                         });
                     }else{
@@ -1943,6 +1969,123 @@ export default {
             })
         },
 
+        //全校停课---全日志
+        suspendLog(obj, start, end) {
+            if(start.length != 0 && end.length != 0){
+                start =  Date.parse(new Date(start)) / 1000;
+                end =  Date.parse(new Date(end)) / 1000;
+            }else if(start.length != 0){
+                start =  Date.parse(new Date(start)) / 1000;
+            }else if(end.length != 0){
+                end =  Date.parse(new Date(end)) / 1000;
+            }
+            this.$http(api.suspendLog, {
+                params: {
+                    token: getToken(),
+                    page: obj.curpage,
+                    curpage: obj.one_pagenum,
+                    operate_start_time: start,
+                    operate_end_time: end
+                }
+            }).then((res) => {
+                console.log(res);
+                if (res.status === 200) {
+                        this.suspendData = [];  
+                        let _data = res.data.data;
+                        _data.forEach((x) => {
+                            this.suspendData.push({
+                                start: x.stop_start_time,
+                                end: x.stop_end_time,
+                                why: x.operate_reason,
+                                who: x.operate_person,
+                                when: this.formatAll(new Date(parseInt(x.operate_time)*1000)),
+                                whether: x.show_cancel,
+                                record: x.record_id,   //取消停课id
+                            })
+                        })
+                        this.pageParams.hasmore = res.data.hasmore;   
+                        this.pageParams.curpage = res.data.page;    //当前第几页
+                        this.pageParams.page_count = res.data.all_pagecount;  //总共多少页
+                        this.pageParams.total_num = parseInt(res.data.page_total);   //总共多少条数据
+                    }
+            })
+        },
+
+        //全校停课-添加
+        suspendAdd(start,end,reason) {
+            if(start.length == 0 || end.length == 0){
+                return
+            }else{
+                start = this.formatAll(start);
+                end = this.formatAll(end);
+            }
+            this.$http({
+                url: api.suspendAdd,
+                method: 'post',
+                data: {
+                    token: getToken(),
+                    stop_start_time: start,
+                    stop_end_time: end,
+                    operate_reason: reason
+                }
+            }).then((res) => {
+                // console.log(res)
+                if (res.status == 200) {
+                    if(res.data.code!=400){
+                        this.$notify({
+                            message: res.data.data,
+                            type: 'success',
+                            duration: 1000,
+                            onClose: () => {
+                                window.location.reload(true);
+                            }
+                        });
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        }, 
+
+        //全校停课-取消
+        suspendCancel(rid) {
+            this.$http({
+                url: api.suspendCancel,
+                method: 'post',
+                data: {
+                    token: getToken(),
+                    record_id: rid,
+                }
+            }).then((res) => {
+                // console.log(res)
+                if (res.status == 200) {
+                    if(res.data.code!=400){
+                        this.$notify({
+                            message: res.data.data,
+                            type: 'success',
+                            duration: 1000,
+                            onClose: () => {
+                                window.location.reload(true);
+                            }
+                        });
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
 
         // 标准中国时间转换获取月日
         formatDate(date) {
@@ -1967,4 +2110,9 @@ export default {
             let _begin = data.split('');
             return  year + '-' + _begin[0] + _begin[1] + '-' + _begin[2] + _begin[3];  
         }, 
+
+        //年月日时分秒
+        formatYMDHMS(data){
+            return data = data.getFullYear() + '-' + (data.getMonth()+1) + '-' + data.getDate() + ' ' + data.getHours() + ':' + data.getMinutes();
+        }
 }
