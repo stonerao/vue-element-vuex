@@ -35,7 +35,7 @@ export default {
                     id: objId.c_id
                 }
             }).then((res) => {
-                // console.log(res);
+                console.log(res);
                 if (res.status === 200) {
                     let data = res.data.data.list;
                     if (data.length != 0) {
@@ -1005,16 +1005,15 @@ export default {
                         circul++;
                         if(x.s_id != ''){  //进入每一个对象筛选s_sid是否为空
                             data.teachDay.push(x.week_day);
-
-                            if(this.studyType == 1){
-                                x.class_time = classTime;
-                            } else if(this.studyType == 2){
-                                x.class_time += clasTimeS + "," + clasTimeW;
-                            }
-                            this.virtDataTable.push(x);
                         } else{
                             rownull++;
                         }
+                        if(this.studyType == 1){
+                            x.class_time = classTime;
+                        } else if(this.studyType == 2){
+                            x.class_time += clasTimeS + "," + clasTimeW;
+                        }
+                        this.virtDataTable.push(x);
                     }
                 });
                 if(rownull == circul){
@@ -1065,7 +1064,7 @@ export default {
                     summer_hours_time: this.summerYearTime,
                     winter_hours_time: this.winerYearTime,
                     year_hours_time: this.allYeartime,
-                    timetable: encodeUnicode(JSON.stringify(this.virtDataTable)),
+                    timetable: this.virtDataTable,
             }
             console.log(form)
 
@@ -1101,6 +1100,11 @@ export default {
                         this.$notify.error({
                             message: res.data.data.error
                         });
+                        this.teachingsDay = '';
+                        this.summerYearTime = '';
+                        this.winerYearTime = '';
+                        this.allYeartime = '';
+                        this.virtDataTable = '';
                     }
                 }else {
                     this.$notify.error({

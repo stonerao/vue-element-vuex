@@ -104,7 +104,7 @@
 import info from '@/utils/l_axios'
 
 export default {
-    props: ['ClassIdentity','IDCard'],
+    props: ['ClassIdentity','GradeIdentity','IDCard'],
     data() {
         return {
             suspend_list: true,
@@ -143,7 +143,7 @@ export default {
         if(this.ClassIdentity){   //班级日志
             info.classGradeLog.call(this,this.IDCard,this.pageParams,this.search_begin,this.search_end,this.search_type);
         }else if(this.GradeIdentity){   //年级日志
-
+            info.classGradeLog.call(this,this.IDCard,this.pageParams,this.search_begin,this.search_end,this.search_type);
         }
     },
     components: {
