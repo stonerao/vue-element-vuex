@@ -41,7 +41,7 @@
                 <div class="kd-page">
                     <el-row>
                         <el-col :span="24">
-                            <el-pagination class="float-right" :current-page="pageParams.curpage" :page-sizes="[15, 20, 25, 30]" :page-size="pageParams.page_count" layout="total, sizes, prev, pager, next, jumper" :total="pageParams.total_num">
+                            <el-pagination class="float-right" :current-page="pageParams.curpage" :page-sizes="[15, 20, 25, 30]" :page-size="pageParams.page_count" layout="total, sizes, prev, pager, next, jumper" :total="pageParams.total_num" @size-change="handleSizeChange" @current-change="handleCurrentChange">
                             </el-pagination>
                         </el-col>
                     </el-row>
@@ -150,7 +150,15 @@ export default {
         },
         sus_filter(){
             info.suspendLog.call(this,this.pageParams,this.search_begin,this.search_end);
-        }
+        },
+        handleSizeChange(val) {
+            this.pageParams.one_pagenum = val;
+            info.suspendLog.call(this,this.pageParams,this.search_begin,this.search_end);
+        },
+        handleCurrentChange(val) {
+            this.pageParams.curpage = val;
+            info.suspendLog.call(this,this.pageParams,this.search_begin,this.search_end);
+        },
     },
     watch:{
         search_begin(data){

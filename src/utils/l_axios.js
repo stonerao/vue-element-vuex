@@ -1405,6 +1405,8 @@ export default {
                 if (res.status === 200) {
                     if(res.data.code!=400){
                         let data = res.data.data;
+                        this.gradList = [];
+                        
                         if (data.length != 0) {
                             this.hasData = true;
                             data.forEach((x) => {

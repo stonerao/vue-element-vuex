@@ -58,7 +58,7 @@
                             <div class="kd-page">
                                 <el-row>
                                     <el-col :span="24">
-                                        <el-pagination class="float-right" :current-page="gradeListParams.curpage" :page-sizes="[15, 20, 25, 30]" :page-size="gradeListParams.page_count" layout="total, sizes, prev, pager, next, jumper" :total="gradeListParams.total_num">
+                                        <el-pagination class="float-right" :current-page="gradeListParams.curpage" :page-sizes="[15, 20, 25, 30]" :page-size="gradeListParams.page_count" layout="total, sizes, prev, pager, next, jumper" :total="gradeListParams.total_num" @size-change="handleSizeChange" @current-change="handleCurrentChange">
                                         </el-pagination>
                                     </el-col>
                                 </el-row>
@@ -394,7 +394,15 @@ export default {
         LogoBack(){
             this.tab_3 = false;
             this.tab_0 =true;
-        }
+        },
+        handleSizeChange(val) {
+            this.gradeListParams.one_pagenum = val;
+            info.timeTable.call(this,this.gradeListParams,this.graClaId);
+        },
+        handleCurrentChange(val) {
+            this.gradeListParams.curpage = val;
+            info.timeTable.call(this,this.gradeListParams,this.graClaId);
+        },
     },
     watch:{
         gradeS(val){

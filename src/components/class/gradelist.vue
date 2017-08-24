@@ -32,7 +32,7 @@
 		        <div class="kd-page">
 		            <el-row>
 		                <el-col :span="24">
-		                    <el-pagination class="float-right" :current-page="gradeParams.curpage" :page-sizes="[15, 20, 25, 30]" :page-size="gradeParams.page_count" layout="total, sizes, prev, pager, next, jumper" :total="gradeParams.total_num">
+		                    <el-pagination class="float-right" :current-page="gradeParams.curpage" :page-sizes="[15, 20, 25, 30]" :page-size="gradeParams.page_count" layout="total, sizes, prev, pager, next, jumper" :total="gradeParams.total_num" @size-change="handleSizeChange" @current-change="handleCurrentChange">
 		                    </el-pagination>
 		                </el-col>
 		            </el-row>
@@ -123,7 +123,15 @@ export default {
         LogoBack(){
             this.switch_0 = true;
             this.switch_3 = false;
-        }
+        },
+        handleSizeChange(val) {
+            this.gradeParams.one_pagenum = val;
+            info.gradeAllList.call(this,this.gradeParams)
+        },
+        handleCurrentChange(val) {
+            this.gradeParams.curpage = val;
+            info.gradeAllList.call(this,this.gradeParams)
+        },
     },
     watch:{
        
