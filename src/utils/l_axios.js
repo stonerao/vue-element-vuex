@@ -833,7 +833,7 @@ export default {
                     }
                 }
 
-                // console.log(time.start);
+                console.log(time.start);
 
             }
             this.formData = {
@@ -1124,7 +1124,6 @@ export default {
                         this.moduleName = res.data.data.department_name;   
                         this.editVirBeginData = res.data.data;
                         this.editScheID = res.data.data.schedule_id;   //编辑第二步
-                        // this.editModelID = res.data.data.model_id;   //编辑第二步
                         let week_begin = (res.data.data.teaching_day).split(',');
                             week_begin.forEach((x)=> {
                                 x = parseInt(x) - 1;
@@ -1163,12 +1162,21 @@ export default {
         },
 
         // 虚拟班-编辑-第二步展示页面
-        EditVirtStep_b(mid,sid) {
-            this.ApiUrlData = api.EditVirtStep_b;
-            this.editFormData = {
-                token: getToken(),
-                model_id: mid,
-                schedule_id: sid,
+        EditVirtStep_b(mid,sid,did) {
+            if(this.editStepTwoA){
+                this.ApiUrlData = api.EditVirtStep_b;
+                this.editFormData = {
+                    token: getToken(),
+                    model_id: mid,
+                    schedule_id: sid,
+                }
+            }else if(this.editStepTwoB){
+                this.ApiUrlData = api.checkGradeSche;
+                this.editFormData = {
+                    token: getToken(),
+                    id: did,
+                    schedule_id: sid,
+                }
             }
             this.$http(this.ApiUrlData, {
                 params: this.editFormData
@@ -1191,7 +1199,7 @@ export default {
                                 x.teachDay = [];
                                 this.virtStep2Data.push(x)
                             });
-                        }else if(this.editStepTwoB){  //初始数据未改变！
+                        }else if(this.editStepTwoB){
                             //时间戳转换年月日
                             Date.prototype.toLocaleString = function() {
                                 return this.getFullYear() + "-" + (this.getMonth() + 1) + "-" + this.getDate();
@@ -1244,7 +1252,7 @@ export default {
                             type: 'error',
                             duration: '1000',
                             onClose: () => {
-                                // window.location.reload(true);
+                                window.location.reload(true);
                             }
                         });
                         this.loading = false;
@@ -1836,15 +1844,15 @@ export default {
                 this.commonSubmit_B.apiUrl = api.editGradeModel_B;
             }
 
-            console.log('查看----')
-            console.log(this.commonSubmit_B.formData)
+            // console.log('查看----')
+            // console.log(this.commonSubmit_B.formData)
 
             this.$http({
                 url: this.commonSubmit_B.apiUrl,
                 method: 'post',
                 data: this.commonSubmit_B.formData
             }).then((res) => {
-                console.log(res)
+                // console.log(res)
                 if (res.status == 200) {
                     if(res.data.code!=400){
                         this.$notify({
@@ -1852,7 +1860,7 @@ export default {
                             type: 'success',
                             duration: 1000,
                             onClose: () => {
-                                // window.location.reload(true);
+                                window.location.reload(true);
                             }
                         });
                     }else{
@@ -2067,6 +2075,60 @@ export default {
                                 window.location.reload(true);
                             }
                         });
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
+        //班级年级日志
+       classGradeLog(id,obj,start,end,type) {
+            if(start.length != 0 && end.length != 0){
+                start =  Date.parse(new Date(start)) / 1000;
+                end =  Date.parse(new Date(end)) / 1000;
+            }else if(start.length != 0){
+                start =  Date.parse(new Date(start)) / 1000;
+            }else if(end.length != 0){
+                end =  Date.parse(new Date(end)) / 1000;
+            }
+            this.$http(api.classGradeLog, {
+                params: {
+                    token: getToken(),
+                    department_id: id,
+                    page: obj.curpage,
+                    curpage: obj.one_pagenum,
+                    operate_start_time: start,
+                    operate_end_time: end,
+                    operate_type: type
+                }
+            }).then((res) => {
+                console.log(res);
+                if (res.status == 200) {
+                    if(res.data.code!=400){
+                        this.suspendData = [];  
+                        let _data = res.data.data;
+                        _data.forEach((x) => {
+                            this.suspendData.push({
+                                why: x.operate_reason,
+                                who: x.operate_person,
+                                when: x.operate_time,
+                                whether: x.show_cancel,
+                                type: x.operate_type,
+                                record: x.record_id,   
+                                detial: x.detail,
+                            })
+                        })
+                        this.pageParams.hasmore = res.data.hasmore;   
+                        this.pageParams.curpage = res.data.page;    //当前第几页
+                        this.pageParams.page_count = res.data.all_pagecount;  //总共多少页
+                        this.pageParams.total_num = parseInt(res.data.page_total);   //总共多少条数据
                     }else{
                         this.$notify.error({
                             message: res.data.data.error

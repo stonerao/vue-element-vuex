@@ -186,15 +186,13 @@ export default {
 			this.loading = true;
     		this.editVStakeover = true;
     		if(this.editStepTwoA){
-    			console.log("初始数据变更！")
+    			// console.log("初始数据变更！")
     			info.EditVirtStep_b.call(this,this.editModelID,this.editScheID);  //初始获取数据
 	       		info.subjectData.call(this);  //加载科目
     		}else if(this.editStepTwoB){
-    			console.log("初始数据未变更！")
-		    	console.log(this.editModelID)
-    			console.log(this.editScheID)
+    			// console.log("初始数据未变更！")
     			this.editVStake = true;
-    			info.EditVirtStep_b.call(this,this.editModelID,this.editScheID);  //初始获取数据
+    			info.EditVirtStep_b.call(this,this.editModelID,this.editScheID,this.derpartID);  //初始获取数据
 	       		info.subjectEdit.call(this);  
     		}
     	}else{    //排课
