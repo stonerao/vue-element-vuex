@@ -1054,20 +1054,20 @@ export default {
                 this.apiURL = api.virtualD;
             }
 
-            // let form={
-            //         token: getToken(),
-            //         name: search.name,  //学期名字
-            //         model_id: mod.id,
-            //         department_id: mod.deparId,   //班级id
-            //         end_time: search.endTime,
-            //         start_time: search.startTime,
-            //         teaching_each_day: this.teachingsDay,
-            //         summer_hours_time: this.summerYearTime,
-            //         winter_hours_time: this.winerYearTime,
-            //         year_hours_time: this.allYeartime,
-            //         timetable: this.virtDataTable,
-            // }
-            // console.log(form)
+            let form={
+                    token: getToken(),
+                    name: search.name,  //学期名字
+                    model_id: mod.id,
+                    department_id: mod.deparId,   //班级id
+                    end_time: search.endTime,
+                    start_time: search.startTime,
+                    teaching_each_day: this.teachingsDay,
+                    summer_hours_time: this.summerYearTime,
+                    winter_hours_time: this.winerYearTime,
+                    year_hours_time: this.allYeartime,
+                    timetable: this.virtDataTable,
+            }
+            console.log(form)
 
             this.$http({
                 url: this.apiURL,
@@ -1094,7 +1094,7 @@ export default {
                             type: 'success',
                             duration: 1000,
                             onClose: () => {
-                                window.location.reload(true);
+                                // window.location.reload(true);
                             }
                         });
                     }else{
@@ -1592,7 +1592,8 @@ export default {
             };
             if(this.creatGrade){  //创建
                 this.commonSubmit_A.apiUrl = api.creatGradeModelA;
-                this.commonSubmit_A.formData.department_id = this.departId;
+                this.commonSubmit_A.formData.department_id = this.departID;
+                // this.commonSubmit_A.formData.department_id = this.departId;
             }else if(this.editDrade){   //编辑
                 this.commonSubmit_A.apiUrl = api.editGradeModel_A;
                 this.commonSubmit_A.formData.model_id = this.EditModuleID;
@@ -1859,7 +1860,7 @@ export default {
                             type: 'success',
                             duration: 1000,
                             onClose: () => {
-                                // window.location.reload(true);
+                                window.location.reload(true);
                             }
                         });
                     }else{
