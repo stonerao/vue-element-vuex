@@ -57,12 +57,24 @@ export default {
     //     })
     // }
     questions_add(option,answer){
+        let qc_id = this.belongClass3?this.belongClass3:(this.belongClass2?this.belongClass2:this.belongClass1) ;
+        let obj = {
+            token: getToken(),
+            qc_id: qc_id, 
+            is_share:this.selectVal?'1':'2',//是否共享 1：是，2：否
+            q_type_id:this.questionClass,//题型ID
+            answer:answer,//参考的答案
+            option:option?encodeUnicode(JSON.stringify(option)):'',//选项内容 json
+            q_title:this.textF,//题干
+        }
+        console.log(obj)
+        return
         this.$http({
             method: "post",
             url: api.questions_add,
             data: {
                 token: getToken(),
-                qc_id: this.isBelongSelect, 
+                qc_id: qc_id, 
                 is_share:this.selectVal?'1':'2',//是否共享 1：是，2：否
                 q_type_id:this.questionClass,//题型ID
                 answer:answer,//参考的答案

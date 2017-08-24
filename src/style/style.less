@@ -1044,6 +1044,17 @@ body,
     }
 }
 
+.r-alertbox(@width: 0px, @height: 0) {
+    width: @width;
+    height: @height;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    border-radius: 10px;
+}
+
 .r-alert {
     position: fixed;
     top: 0;
@@ -1070,16 +1081,54 @@ body,
         font-size: 16px;
         text-indent: 25px;
         border-bottom: 1px solid #ededed;
+        position: relative;
     }
     .r-exam {
-        width: 465px;
-        height: 325px;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background: #fff;
-        border-radius: 10px;
+        // width: 465px;
+        // height: 325px;
+        // position: absolute;
+        // top: 50%;
+        // left: 50%;
+        // transform: translate(-50%, -50%);
+        // background: #fff;
+        // border-radius: 10px;
+        .r-alertbox(@width: 464px, @height: 325px);
+    }
+    .r-alert-quesbox {
+        .r-alertbox(@width: 751px, @height: 560px);
+        overflow: hidden;
+    }
+    .r-alert-quesCent {
+        overflow-y: auto;
+        width: 700px;
+        margin: 20px;
+        height: 470px;
+        >ul {
+            li {
+                overflow: hidden;
+                line-height: 26px;
+                >div {
+                    float: left;
+                }
+                .r-quesq-tittle {
+                    text-align: right;
+                    font-weight: bold;
+                    width: 100px
+                }
+                .r-quesq-box {
+                    width: 598px;
+                }
+            }
+            .color-red {
+                color: red;
+            }
+            .back-hui {
+                background: #dcdcdc;
+            }
+            .r-margin-re {
+                margin-top: 20px;
+            }
+        }
     }
 }
 
@@ -1109,58 +1158,68 @@ body,
     width: 22px;
     height: 22px;
 }
-.r-over:hover{
-    color:@color;
-    border-color:@color;
+
+.r-over:hover {
+    color: @color;
+    border-color: @color;
 }
-.r-over:hover::after{
-    color:@color;
+
+.r-over:hover::after {
+    color: @color;
 }
-.r-question-radio{
-    border:@border;
-    padding:20px 30px;
-    margin-top:20px;
-    border-color:rgb(191, 203, 217);
+
+.r-question-radio {
+    border: @border;
+    padding: 20px 30px;
+    margin-top: 20px;
+    border-color: rgb(191, 203, 217);
     overflow: hidden;
-    >div{
+    >div {
         position: relative;
     }
 }
-.r-ques-delet{
-    color:#F12424;
-    font-size:24px;
+
+.r-ques-delet {
+    color: #F12424;
+    font-size: 24px;
     position: relative;
-    top:10px;
-    left:15px;
+    top: 10px;
+    left: 15px;
     cursor: pointer;
     transition: all .2s;
 }
-.r-ques-delet:hover{
-    color:#DB5757;
+
+.r-ques-delet:hover {
+    color: #DB5757;
 }
-.r-question-radio-select{
+
+.r-question-radio-select {
     position: relative;
     overflow: hidden;
-    top:2px;
+    top: 2px;
 }
-.r-ques-addbutton{
-    border:0;
-    color:#fff;
+
+.r-ques-addbutton {
+    border: 0;
+    color: #fff;
     background: #ec6a41;
-    width:88px;
-    height:35px;
+    width: 88px;
+    height: 35px;
     cursor: pointer;
     transition: all .2s;
 }
-.r-ques-addbutton:hover{
+
+.r-ques-addbutton:hover {
     background: #FB9473;
 }
-.r-duo-select{
-    border:1px solid rgb(204, 213, 224);
-    padding:5px 10px;
-    width:15%;
-    max-width:250px;
-    min-width:200px;
-    float: left;margin-right:10px;
-    margin-bottom:10px;
+
+.r-duo-select {
+    border: 1px solid rgb(204, 213, 224);
+    padding: 5px 10px;
+    width: 15%;
+    max-width: 250px;
+    min-width: 200px;
+    float: left;
+    margin-right: 10px;
+    margin-bottom: 10px;
 }
