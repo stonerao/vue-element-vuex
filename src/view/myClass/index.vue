@@ -14,12 +14,12 @@
               <img src="../../assets/index/shuaxin.png" class="icon-img-xs cursor"/>刷新-共{{total}}条记录
             </el-col>
             <el-col :span="7">
-              <el-select @change="teacherChoose" v-model="teacher" placeholder="选择老师" size="small" class="rt">
+              <el-select @change="teacherChoose" v-model="teacher" v-if="isShow==1" placeholder="选择老师" size="small" class="rt">
                 <el-option v-for="(item,index) in teacherList" :label="item.teacher_name" :value="index">
                 </el-option>
               </el-select>
             </el-col>
-            <el-col :span="6" :offset="1">
+            <el-col :span="6" :offset="isShow==1 ? 1:8">
               <el-input placeholder="请输入班级名称(例：1班)" icon="search" size="small" v-model="keywords" :on-icon-click="handleIconClick">
               </el-input>
             </el-col>
@@ -88,6 +88,7 @@
         keywords:"",//年/班级名称
         classList:[],//班级列表
         teacherList:[],//获取某老师所处节点及向下所有节点的组织部门ID+老师ID+老师姓名
+        isShow:'',//是否展示选择老师
         teacher:"",//选择老师
         classInfo:{},//班级信息
         listDetail:[],//班级详情列表

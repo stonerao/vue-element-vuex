@@ -31,7 +31,8 @@ export default {
     }).then((res)=>{
       console.log(res)
       if(res.data.code==200){
-        this.teacherList=res.data.data.teacher_list
+        this.teacherList=res.data.data.teacher_list;
+        this.isShow=res.data.data.is_show;
       }
     })
   },
