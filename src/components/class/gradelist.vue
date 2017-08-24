@@ -20,7 +20,7 @@
 		                        <div class="button-group">
 		                            <el-button size="small" v-if="gra.have_model_status == 1" @click.native="checkModel(gra.model_id)">查看模板</el-button>
 		                            <el-button size="small" v-if="gra.have_model_status == 2" @click.native="buildModel(gra.department_id)">创建模板</el-button>
-		                            <el-button size="small" v-if="gra.have_model_status == 1" @click.native="showClassLog(gra.department_id)">日志</el-button>
+		                            <el-button size="small" :disabled="gra.have_model_status == 2" @click.native="showClassLog(gra.department_id)">日志</el-button>
 		                        </div>
 		                    </div>
 		                </li>

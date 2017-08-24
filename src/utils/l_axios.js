@@ -1204,6 +1204,7 @@ export default {
                                 this.virtStep2Data.push(x)
                             });
                         }else if(this.editStepTwoB){
+                            let virtStep2Data = res.data.data.model_common;
                             //时间戳转换年月日
                             Date.prototype.toLocaleString = function() {
                                 return this.getFullYear() + "-" + (this.getMonth() + 1) + "-" + this.getDate();
@@ -1218,18 +1219,13 @@ export default {
                             this.moduleName = res.data.data.department_name;
                             this.virtStep2Data = [];
 
-                            if(res.data.data.school_time_type == 1){
-                                this.sesson = '夏季节次'
+                            if(parseInt(res.data.data.time_line) != 1){
                                 this.studyType = 2;
-                            }else if(res.data.data.school_time_type == 2){
-                                this.sesson = '冬季节次'
-                                this.studyType = 2;
-                            }else if(res.data.data.school_time_type == 3){
-                                this.sesson = '全年节次'
+                            }else{
                                 this.studyType = 1;
                             }
-                            let virtStep2Data = res.data.data.model_common;
-                            if(this.studyType = 1){
+
+                            if(this.studyType == 1){
                                 virtStep2Data.forEach((x) => {
                                     x.class_timeS = [];
                                     x.class_timeW = [];
@@ -1240,8 +1236,8 @@ export default {
                                 });
                             }else{
                                 virtStep2Data.forEach((x) => {
-                                    x.class_timeS = [new Date(2016, 9, 10, String(x.schedule_time).split(',')[0].split(':')[0], String(x.schedule_time).split('-')[0].split(':')[1]),new Date(2016, 9, 10, String(x.schedule_time).split(',')[1].split(':')[0], String(x.schedule_time).split('-')[1].split(':')[1])];
-                                    x.class_timeW = [new Date(2016, 9, 10, String(x.schedule_time).split(',')[0].split(':')[0], String(x.schedule_time).split('-')[0].split(':')[1]),new Date(2016, 9, 10, String(x.schedule_time).split(',')[1].split(':')[0], String(x.schedule_time).split('-')[1].split(':')[1])];
+                                    x.class_timeS = [new Date(2016, 9, 10, String(x.schedule_time).split(',')[0].split('-')[0].split(':')[0], String(x.schedule_time).split(',')[0].split('-')[0].split(':')[1]),new Date(2016, 9, 10, String(x.schedule_time).split(',')[0].split('-')[1].split(':')[0], String(x.schedule_time).split(',')[0].split('-')[1].split(':')[1])];
+                                    x.class_timeW = [new Date(2016, 9, 10, String(x.schedule_time).split(',')[1].split('-')[0].split(':')[0], String(x.schedule_time).split(',')[1].split('-')[0].split(':')[1]),new Date(2016, 9, 10, String(x.schedule_time).split(',')[1].split('-')[1].split(':')[0], String(x.schedule_time).split(',')[1].split('-')[1].split(':')[1])];
                                     x.class_time = [];
                                     x.teachDay = [];
                                     x.timetable = x.content;
@@ -1406,7 +1402,7 @@ export default {
                     if(res.data.code!=400){
                         let data = res.data.data;
                         this.gradList = [];
-                        
+
                         if (data.length != 0) {
                             this.hasData = true;
                             data.forEach((x) => {

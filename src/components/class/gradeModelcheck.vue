@@ -21,7 +21,7 @@
 	                    </el-col>
 	                </el-row>
 	            </div>
-				<div class="sche_table createCheckbox" style="padding: 0;">
+				<div class="sche_table createCheckbox" style="padding: 0;margin-top: 20px;">
 					<el-table :data="EditGradeData" border style="width: 100%">
 						<el-table-column label="时段">
 							<template scope="scope">
