@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-select v-if="underTeacherList.is_show!=2&&isClass==2" v-model="uteacher" @change="uteacherChoose" placeholder="请选择老师">
+    <el-select v-if="underTeacherList.is_show!=2&&isClass==2" v-model="uteacher" @change="uteacherChoose" placeholder="请选择老师" size="small">
       <el-option v-for="item in underTeacherList.teacher_list" :key="item.teacher_id" :label="item.teacher_name" :value="item.teacher_id"></el-option>
     </el-select>
   </div>

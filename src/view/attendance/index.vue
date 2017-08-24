@@ -19,7 +19,7 @@
                 <div v-if="state==2&&addState!=1">
                   <relieveClass :total="total" :checkTypeList="checkTypeList" :list="relList" @apply="showAdd" @typeChange="changeType" :underTeacherList="underTeacherList" @ChooseTeacher="teacherChoose" ></relieveClass>
                 </div>
-                <!--考勤统计-->
+                <!--考勤统计(老师和学生自己的)-->
                 <div v-if="state==3">
                   <attendance :total="total" :list="attList" :isClassLogin="isClassLogin" @attTimeChange="attTimeChange" :underTeacherList="underTeacherList" @ChooseTeacher="teacherChoose" ></attendance>
                 </div>
@@ -27,28 +27,28 @@
               <div v-if="state==4">
                 <waitApprove :total="total" :checkTypeList="checkTypeList" :list="waitList" @apply="showAdd" @typeChange="changeType" @chooseApprove="approveChoose"></waitApprove>
               </div>
-              <!--老师考勤-->
+              <!--学生请假申请-->
+              <div v-if="state==8">
+                <stuApply :list="stuApplyList" :total="total" @typeChange="changeType" @leaveApply="applyLeave"></stuApply>
+              </div>
+              <!--学校中心老师考勤-->
               <div v-if="state==5">
-                <sAttendance :total="total" :list="attList" :isClassLogin="isClassLogin"></sAttendance>
+                <sAttendance :total="total" :list="sAttList" :state="state"></sAttendance>
               </div>
-              <!--学生考勤-->
+              <!--学校中心学生考勤-->
               <div v-if="state==6">
-                <sAttendance :total="total" :list="attList" :isClassLogin="isClassLogin"></sAttendance>
+                <sAttendance :total="total" :list="sAttList" :state="state"></sAttendance>
               </div>
-              <!--班级考勤-->
-              <div v-if="state==7"></div>
+              <!--学校中心班级考勤-->
+              <div v-if="state==7">
+                <sAttendance :total="total" :list="sAttList" :gradeList="gradeList" :classList="classList" :lessonList="lessonList" :state="state" @changeType="chooseClass" @chooseClass="classChoose"></sAttendance>
+              </div>
                 <!--填写申请-->
                 <div v-if="addState==1">
                   <applyAdd :state="state" @changeAddState="changeAdd" @submit="submitApply"></applyAdd>
                 </div>
                 <div class="kd-page" v-else>
                 <el-row>
-                  <!--<el-col :span="12" style="padding-left:15px">-->
-                    <!--<el-select v-model="Msg" placeholder="请选择" size="small" class="margin-left">-->
-                      <!--<el-option v-for="item in attList" :key="item.leave_desc" :label="item.leave_desc" :value="item.sign_leaveid">-->
-                      <!--</el-option>-->
-                    <!--</el-select>-->
-                  <!--</el-col>-->
                   <el-col :span="24">
                     <el-pagination class="float-right" :current-page="currentPage" :page-sizes="[10, 15, 20, 25]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total" @size-change="handleSizeChange" @current-change="handleCurrentChange">
                     </el-pagination>
@@ -73,6 +73,7 @@ import relieveClass from '@/components/attendance/relieveClass'
 import attendance from '@/components/attendance/attendance'
 import waitApprove from '@/components/attendance/waitApprove'
 import sAttendance from '@/components/attendance/sAttendance'
+import stuApply from '@/components/attendance/stuApplyLeave'
 import att from '@/utils/attendance'
 import { getClass } from '@/utils/auth'
 import { getToken } from '@/utils/auth'
@@ -84,7 +85,7 @@ export default {
                 `该页面展示管理员的操作日志，可进行删除。`,
                 `侧边栏可以进行高级搜索`
             ],
-            state: 0,
+            state: 7,
             addState:0,//显示申请页面
             promptsPad: true,
             total:0,//总条数
@@ -103,6 +104,11 @@ export default {
             stime:'',//考勤统计时间开始
             etime:'',//考勤统计时间结束
             underTeacherList:{},//获取某老师所处节点及向下所有节点的组织部门ID+老师ID+老师姓名
+            stuApplyList:[],//学生请假申请列表
+            sAttList:[],//学校中心考勤列表
+            gradeList:[],//学校中心班级年级列表
+            classList:[],//学校中心班级班级列表
+            lessonList:[],//学校中心班级课节列表
         }
     },
     created() {
@@ -114,7 +120,8 @@ export default {
           { name: "调课管理", index: 1 },
           { name: "代课管理", index: 2 },
           { name: "考勤统计", index: 3 },
-          { name: "待我审批", index: 4 }
+          { name: "待我审批", index: 4 },
+          { name: "学生请假", index: 8 }
         ]
       }else if(this.isClassLogin==1){
         this.titleItem=[
@@ -132,7 +139,7 @@ export default {
       att.under_teacher_list.call(this);
     },
     components: {
-        titleItem, titleActive, description, bottomItem,applyAdd,applyLeave,changeClass,relieveClass,attendance,waitApprove,sAttendance
+        titleItem, titleActive, description, bottomItem,applyAdd,applyLeave,changeClass,relieveClass,attendance,waitApprove,sAttendance,stuApply
     },
     methods: {
         emitTransfer(index) {
@@ -185,8 +192,12 @@ export default {
           att.relieve_list.call(this);
         }else if(this.state==3){
           att.attendance_list.call(this)
-        }else{
+        }else if(this.state==4){
           att.approve_list.call(this)
+        }else if(this.state==8){
+          att.stu_apply_list.call(this)
+        }else{
+          att.s_attendance_list.call(this)
         }
       },
       //每页条数变化
@@ -199,7 +210,7 @@ export default {
         this.currentPage=val;
         this.refreshList();
       },
-      //审核状态选择(请假管理、调课管理、代课管理、待我审批)
+      //审核状态选择(请假管理、调课管理、代课管理、待我审批、学生请假)
       changeType(val){
         this.status=val;
         this.refreshList();
@@ -235,15 +246,21 @@ export default {
           });
         }
       },
-      //学校中心老师请假审批
+      //请假审批(学校中心和老师中心)
       applyLeave(num,id){
         if(num==2){
-          this.$confirm('确定同意吗?', '提示', {
+          this.$confirm('确定同意申请吗?', '提示', {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
             type: 'warning'
           }).then(() => {
-            att.sapply_leave.call(this,num,id)
+            //学校中心老师请假审批
+            if(this.isClassLogin==1){
+              att.sapply_leave.call(this,num,id)
+            }else{
+              //老师中心学生请假审批
+              att.stu_apply_approve.call(this,num,id)
+            }
           }).catch(() => {
             this.$message({
               type: 'info',
@@ -251,12 +268,18 @@ export default {
             });
           });
         }else{
-          this.$confirm('确定拒绝吗?', '提示', {
+          this.$confirm('确定拒绝申请吗?', '提示', {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
             type: 'warning'
           }).then(() => {
-            att.sapply_leave.call(this,num,id)
+            //学校中心老师请假审批
+            if(this.isClassLogin==1){
+              att.sapply_leave.call(this,num,id)
+            }else{
+              //老师中心学生请假审批
+              att.stu_apply_approve.call(this,num,id)
+            }
           }).catch(() => {
             this.$message({
               type: 'info',
@@ -274,6 +297,14 @@ export default {
       //获取某老师所处节点及向下所有节点的组织部门ID+老师ID+老师姓名
       teacherChoose(){
         this.refreshList();
+      },
+      //学校中心班级考勤(获取班/年级数据)
+      chooseClass(type,pid){
+        att.s_attendance_list.call(this,type,pid);
+      },
+      //学校中心班级考勤(获取课节)
+      classChoose(id,time){
+        att.get_schedule_lesson.call(this,id,time)
       }
     },
     watch:{
@@ -283,6 +314,7 @@ export default {
       state(){
         this.currentPage=1;
         this.pageSize=10;
+        this.total=0;
         this.refreshList();
       }
     }
