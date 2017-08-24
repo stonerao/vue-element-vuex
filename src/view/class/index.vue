@@ -46,7 +46,7 @@
                                             <div class="button-group">
                                                 <el-button size="small" :disabled="gra.add_status == 0" @click.native="schedule(gra.department_id,gra.special_tag)">排课</el-button>
                                                 <el-button size="small" :disabled="gra.info_status == 0" @click.native="checkSchedule(gra.department_id,gra.special_tag)">查课</el-button>
-                                                <el-button size="small">日志</el-button>
+                                                <el-button size="small" @click.native="showClassLog()">日志</el-button>
                                             </div>
                                         </div>
                                     </li>
@@ -376,6 +376,9 @@ export default {
             this.tab_0 = true;
             this.tab_x_1 = false;
             this.loading = false;
+        },
+        showClassLog(){   //班级日志（暂时不做）
+
         }
     },
     watch:{

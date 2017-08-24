@@ -833,7 +833,7 @@ export default {
                     }
                 }
 
-                console.log(time.start);
+                // console.log(time.start);
 
             }
             this.formData = {
@@ -1065,7 +1065,7 @@ export default {
                     summer_hours_time: this.summerYearTime,
                     winter_hours_time: this.winerYearTime,
                     year_hours_time: this.allYeartime,
-                    timetable: this.virtDataTable,
+                    timetable: encodeUnicode(JSON.stringify(this.virtDataTable)),
             }
             console.log(form)
 
@@ -1124,6 +1124,7 @@ export default {
                         this.moduleName = res.data.data.department_name;   
                         this.editVirBeginData = res.data.data;
                         this.editScheID = res.data.data.schedule_id;   //编辑第二步
+                        // this.editModelID = res.data.data.model_id;   //编辑第二步
                         let week_begin = (res.data.data.teaching_day).split(',');
                             week_begin.forEach((x)=> {
                                 x = parseInt(x) - 1;
@@ -1162,21 +1163,12 @@ export default {
         },
 
         // 虚拟班-编辑-第二步展示页面
-        EditVirtStep_b(mid,sid,did) {
-            if(this.editStepTwoA){
-                this.ApiUrlData = api.EditVirtStep_b;
-                this.editFormData = {
-                    token: getToken(),
-                    model_id: mid,
-                    schedule_id: sid,
-                }
-            }else if(this.editStepTwoB){
-                this.ApiUrlData = api.checkGradeSche;
-                this.editFormData = {
-                    token: getToken(),
-                    id: did,
-                    schedule_id: sid,
-                }
+        EditVirtStep_b(mid,sid) {
+            this.ApiUrlData = api.EditVirtStep_b;
+            this.editFormData = {
+                token: getToken(),
+                model_id: mid,
+                schedule_id: sid,
             }
             this.$http(this.ApiUrlData, {
                 params: this.editFormData
@@ -1199,7 +1191,7 @@ export default {
                                 x.teachDay = [];
                                 this.virtStep2Data.push(x)
                             });
-                        }else if(this.editStepTwoB){
+                        }else if(this.editStepTwoB){  //初始数据未改变！
                             //时间戳转换年月日
                             Date.prototype.toLocaleString = function() {
                                 return this.getFullYear() + "-" + (this.getMonth() + 1) + "-" + this.getDate();
@@ -1229,15 +1221,15 @@ export default {
                                 virtStep2Data.forEach((x) => {
                                     x.class_timeS = [];
                                     x.class_timeW = [];
-                                    x.class_time = [new Date(2016, 9, 10, String(x.schedule_tim).split('-')[0].split(':')[0], String(x.schedule_time).split('-')[0].split(':')[1]),new Date(2016, 9, 10, String(x.schedule_time).split('-')[1].split(':')[0], String(x.schedule_time).split('-')[0].split(':')[1])];
+                                    x.class_time = [new Date(2016, 9, 10, String(x.schedule_time).split('-')[0].split(':')[0], String(x.schedule_time).split('-')[0].split(':')[1]),new Date(2016, 9, 10, String(x.schedule_time).split('-')[1].split(':')[0], String(x.schedule_time).split('-')[0].split(':')[1])];
                                     x.teachDay = [];
                                     x.timetable = x.content;
                                     this.virtStep2Data.push(x);
                                 });
                             }else{
                                 virtStep2Data.forEach((x) => {
-                                    x.class_timeS = [new Date(2016, 9, 10, String(x.sumber_time).split(',')[0].split(':')[0], String(x.sumber_time).split('-')[0].split(':')[1]),new Date(2016, 9, 10, String(x.sumber_time).split(',')[1].split(':')[0], String(x.sumber_time).split('-')[1].split(':')[1])];
-                                    x.class_timeW = [new Date(2016, 9, 10, String(x.winer_time).split(',')[0].split(':')[0], String(x.winer_time).split('-')[0].split(':')[1]),new Date(2016, 9, 10, String(x.winer_time).split(',')[1].split(':')[0], String(x.winer_time).split('-')[1].split(':')[1])];
+                                    x.class_timeS = [new Date(2016, 9, 10, String(x.schedule_time).split(',')[0].split(':')[0], String(x.schedule_time).split('-')[0].split(':')[1]),new Date(2016, 9, 10, String(x.schedule_time).split(',')[1].split(':')[0], String(x.schedule_time).split('-')[1].split(':')[1])];
+                                    x.class_timeW = [new Date(2016, 9, 10, String(x.schedule_time).split(',')[0].split(':')[0], String(x.schedule_time).split('-')[0].split(':')[1]),new Date(2016, 9, 10, String(x.schedule_time).split(',')[1].split(':')[0], String(x.schedule_time).split('-')[1].split(':')[1])];
                                     x.class_time = [];
                                     x.teachDay = [];
                                     x.timetable = x.content;
@@ -1252,7 +1244,7 @@ export default {
                             type: 'error',
                             duration: '1000',
                             onClose: () => {
-                                window.location.reload(true);
+                                // window.location.reload(true);
                             }
                         });
                         this.loading = false;
@@ -1860,7 +1852,7 @@ export default {
                             type: 'success',
                             duration: 1000,
                             onClose: () => {
-                                window.location.reload(true);
+                                // window.location.reload(true);
                             }
                         });
                     }else{

@@ -33,7 +33,7 @@
 	                        <span v-if="scope.row.lesson == 4">晚上</span>
 	                    </template>
 	                </el-table-column>
-	                <el-table-column label="节次" v-if="studyType == 1">
+	                <el-table-column label="全年节次" v-if="studyType == 1">
 	                    <template scope="scope">
 	                   		<el-time-picker is-range v-model="scope.row.class_time" placeholder="选择时间" format="HH:mm" style="width: 100%;"></el-time-picker>
 	                    </template>
@@ -191,8 +191,10 @@ export default {
 	       		info.subjectData.call(this);  //加载科目
     		}else if(this.editStepTwoB){
     			console.log("初始数据未变更！")
+		    	console.log(this.editModelID)
+    			console.log(this.editScheID)
     			this.editVStake = true;
-    			info.EditVirtStep_b.call(this,this.editModelID,this.editScheID,this.derpartID);  //初始获取数据
+    			info.EditVirtStep_b.call(this,this.editModelID,this.editScheID);  //初始获取数据
 	       		info.subjectEdit.call(this);  
     		}
     	}else{    //排课
