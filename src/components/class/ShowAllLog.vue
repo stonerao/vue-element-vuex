@@ -52,52 +52,22 @@
                         </el-col>
                     </el-row>
                 </div>
+                <div class="myDialog">
+                    <div class="ownDailog" @click="Close_mask" v-if="Dailog">
+                        <div class="close_btn">
+                            <i class="el-icon-close"></i>
+                        </div>
+                        <div class="content">
+                            测试内容
+                        </div>
+                    </div>
+                    <div class="dialog_mask" v-if="Dailog" @click="Close_mask"></div>
+                </div>
             </div>
         </div>
 
-        <!-- 新增停课 -->
-       <!--  <div v-if="suspend_add">
-            <div class="l_virtual_wraper">
-                <div class="form_group">
-                    <ul class="clearfloat">
-                        <li class="header">停课范围：</li>
-                        <li>全校</li>
-                    </ul>
-                </div>
-                <div class="form_group">
-                    <ul class="clearfloat">
-                        <li class="header">停课时间：</li>
-                        <li>
-                            <div class="inline-block">
-                                <el-date-picker v-model="addStart" type="datetime" placeholder="选择日期"></el-date-picker>
-                            </div>
-                            <div class="inline-block middle_zhi">至</div>
-                            <div class="inline-block">
-                                <el-date-picker v-model="addEnd" type="datetime" placeholder="选择日期" :picker-options="pickerOptions2" :disabled="canNotc"></el-date-picker>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-                <div class="form_group">
-                    <ul class="clearfloat">
-                        <li class="header">停课原因：</li>
-                        <li style="width: 550px;height: auto;line-height: 23px;">
-                           <el-input type="textarea" v-model="susReason"></el-input>
-                        </li>
-                    </ul>
-                </div>
-                <div class="form_group">
-                    <ul class="clearfloat">
-                        <li class="header"></li>
-                        <li>
-                            <el-button type="primary" @click.native="susAdd">保存</el-button>
-                            <el-button @click.native="susCancel">取消</el-button>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div> -->
     </div>
+
 </template>
 
 <script>
@@ -137,6 +107,7 @@ export default {
               value: '3',
               label: '代课'
             }],
+            Dailog: false,   //查看详情弹窗
         }
     },
     created() {
@@ -169,8 +140,11 @@ export default {
         sus_filter(){
            info.classGradeLog.call(this,this.IDCard,this.pageParams,this.search_begin,this.search_end,this.search_type);
         },
-        showDetail(){
-
+        showDetail(rid){   //弹窗
+            this.Dailog = true;
+        },
+        Close_mask(){
+            this.Dailog = false;
         },
         handleSizeChange(val) {
             this.pageParams.one_pagenum = val;

@@ -50,7 +50,7 @@
             <div v-if="switch_3">
                 <ShowAllLog :IDCard="IDCard" :GradeIdentity="GradeIdentity" @SHOWLOGBACK="LogoBack"></ShowAllLog>
             </div>
-
+                
 	    </div>
 	</div>
 </template>
