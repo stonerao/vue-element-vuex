@@ -401,11 +401,14 @@ export default {
     })
   },
   //学校中心班级考勤记录（查看班级学生考勤统计)
-  show_classstudent_static(){
+  show_classstudent_static(data){
     this.$http(api.showClassStudentStatic,{
-      params:{
-
+      params:data
+    }).then((res)=>{
+      if(res.data.code==200){
+        this.sAttList.push(res.data.data);
       }
     })
-  }
+  },
+
 }

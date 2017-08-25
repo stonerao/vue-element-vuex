@@ -41,7 +41,7 @@
               </div>
               <!--学校中心班级考勤-->
               <div v-if="state==7">
-                <sAttendance :total="total" :list="sAttList" :gradeList="gradeList" :classList="classList" :lessonList="lessonList" :state="state" @changeType="chooseClass" @chooseClass="classChoose"></sAttendance>
+                <sAttendance :total="total" :list="sAttList" :gradeList="gradeList" :classList="classList" :lessonList="lessonList" :state="state" @changeType="chooseClass" @chooseClass="classChoose" @getSList="getsAttList"></sAttendance>
               </div>
                 <!--填写申请-->
                 <div v-if="addState==1">
@@ -300,12 +300,19 @@ export default {
       },
       //学校中心班级考勤(获取班/年级数据)
       chooseClass(type,pid){
+        this.classList=[];
+        this.lessonList=[];
         att.s_attendance_list.call(this,type,pid);
       },
       //学校中心班级考勤(获取课节)
       classChoose(id,time){
         att.get_schedule_lesson.call(this,id,time)
-      }
+      },
+      //学校中心班级考勤(获取班级考勤列表)
+      getsAttList(data){
+        this.sAttList=[];
+        att.show_classstudent_static.call(this,data)
+      },
     },
     watch:{
       addState(){
