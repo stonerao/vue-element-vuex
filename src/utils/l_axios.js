@@ -206,6 +206,9 @@ export default {
                 console.log(res);
                 if (res.status === 200) {
                     if(res.data.code!=400){
+                        this.lookover = false;
+                        this.class_adjust = true;
+                        this.adj_step1 = true;
                        this.adjArea = res.data.data.range_name;
                     }else{
                         this.$notify({
@@ -213,7 +216,7 @@ export default {
                             type: 'error',
                             duration: 1000,
                             onClose: () => {
-                                window.location.reload(true);
+                                history.go(0);
                             }
                         });
                         this.loading = false;
@@ -693,6 +696,8 @@ export default {
                 console.log(res);
                 if (res.status === 200) {
                     if(res.data.code!=400){
+                        this.lookover = false;
+                        this.class_stop = true;
                         this.stopArea = res.data.data.range_name;
                     }else{
                         this.$notify({

@@ -454,17 +454,12 @@ export default {
 
         },
         adjust(){
-            this.lookover = false;
-            this.class_adjust = true;
-            this.adj_step1 = true;
             info.adjustStepA.call(this,this.schedule_id,this.classType);
         },
         stopSave(){
             info.classStopSave.call(this,this.classType,this.stoPtime,this.stopareaVal);
         },
         takestop(){  //停课
-            this.lookover = false;
-            this.class_stop = true;
             info.classStopBegin.call(this,this.schedule_id);
         },
         takeoverClass(){
