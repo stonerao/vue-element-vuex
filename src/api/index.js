@@ -36,4 +36,7 @@ export const api = {
     question_type:"Teacher/Examinationcenter/question_type",//题干类型 
     question_classlist:"Teacher/Examinationcenter/question_classlist",//题库分类列表 
     questions_add:"Teacher/Examinationcenter/questions_add",//添加试题 
+    question_list:"Teacher/Examinationcenter/question_list",//试题列表 
+    question_delete:"Teacher/Examinationcenter/question_delete",//删除题库 
+    question_info:"Teacher/Examinationcenter/question_info",//试题详情 
 }

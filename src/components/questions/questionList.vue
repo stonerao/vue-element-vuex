@@ -17,47 +17,69 @@
             <el-table-column type="selection" width="55">
             </el-table-column>
             <el-table-column label="id" width="80" show-overflow-tooltip>
-                <template scope="scope">{{ scope.row.id }}</template>
+                <template scope="scope">{{ scope.row.q_id }}</template>
             </el-table-column>
-            <el-table-column prop="title" label="题干" show-overflow-tooltip>
+            <el-table-column prop="q_title" label="题干" show-overflow-tooltip>
             </el-table-column>
             <el-table-column label="试题类型" width="120" show-overflow-tooltip>
                 <template scope="scope">
-                    <span class="index-color">{{scope.row.select}}</span>
+                    <span class="index-color">{{scope.row.type_name}}</span>
                 </template>
             </el-table-column>
-            <el-table-column prop="date" width="180" label="创建时间" show-overflow-tooltip>
+            <el-table-column prop="q_add_time" width="180" label="创建时间" show-overflow-tooltip>
             </el-table-column>
             <el-table-column width="120" label="是否共享" show-overflow-tooltip>
                 <template scope="scope">
-                    <el-switch v-model="scope.row.selectVal" on-color="#13ce66" off-color="" on-text="是" off-text="否">
-                    </el-switch>
+                    <!-- <el-switch v-model="scope.row.is_share" on-color="#13ce66" off-color="" on-text="是" off-text="否" disabled>
+                            </el-switch> -->
+                    {{scope.row.is_share?'是':'否'}}
                 </template>
             </el-table-column>
             <el-table-column width="180" label="操作" show-overflow-tooltip>
                 <template scope="scope">
-                    <el-button size="mini">查看</el-button>
-                    <el-button size="mini">编辑</el-button>
-                    <el-button size="mini">删除</el-button>
+                    <el-button size="mini" @click="getQues(scope.row)">查看</el-button>
+                    <el-button size="mini" @click="setQues(scope.row)">编辑</el-button>
+                    <el-button size="mini" @click="deleteData(scope.row.q_id,true)">删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
+        <el-row style="margin-top:10px">
+            <el-col :span="12">
+                <el-button size="mini" type="primary" @click="deleteData">删除</el-button>
+            </el-col>
+            <el-col :span="12">
+                <el-pagination class="float-right" @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="page" :page-sizes="[curpage]" :page-size="curpage" layout="total, sizes, prev, pager, next, jumper" :total="page_total">
+                </el-pagination>
+            </el-col>
+        </el-row>
+        <Preview :status="questionClass" :obj="previewBox" v-if="isPrev" @CLICKOVER="CLICKOVER"></Preview>
     </div>
 </template>
 
 <script>
+import Preview from '@/components/questions/Preview'
+import store from '@/utils/questions'
 export default {
     data() {
         return {
-            t_data: [
-                { id: '001', title: 'sdakhdahdjsa', select: '多选', date: '2017-8-22 09:13:08',selectVal:'' }
-            ],
-            seach: ''
+            t_data: [],
+            seach: '',
+            page: 1,//当前页数
+            curpage: 10,//每页条数 
+            page_total: 20,//总个数
+            deletArr: [],//删除id
+            previewBox: {},//试题预览
+            isPrev: false,
+            questionClass: '',//id class
         }
     },
     methods: {
-        selectOption() {
+        selectOption(obj) {
             // 选择
+            this.deletArr = [];
+            obj.forEach((x) => {
+                this.deletArr.push(x.q_id)
+            })
         },
         seachClick() {
             // 搜索
@@ -65,7 +87,56 @@ export default {
         resh() {
             // 刷新
 
+        },
+        handleSizeChange(val) {
+            this.dataAjax();
+        },
+        handleCurrentChange(val) {
+            this.page = val;
+            this.dataAjax();
+        },
+        dataAjax(seach) {
+            store.question_list.call(this, seach)
+        },
+        deleteData(id, status) {
+            // 删除
+            this.$confirm('此操作将永久删除, 是否继续?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                store.question_delete.call(this, status ? id : this.deletArr.join(","));
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '已取消删除'
+                });
+            });
+
+        },
+        isPrevClick(obj) {
+            this.isPrev = !this.isPrev;
+            this.previewBox = obj
+        },
+        CLICKOVER(obj) {
+            this.isPrev = false;
+        },
+        getQues(obj) {
+            // 查看试题
+            obj.q_class = obj.type_name
+            this.previewBox = obj
+            this.isPrev = !this.isPrev;
+        },
+        setQues(obj) {
+            // 编辑试题
+            this.$emit("SETQUESTION",obj)
         }
+    },
+    created() {
+        this.dataAjax()
+    },
+    components: {
+        Preview
     }
 }
 </script>

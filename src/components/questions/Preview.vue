@@ -27,8 +27,7 @@
                         <div class="r-quesq-tittle">
                             试题题干：
                         </div>
-                        <div class="r-quesq-box" v-html="obj.q_title">
-                            主观题-单选题主观题-单选题主观题-单选题主观题-单选题主观题-单选题主观题-单选题主观题-单选题主观题-单选题主观题-单选题主观题-单选题主观题-单选题主观题-单选题主观题-单选题主观题-单选题主观题-单选题主观题-单选题主观题-单选题主观题-单选题主观题-单选题主观题-单选题主观题-单选题主观题-单选题主观题-单选题主观题-单选题
+                        <div class="r-quesq-box" v-html="obj.q_title"> 
                         </div>
                     </li>
                     <li class="r-margin-re">
@@ -43,8 +42,11 @@
                         <div class="r-quesq-tittle">
                             试题答案：
                         </div>
-                        <div class="r-quesq-box">
+                        <div class="r-quesq-box" v-if="obj.q_type_id!=3">
                             {{obj.answer}}
+                        </div>
+                        <div class="r-quesq-box" v-else>
+                            {{obj.answer=='1'?'正确':'错误'}}
                         </div>
                     </li>
                      
