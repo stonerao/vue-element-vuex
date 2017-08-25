@@ -216,7 +216,7 @@ export default {
                             type: 'error',
                             duration: 1000,
                             onClose: () => {
-                                history.go(0);
+                                // history.go(0);
                             }
                         });
                         this.loading = false;
