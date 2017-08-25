@@ -28,18 +28,17 @@
   top: 50%;
   left: 50%;
   width: 600px;
-  min-height: 400px;
   -webkit-transform: translate(-50%, -50%);
   -moz-transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
-  padding: 15px;
-  padding-top: 45px;
+  padding: 45px 25px 45px 25px;
+  border-radius: 10px;
 }
 .l_layout_outer .myDialog .dialog_mask {
   position: fixed;
   background: black;
-  opacity: 0.6;
+  opacity: 0.7;
   z-index: 2000;
   top: 0;
   left: 0;
@@ -52,6 +51,25 @@
   size: 30px;
   top: 15px;
   right: 15px;
+}
+.l_layout_outer .myDialog .content .el-col-4 {
+  text-align: justify;
+  text-align-last: justify;
+  color: #1997e4;
+  font-size: 14px;
+  line-height: 23px;
+}
+.l_layout_outer .myDialog .content .el-col-1 {
+  color: #1997e4;
+  font-size: 14px;
+  line-height: 23px;
+}
+.l_layout_outer .myDialog .content .el-col-19 {
+  font-size: 14px;
+  line-height: 23px;
+}
+.l_layout_outer .showLog_outer input {
+  max-width: 200px;
 }
 .l_layout_outer .l_search_header0 .el-form-item {
   margin-bottom: 0px;

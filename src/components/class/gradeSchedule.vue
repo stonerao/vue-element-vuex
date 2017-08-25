@@ -454,17 +454,12 @@ export default {
 
         },
         adjust(){
-            this.lookover = false;
-            this.class_adjust = true;
-            this.adj_step1 = true;
             info.adjustStepA.call(this,this.schedule_id,this.classType);
         },
         stopSave(){
             info.classStopSave.call(this,this.classType,this.stoPtime,this.stopareaVal);
         },
         takestop(){  //停课
-            this.lookover = false;
-            this.class_stop = true;
             info.classStopBegin.call(this,this.schedule_id);
         },
         takeoverClass(){
@@ -473,6 +468,7 @@ export default {
         scheduleTab(id,index){
             this.isActive = index;
             this.schedule_id = id;
+            this.ScheduID = id;
             info.checkGradeSche.call(this,this.derpartId,this.schedule_id);
         },
         Ajax(schedule){
@@ -546,7 +542,8 @@ export default {
             this.adj_step2_B = false;
         },
         Setback_v(){
-            window.location.reload(true);
+            this.lookover = true;
+            this.edit_virtual = false;
         }
     },
     watch:{

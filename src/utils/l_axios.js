@@ -35,7 +35,7 @@ export default {
                     id: objId.c_id
                 }
             }).then((res) => {
-                console.log(res);
+                // console.log(res);
                 if (res.status === 200) {
                     let data = res.data.data.list;
                     if (data.length != 0) {
@@ -203,9 +203,12 @@ export default {
                     type: type
                 }
             }).then((res) => {
-                console.log(res);
+                // console.log(res);
                 if (res.status === 200) {
                     if(res.data.code!=400){
+                        this.lookover = false;
+                        this.class_adjust = true;
+                        this.adj_step1 = true;
                        this.adjArea = res.data.data.range_name;
                     }else{
                         this.$notify({
@@ -213,7 +216,7 @@ export default {
                             type: 'error',
                             duration: 1000,
                             onClose: () => {
-                                window.location.reload(true);
+                                // history.go(0);
                             }
                         });
                         this.loading = false;
@@ -263,8 +266,10 @@ export default {
 
         //调课第二步--保存
         adjustStepBs(recid,adjTime1,adjTime2) {
-            adjTime1.A = adjTime1.A.getFullYear() + '-' + (adjTime1.A.getMonth() + 1) + '-' + adjTime1.A.getDate();
-            adjTime1.B = adjTime1.B.getFullYear() + '-' + (adjTime1.B.getMonth() + 1) + '-' + adjTime1.B.getDate();
+            if(String(adjTime1.A).length != 0 && String(adjTime1.B).length != 0){
+                adjTime1.A = adjTime1.A.getFullYear() + '-' + (adjTime1.A.getMonth() + 1) + '-' + adjTime1.A.getDate();
+                adjTime1.B = adjTime1.B.getFullYear() + '-' + (adjTime1.B.getMonth() + 1) + '-' + adjTime1.B.getDate();
+            }
             if(this.changetype == 1){
                 adjTime2 = {
                     A : 0,
@@ -446,7 +451,7 @@ export default {
                     schedule_id: scheid
                 }
             }).then((res) => {
-                console.log(res);
+                // console.log(res);
                 if (res.status === 200) {
                     if(res.data.code!=400){
                         if(res.data.data.schedule_status != 1){
@@ -690,9 +695,11 @@ export default {
             this.$http(api.classStopBegin, {
                 params: this.allFormData
             }).then((res) => {
-                console.log(res);
+                // console.log(res);
                 if (res.status === 200) {
                     if(res.data.code!=400){
+                        this.lookover = false;
+                        this.class_stop = true;
                         this.stopArea = res.data.data.range_name;
                     }else{
                         this.$notify({
@@ -790,7 +797,7 @@ export default {
             };
             // console.log(time);
             if(teachStr){
-                let newWeek = teachStr;
+                let newWeek = [].concat(teachStr);
                 for(var i=0;i<newWeek.length;i++){
                     newWeek[i]++;
                 };
@@ -1089,7 +1096,7 @@ export default {
                     timetable: encodeUnicode(JSON.stringify(this.virtDataTable)),
                 }
             }).then((res) => {
-                console.log(res)
+                // console.log(res)
                 if (res.status == 200) {
                     if(res.data.code!=400){
                         this.$notify({
@@ -1189,7 +1196,7 @@ export default {
             this.$http(this.ApiUrlData, {
                 params: this.editFormData
             }).then((res) => {
-                console.log(res);
+                // console.log(res);
                 if (res.status === 200) {
                     if(res.data.code!=400){
                        if(this.editStepTwoA){
@@ -1405,7 +1412,7 @@ export default {
                     curpage: obj.one_pagenum,
                 }
             }).then((res) => {
-                console.log(res);
+                // console.log(res);
                 if (res.status === 200) {
                     if(res.data.code!=400){
                         let data = res.data.data;
@@ -1495,7 +1502,7 @@ export default {
             this.$http(this.commonSubmit_a.apiUrl, {
                 params: this.commonSubmit_a.formData
             }).then((res) => {
-                console.log(res);
+                // console.log(res);
                 if (res.status === 200) {
                     if(res.data.code!=400){
                         if(this.creatGrade){  //创建模板
@@ -1553,9 +1560,10 @@ export default {
                 };
             };
             if(teachStr){
-                let newWeek = teachStr;
-                for(var i=0;i<newWeek.length;i++){
-                    newWeek[i]++;
+                // let newWeek = teachStr;  //这种方法会改变原有数据
+                let newWeek = [].concat(teachStr);
+                for(var key in newWeek){
+                    newWeek[key]++;
                 };
                 this.week_checkList_string = newWeek.sort().join(",");
             }
@@ -1615,7 +1623,7 @@ export default {
                 method: 'post',
                 data: this.commonSubmit_A.formData
             }).then((res) => {
-                console.log(res);
+                // console.log(res);
                 if (res.status === 200) {
                     if(res.data.code!=400){
                         if(this.creatGrade){
@@ -1708,7 +1716,7 @@ export default {
             this.$http(this.commonSubmit_b.apiUrl, {
                 params: this.commonSubmit_b.formData
             }).then((res) => {
-                console.log(res);
+                // console.log(res);
                 if (res.status === 200) {
                     if(res.data.code!=400){
                         if(this.creatGrade){
@@ -1929,7 +1937,7 @@ export default {
                     model_id: mid,
                 }
             }).then((res) => {
-                console.log(res);
+                // console.log(res);
                 if (res.status === 200) {
                     if(res.data.code!=400){
                         this.$notify({
@@ -1961,7 +1969,7 @@ export default {
                     id: id,
                 }
             }).then((res) => {
-                console.log(res);
+                // console.log(res);
                 if (res.status === 200) {
                     if(res.data.code!=400){
                         this.$notify({
@@ -2004,7 +2012,7 @@ export default {
                     operate_end_time: end
                 }
             }).then((res) => {
-                console.log(res);
+                // console.log(res);
                 if (res.status === 200) {
                         this.suspendData = [];  
                         let _data = res.data.data;
@@ -2124,7 +2132,7 @@ export default {
                     operate_type: type
                 }
             }).then((res) => {
-                console.log(res);
+                // console.log(res);
                 if (res.status == 200) {
                     if(res.data.code!=400){
                         this.suspendData = [];  
