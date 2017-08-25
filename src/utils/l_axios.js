@@ -35,7 +35,7 @@ export default {
                     id: objId.c_id
                 }
             }).then((res) => {
-                console.log(res);
+                // console.log(res);
                 if (res.status === 200) {
                     let data = res.data.data.list;
                     if (data.length != 0) {
@@ -203,7 +203,7 @@ export default {
                     type: type
                 }
             }).then((res) => {
-                console.log(res);
+                // console.log(res);
                 if (res.status === 200) {
                     if(res.data.code!=400){
                         this.lookover = false;
@@ -451,7 +451,7 @@ export default {
                     schedule_id: scheid
                 }
             }).then((res) => {
-                console.log(res);
+                // console.log(res);
                 if (res.status === 200) {
                     if(res.data.code!=400){
                         if(res.data.data.schedule_status != 1){
@@ -695,7 +695,7 @@ export default {
             this.$http(api.classStopBegin, {
                 params: this.allFormData
             }).then((res) => {
-                console.log(res);
+                // console.log(res);
                 if (res.status === 200) {
                     if(res.data.code!=400){
                         this.lookover = false;
@@ -1096,7 +1096,7 @@ export default {
                     timetable: encodeUnicode(JSON.stringify(this.virtDataTable)),
                 }
             }).then((res) => {
-                console.log(res)
+                // console.log(res)
                 if (res.status == 200) {
                     if(res.data.code!=400){
                         this.$notify({
@@ -1196,7 +1196,7 @@ export default {
             this.$http(this.ApiUrlData, {
                 params: this.editFormData
             }).then((res) => {
-                console.log(res);
+                // console.log(res);
                 if (res.status === 200) {
                     if(res.data.code!=400){
                        if(this.editStepTwoA){
@@ -1412,7 +1412,7 @@ export default {
                     curpage: obj.one_pagenum,
                 }
             }).then((res) => {
-                console.log(res);
+                // console.log(res);
                 if (res.status === 200) {
                     if(res.data.code!=400){
                         let data = res.data.data;
@@ -1502,7 +1502,7 @@ export default {
             this.$http(this.commonSubmit_a.apiUrl, {
                 params: this.commonSubmit_a.formData
             }).then((res) => {
-                console.log(res);
+                // console.log(res);
                 if (res.status === 200) {
                     if(res.data.code!=400){
                         if(this.creatGrade){  //创建模板
@@ -1622,7 +1622,7 @@ export default {
                 method: 'post',
                 data: this.commonSubmit_A.formData
             }).then((res) => {
-                console.log(res);
+                // console.log(res);
                 if (res.status === 200) {
                     if(res.data.code!=400){
                         if(this.creatGrade){
@@ -1715,7 +1715,7 @@ export default {
             this.$http(this.commonSubmit_b.apiUrl, {
                 params: this.commonSubmit_b.formData
             }).then((res) => {
-                console.log(res);
+                // console.log(res);
                 if (res.status === 200) {
                     if(res.data.code!=400){
                         if(this.creatGrade){
@@ -1936,7 +1936,7 @@ export default {
                     model_id: mid,
                 }
             }).then((res) => {
-                console.log(res);
+                // console.log(res);
                 if (res.status === 200) {
                     if(res.data.code!=400){
                         this.$notify({
@@ -1968,7 +1968,7 @@ export default {
                     id: id,
                 }
             }).then((res) => {
-                console.log(res);
+                // console.log(res);
                 if (res.status === 200) {
                     if(res.data.code!=400){
                         this.$notify({
@@ -2011,7 +2011,7 @@ export default {
                     operate_end_time: end
                 }
             }).then((res) => {
-                console.log(res);
+                // console.log(res);
                 if (res.status === 200) {
                         this.suspendData = [];  
                         let _data = res.data.data;
@@ -2131,7 +2131,7 @@ export default {
                     operate_type: type
                 }
             }).then((res) => {
-                console.log(res);
+                // console.log(res);
                 if (res.status == 200) {
                     if(res.data.code!=400){
                         this.suspendData = [];  
