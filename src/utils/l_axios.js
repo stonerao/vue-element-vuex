@@ -266,8 +266,10 @@ export default {
 
         //调课第二步--保存
         adjustStepBs(recid,adjTime1,adjTime2) {
-            adjTime1.A = adjTime1.A.getFullYear() + '-' + (adjTime1.A.getMonth() + 1) + '-' + adjTime1.A.getDate();
-            adjTime1.B = adjTime1.B.getFullYear() + '-' + (adjTime1.B.getMonth() + 1) + '-' + adjTime1.B.getDate();
+            if(String(adjTime1.A).length != 0 && String(adjTime1.B).length != 0){
+                adjTime1.A = adjTime1.A.getFullYear() + '-' + (adjTime1.A.getMonth() + 1) + '-' + adjTime1.A.getDate();
+                adjTime1.B = adjTime1.B.getFullYear() + '-' + (adjTime1.B.getMonth() + 1) + '-' + adjTime1.B.getDate();
+            }
             if(this.changetype == 1){
                 adjTime2 = {
                     A : 0,
