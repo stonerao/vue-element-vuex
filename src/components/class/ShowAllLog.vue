@@ -61,25 +61,22 @@
                             <el-row>
                                 <el-col :span="4">操作日期</el-col>
                                 <el-col :span="1">：</el-col>
-                                <el-col :span="19">2017/3/28</el-col>
+                                <el-col :span="19">{{dailogDetail.time}}</el-col>
                             </el-row>
                             <el-row>
                                 <el-col :span="4">操作类型</el-col>
                                 <el-col :span="1">：</el-col>
-                                <el-col :span="19">调课</el-col>
+                                <el-col :span="19">{{dailogDetail.type}}</el-col>
                             </el-row>
                             <el-row>
                                 <el-col :span="4">操作人</el-col>
                                 <el-col :span="1">：</el-col>
-                                <el-col :span="19">岳鹏举</el-col>
+                                <el-col :span="19">{{dailogDetail.people}}</el-col>
                             </el-row>
                             <el-row>
                                 <el-col :span="4">原因</el-col>
                                 <el-col :span="1">：</el-col>
-                                <el-col :span="19">
-                                    怒发冲冠，凭栏处、潇潇雨歇。抬望眼，仰天长啸，壮怀激烈。三十功名尘与土，八千里路云和月。莫等闲，白了少年头，空悲切！
-                                    靖康耻，犹未雪。臣子恨，何时灭！驾长车，踏破贺兰山缺。壮志饥餐胡虏肉，笑谈渴饮匈奴血。待从头、收拾旧山河，朝天阙。
-                                </el-col>
+                                <el-col :span="19">{{dailogDetail.reason}}</el-col>
                             </el-row>
                         </div>
                     </div>
@@ -130,6 +127,12 @@ export default {
               label: '代课'
             }],
             Dailog: false,   //查看详情弹窗
+            dailogDetail: {  //详情数据
+                time: '2017/3/28',
+                type: '调课',
+                people: '岳鹏举',
+                reason: '怒发冲冠，凭栏处、潇潇雨歇。抬望眼，仰天长啸，壮怀激烈。三十功名尘与土，八千里路云和月。莫等闲，白了少年头，空悲切！,靖康耻，犹未雪。臣子恨，何时灭！驾长车，踏破贺兰山缺。壮志饥餐胡虏肉，笑谈渴饮匈奴血。待从头、收拾旧山河，朝天阙。',
+            }
         }
     },
     created() {
@@ -162,10 +165,17 @@ export default {
         sus_filter(){
            info.classGradeLog.call(this,this.IDCard,this.pageParams,this.search_begin,this.search_end,this.search_type);
         },
-        showDetail(rid){   //弹窗
+        showDetail(rid){   //弹窗+获取数据
             this.Dailog = true;
+            // info.DailogDetail.call(this,rid);
         },
         Close_mask(){
+            this.dailogDetail = {  //详情数据清空
+                time: '',
+                type: '',
+                people: '',
+                reason: ''
+            };
             this.Dailog = false;
         },
         handleSizeChange(val) {
