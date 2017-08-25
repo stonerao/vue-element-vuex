@@ -308,10 +308,16 @@ export default {
       classChoose(id,time){
         att.get_schedule_lesson.call(this,id,time)
       },
-      //学校中心班级考勤(获取班级考勤列表)
+      //学校中心班级考勤(获取考勤列表)
       getsAttList(data){
         this.sAttList=[];
-        att.show_classstudent_static.call(this,data)
+        if(this.state==7){
+          //班级考勤列表
+          att.show_classstudent_static.call(this,data)
+        }else{
+          //老师学生考勤
+          att.sAttendanceList.call(this,this.state,data)
+        }
       },
     },
     watch:{
@@ -322,6 +328,7 @@ export default {
         this.currentPage=1;
         this.pageSize=10;
         this.total=0;
+        this.sAttList=[];
         this.refreshList();
       }
     }

@@ -256,6 +256,13 @@ export default {
       })
     }else{
       //学生考勤记录
+      this.$http(api.stuAttendanceList,{
+        params:{
+
+        }
+      }).then((res)=>{
+
+      })
     }
   },
   //审核调课/代课列表
@@ -410,5 +417,26 @@ export default {
       }
     })
   },
-
+  //学校中心查看学生/老师考勤统计
+  sAttendanceList(state,data){
+    if(state==6){
+      //学生考勤
+      this.$http(api.sstudentAttendance,{
+        params:data
+      }).then((res)=>{
+        if(res.data.code==200){
+          this.sAttList=res.data.data;
+        }
+      })
+    }else{
+      //老师考勤
+      this.$http(api.steacherAttendance,{
+        params:data
+      }).then((res)=>{
+        if(res.data.code==200){
+          this.sAttList=res.data.data;
+        }
+      })
+    }
+  }
 }

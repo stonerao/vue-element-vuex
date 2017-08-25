@@ -1,10 +1,10 @@
 <template>
   <div>
-    <el-row class="class-header">
-      <el-col :span="11" class="class-titles">
-        <img src="../../assets/index/shuaxin.png" class="icon-img-xs cursor"/>刷新-共{{total}} 条记录
-      </el-col>
-    </el-row>
+    <!--<el-row class="class-header">-->
+      <!--<el-col :span="11" class="class-titles">-->
+        <!--<img src="../../assets/index/shuaxin.png" class="icon-img-xs cursor"/>刷新-共{{total}} 条记录-->
+      <!--</el-col>-->
+    <!--</el-row>-->
     <!--班级考勤-->
     <el-row v-if="state==7">
       <el-col :span="2">
@@ -38,10 +38,10 @@
         <el-input v-model="personName" placeholder="请输入姓名" size="small"></el-input>
       </el-col>
       <el-col :span="5" :offset="1">
-        <el-date-picker v-model="value6" @change="timeChange" type="daterange" placeholder="选择日期范围" class="rt" size="small"></el-date-picker>
+        <el-date-picker v-model="value6" @change="timeChange" :disabled="personName===''" type="daterange" placeholder="选择日期范围" class="rt" size="small"></el-date-picker>
       </el-col>
       <el-col :span="7" :offset="1">
-        <el-button @click="searchList" type="primary" size="small">查询</el-button>
+        <el-button @click="searchList" :disabled="value6===''" type="primary" size="small">查询</el-button>
       </el-col>
     </el-row>
     <el-table  v-if="state==7" :data="list" style="width: 100%">
@@ -52,11 +52,12 @@
       <el-table-column prop="leave_count" label="请假人数"></el-table-column>
     </el-table>
     <el-table v-else :data="list" style="width: 100%">
-      <el-table-column prop="" label="姓名"  show-overflow-tooltip></el-table-column>
-      <el-table-column prop="student_count" label="应上课节"></el-table-column>
-      <el-table-column prop="sign_count" label="实上课节"></el-table-column>
-      <el-table-column prop="absent_count" label="缺勤课节"></el-table-column>
-      <el-table-column prop="leave_count" label="请假课节"></el-table-column>
+      <el-table-column v-if="state==6" prop="student_name" label="学生姓名"  show-overflow-tooltip></el-table-column>
+      <el-table-column v-else prop="teacher_name" label="老师姓名"  show-overflow-tooltip></el-table-column>
+      <el-table-column prop="original_num" label="应出勤课节"></el-table-column>
+      <el-table-column prop="sign_num" label="实际出勤课节"></el-table-column>
+      <el-table-column prop="absent_num" label="缺勤课节"></el-table-column>
+      <el-table-column prop="leave_num" label="请假课节"></el-table-column>
     </el-table>
   </div>
 </template>
@@ -75,7 +76,9 @@
         gradeId:'',//年级Id
         classId:'',//班级Id
         value6:'',//时间
-        time:'',//选择的时间
+        time:'',//选择的时间(班级)
+        sTime:'',//开始时间
+        eTime:'',//结束时间
         lessonName:'',//节次名称
         lessonNum:'',//节次数
       }
@@ -113,19 +116,19 @@
       },
       //选择时间
       timeChange(val){
-        this.time=val;
         if(this.state==7){
+          this.time=val;
           this.$emit('chooseClass', this.classId,this.time);
+        }else{
+          let arr=val.split(' ');
+          this.sTime=arr[0];
+          this.eTime=arr[2];
         }
       },
       searchList(){
         let key=getToken();
         let data={};
-        if(this.state==5){
-          //学校中心老师考勤
-        }else if(this.state==6){
-          //学校中心学生考勤
-        }else{
+        if(this.state==7){
           //学校中心班级考勤
           data={
             token:key,
@@ -133,12 +136,25 @@
             class_num:this.lessonNum,
             search_time:this.time
           }
+        }else{
+          //学校中心学生、老师考勤
+          data={
+            token:getToken(),
+            start_time:this.sTime,
+            end_time:this.eTime,
+            search:this.personName
+          }
         }
         this.$emit('getSList',data)
       },
 
     },
     watch:{
+      state(){
+        this.time='';
+        this.personName='';
+        this.value6='';
+      }
     }
   }
 </script>

@@ -14,6 +14,7 @@ export const api={
   sleaveLlist:'Admin/Timetag/leave_list',//学校中心查看老师请假记录
   sapplyLeave:'Admin/Timetag/leave_approve',//老师请假审批
   stuleaveList:'Student/SchoolStudent/leave_list',//学生请假记录
+  stuAttendanceList:'Student/SchoolStudent/show_student_attendance',//学生考勤统计
   stuApplyLeave:'Student/SchoolStudent/apply_leave',//学生请假申请
   underTeacherList:'Teacher/index/under_teacher_list',//获取某老师所处节点及向下所有节点的组织部门ID+老师ID+老师姓名
   stuApplyList:'Teacher/Timetag/teacher_applystudent',//学生请假申请列表
@@ -21,4 +22,6 @@ export const api={
   gradeList:'Admin/Grade/get_zdepartment_data',//查看班级学生考勤统计----获取班/年级数据
   getScheduleLesson:'Admin/Grade/get_schedule_lesson',//查看班级学生考勤统计----获取课节
   showClassStudentStatic:'Admin/Grade/show_classstudent_static',//查看班级学生考勤统计
+  steacherAttendance:'Admin/Grade/teacher_attendance',//学校中学查看老师考勤统计
+  sstudentAttendance:'Admin/Grade/student_attendance',//学校中心查看学生考勤统计
 }
