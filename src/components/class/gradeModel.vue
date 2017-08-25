@@ -348,7 +348,7 @@ export default {
             	end_w: ''
             };
             this.backFirst = true;
-    		info.creatGradeModela.call(this);
+    		info.creatGradeModela.call(this,this.departID);
         },
         editStepTwo(mid){  
         	info.creatGradeModelb.call(this,mid);

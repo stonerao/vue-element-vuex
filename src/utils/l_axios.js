@@ -797,7 +797,7 @@ export default {
             };
             // console.log(time);
             if(teachStr){
-                let newWeek = teachStr;
+                let newWeek = [].concat(teachStr);
                 for(var i=0;i<newWeek.length;i++){
                     newWeek[i]++;
                 };
@@ -1560,9 +1560,10 @@ export default {
                 };
             };
             if(teachStr){
-                let newWeek = teachStr;
-                for(var i=0;i<newWeek.length;i++){
-                    newWeek[i]++;
+                // let newWeek = teachStr;  //这种方法会改变原有数据
+                let newWeek = [].concat(teachStr);
+                for(var key in newWeek){
+                    newWeek[key]++;
                 };
                 this.week_checkList_string = newWeek.sort().join(",");
             }

@@ -98,7 +98,7 @@ export default {
     },
     methods: {
         checkModel(modelId){  //查看模版
-        	console.log(modelId);
+        	// console.log(modelId);
         	this.ModuleID = modelId;
         	this.switch_0 = false;
         	this.switch_1 = true;
