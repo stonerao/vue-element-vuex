@@ -68,6 +68,9 @@
   font-size: 14px;
   line-height: 23px;
 }
+.l_layout_outer .showLog_outer input {
+  max-width: 200px;
+}
 .l_layout_outer .l_search_header0 .el-form-item {
   margin-bottom: 0px;
 }

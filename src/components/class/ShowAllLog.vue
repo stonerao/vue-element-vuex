@@ -2,25 +2,25 @@
     <div>
         <!-- 停课列表 -->
         <div v-if="suspend_list">
-            <div class="sus_header">
+            <div class="showLog_outer sus_header">
                 <el-row :span="24">
                     <el-col :span="19">
                         <el-form ref="form" label-width="80px">
                             <el-form-item label="操作日期">
-                                <el-col :span="5">
+                                <el-col :span="5" style="max-width: 200px;">
                                     <el-date-picker type="date" placeholder="选择日期" v-model="search_begin" style="width: 100%;"></el-date-picker>
                                 </el-col>
                                 <el-col class="line" :span="1" style="text-align: center">至</el-col>
-                                <el-col :span="5">
+                                <el-col :span="5" style="max-width: 200px;">
                                     <el-date-picker type="date" placeholder="选择日期" v-model="search_end" style="width: 100%;" :picker-options="pickerOptions1" :disabled="canNot"></el-date-picker>
                                 </el-col>
-                                <el-col :span="2" style="text-align: center;">类型:</el-col>
-                                <el-col :span="4">
+                                <el-col :span="2" style="text-align: right;padding-right: 12px;">类型</el-col>
+                                <el-col :span="4" style="max-width: 200px;">
                                     <el-select v-model="search_type" clearable placeholder="请选择">
                                         <el-option v-for="item in typeList" :key="item.value" :label="item.label" :value="item.value"></el-option>
                                     </el-select>
                                 </el-col>
-                                <el-col :span="2" style="text-align: left;margin-left: 20px">
+                                <el-col :span="2" style="text-align: left;margin-left: 25px">
                                     <el-button type="primary" size="small" @click="sus_filter">确定</el-button>
                                 </el-col>
                             </el-form-item>
