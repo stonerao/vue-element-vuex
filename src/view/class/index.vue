@@ -18,12 +18,12 @@
                                 <el-col :span="18" class="class-searchs">
                                     <el-form :inline="true" id="search_form0">
                                         <el-form-item label="年级/虚拟班：">
-                                            <el-select v-model="gradeS" placeholder="全部">
+                                            <el-select v-model="gradeS" clearable placeholder="全部">
                                               <el-option v-for="item in grade_search" :key="item.department_id" :label="item.department_name" :value="item.department_id"></el-option>
                                             </el-select>
                                         </el-form-item>
                                         <el-form-item label="班级：">
-                                            <el-select v-model="classS" placeholder="全部">
+                                            <el-select v-model="classS" clearable placeholder="全部">
                                               <el-option v-for="items in class_search" :key="items.department_id" :label="items.department_name" :value="items.department_id"></el-option>
                                             </el-select>
                                         </el-form-item>
