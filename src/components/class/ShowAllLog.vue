@@ -166,7 +166,6 @@ export default {
            info.classGradeLog.call(this,this.IDCard,this.pageParams,this.search_begin,this.search_end,this.search_type);
         },
         showDetail(rid){   //弹窗+获取数据
-            this.Dailog = true;
             info.logDetail.call(this,rid);
         },
         Close_mask(){

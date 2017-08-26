@@ -2184,6 +2184,7 @@ export default {
                             people: res.data.data.operate_person,
                             reason: res.data.data.operate_reason,
                         }
+                        this.Dailog = true;
                     }else{
                         this.$notify.error({
                             message: res.data.data.error
