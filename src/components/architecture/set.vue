@@ -1,103 +1,90 @@
 <template>
     <section class="add-inp">
-        <div class="tree">
-            <nav class='navbar'>
-                <ul class='nav nav-stacked'>
-                    <template v-for='item in menus'>
-                      
-                        <li role='presentation' >
-                             <Tree :obj="item.children"></Tree>
-                        </li>
-                    </template>
-                </ul>
-            </nav>
-        </div>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-     <Tree></Tree>
+        <button @click="datas">click</button>
+        <ul id="demo">
+            <item class="item" :model="item" @drop="drop" v-for="item in treeData"></item>
+        </ul>
     </section>
 </template>
 <script>
-import Vue from 'vue' 
-import Tree from './tree' 
+import Vue from 'vue'
+import item from '@/components/architecture/item'
+ 
 let id = 1000;
 export default {
     props: ['objData'],
     data() {
         return {
+            open: false,
             bag: 'first-bag',
-            colOne: '111',
-            colTwo: "123213",
-            arrsObjs: [],
-            menus: [{
-                text: '水果',
-                expanded: false,
-                children: [{
-                    text: '苹果',
-                    children: [{
-                        text: '糖',
-                    }, {
-                        text: '面包'
-                    }, {
-                        text: '火腿'
-                    }, {
-                        text: '薯片'
-                    }, {
-                        text: '碎碎面',
-                        children: [{
-                            text: '糖',
-                        }, {
-                            text: '面包'
-                        }, {
-                            text: '火腿'
-                        }, {
-                            text: '薯片'
-                        }, {
-                            text: '碎碎面'
-                        }]
-                    }]
-                }, {
-                    text: '荔枝'
-                }, {
-                    text: '葡萄'
-                }, {
-                    text: '火龙果'
-                }]
-            }]
+            treeData: {
+                name: 'My Tree',
+                children: [
+                    { name: 'hello' },
+                    { name: 'wat' },
+                    {
+                        name: 'child folder',
+                        children: [
+                            {
+                                name: 'child folder',
+                                children: [
+                                    { name: 'hello' },
+                                    { name: 'wat' }
+                                ]
+                            },
+                            { name: 'hello' },
+                            { name: 'wat' },
+                            {
+                                name: 'child folder',
+                                children: [
+                                    { name: 'hello' },
+                                    { name: 'wat' }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
 
         }
-    }, 
+    },
     created() {
-        
-         
-        // let obj = this.objData;
-        // let arr = [];
-        // let objFor = Data => {
-        //     Data.forEach((x) => {
-        //         if (x.children) {
-        //             arr.push(x);
-        //             objFor(x.children)
-        //         } else {
-        //             arr.push(x)
-        //         }
-        //     })
-        //     this.arrsObjs = arr;
-        // }
-        // objFor(obj)
+        console.log(this.objData) 
+        this.treeData = this.objData
     },
     methods: {
-        onClick() {
+        toggle: function() {
+            if (this.isFolder) {
+                this.open = !this.open
+            }
+        },
+        changeType: function() {
+            if (!this.isFolder) {
+                Vue.set(this.model, 'children', [])
+                this.addChild()
+                this.open = true
+            }
+        },
+        addChild: function() {
+            this.model.children.push({
+                name: 'new stuff'
+            })
+        },
+        drop(){
 
         },
-        toggleChildren: function (item) {
-            item.expanded = !item.expanded;
-        },
+        datas(){
+console.log(this.treeData)
+        }
 
     }
-    ,components:{
-        Tree
+    , components: {
+        item
+    }, computed: {
+        isFolder: function() {
+            return this.model.children &&
+                this.model.children.length
+        }
     }
 }
 </script>
@@ -109,5 +96,19 @@ export default {
     cursor: -webkit-grab;
     margin-bottom: 10px;
 }
+
+.item {
+    cursor: pointer;
+    
+}
+.item div{
+       padding-left: 0.2em;
+    line-height: 1.5em;
+    list-style-type: dot; 
+    }
+.bold {
+    font-weight: bold;
+}
+ 
 </style>
 

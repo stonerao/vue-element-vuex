@@ -1,5 +1,6 @@
 import { api } from '@/api/index'
 import { getToken } from '@/utils/auth'
+
 export default {
     teachingList(id, state) {
         state = this.state;
@@ -81,5 +82,45 @@ export default {
                 });
             }
         })
-    }
+    },
+    space_list(){
+        // 空间购买列表 
+        this.$http(this.listUrl,{
+            params:{
+                token:getToken(),
+                page:this.page,
+                curpage:this.curpage,
+                search:this.seach
+            }
+        }).then((res)=>{
+            if(res.data.code==200){
+                this.page_total = parseInt(res.data.page_total);
+                this.t_data = res.data.datas;
+                this.used = res.data.used_flow;
+                this.unused = res.data.Residual_flow
+            }
+        })
+    },
+    space_pay(id){
+        // 空间购买列表 
+        this.$http(this.space_pay,{
+            params:{
+                token:getToken(),
+                id:id
+            }
+        }).then((res)=>{
+            if(res.data.code==200){
+                this.$message({
+                    type: 'success',
+                    message: res.data.datas
+                });
+            }else{
+                this.$message({
+                    type: 'success',
+                    message: res.data.datas.error
+                });
+            }
+        })
+    },
+    
 }
