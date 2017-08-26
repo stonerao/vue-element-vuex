@@ -43,4 +43,5 @@ export const api = {
     suspendAdd:'Admin/Grade/school_stop_class',   //添加全校停课
     suspendCancel:'Admin/Grade/cancel_stop_class',   //取消停课
     classGradeLog:'Admin/Grade/schedule_change_record_list',   //班级年级日志
+    logDetail:'Admin/Grade/show_change_record_info',   //班级年级日志详情
 }
