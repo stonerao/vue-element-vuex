@@ -85,7 +85,7 @@ export default {
                 `该页面展示管理员的操作日志，可进行删除。`,
                 `侧边栏可以进行高级搜索`
             ],
-            state: 7,
+            state: 0,
             addState:0,//显示申请页面
             promptsPad: true,
             total:0,//总条数
