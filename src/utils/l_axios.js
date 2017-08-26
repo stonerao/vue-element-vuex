@@ -2165,6 +2165,39 @@ export default {
             })
         },
 
+        //班级年级日志详情
+        logDetail(rid) {
+            this.$http({
+                url: api.logDetail,
+                method: 'post',
+                data: {
+                    token: getToken(),
+                    record_id: rid,
+                }
+            }).then((res) => {
+                // console.log(res)
+                if (res.status == 200) {
+                    if(res.data.code!=400){
+                        this.dailogDetail = { 
+                            time: res.data.data.operate_time,
+                            type: res.data.data.operate_person_type,
+                            people: res.data.data.operate_person,
+                            reason: res.data.data.operate_reason,
+                        }
+                        this.Dailog = true;
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
         // 标准中国时间转换获取月日
         formatDate(date) {
             let m = date.getMonth() + 1;  

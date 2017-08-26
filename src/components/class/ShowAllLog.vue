@@ -128,10 +128,10 @@ export default {
             }],
             Dailog: false,   //查看详情弹窗
             dailogDetail: {  //详情数据
-                time: '2017/3/28',
-                type: '调课',
-                people: '岳鹏举',
-                reason: '怒发冲冠，凭栏处、潇潇雨歇。抬望眼，仰天长啸，壮怀激烈。三十功名尘与土，八千里路云和月。莫等闲，白了少年头，空悲切！,靖康耻，犹未雪。臣子恨，何时灭！驾长车，踏破贺兰山缺。壮志饥餐胡虏肉，笑谈渴饮匈奴血。待从头、收拾旧山河，朝天阙。',
+                time: '',
+                type: '',
+                people: '',
+                reason: '',
             }
         }
     },
@@ -159,15 +159,14 @@ export default {
         formatAll(date){  //时间处理
             return info.formatYMDHMS.call(this,date);
         },
-        sus_Cancel(rid){   //取消停课
-            // info.suspendCancel.call(this,rid);
+        sus_Cancel(rid){   //取消代课
+            info.suspendCancel.call(this,rid);
         },
         sus_filter(){
            info.classGradeLog.call(this,this.IDCard,this.pageParams,this.search_begin,this.search_end,this.search_type);
         },
         showDetail(rid){   //弹窗+获取数据
-            this.Dailog = true;
-            // info.DailogDetail.call(this,rid);
+            info.logDetail.call(this,rid);
         },
         Close_mask(){
             this.dailogDetail = {  //详情数据清空
