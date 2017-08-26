@@ -39,4 +39,8 @@ export const api = {
     question_list:"Teacher/Examinationcenter/question_list",//试题列表 
     question_delete:"Teacher/Examinationcenter/question_delete",//删除题库 
     question_info:"Teacher/Examinationcenter/question_info",//试题详情 
+    space_list:"Teacher/Teacherspace/space_list",//空间购买列表 
+    space_pay:"Teacher/Teacherspace/space_pay",//空间购买   
+    StudentSpace_list:"Student/Studentspace/space_list",//学生空间列表 
+    Studentspace_pay:"Student/Studentspace/space_pay",//学生购买
 }
