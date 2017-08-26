@@ -8,40 +8,40 @@
     <!--班级考勤-->
     <el-row v-if="state==7">
       <el-col :span="2">
-        <el-select @change="typeChange" v-model="typeName" placeholder="类型" size="small">
+        <el-select @change="typeChange" v-model="typeName" placeholder="类型" size="small" style="margin-right: 15px">
           <el-option v-for="item in ClassType" :label="item.name" :value="item.value"></el-option>
         </el-select>
       </el-col>
-      <el-col v-if="typeVal==1" :span="3" :offset="1">
-          <el-select  @change="gradeChoose" v-model="gradeName"  placeholder="请选择年级" size="small" style="margin-bottom: 10px">
+      <el-col v-if="typeVal==1" :span="3">
+          <el-select  @change="gradeChoose" v-model="gradeName"  placeholder="请选择年级" size="small" style="margin-right: 15px">
             <el-option v-for="item in gradeList" :label="item.department_name" :value="item.department_id"></el-option>
           </el-select>
       </el-col>
-      <el-col :span="3" :offset="1">
-        <el-select @change="classChoose" v-model="className" :disabled="typeVal==1? (gradeName===''):false" placeholder="请选择班级" size="small">
+      <el-col :span="3">
+        <el-select @change="classChoose" v-model="className" :disabled="typeVal==1? (gradeName===''):false" placeholder="请选择班级" size="small" >
           <el-option v-for="item in classList" :label="item.department_name" :value="item.department_id"></el-option>
         </el-select>
       </el-col>
-      <el-col :span="5" :offset="1">
+      <el-col :span="5" :offset="typeVal==1? 5:8">
         <el-date-picker v-model="value6" @change="timeChange" :disabled="className===''" type="date" placeholder="选择日期" class="rt" size="small"></el-date-picker>
       </el-col>
-      <el-col :span="7" :offset="1">
-        <el-select  @change="lessonChoose" v-model="lessonName" :disabled="value6===''" placeholder="请选择节次" size="small">
+      <el-col :span="6">
+        <el-select  @change="lessonChoose" v-model="lessonName" :disabled="value6===''" placeholder="请选择节次" size="small" class="lf" style="margin-left: 15px">
           <el-option v-for="item in lessonList" :label="item.lesson" :value="item.num"></el-option>
         </el-select>
-        <el-button @click="searchList" type="primary" size="small" :disabled="lessonName===''">查询</el-button>
+        <el-button @click="searchList" type="primary" size="small" :disabled="lessonName===''" class="rt">查询</el-button>
       </el-col>
     </el-row>
     <!--学生老师考勤-->
     <el-row v-else>
-      <el-col :span="3" :offset="1">
+      <el-col :span="4" :offset="13">
         <el-input v-model="personName" placeholder="请输入姓名" size="small"></el-input>
       </el-col>
-      <el-col :span="5" :offset="1">
-        <el-date-picker v-model="value6" @change="timeChange" :disabled="personName===''" type="daterange" placeholder="选择日期范围" class="rt" size="small"></el-date-picker>
+      <el-col :span="5" >
+        <el-date-picker v-model="value6" @change="timeChange" :disabled="personName===''" type="daterange" placeholder="选择日期范围" size="small" style="margin-left: 15px"></el-date-picker>
       </el-col>
-      <el-col :span="7" :offset="1">
-        <el-button @click="searchList" :disabled="value6===''" type="primary" size="small">查询</el-button>
+      <el-col :span="2">
+        <el-button @click="searchList" :disabled="value6===''" type="primary" size="small" class="rt">查询</el-button>
       </el-col>
     </el-row>
     <el-table  v-if="state==7" :data="list" style="width: 100%">
