@@ -3,7 +3,7 @@
         <el-row>
             <el-col :span='15'>
                 <span class="line-height-36">
-                    <img src="../../assets/index/shuaxin.png" class="icon-img-xs marginleft5" @click="resh" />刷新-共1条记录
+                    <img src="../../assets/index/shuaxin.png" class="icon-img-xs marginleft5" @click="resh" />刷新-共{{page_total}}条记录
                 </span>
             </el-col>
             <el-col :span="9">
@@ -31,7 +31,7 @@
             <el-table-column width="120" label="是否共享" show-overflow-tooltip>
                 <template scope="scope">
                     <!-- <el-switch v-model="scope.row.is_share" on-color="#13ce66" off-color="" on-text="是" off-text="否" disabled>
-                            </el-switch> -->
+                                </el-switch> -->
                     {{scope.row.is_share?'是':'否'}}
                 </template>
             </el-table-column>
@@ -83,10 +83,12 @@ export default {
         },
         seachClick() {
             // 搜索
+            this.dataAjax();
+            this.seach = '';
         },
         resh() {
             // 刷新
-
+            this.dataAjax();
         },
         handleSizeChange(val) {
             this.dataAjax();
@@ -96,6 +98,7 @@ export default {
             this.dataAjax();
         },
         dataAjax(seach) {
+            this.t_data = [];
             store.question_list.call(this, seach)
         },
         deleteData(id, status) {
@@ -129,7 +132,7 @@ export default {
         },
         setQues(obj) {
             // 编辑试题
-            this.$emit("SETQUESTION",obj)
+            this.$emit("SETQUESTION", obj)
         }
     },
     created() {

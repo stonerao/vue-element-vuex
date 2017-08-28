@@ -19,47 +19,7 @@
                         <el-option :label="item.qc_name" :value="item.qc_id" v-for="(item,index) in belongClass.items3" :key="index"></el-option>
                     </el-select>
                 </el-form-item>
-                <!-- <el-form-item label="年/班级、科目">
-                                                                                                    <el-select v-model="form.region" placeholder="年纪" class="width125">
-                                                                                                        <el-option label="区域一" value="shanghai"></el-option>
-                                                                                                        <el-option label="区域二" value="beijing"></el-option>
-                                                                                                    </el-select>
-                                                                                                    <el-select v-model="form.region" placeholder="班级" class="width125">
-                                                                                                        <el-option label="区域一" value="shanghai"></el-option>
-                                                                                                        <el-option label="区域二" value="beijing"></el-option>
-                                                                                                    </el-select>
-                                                                                                    <el-select v-model="form.region" placeholder="科目" class="width125">
-                                                                                                        <el-option label="区域一" value="shanghai"></el-option>
-                                                                                                        <el-option label="区域二" value="beijing"></el-option>
-                                                                                                    </el-select>
-                                                                                                </el-form-item> -->
-                <!-- <el-form-item label="试题来源：">
-                                                                                                            <div style="display: inline-block;">
-                                                                                                                <span>
-                                                                                                                    <el-select v-model="form.region" placeholder="科目" class="width100">
-                                                                                                                        <el-option label="区域一" value="shanghai"></el-option>
-                                                                                                                        <el-option label="区域二" value="beijing"></el-option>
-                                                                                                                    </el-select>
-                                                                                                                </span>
-                                                                                                                <span>
-                                                                                                                    <a class="marginleft15">试题难度：</a>
-                                                                                                                    <el-select v-model="form.region" placeholder="科目" class="width100">
-                                                                                                                        <el-option label="区域一" value="shanghai"></el-option>
-                                                                                                                        <el-option label="区域二" value="beijing"></el-option>
-                                                                                                                    </el-select>
-                                                                                                                </span>
-                                                                                                                <span>
-                                                                                                                    <a class="marginleft15">试题状态：</a>
-                                                                                                                    <el-select v-model="form.region" placeholder="科目" class="width100">
-                                                                                                                        <el-option label="区域一" value="shanghai"></el-option>
-                                                                                                                        <el-option label="区域二" value="beijing"></el-option>
-                                                                                                                    </el-select>
-                                                                                                                    <a class="hui-color">学生自测可见</a>
-                                                                                                                </span>
-                                                                                                            </div>
-                                                                                                        </el-form-item> -->
                 <el-form-item label="试题题干">
-                    <!-- <el-input type="textarea" :rows="3" v-model="form.desc"></el-input> -->
                     <quillEditor v-model="textF"></quillEditor>
                 </el-form-item>
                 <el-form-item label="相关相片附件">
@@ -148,23 +108,11 @@
                         </div>
                     </el-form-item>
                 </div>
-                <!-- <div v-if="questionClass==5">
-                        <el-form-item label="答案设置">
-                            <el-input type="textarea" :rows="3" v-model="qOrA"></el-input>
-                        </el-form-item>
 
-                    </div>
-                    <div v-if="questionClass==6">
-                        <el-form-item label="答案设置">
-                            <el-input type="textarea" :rows="3" v-model="calculation"></el-input>
-                        </el-form-item>
-                    </div> -->
                 <el-form-item label="参考答案" v-if="questionClass!=1&&questionClass!=2&&questionClass!=3">
                     <el-input type="textarea" :rows="3" v-model="referenceAnswer"></el-input>
                 </el-form-item>
-                <!-- <el-form-item label="试题解析">
-                        <el-input type="textarea" :rows="3" v-model="form.desc"></el-input>
-                    </el-form-item> -->
+
                 <el-form-item label="是否共享题目">
                     <el-switch v-model="selectVal" on-color="#13ce66" off-color="" on-text="是" off-text="否">
                     </el-switch>
@@ -399,8 +347,8 @@ export default {
         },
         quitq() {
             // 取消; 
-            if (this.isSetQues) { 
-                this.$emit("quits", true); 
+            if (this.isSetQues) {
+                this.$emit("quits", true);
             }
         }
 
@@ -409,12 +357,14 @@ export default {
         // 获取题干类型
         store.question_type.call(this)
         // 获取所属分类第一集
-        this.question_classlist("", 1)
+        this.question_classlist("", 1);
+
     },
     mounted() {
         // 编辑试题过来
         if (this.setQuestionObj && this.isSetQues) {
-            store.question_info.call(this,this.setQuestionObj.q_id)
+            store.question_info.call(this, this.setQuestionObj.q_id);
+           
         }
     },
     watch: {
@@ -435,6 +385,9 @@ export default {
             this.belongClass.item3 = [];
             this.belongClass3 = '';
             this.question_classlist(val, 3);
+        },
+        checkbox(val){
+         
         }
     },
     components: {
