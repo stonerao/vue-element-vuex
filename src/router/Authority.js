@@ -21,6 +21,8 @@ import Attendance from '@/view/attendance/index'
 import Authority from '@/view/authority/index'
 //我的班级
 import myClass from '@/view/myClass/index'
+//视频管理
+import video from '@/view/video/index'
 
 /*
     版权中心
@@ -173,9 +175,9 @@ export const constList = [
             }
         ]
     }, {
-        path: '/set',
+        path: '/video',
         name: '视频管理',
-        redirect: '/set/index',
+        redirect: '/video/index',
         icon: sp,
         iconActive: sp_active,
         component: Layout,
@@ -183,7 +185,7 @@ export const constList = [
             {
                 path: 'index',
                 name: '-视频管理',
-                component: setVue,
+                component: video,
             }
         ]
     }, {
