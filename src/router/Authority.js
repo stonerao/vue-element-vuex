@@ -23,6 +23,10 @@ import Authority from '@/view/authority/index'
 import myClass from '@/view/myClass/index'
 //视频管理
 import video from '@/view/video/index'
+//素材库(学校)
+import materLibrary from '@/view/material/index'
+//会议管理(老师)
+import conferManage from '@/view/conference/index'
 
 /*
     版权中心
@@ -231,9 +235,9 @@ export const constList = [
             }
         ]
     }, {
-        path: '/set',
+        path: '/material',
         name: '素材库',
-        redirect: '/set/index',
+        redirect: '/material/index',
         icon: sc,
         iconActive: sc_active,
         component: Layout,
@@ -241,7 +245,7 @@ export const constList = [
             {
                 path: 'index',
                 name: '-素材库',
-                component: setVue,
+                component: materLibrary,
             }
         ]
     }, {
@@ -503,9 +507,9 @@ export const ListTeacher = [
             }
         ]
     }, {
-        path: '/set',
+        path: '/conference',
         name: '会议管理',
-        redirect: '/set/index',
+        redirect: '/conference/index',
         icon: pmsd,
         iconActive: pmsd_active,
         component: Layout,
@@ -513,7 +517,7 @@ export const ListTeacher = [
             {
                 path: 'index',
                 name: '-会议管理',
-                component: setVue,
+                component: conferManage,
             }
         ]
     }, {
