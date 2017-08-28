@@ -72,7 +72,7 @@ export default {
         this.$http(api.question_list, {
             params: {
                 token: getToken(),
-                q_title: name || '',
+                q_title: this.seach,
                 page: this.page,
                 curpage: this.curpage
             }
@@ -108,6 +108,7 @@ export default {
                     type: 'success',
                     message: res.data.data
                 });
+                this.dataAjax();
             }
         })
     },
@@ -140,7 +141,36 @@ export default {
                             this.belongClass3 = '2';
                         }, 100)
                     }
-                }  
+                }
+
+                // 普题目
+                //class type id 
+                let num = parseInt(data.q_type_id);
+                switch (num) {
+                    case 1: break;
+                    case 2:
+                        let arr = data.q_option;
+                        let boxArr = [];
+                        this.checkboxItems = [];
+                        this.checkbox = data.answer.split(",");
+                        this.checkbox.forEach((x,index) => {
+                            if (this.A_Z.indexOf(x) != -1) {
+                                console.log(this.A_Z.indexOf(x)) 
+                                boxArr.push(this.A_Z.indexOf(x))
+                            }
+
+                        })
+                        this.checkbox = boxArr.sort();
+                        arr.forEach((x) => {
+                            this.checkboxItems.push(x)
+                        })
+                        arr = null;
+                        break;
+                    case 3: break;
+                    case 4: break;
+                    case 5: break;
+                    case 6: break;
+                }
                 data = null;
             }
         })
