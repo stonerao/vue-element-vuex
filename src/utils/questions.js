@@ -108,6 +108,7 @@ export default {
                     type: 'success',
                     message: res.data.data
                 });
+                this.dataAjax();
             }
         })
     },
