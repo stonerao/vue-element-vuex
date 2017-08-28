@@ -7,16 +7,20 @@
             </div>
             <div class="kd-box-content">
                 <description :prompts="prompts" @PromPts="promptsTem"></description>
-                <!--模块开始  -->
-                <div v-if="state==0">
-
+                <div class="l_layout_outer">
+                    <!--会议管理-->
+                    <div v-if="state==0">
+                        <conferManage :schoolManageCenter="schoolManageCenter"></conferManage>
+                    </div>
+                    <!--创建会议-->
+                    <div v-if="state==1">
+                        <conferCreate :schoolManageCenter="schoolManageCenter"></conferCreate>
+                    </div>
                 </div>
-                <div v-if="state==0">
-                    
-                </div>
-    
             </div>
-            <bottomItem></bottomItem>
+            <div v-if="state==0">
+                <bottomItem></bottomItem>
+            </div>
         </div>
     </div>
 </template>
@@ -26,24 +30,35 @@ import titleItem from '@/components/main/title.vue'
 import titleActive from '@/components/main/titleActive.vue'
 import description from '@/components/main/description.vue'
 import bottomItem from '@/components/bottom/bottom.vue'
+import conferManage from '@/components/conference/conferManage.vue'
+import conferCreate from '@/components/conference/conferCreate.vue'
+
 export default {
     data() {
         return {
             titleItem: [
-                { name: "科目管理", index: 0 },
-                { name: "增加科目", index: 1 },
+                { name: "会议管理", index: 0 },
+                { name: "创建会议", index: 1 },
             ],
             prompts: [
                 `该页面展示管理员的操作日志，可进行删除。`,
                 `侧边栏可以进行高级搜索`
             ],
+            schoolManageCenter: false,  //学校管理中心身份证
+            teacherManageCenter: false, //老师管理中心身份证
             state: 0, 
         }
     },
     created() {
+        this.schoolManageCenter = true;  //激活学校管理系统身份
+        if(this.state == 0){  //会议管理
+
+        }else if(this.state == 1){  //创建会议
+
+        }
     },
     components: {
-        titleItem, titleActive, description, bottomItem
+        titleItem, titleActive, description, bottomItem, conferManage, conferCreate
     },
     methods: {
         emitTransfer(index) {
@@ -54,7 +69,7 @@ export default {
         },
         promptsTem(status) {
             console.log(status)
-        }
+        },
     }
 }
 </script>

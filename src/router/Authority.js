@@ -195,9 +195,9 @@ export const constList = [
             }
         ]
     }, {
-        path: '/set',
+        path: '/conference',
         name: '会议管理',
-        redirect: '/set/index',
+        redirect: '/conference/index',
         icon: wdhy,
         iconActive: wdhy_active,
         component: Layout,
@@ -205,7 +205,7 @@ export const constList = [
             {
                 path: 'index',
                 name: '-会议管理',
-                component: setVue,
+                component: conferManage,
             }
         ]
     }, {

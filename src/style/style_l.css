@@ -2,6 +2,8 @@
   /* 年或班级排课 */
   /*排课操作*/
   /* 虚拟班排课第一步 */
+  /* 素材库*/
+  /*会议管理*/
 }
 .l_layout_outer .clearfloat:after {
   content: '';
@@ -523,6 +525,121 @@
 }
 .l_layout_outer .l_virtual_wraper .form_group .middle_zhi {
   padding: 0px 16px;
+}
+.l_layout_outer .l_mater_header {
+  margin-bottom: 10px;
+}
+.l_layout_outer .l_mater_header .mater_search {
+  padding-right: 0px!important;
+}
+.l_layout_outer .l_mater_header .mater_search .el-col {
+  float: right;
+}
+.l_layout_outer .l_mater_footer {
+  position: relative;
+}
+.l_layout_outer .l_mater_footer .footer_search {
+  margin-top: 8px;
+}
+.l_layout_outer .myPopup .Popup {
+  position: fixed;
+  z-index: 3000;
+  background: #fff;
+  top: 50%;
+  left: 50%;
+  width: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  border-radius: 10px;
+}
+.l_layout_outer .myPopup .dialog_mask {
+  position: fixed;
+  background: black;
+  opacity: 0.7;
+  z-index: 2000;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: auto;
+}
+.l_layout_outer .myPopup .el-icon-circle-close:before {
+  font-size: 30px;
+  cursor: pointer;
+}
+.l_layout_outer .myPopup .popHeader {
+  padding: 18px;
+  border-bottom: 1px solid #eee;
+}
+.l_layout_outer .myPopup .popHeader li {
+  float: left;
+  font-size: 20px;
+  font-weight: bold;
+  color: #1997e4;
+}
+.l_layout_outer .myPopup .popHeader li:nth-child(2) {
+  float: right;
+}
+.l_layout_outer .myPopup .popContent {
+  height: 536px;
+  box-sizing: border-box;
+  padding: 35px 35px 60px 35px;
+}
+.l_layout_outer .myPopup .popContent .el-col {
+  line-height: 23px;
+  font-size: 14px;
+}
+.l_layout_outer .myPopup .popContent .el-col-3 {
+  text-align: right;
+}
+.l_layout_outer .myPopup .popContent .el-col-21 {
+  padding-left: 12px;
+  box-sizing: border-box;
+}
+.l_layout_outer .myPopup .popContent .enclosure {
+  float: left;
+  padding-left: 30px;
+  margin-right: 30px;
+  font-size: 14px;
+  cursor: pointer;
+  color: #ff5652;
+  position: relative;
+}
+.l_layout_outer .myPopup .popContent .enclosure:last-child {
+  margin-right: 0px;
+}
+.l_layout_outer .myPopup .popContent .enclosure i {
+  background: url(../assets/index/enclosure.png) 0 0 no-repeat;
+  display: inline-block;
+  width: 19px;
+  height: 20px;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+}
+.l_layout_outer .l_create_wrap {
+  padding: 54px 104px;
+}
+.l_layout_outer .l_create_wrap .el-col {
+  line-height: 36px;
+}
+.l_layout_outer .l_create_wrap .el-col .someAdd input {
+  border-color: #f7f7f7!important;
+  background: #f7f7f7!important;
+}
+.l_layout_outer .l_create_wrap .el-col-3 {
+  padding-right: 12px;
+  text-align: right;
+}
+.l_layout_outer .l_create_wrap .confTime input {
+  max-width: 230px;
+  display: inline-block;
+}
+.l_layout_outer .l_create_wrap .confContent .quill-editor .ql-container {
+  height: 250px;
+  overflow-y: scroll;
 }
 @media screen and (max-width: 1618px) {
   .l_layout_outer .l_graCla_list .li_list {
