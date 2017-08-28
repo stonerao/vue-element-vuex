@@ -619,6 +619,28 @@
   left: 0px;
   top: 0px;
 }
+.l_layout_outer .l_create_wrap {
+  padding: 54px 104px;
+}
+.l_layout_outer .l_create_wrap .el-col {
+  line-height: 36px;
+}
+.l_layout_outer .l_create_wrap .el-col .someAdd input {
+  border-color: #f7f7f7!important;
+  background: #f7f7f7!important;
+}
+.l_layout_outer .l_create_wrap .el-col-3 {
+  padding-right: 12px;
+  text-align: right;
+}
+.l_layout_outer .l_create_wrap .confTime input {
+  max-width: 230px;
+  display: inline-block;
+}
+.l_layout_outer .l_create_wrap .confContent .quill-editor .ql-container {
+  height: 250px;
+  overflow-y: scroll;
+}
 @media screen and (max-width: 1618px) {
   .l_layout_outer .l_graCla_list .li_list {
     width: 17.9%;

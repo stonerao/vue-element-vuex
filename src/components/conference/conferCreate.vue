@@ -1,63 +1,101 @@
 <template>
     <div>
         <!--会议管理-->
-        <div v-if="state==0">
-            <div class="l_mater_header">
-                <el-row :gutter="15">
-                    <el-col :span="6">
-                        <img src="../../assets/index/shuaxin.png" class="icon-img-xs" />刷新-共{{materialParams.total_num}}条记录
+        <div v-if="state==1">
+            <div class="l_create_wrap">
+                <el-row>
+                    <el-col :span="3">会议类型：</el-col>
+                    <el-col :span="21">
+                        <el-radio-group v-model="create.confType">
+                            <el-radio :label="1">教研</el-radio>
+                            <el-radio :label="2">备课</el-radio>
+                        </el-radio-group>
                     </el-col>
-                    <el-col :span="18" class="mater_search clearfloat">
-                        <el-col :span="5">
-                            <el-input placeholder="输入会议主题名称" style="" v-model="conferTheme">
-                                <el-button slot="append" icon="search"></el-button>
-                            </el-input>
+                </el-row>
+                <el-row>
+                    <el-col :span="3">会议主题：</el-col>
+                    <el-col :span="21">
+                        <el-col :span="5" style="margin-right: 20px;">
+                            <el-input v-model="create.theme" placeholder="请输入主题"></el-input>
                         </el-col>
-                        <el-col :span="3">
-                            <el-select v-model="conferStatus" placeholder="会议状态">
-                                <el-option v-for="item in conferList" :key="item.value" :label="item.label" :value="item.value">
-                            </el-option>
-                        </el-select>
+                        <el-col :span="5" class="someAdd">
+                            <el-input v-model="create.themeAdd" placeholder="备注信息文字"></el-input>
+                        </el-col>   
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="3">会议地点：</el-col>
+                    <el-col :span="21">
+                        <el-col :span="5" style="margin-right: 20px;">
+                            <el-input v-model="create.adress" placeholder="请输入地点"></el-input>
+                        </el-col>
+                        <el-col :span="5" class="someAdd">
+                            <el-input v-model="create.adressAdd" placeholder="备注信息文字"></el-input>
+                        </el-col>   
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="3">会议时间：</el-col>
+                    <el-col :span="21" class="confTime">
+                        <el-date-picker v-model="confTimeS" type="date" placeholder="选择日期" style="margin-right: 10px;"></el-date-picker>
+                        <el-date-picker v-model="confTimeE" type="date" placeholder="选择日期" :picker-options="pickerOptions1" :disabled="canNot_a"></el-date-picker>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="3">参会人员：</el-col>
+                    <el-col :span="21">
+                        <el-col :span="5">
+                            <el-select v-model="create.confPeople" multiple placeholder="请选择" style="width: 100%;">
+                                <el-option v-for="item in conferPeoList" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                            </el-select>
                         </el-col>
                     </el-col>
                 </el-row>
-            </div>
-            <div class="l_mater_table">
-                <el-table ref="multipleTable" :data="conferManaList" border tooltip-effect="dark" style="width: 100%" @selection-change="select_Change">
-                    <el-table-column type="selection" width="48"></el-table-column>
-                    <el-table-column label="ID" prop="id"></el-table-column>
-                    <el-table-column label="会议主题" prop="theme"></el-table-column>
-                    <el-table-column label="会议时间" prop="time"></el-table-column>
-                    <el-table-column label="创建时间" prop="creTime"></el-table-column>
-                    <el-table-column label="创始人" prop="people"></el-table-column>
-                    <el-table-column label="操作" prop="handle">
-                        <template scope="scope">
-                            <el-button type="primary" size="mini" icon="view" @click.native="look_over">查看</el-button>
-                            <el-button type="primary" size="mini" icon="edit" @click.native="edit">编辑</el-button>
-                            <el-button type="primary" size="mini" icon="delete" @click.native="delete">删除</el-button>
-                        </template>
-                    </el-table-column>
-                </el-table>
-            </div>
-            <div class="l_mater_footer">
-                <el-row :span="24">
-                    <el-col :span="6">
-                        <div class="footer_search">
-                            <el-select v-model="footerVal" size="small" placeholder="请选择" style="margin-right: 5px;max-width: 160px;">
-                                <el-option v-for="item in footerList" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                            </el-select>
-                            <el-button type="primary" size="mini">确定</el-button>
-                        </div>
+                <el-row>
+                    <el-col :span="3">提前通知时间：</el-col>
+                    <el-col :span="21" class="confTime">
+                        <el-date-picker v-model="create.messageTime" type="date" placeholder="选择日期"></el-date-picker>
                     </el-col>
-                    <el-col :span="18">
-                        <div class="kd-page">
-                            <el-row>
-                                <el-col :span="24">
-                                    <el-pagination class="float-right" :current-page="materialParams.curpage" :page-sizes="[15, 20, 25, 30]" :page-size="materialParams.page_count" layout="total, sizes, prev, pager, next, jumper" :total="materialParams.total_num" @size-change="handleSizeChange" @current-change="handleCurrentChange">
-                                    </el-pagination>
-                                </el-col>
-                            </el-row>
-                        </div>
+                </el-row>
+                <el-row>
+                    <el-col :span="3">会议内容：</el-col>
+                    <el-col :span="21" class="confContent">
+                        <quillEditor v-model="create.conferContent"></quillEditor>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="3">上传附件：</el-col>
+                    <el-col :span="21">
+                        <el-col :span="4">
+                            <el-button type="primary" size="small" icon="upload2">上传文件</el-button>
+                            <img src="">
+                        </el-col>
+                        <el-col :span="10">
+                            <el-button type="primary" size="small">删除</el-button>
+                            <span>上传图片格式必须是gif,jpg,jpeg,png;图片大小在200kb以内</span>
+                        </el-col>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="3">会议直播间创建：</el-col>
+                    <el-col :span="21">
+                        <el-button type="primary" size="small">创建直播</el-button>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="3">是否显示：</el-col>
+                    <el-col :span="21">
+                        <el-radio-group v-model="create.isShow">
+                            <el-radio :label="1">是</el-radio>
+                            <el-radio :label="2">否</el-radio>
+                        </el-radio-group>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="3" style="color: #f7f7f7;">保存操作</el-col>
+                    <el-col :span="21">
+                        <el-button type="primary">保存</el-button>
+                        <el-button type="primary" style="background: #e0e0e0;border-color: #e0e0e0;color: #5b5b5b">取消</el-button>
                     </el-col>
                 </el-row>
             </div>
@@ -70,28 +108,31 @@ import titleItem from '@/components/main/title.vue'
 import titleActive from '@/components/main/titleActive.vue'
 import description from '@/components/main/description.vue'
 import bottomItem from '@/components/bottom/bottom.vue'
+import { quillEditor } from 'vue-quill-editor'
+
 export default {
     props: ['schoolManageCenter','teacherManageCenter'],
     data() {
         return {
-            state: 0, 
-            materialParams: {   //翻页
-                hasmore: true,
-                curpage: 1,//当前页数
-                one_pagenum: 10,
-                page_count: 1,//总页数
-                total_num: 0
+            state: 1, 
+            create: {
+                confType: 1,
+                theme: '',
+                themeAdd: '',
+                adress: '',
+                adressAdd: '',
+                timeStart: '',
+                timeEnd: '',
+                confPeople: [],
+                messageTime: '',
+                conferContent: '',
+                isShow: 1,
             },
-            conferList: '',  //会议状态选择框数据初始
-            conferStatus: '', //会议状态
-            conferTheme: '',  //search会议主题
-            footerList: '',
-            footerVal: '',
-            multiple: [],  //素材管理表选择值
-            conferManaList: [{
-                    theme: '会议',
-                },
-            ],   //素材管理表数据
+            confTimeS: '',
+            confTimeE: '',
+            canNot_a: true,
+            pickerOptions1:{},
+            conferPeoList: [],   //参会人员列表
         }
     },
     created() {
@@ -102,7 +143,7 @@ export default {
         }
     },
     components: {
-        titleItem, titleActive, description, bottomItem
+        titleItem, titleActive, description, bottomItem, quillEditor
     },
     methods: {
         emitTransfer(index) {
@@ -114,31 +155,20 @@ export default {
         promptsTem(status) {
             console.log(status)
         },
-        handleSizeChange(val) {
-            this.materialParams.one_pagenum = val;
-            if(this.state == 1){
-                // info.timeTable.call(this,this.materialParams,this.graClaId);
+    },
+    watch:{
+        confTimeS(val){
+            this.canNot_a = false;
+            this.create.timeStart = val;
+            this.pickerOptions1 = {
+                disabledDate(time) {
+                    return time.getTime() < val.getTime() + 24*60*60*1000;
+                }
             }
         },
-        handleCurrentChange(val) {
-            this.materialParams.curpage = val;
-            if(this.state == 1){
-                // info.timeTable.call(this,this.materialParams,this.graClaId);
-            }
-        },
-        select_Change(val){  //表格选择事件
-            console.log(val);
-            this.multiple = val;
-        },
-        look_over(){
-
-        },
-        edit(){
-
-        },
-        delete(){
-
-        },
+        confTimeE(val){
+            this.create.timeEnd = val;
+        }
     }
 }
 </script>
