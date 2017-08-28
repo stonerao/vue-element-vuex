@@ -39,6 +39,8 @@ import examination from '@/view/examination/index'
 // 通知中心
 import notice from '@/view/notice/index'
 // 考试中心
+// 考试管理
+import examinationTeacher from '@/view/examination/teacher'
 // 老师 试题库
 import questions from '@/view/questions/index'
 /*
@@ -479,9 +481,9 @@ export const ListTeacher = [
             }
         ]
     }, {
-        path: '/set',
+        path: '/examinationTeacher',
         name: '考试管理',
-        redirect: '/set/index',
+        redirect: '/examinationTeacher/index',
         icon: pmsd,
         iconActive: pmsd_active,
         component: Layout,
@@ -489,7 +491,7 @@ export const ListTeacher = [
             {
                 path: 'index',
                 name: '-考试管理',
-                component: setVue,
+                component: examinationTeacher,
             }
         ]
     }, {
