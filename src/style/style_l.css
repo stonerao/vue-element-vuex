@@ -2,6 +2,7 @@
   /* 年或班级排课 */
   /*排课操作*/
   /* 虚拟班排课第一步 */
+  /* 素材库*/
 }
 .l_layout_outer .clearfloat:after {
   content: '';
@@ -523,6 +524,21 @@
 }
 .l_layout_outer .l_virtual_wraper .form_group .middle_zhi {
   padding: 0px 16px;
+}
+.l_layout_outer .l_mater_header {
+  margin-bottom: 10px;
+}
+.l_layout_outer .l_mater_header .mater_search {
+  padding-right: 0px!important;
+}
+.l_layout_outer .l_mater_header .mater_search .el-col {
+  float: right;
+}
+.l_layout_outer .l_mater_footer {
+  position: relative;
+}
+.l_layout_outer .l_mater_footer .footer_search {
+  margin-top: 8px;
 }
 @media screen and (max-width: 1618px) {
   .l_layout_outer .l_graCla_list .li_list {

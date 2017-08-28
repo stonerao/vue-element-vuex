@@ -11,7 +11,7 @@
                 <div v-if="state==0">
 
                 </div>
-                <div v-if="state==0">
+                <div v-if="state==1">
                     
                 </div>
     
