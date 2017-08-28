@@ -18,7 +18,9 @@
                     </div>
                 </div>
             </div>
-            <bottomItem></bottomItem>
+            <div v-if="state==0">
+                <bottomItem></bottomItem>
+            </div>
         </div>
     </div>
 </template>
