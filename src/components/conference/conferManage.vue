@@ -192,6 +192,9 @@ export default {
         Close_mask(){
             this.Dailog = false;
         }
+    },
+    watch: {
+
     }
 }
 </script>

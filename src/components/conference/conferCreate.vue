@@ -37,8 +37,8 @@
                 <el-row>
                     <el-col :span="3">会议时间：</el-col>
                     <el-col :span="21" class="confTime">
-                        <el-date-picker v-model="confTimeS" type="date" placeholder="选择日期" style="margin-right: 10px;"></el-date-picker>
-                        <el-date-picker v-model="confTimeE" type="date" placeholder="选择日期" :picker-options="pickerOptions1" :disabled="canNot_a"></el-date-picker>
+                        <el-date-picker v-model="create.timeStart" type="date" placeholder="选择日期" style="margin-right: 10px;"></el-date-picker>
+                        <el-date-picker v-model="create.timeEnd" type="date" placeholder="选择日期" :picker-options="pickerOptions1" :disabled="canNot_a"></el-date-picker>
                     </el-col>
                 </el-row>
                 <el-row>
@@ -128,8 +128,6 @@ export default {
                 conferContent: '',
                 isShow: 1,
             },
-            confTimeS: '',
-            confTimeE: '',
             canNot_a: true,
             pickerOptions1:{},
             conferPeoList: [],   //参会人员列表
@@ -157,18 +155,14 @@ export default {
         },
     },
     watch:{
-        confTimeS(val){
+        ['create.timeStart'](val){    //监听对象的属性的值的变化
             this.canNot_a = false;
-            this.create.timeStart = val;
             this.pickerOptions1 = {
                 disabledDate(time) {
                     return time.getTime() < val.getTime() + 24*60*60*1000;
                 }
             }
         },
-        confTimeE(val){
-            this.create.timeEnd = val;
-        }
     }
 }
 </script>
