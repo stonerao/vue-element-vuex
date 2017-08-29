@@ -17,11 +17,10 @@
       </el-col>
       <el-col :span="4">
         <el-select v-model="value" placeholder="一级分类名称" size="small">
-          <el-option v-for="item in options" :label="item.label" :value="item.value">
+          <el-option v-for="item in firstClassList" :label="item.vc_name" :value="item.vc_id">
           </el-option>
         </el-select>
       </el-col>
-      <el-col :span="1" style="margin-left: 15px">—</el-col>
       <el-col :span="4">
         <el-select v-model="value" placeholder="二级分类名称" size="small">
           <el-option v-for="item in options" :label="item.label" :value="item.value">
@@ -34,12 +33,7 @@
         <div class="rt">视频缩略图：</div>
       </el-col>
       <el-col :span="10">
-        <el-upload action="https://jsonplaceholder.typicode.com/posts/" list-type="picture-card" :on-preview="handlePictureCardPreview" :on-remove="handleRemove">
-          <i class="el-icon-plus"></i>
-        </el-upload>
-        <el-dialog v-model="dialogVisible" size="tiny">
-          <img width="100%" :src="dialogImageUrl" alt="">
-        </el-dialog>
+
       </el-col>
     </el-row>
     <el-row>
@@ -61,20 +55,24 @@
         <quillEditor v-model="htmlTxt"></quillEditor>
       </el-col>
     </el-row>
+    <el-row>
+      <el-col :span="10" :offset="4">
+        <el-button type="primary">主要按钮</el-button>
+        <el-button >主要按钮</el-button>
+      </el-col>
+    </el-row>
   </div>
 </template>
 <script>
   import { quillEditor } from 'vue-quill-editor'
   export default{
-    props:[],
+    props:['firstClassList'],
     data(){
       return{
         videoTitle:'',//视频名称
         options:[{value: '选项1', label: '黄金糕'}, {value: '选项2', label: '双皮奶'}, {value: '选项3',label: '蚵仔煎'}],
         value:'',
         value5:'',
-        dialogImageUrl: '',
-        dialogVisible: false,
         htmlTxt:'',//富文本
       }
     },
@@ -82,12 +80,8 @@
       quillEditor,
     },
     methods: {
-      handleRemove(file, fileList) {
-        console.log(file, fileList);
-      },
-      handlePictureCardPreview(file) {
-        this.dialogImageUrl = file.url;
-        this.dialogVisible = true;
+      upload(){
+
       }
     }
   }

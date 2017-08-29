@@ -12,7 +12,7 @@
 
         </div>
         <div v-if="state==1">
-          <videoEdit></videoEdit>
+          <videoEdit :firstClassList="firstClassList"></videoEdit>
         </div>
 
       </div>
@@ -26,6 +26,7 @@
   import titleActive from '@/components/main/titleActive.vue'
   import description from '@/components/main/description.vue'
   import bottomItem from '@/components/bottom/bottom.vue'
+  import video from '@/utils/video'
   import videoEdit from '@/components/video/videoEdit'
 
   export default {
@@ -40,9 +41,11 @@
           `侧边栏可以进行高级搜索`
         ],
         state: 1,
+        firstClassList:[],//一级分类列表
       }
     },
     created() {
+      this.refresh()
     },
     components: {
       titleItem, titleActive, description, bottomItem,videoEdit
@@ -56,6 +59,12 @@
       },
       promptsTem(status) {
         console.log(status)
+      },
+      //刷新列表
+      refresh(){
+        if(this.state==1){
+          video.first_class_list.call(this);
+        }
       }
     }
   }
