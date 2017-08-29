@@ -22,7 +22,7 @@
                                 </el-col>
                                 <el-col :span="18" class="mater_search clearfloat">
                                     <el-col :span="6">
-                                        <el-input placeholder="输入名称关键字搜索素材" style="" v-model="Level5">
+                                        <el-input placeholder="输入名称关键字搜索素材" style="" v-model="searchlist.inputData">
                                             <el-button slot="append" icon="search"></el-button>
                                         </el-input>
                                     </el-col>
@@ -140,6 +140,7 @@ export default {
                 Level4: '',
                 Level5: '',
                 materType: '',
+                inputData: '',
             },
             manaDisable: {
                 cant2: true,
