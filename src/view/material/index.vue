@@ -27,27 +27,33 @@
                                         </el-input>
                                     </el-col>
                                     <el-col :span="3">
-                                        <el-select v-model="Level4" placeholder="四级分类">
-                                            <el-option v-for="item in Levelist.Levelist_4" :key="item.value" :label="item.label" :value="item.value">
-                                        </el-option>
-                                    </el-select>
-                                    </el-col>
-                                    <el-col :span="3">
-                                        <el-select v-model="Level3" placeholder="三级分类">
-                                            <el-option v-for="item in Levelist.Levelist_3" :key="item.value" :label="item.label" :value="item.value">
-                                            </el-option>
+                                        <el-select v-model="searchlist.materType" placeholder="素材类型">
+                                            <el-option v-for="item in Levelist.materlist" :key="item.value" :label="item.label" :value="item.value"></el-option>
                                         </el-select>
                                     </el-col>
                                     <el-col :span="3">
-                                        <el-select v-model="Level2" placeholder="二级分类">
-                                            <el-option v-for="item in Levelist.Levelist_2" :key="item.value" :label="item.label" :value="item.value">
-                                            </el-option>
+                                        <el-select v-model="searchlist.Level5" placeholder="五级分类" :disabled="manaDisable.cant5">
+                                            <el-option v-for="item in Levelist.Levelist_5" :key="item.value" :label="item.label" :value="item.value"></el-option>
                                         </el-select>
                                     </el-col>
                                     <el-col :span="3">
-                                        <el-select v-model="Level1" placeholder="一级分类">
-                                            <el-option v-for="item in Levelist.Levelist_1" :key="item.value" :label="item.label" :value="item.value">
-                                            </el-option>
+                                        <el-select v-model="searchlist.Level4" placeholder="四级分类" :disabled="manaDisable.cant4">
+                                            <el-option v-for="item in Levelist.Levelist_4" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                                        </el-select>
+                                    </el-col>
+                                    <el-col :span="3">
+                                        <el-select v-model="searchlist.Level3" placeholder="三级分类" :disabled="manaDisable.cant3">
+                                            <el-option v-for="item in Levelist.Levelist_3" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                                        </el-select>
+                                    </el-col>
+                                    <el-col :span="3">
+                                        <el-select v-model="searchlist.Level2" placeholder="二级分类" :disabled="manaDisable.cant2">
+                                            <el-option v-for="item in Levelist.Levelist_2" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                                        </el-select>
+                                    </el-col>
+                                    <el-col :span="3">
+                                        <el-select v-model="searchlist.Level1" placeholder="一级分类">
+                                            <el-option v-for="item in Levelist.Levelist_1" :key="item.value" :label="item.label" :value="item.value"></el-option>
                                         </el-select>
                                     </el-col>
                                 </el-col>
@@ -69,10 +75,10 @@
                             <el-row :span="24">
                                 <el-col :span="6">
                                     <div class="footer_search">
-                                        <el-select v-model="Level5" size="small" placeholder="请选择" style="margin-right: 5px;max-width: 160px;">
+                                        <!-- <el-select v-model="Level5" size="small" placeholder="请选择" style="margin-right: 5px;max-width: 160px;">
                                             <el-option v-for="item in Levelist.Levelist_5" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                                        </el-select>
-                                        <el-button type="primary" size="mini">确定</el-button>
+                                        </el-select> -->
+                                        <el-button type="primary" size="mini" @click.native="delete_select">删除</el-button>
                                     </div>
                                 </el-col>
                                 <el-col :span="18">
@@ -119,20 +125,30 @@ export default {
                 page_count: 1,//总页数
                 total_num: 0
             },
-            Levelist: {  //select数据获取
+            Levelist: {  //search初始数据列表获取
                 Levelist_1: [],
                 Levelist_2: [],
                 Levelist_3: [],
                 Levelist_4: [],
                 Levelist_5: [],
+                materlist: [],  
             },
-            Level1: '',  //search值
-            Level2: '',
-            Level3: '',
-            Level4: '',
-            Level5: '',
-            multiple: [],  //素材管理表选择值
-            materManaList: [],   //素材管理表数据
+            searchlist:{ //搜索表单提交数据
+                Level1: '',  
+                Level2: '',
+                Level3: '',
+                Level4: '',
+                Level5: '',
+                materType: '',
+            },
+            manaDisable: {
+                cant2: true,
+                cant3: true,
+                cant4: true,
+                cant5: true,
+            },
+            multiple: [],  //素材管理-选中的表行
+            materManaList: [],   //素材管理-列表数据
         }
     },
     created() {
@@ -170,6 +186,9 @@ export default {
         select_Change(val){  //表格选择事件
             console.log(val);
             this.multiple = val;
+        },
+        delete_select(){
+
         }
     }
 }
