@@ -641,6 +641,13 @@
   height: 250px;
   overflow-y: scroll;
 }
+.l_layout_outer .encloImg {
+  display: inline-block;
+  background: url(../assets/icon/encloGray.png) 0 0 no-repeat;
+  width: 15px;
+  height: 16px;
+  margin-top: 9px;
+}
 @media screen and (max-width: 1618px) {
   .l_layout_outer .l_graCla_list .li_list {
     width: 17.9%;

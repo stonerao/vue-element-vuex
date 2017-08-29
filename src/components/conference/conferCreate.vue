@@ -45,7 +45,7 @@
                     <el-col :span="3">参会人员：</el-col>
                     <el-col :span="21">
                         <el-col :span="5">
-                            <el-select v-model="create.confPeople" multiple placeholder="请选择" style="width: 100%;">
+                            <el-select v-model="create.confPeople" placeholder="请选择" style="width: 100%;">
                                 <el-option v-for="item in conferPeoList" :key="item.value" :label="item.label" :value="item.value"></el-option>
                             </el-select>
                         </el-col>

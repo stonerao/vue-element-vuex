@@ -2225,5 +2225,117 @@ export default {
         //年月日时分秒
         formatYMDHMS(data){
             return data = data.getFullYear() + '-' + (data.getMonth()+1) + '-' + data.getDate() + ' ' + data.getHours() + ':' + data.getMinutes();
-        }
+        },
+
+
+
+
+
+        //素材库---素材管理
+        materManaList_s(obj, cid, content) {
+            let apiUrl = api.materManaList_s;
+            let formData = {
+                    token: getToken(),
+                    page: obj.curpage,
+                    pagesize: obj.one_pagenum,
+                    cid: cid,
+                    search: content
+                };
+            if(this.schoolManageCenter){
+                
+            }else if(this.teacherManageCenter){
+
+            }
+            this.$http(apiUrl, {
+                params: formData
+            }).then((res) => {
+                // console.log(res);
+                if (res.status === 200) {
+                        this.materManaList = [];  
+                        let _data = res.data.data.list;
+                        _data.forEach((x) => {
+                            this.materManaList.push({
+                                id: x.id,
+                                name: x.title,
+                                size: x.file_size,
+                                time: x.add_time,
+                                people: x.user_name,
+                                url: x.file_url,
+                            })
+                        })
+                        this.materialParams.curpage = res.data.data.page;    //当前第几页
+                        this.materialParams.page_count = res.data.data.page_count;  //总共多少页
+                        this.materialParams.total_num = parseInt(res.data.data.rows);   //总共多少条数据
+                    }
+            })
+        },
+
+        //素材库---素材管理-一级分类
+        materManaType1_s(obj) {
+            let apiUrl = api.materManaType1_s;
+            let formData = {
+                    token: getToken(),
+                    pid: obj.pid,
+                    type: obj.type
+                };
+            if(this.schoolManageCenter){
+                
+            }else if(this.teacherManageCenter){
+
+            }
+            this.$http(apiUrl, {
+                params: formData
+            }).then((res) => {
+                // console.log(res);
+                if (res.status === 200) {
+                    switch(this.requestDiff) {
+                        case 2:     
+                            if((res.data.data.list).length != 0){   //一级分类变更，请求到二级数据
+                                this.manaDisable.cant2 = false;
+                                this.Levelist.Levelist_2 = res.data.data.list;
+                            }else{
+                                this.manaDisable.cant2 = true;
+                                this.Levelist.Levelist_2 = [];
+                                this.searchlist.Level2 = '';
+                            };
+                            break;
+                        case 3:
+                            if((res.data.data.list).length != 0){
+                                this.manaDisable.cant3 = false;
+                                this.Levelist.Levelist_3 = res.data.data.list;
+                            }else{
+                                this.manaDisable.cant3 = true;
+                                this.Levelist.Levelist_3 = [];
+                                this.searchlist.Level3 = '';
+                            };
+                            break;
+                        case 4:
+                            if((res.data.data.list).length != 0){
+                                this.manaDisable.cant4 = false;
+                                this.Levelist.Levelist_4 = res.data.data.list;
+                            }else{
+                                this.manaDisable.cant4 = true;
+                                this.Levelist.Levelist_4 = [];
+                                this.searchlist.Level4 = '';
+                            };
+                            break;
+                        case 5:
+                            if((res.data.data.list).length != 0){
+                                this.manaDisable.cant5 = false;
+                                this.Levelist.Levelist_5 = res.data.data.list;
+                            }else{
+                                this.manaDisable.cant5 = true;
+                                this.Levelist.Levelist_5 = [];
+                                this.searchlist.Level5 = '';
+                            };
+                            break;
+                        default:
+                            if((res.data.data.list).length != 0){
+                                this.Levelist.Levelist_1 = res.data.data.list;
+                            };
+                            break;
+                    }
+                }
+            })
+        },
 }
