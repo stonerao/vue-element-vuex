@@ -7,14 +7,88 @@
             </div>
             <div class="kd-box-content">
                 <description :prompts="prompts" @PromPts="promptsTem"></description>
-                <!--模块开始  -->
-                <div v-if="state==0">
-                
+                <div class="l_layout_outer">
+                    <!--素材分类  -->
+                    <div v-if="state==0">
+                        素材分类!
+                    </div>
+                    <!--素材管理  -->
+                    <div v-if="state==1">
+                        <div class="l_mater_header">
+                            <el-row :gutter="15">
+                                <el-col :span="6">
+                                    <el-button type="primary" icon="plus" size="small" style="margin-right: 12px;">上传素材</el-button>
+                                    <img src="../../assets/index/shuaxin.png" class="icon-img-xs" />刷新-共{{materialParams.total_num}}条记录
+                                </el-col>
+                                <el-col :span="18" class="mater_search clearfloat">
+                                    <el-col :span="6">
+                                        <el-input placeholder="输入名称关键字搜索素材" style="" v-model="Level5">
+                                            <el-button slot="append" icon="search"></el-button>
+                                        </el-input>
+                                    </el-col>
+                                    <el-col :span="3">
+                                        <el-select v-model="Level4" placeholder="四级分类">
+                                            <el-option v-for="item in Levelist.Levelist_4" :key="item.value" :label="item.label" :value="item.value">
+                                        </el-option>
+                                    </el-select>
+                                    </el-col>
+                                    <el-col :span="3">
+                                        <el-select v-model="Level3" placeholder="三级分类">
+                                            <el-option v-for="item in Levelist.Levelist_3" :key="item.value" :label="item.label" :value="item.value">
+                                            </el-option>
+                                        </el-select>
+                                    </el-col>
+                                    <el-col :span="3">
+                                        <el-select v-model="Level2" placeholder="二级分类">
+                                            <el-option v-for="item in Levelist.Levelist_2" :key="item.value" :label="item.label" :value="item.value">
+                                            </el-option>
+                                        </el-select>
+                                    </el-col>
+                                    <el-col :span="3">
+                                        <el-select v-model="Level1" placeholder="一级分类">
+                                            <el-option v-for="item in Levelist.Levelist_1" :key="item.value" :label="item.label" :value="item.value">
+                                            </el-option>
+                                        </el-select>
+                                    </el-col>
+                                </el-col>
+                            </el-row>
+                        </div>
+                        <div class="l_mater_table">
+                            <el-table ref="multipleTable" :data="materManaList" border tooltip-effect="dark" style="width: 100%" @selection-change="select_Change">
+                                <el-table-column type="selection" width="48"></el-table-column>
+                                <el-table-column label="ID" prop="id"></el-table-column>
+                                <el-table-column label="素材名称" prop="name"></el-table-column>
+                                <el-table-column label="大小" prop="size"></el-table-column>
+                                <el-table-column label="素材附件" prop="other"></el-table-column>
+                                <el-table-column label="发布时间" prop="time"></el-table-column>
+                                <el-table-column label="创建人" prop="people"></el-table-column>
+                                <el-table-column label="操作" prop="handle"></el-table-column>
+                            </el-table>
+                        </div>
+                        <div class="l_mater_footer">
+                            <el-row :span="24">
+                                <el-col :span="6">
+                                    <div class="footer_search">
+                                        <el-select v-model="Level5" size="small" placeholder="请选择" style="margin-right: 5px;max-width: 160px;">
+                                            <el-option v-for="item in Levelist.Levelist_5" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                                        </el-select>
+                                        <el-button type="primary" size="mini">确定</el-button>
+                                    </div>
+                                </el-col>
+                                <el-col :span="18">
+                                    <div class="kd-page">
+                                        <el-row>
+                                            <el-col :span="24">
+                                                <el-pagination class="float-right" :current-page="materialParams.curpage" :page-sizes="[15, 20, 25, 30]" :page-size="materialParams.page_count" layout="total, sizes, prev, pager, next, jumper" :total="materialParams.total_num" @size-change="handleSizeChange" @current-change="handleCurrentChange">
+                                                </el-pagination>
+                                            </el-col>
+                                        </el-row>
+                                    </div>
+                                </el-col>
+                            </el-row>
+                        </div>
+                    </div>
                 </div>
-                <div v-if="state==0">
-                    
-                </div>
-    
             </div>
             <bottomItem></bottomItem>
         </div>
@@ -30,17 +104,43 @@ export default {
     data() {
         return {
             titleItem: [
-                { name: "科目管理", index: 0 },
-                { name: "增加科目", index: 1 },
+                { name: "素材分类", index: 0 },
+                { name: "素材管理", index: 1 },
             ],
             prompts: [
                 `该页面展示管理员的操作日志，可进行删除。`,
                 `侧边栏可以进行高级搜索`
             ],
-            state: 0, 
+            state: 1, 
+            materialParams: {   //翻页
+                hasmore: true,
+                curpage: 1,//当前页数
+                one_pagenum: 10,
+                page_count: 1,//总页数
+                total_num: 0
+            },
+            Levelist: {  //select数据获取
+                Levelist_1: [],
+                Levelist_2: [],
+                Levelist_3: [],
+                Levelist_4: [],
+                Levelist_5: [],
+            },
+            Level1: '',  //search值
+            Level2: '',
+            Level3: '',
+            Level4: '',
+            Level5: '',
+            multiple: [],  //素材管理表选择值
+            materManaList: [],   //素材管理表数据
         }
     },
     created() {
+        if(this.state == 0){  //素材分类
+
+        }else if(this.state == 1){  //素材管理
+
+        }
     },
     components: {
         titleItem, titleActive, description, bottomItem
@@ -54,6 +154,22 @@ export default {
         },
         promptsTem(status) {
             console.log(status)
+        },
+        handleSizeChange(val) {
+            this.materialParams.one_pagenum = val;
+            if(this.state == 1){
+                // info.timeTable.call(this,this.materialParams,this.graClaId);
+            }
+        },
+        handleCurrentChange(val) {
+            this.materialParams.curpage = val;
+            if(this.state == 1){
+                // info.timeTable.call(this,this.materialParams,this.graClaId);
+            }
+        },
+        select_Change(val){  //表格选择事件
+            console.log(val);
+            this.multiple = val;
         }
     }
 }

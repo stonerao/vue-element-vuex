@@ -14,6 +14,26 @@ export default {
             }
         })
     },
+    create_question_type(){
+        this.$http(api.question_type, {
+            params: {
+                token: getToken()
+            }
+        }).then((res) => {
+            if (res.data.code) {
+                this.questionItems = [];
+                let data = res.data.data;
+                data.forEach((x)=>{
+                    this.questionItems.push({
+                        total:'',
+                        every:'',  
+                        type_id:x.type_id,
+                        type_name:x.type_name
+                    })
+                }) 
+            }
+        })
+    },
     question_classlist(id, status) {
         // 试题所属分类
         this.$http({
@@ -43,7 +63,7 @@ export default {
         let qc_id = this.belongClass3 ? this.belongClass3 : (this.belongClass2 ? this.belongClass2 : this.belongClass1);
         this.$http({
             method: "post",
-            url: api.questions_add,
+            url: this.isSetQues?api.question_edit:api.questions_add,
             data: {
                 token: getToken(),
                 qc_id: qc_id,
@@ -52,6 +72,7 @@ export default {
                 answer: answer,//参考的答案
                 option: option ? encodeUnicode(JSON.stringify(option)) : null,//选项内容 json
                 q_title: this.textF,//题干
+                q_id:this.isSetQues?this.setQuestionObj.q_id:''
             }
         }).then((res) => {
             if (res.data.code == 200) {
@@ -146,16 +167,22 @@ export default {
                 // 普题目
                 //class type id 
                 let num = parseInt(data.q_type_id);
+                var arr = data.q_option;
                 switch (num) {
-                    case 1: break;
+                    case 1: 
+                    this.radioItems=[];
+                    this.radio = this.A_Z.indexOf(data.answer) 
+                        arr.forEach((x) => { 
+                            this.radioItems.push(x);
+                        })
+                        break;
                     case 2:
-                        let arr = data.q_option;
                         let boxArr = [];
                         this.checkboxItems = [];
                         this.checkbox = data.answer.split(",");
-                        this.checkbox.forEach((x,index) => {
+                        this.checkbox.forEach((x, index) => {
                             if (this.A_Z.indexOf(x) != -1) {
-                                console.log(this.A_Z.indexOf(x)) 
+                                console.log(this.A_Z.indexOf(x))
                                 boxArr.push(this.A_Z.indexOf(x))
                             }
 
@@ -166,10 +193,22 @@ export default {
                         })
                         arr = null;
                         break;
-                    case 3: break;
-                    case 4: break;
-                    case 5: break;
-                    case 6: break;
+                    case 3:
+                        this.trueOrFalse  = data.answer;
+                    break;
+                    case 4: 
+                        this.fileBlankItems = [];
+                        arr.forEach((x) => {
+                            this.fileBlankItems.push(x)
+                        })
+                        this.referenceAnswer = data.answer
+                    break;
+                    case 5: 
+                    this.referenceAnswer = data.answer
+                    break;
+                    case 6: 
+                    this.referenceAnswer = data.answer
+                    break;
                 }
                 data = null;
             }
