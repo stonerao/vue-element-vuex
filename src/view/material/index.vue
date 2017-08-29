@@ -237,7 +237,11 @@ export default {
 
         },
         filterResult(){
-            this.lastId = this.firstSelect.pid;
+            if(String(this.searchlist.Level1).length == 0 && String(this.searchlist.Level2).length == 0 && String(this.searchlist.Level3).length == 0 && String(this.searchlist.Level4).length == 0 && String(this.searchlist.Level5).length == 0){
+                this.lastId = 0;
+            }else{
+                this.lastId = this.firstSelect.pid;
+            }
             info.materManaList_s.call(this,this.materialParams,this.lastId,this.searchlist.inputData);
         }
     },
