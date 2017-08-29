@@ -155,12 +155,17 @@ export default {
         },
     },
     watch:{
-        ['create.timeStart'](val){    //监听对象的属性的值的变化
-            this.canNot_a = false;
-            this.pickerOptions1 = {
-                disabledDate(time) {
-                    return time.getTime() < val.getTime() + 24*60*60*1000;
+        ['create.timeStart'](val){    //监听对象的属性的值的变化--方法二
+            if(String(val).length != 0){
+                this.canNot_a = false;
+                this.pickerOptions1 = {
+                    disabledDate(time) {
+                        return time.getTime() < val.getTime() + 24*60*60*1000;
+                    }
                 }
+            }else{  //如果日期表一清空，则表二也要清空
+                this.create.timeEnd = '';
+                this.canNot_a = true;
             }
         },
     }
