@@ -2295,8 +2295,14 @@ export default {
                                 this.Levelist.Levelist_2 = res.data.data.list;
                             }else{
                                 this.manaDisable.cant2 = true;
-                                this.Levelist.Levelist_2 = [];
                                 this.searchlist.Level2 = '';
+                                this.searchlist.Level3 = '';
+                                this.searchlist.Level4 = '';
+                                this.searchlist.Level5 = '';
+                                this.Levelist.Levelist_2 = []; 
+                                this.Levelist.Levelist_3 = []; 
+                                this.Levelist.Levelist_4 = []; 
+                                this.Levelist.Levelist_5 = []; 
                             };
                             break;
                         case 3:
@@ -2305,8 +2311,12 @@ export default {
                                 this.Levelist.Levelist_3 = res.data.data.list;
                             }else{
                                 this.manaDisable.cant3 = true;
-                                this.Levelist.Levelist_3 = [];
                                 this.searchlist.Level3 = '';
+                                this.searchlist.Level4 = '';
+                                this.searchlist.Level5 = '';
+                                this.Levelist.Levelist_3 = []; 
+                                this.Levelist.Levelist_4 = []; 
+                                this.Levelist.Levelist_5 = []; 
                             };
                             break;
                         case 4:
@@ -2315,8 +2325,10 @@ export default {
                                 this.Levelist.Levelist_4 = res.data.data.list;
                             }else{
                                 this.manaDisable.cant4 = true;
-                                this.Levelist.Levelist_4 = [];
                                 this.searchlist.Level4 = '';
+                                this.searchlist.Level5 = '';
+                                this.Levelist.Levelist_4 = []; 
+                                this.Levelist.Levelist_5 = []; 
                             };
                             break;
                         case 5:
@@ -2325,8 +2337,8 @@ export default {
                                 this.Levelist.Levelist_5 = res.data.data.list;
                             }else{
                                 this.manaDisable.cant5 = true;
-                                this.Levelist.Levelist_5 = [];
                                 this.searchlist.Level5 = '';
+                                this.Levelist.Levelist_5 = []; 
                             };
                             break;
                         default:

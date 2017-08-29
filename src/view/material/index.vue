@@ -240,7 +240,7 @@ export default {
     },
     watch: {
         ['searchlist.Level1'](val){
-            if(val){
+            if(val != 0){
                 this.requestDiff = 2;  //请求二级分类
                 this.firstSelect.pid = val;
                 info.materManaType1_s.call(this,this.firstSelect);
