@@ -24,36 +24,36 @@
                                     <el-col :span="18" class="mater_search clearfloat">
                                         <el-col :span="6">
                                             <el-input placeholder="输入名称关键字搜索素材" style="" v-model="searchlist.inputData">
-                                                <el-button slot="append" icon="search"></el-button>
+                                                <el-button slot="append" icon="search" @click.native="filterResult"></el-button>
                                             </el-input>
                                         </el-col>
                                         <el-col :span="3">
-                                            <el-select v-model="searchlist.materType" placeholder="素材类型">
+                                            <el-select v-model="searchlist.materType" clearable placeholder="素材类型">
                                                 <el-option v-for="item in Levelist.materlist" :key="item.value" :label="item.label" :value="item.value"></el-option>
                                             </el-select>
                                         </el-col>
                                         <el-col :span="3">
-                                            <el-select v-model="searchlist.Level5" placeholder="五级分类" :disabled="manaDisable.cant5">
+                                            <el-select v-model="searchlist.Level5" clearable placeholder="五级分类" :disabled="manaDisable.cant5">
                                                 <el-option v-for="item in Levelist.Levelist_5" :key="item.id" :label="item.category_name" :value="item.id"></el-option>
                                             </el-select>
                                         </el-col>
                                         <el-col :span="3">
-                                            <el-select v-model="searchlist.Level4" placeholder="四级分类" :disabled="manaDisable.cant4">
+                                            <el-select v-model="searchlist.Level4" clearable placeholder="四级分类" :disabled="manaDisable.cant4">
                                                 <el-option v-for="item in Levelist.Levelist_4" :key="item.id" :label="item.category_name" :value="item.id"></el-option>
                                             </el-select>
                                         </el-col>
                                         <el-col :span="3">
-                                            <el-select v-model="searchlist.Level3" placeholder="三级分类" :disabled="manaDisable.cant3">
+                                            <el-select v-model="searchlist.Level3" clearable placeholder="三级分类" :disabled="manaDisable.cant3">
                                                 <el-option v-for="item in Levelist.Levelist_3" :key="item.id" :label="item.category_name" :value="item.id"></el-option>
                                             </el-select>
                                         </el-col>
                                         <el-col :span="3">
-                                            <el-select v-model="searchlist.Level2" placeholder="二级分类" :disabled="manaDisable.cant2">
+                                            <el-select v-model="searchlist.Level2" clearable placeholder="二级分类" :disabled="manaDisable.cant2">
                                                 <el-option v-for="item in Levelist.Levelist_2" :key="item.id" :label="item.category_name" :value="item.id"></el-option>
                                             </el-select>
                                         </el-col>
                                         <el-col :span="3">
-                                            <el-select v-model="searchlist.Level1" placeholder="一级分类">
+                                            <el-select v-model="searchlist.Level1" clearable placeholder="一级分类">
                                                 <el-option v-for="item in Levelist.Levelist_1" :key="item.id" :label="item.category_name" :value="item.id"></el-option>
                                             </el-select>
                                         </el-col>
@@ -236,35 +236,80 @@ export default {
         delete(id){
 
         },
-
+        filterResult(){
+            this.lastId = this.firstSelect.pid;
+            info.materManaList_s.call(this,this.materialParams,this.lastId,this.searchlist.inputData);
+        }
     },
     watch: {
         ['searchlist.Level1'](val){
-            if(val != 0){
+            this.Levelist.Levelist_2 = []; 
+            this.Levelist.Levelist_3 = []; 
+            this.Levelist.Levelist_4 = []; 
+            this.Levelist.Levelist_5 = [];
+            this.searchlist.Level2 = '';
+            this.searchlist.Level3 = '';
+            this.searchlist.Level4 = '';
+            this.searchlist.Level5 = '';
+            if(val){
                 this.requestDiff = 2;  //请求二级分类
                 this.firstSelect.pid = val;
                 info.materManaType1_s.call(this,this.firstSelect);
+            }else{
+                this.manaDisable = {
+                    cant2: true,
+                    cant3: true,
+                    cant4: true,
+                    cant5: true,
+                }
             }
         },
         ['searchlist.Level2'](val){
+            this.searchlist.Level3 = '';
+            this.searchlist.Level4 = '';
+            this.searchlist.Level5 = '';
+            this.Levelist.Levelist_3 = []; 
+            this.Levelist.Levelist_4 = []; 
+            this.Levelist.Levelist_5 = [];
             if(val){
                 this.requestDiff = 3;  //请求三级分类
                 this.firstSelect.pid = val;
                 info.materManaType1_s.call(this,this.firstSelect);
+            }else{
+                this.manaDisable = {
+                    cant3: true,
+                    cant4: true,
+                    cant5: true,
+                }
             }
         },
         ['searchlist.Level3'](val){
+            this.searchlist.Level4 = '';
+            this.searchlist.Level5 = '';
+            this.Levelist.Levelist_4 = []; 
+            this.Levelist.Levelist_5 = [];
             if(val){
                 this.requestDiff = 4;  //请求四级分类
                 this.firstSelect.pid = val;
                 info.materManaType1_s.call(this,this.firstSelect);
+            }else{
+                this.manaDisable = {
+                    cant4: true,
+                    cant5: true,
+                }
             }
         },
         ['searchlist.Level4'](val){
+           this.searchlist.Level5 = '';
+           this.Levelist.Levelist_5 = [];
             if(val){
                 this.requestDiff = 5;  //请求五级分类
                 this.firstSelect.pid = val;
                 info.materManaType1_s.call(this,this.firstSelect);
+            }else{
+                this.manaDisable = {
+                    cant5: true,
+                }
             }
         }
     }
