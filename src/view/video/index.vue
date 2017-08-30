@@ -12,9 +12,6 @@
 
         </div>
         <div v-if="state==1">
-          <videoEdit :firstClassList="firstClassList" @underClassList="underClassList" :underList="underList" :showList="showList" :classList="classList"></videoEdit>
-        </div>
-        <div v-if="state==2">
           <videoNew></videoNew>
         </div>
       </div>
@@ -29,7 +26,6 @@
   import description from '@/components/main/description.vue'
   import bottomItem from '@/components/bottom/bottom.vue'
   import video from '@/utils/video'
-  import videoEdit from '@/components/video/videoEdit'
   import videoNew from '@/components/video/videoNew'
 
   export default {
@@ -38,13 +34,12 @@
         titleItem: [
           { name: "视频分类", index: 0 },
           { name: "视频管理", index: 1 },
-          { name: "视频管理(2)", index: 2 },
         ],
         prompts: [
           `该页面展示管理员的操作日志，可进行删除。`,
           `侧边栏可以进行高级搜索`
         ],
-        state: 2,
+        state: 1,
         firstClassList:[],//一级分类列表
         underList:{
           secondList:[],//二级分类
@@ -63,7 +58,7 @@
       this.refresh()
     },
     components: {
-      titleItem, titleActive, description, bottomItem,videoEdit,videoNew
+      titleItem, titleActive, description, bottomItem,videoNew
     },
     methods: {
       emitTransfer(index) {

@@ -82,7 +82,9 @@
   <script>
     $(function(){
       $("#classList").multiselect();
+
       var ids="";//可观看班级的id
+
       $("#classList").change(function(){
         if($(this).val()){
           ids=$(this).val().join(',');//获取选中的可观看班级的id,拼接为字符串
@@ -97,6 +99,7 @@
           ids='';
         }
       });
+
       $('.submit').click(function(){
         let title=$('#title').val();//视频名称
         let text=$('#video_descript').val();//视频描述
