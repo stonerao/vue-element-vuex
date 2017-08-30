@@ -53,4 +53,5 @@ export const api = {
     conferMeetList_s:'Admin/Meeting/meeting_list',   //会议管理列表（学校）
     conferMeetdel_s:'Admin/Meeting/meeting_del',   //会议管理--删除（学校）
     conferMeetDetail_s:'Admin/Meeting/meeting_info',   //会议管理--详情（学校）
+    conferMeetCreate_s:'Admin/Meeting/meeting_add',   //会议管理--创建（学校）
 }

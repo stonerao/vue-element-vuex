@@ -2712,4 +2712,46 @@ export default {
                 }
             })
         },
+
+        //会议管理--创建会议
+        conferMeetCreate_s(obj,chanid) {
+            let apiURL = api.conferMeetCreate_s;
+            let formData = {
+                token: getToken(),
+                title: obj.theme,
+                start_time: obj.timeStart,
+                end_time: obj.timeEnd,
+                teachers: obj.confPeople,
+                content: obj.conferContent,
+                is_show: obj.isShow,
+                channelId: chanid,
+            }
+            this.$http({
+                url: apiURL,
+                method: 'post',
+                data: formData
+            }).then((res) => {
+                console.log(res)
+                if (res.status == 200) {
+                    if(res.data.code!=400){
+                        this.$notify({
+                            message: res.data.data,
+                            type: 'success',
+                            duration: 1000,
+                            onClose: () => {
+                                // window.location.reload(true);
+                            }
+                        });
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
 }
