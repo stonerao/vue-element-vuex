@@ -2521,7 +2521,7 @@ export default {
                     ids: this.IDString,
                 }
             }).then((res) => {
-                console.log(res);
+                // console.log(res);
                 if (res.status === 200) {
                     if(res.data.code!=400){
                         this.$notify({
@@ -2538,6 +2538,42 @@ export default {
                         });
                     }
                 }else{
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
+        //素材库---素材管理-添加
+        materManadd_s(obj,lid) {
+            this.$http({
+                url: api.materManadd_s,
+                method: 'post',
+                data: {
+                    token: getToken(),
+                    title: obj.theme,
+                    category_id: lid,
+                    content: obj.conferContent,
+                }
+            }).then((res) => {
+                // console.log(res)
+                if (res.status == 200) {
+                    if(res.data.code!=400){
+                        this.$notify({
+                            message: res.data.data,
+                            type: 'success',
+                            duration: 1000,
+                            onClose: () => {
+                                window.location.reload(true);
+                            }
+                        });
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                    }
+                }else {
                     this.$notify.error({
                         message: res.data.data.error
                     });

@@ -49,4 +49,5 @@ export const api = {
     materManaEdit_b_s:'Admin/Material/material_info',   //素材库-素材管理-编辑初始详情（学校）
     materManaEdit_s:'Admin/Material/material_edit',   //素材库-素材管理-编辑初始详情（学校）
     materManadel_s:'Admin/Material/material_del',   //素材库-素材管理-素材（学校）
+    materManadd_s:'Admin/Material/material_add',   //素材库-素材管理-添加（学校）
 }

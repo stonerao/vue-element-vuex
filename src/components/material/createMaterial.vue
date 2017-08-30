@@ -172,7 +172,15 @@ export default {
                         break;
                     }
                 }
-                info.materManaEdit_s.call(this,this.materialEdit.id,this.create,this.lastId);   //编辑初始数据获取
+                info.materManaEdit_s.call(this,this.materialEdit.id,this.create,this.lastId); 
+            }else{  //创建提交
+                for(var i=5;i>=1;i--){
+                    if(String(this.searchlist[`Level${i}`]).length != 0){
+                        this.lastId = this.searchlist[`Level${i}`];
+                        break;
+                    }
+                }
+                info.materManadd_s.call(this,this.create,this.lastId);
             }
         },
         floorHelp(index){  //编辑初始赋值-层级数据获取
