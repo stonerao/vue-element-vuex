@@ -12,9 +12,8 @@
 
         </div>
         <div v-if="state==1">
-          <videoEdit :firstClassList="firstClassList"></videoEdit>
+          <videoNew></videoNew>
         </div>
-
       </div>
       <bottomItem></bottomItem>
     </div>
@@ -27,7 +26,7 @@
   import description from '@/components/main/description.vue'
   import bottomItem from '@/components/bottom/bottom.vue'
   import video from '@/utils/video'
-  import videoEdit from '@/components/video/videoEdit'
+  import videoNew from '@/components/video/videoNew'
 
   export default {
     data() {
@@ -42,13 +41,24 @@
         ],
         state: 1,
         firstClassList:[],//一级分类列表
+        underList:{
+          secondList:[],//二级分类
+          thirdList:[],//三级分类
+          fourList:[],//四级分类
+          fiveList:[],//五级分类
+        },
+        showList:1,//显示几级分类
+//        cataid:'',//第三方视频分类ID
+//        writetoken:'',//用户的上传钥匙
+//        classList:[],//班级列表
+        classList:{},//视频上传列表
       }
     },
     created() {
       this.refresh()
     },
     components: {
-      titleItem, titleActive, description, bottomItem,videoEdit
+      titleItem, titleActive, description, bottomItem,videoNew
     },
     methods: {
       emitTransfer(index) {
@@ -64,7 +74,12 @@
       refresh(){
         if(this.state==1){
           video.first_class_list.call(this);
+          video.video_add_show.call(this);
         }
+      },
+      //视频管理视频分类选择框
+      underClassList(id,num){
+        video.under_class_list.call(this,id,num);
       }
     }
   }
