@@ -79,7 +79,7 @@
                                     <el-table-column label="操作">
                                         <template scope="scope">
                                             <el-button type="primary" size="mini" icon="edit" @click.native="edit(scope.row.id)">编辑</el-button>
-                                            <el-button type="primary" size="mini" icon="delete" @click.native="delete(scope.row.id)">删除</el-button>
+                                            <el-button type="primary" size="mini" icon="delete" @click.native="my_delete(scope.row.id)">删除</el-button>
                                         </template>
                                     </el-table-column>
                                 </el-table>
@@ -109,7 +109,7 @@
                         </div>
                         <!-- 上传素材 -->
                         <div v-if="materMana_2">
-                            <createMaterial :schoolManageCenter="schoolManageCenter" @CANCEL="cancelCreate"></createMaterial>
+                            <createMaterial :schoolManageCenter="schoolManageCenter" :materialEdit="materialEdit" @CANCEL="cancelCreate"></createMaterial>
                         </div>
                     </div>
                 </div>
@@ -180,6 +180,12 @@ export default {
             materManaList: [],   //素材管理-列表数据
             materMana_1: true,
             materMana_2: false,
+            materialEdit: {  //素材管理-编辑身份证
+                status: false,
+                id: 0
+            },
+            delStatus: false,   //区分单删除及多删除
+            IDString: [],
         }
     },
     created() {
@@ -220,7 +226,8 @@ export default {
             this.multiple = val;
         },
         delete_select(){
-
+            this.delStatus = true;
+            info.materManadel_s.call(this,this.multiple);
         },
         createMaterial(){
             this.materMana_1 = false;
@@ -231,10 +238,15 @@ export default {
             this.materMana_2 = false;
         },
         edit(id){
-
+            this.materialEdit = {   //编辑身份证
+                status: true,
+                id: id,
+            } 
+            this.materMana_1 = false;
+            this.materMana_2 = true;
         },
-        delete(id){
-
+        my_delete(id){
+            info.materManadel_s.call(this,id);
         },
         filterResult(){
             if(String(this.searchlist.Level1).length == 0 && String(this.searchlist.Level2).length == 0 && String(this.searchlist.Level3).length == 0 && String(this.searchlist.Level4).length == 0 && String(this.searchlist.Level5).length == 0){

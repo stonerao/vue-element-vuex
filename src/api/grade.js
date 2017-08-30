@@ -46,4 +46,7 @@ export const api = {
     logDetail:'Admin/Grade/show_change_record_info',   //班级年级日志详情
     materManaList_s:'Admin/Material/material_list',   //素材库-素材管理-列表（学校）
     materManaType1_s:'Admin/Material/material_category_data',   //素材库-素材管理-一级分类（学校）
+    materManaEdit_b_s:'Admin/Material/material_info',   //素材库-素材管理-编辑初始详情（学校）
+    materManaEdit_s:'Admin/Material/material_edit',   //素材库-素材管理-编辑初始详情（学校）
+    materManadel_s:'Admin/Material/material_del',   //素材库-素材管理-素材（学校）
 }
