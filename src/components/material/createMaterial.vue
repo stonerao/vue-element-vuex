@@ -216,7 +216,7 @@ export default {
             if(val){
                 this.requestDiff = 2;  //请求二级分类
                 this.firstSelect.pid = val;
-                // info.materManaType1_s.call(this,this.firstSelect);
+                info.materManaType1_s.call(this,this.firstSelect);
             }else{
                 this.manaDisable = {
                     cant2: true,
@@ -230,7 +230,7 @@ export default {
             if(val){
                 this.requestDiff = 3;  //请求三级分类
                 this.firstSelect.pid = val;
-                // info.materManaType1_s.call(this,this.firstSelect);
+                info.materManaType1_s.call(this,this.firstSelect);
             }else{
                 this.manaDisable = {
                     cant3: true,
@@ -243,7 +243,7 @@ export default {
             if(val){
                 this.requestDiff = 4;  //请求四级分类
                 this.firstSelect.pid = val;
-                // info.materManaType1_s.call(this,this.firstSelect);
+                info.materManaType1_s.call(this,this.firstSelect);
             }else{
                 this.manaDisable = {
                     cant4: true,
@@ -255,7 +255,7 @@ export default {
             if(val){
                 this.requestDiff = 5;  //请求五级分类
                 this.firstSelect.pid = val;
-                // info.materManaType1_s.call(this,this.firstSelect);
+                info.materManaType1_s.call(this,this.firstSelect);
             }else{
                 this.manaDisable = {
                     cant5: true,
