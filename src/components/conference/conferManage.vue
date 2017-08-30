@@ -27,14 +27,19 @@
                     <el-table-column type="selection" width="48"></el-table-column>
                     <el-table-column label="ID" prop="id"></el-table-column>
                     <el-table-column label="会议主题" prop="theme"></el-table-column>
-                    <el-table-column label="会议时间" prop="time"></el-table-column>
+                    <el-table-column label="会议时间">
+                         <template scope="scope">
+                             <div>{{scope.row.time_s}}</div>
+                             <div>{{scope.row.time_e}}</div>
+                         </template>
+                    </el-table-column>
                     <el-table-column label="创建时间" prop="creTime"></el-table-column>
                     <el-table-column label="创始人" prop="people"></el-table-column>
-                    <el-table-column label="操作" prop="handle">
+                    <el-table-column label="操作">
                         <template scope="scope">
-                            <el-button type="primary" size="mini" icon="view" @click.native="look_over">查看</el-button>
-                            <el-button type="primary" size="mini" icon="edit" @click.native="edit">编辑</el-button>
-                            <el-button type="primary" size="mini" icon="delete" @click.native="delete">删除</el-button>
+                            <el-button type="primary" size="mini" icon="view" @click.native="look_over(scope.row.id)">查看</el-button>
+                            <el-button type="primary" size="mini" icon="edit" @click.native="edit(scope.row.id)">编辑</el-button>
+                            <el-button type="primary" size="mini" icon="delete" @click.native="delete(scope.row.id)">删除</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -43,7 +48,7 @@
                 <el-row :span="24">
                     <el-col :span="6">
                         <div class="footer_search">
-                            <el-button type="primary" size="mini">删除</el-button>
+                            <el-button type="primary" size="mini" @click.native="delete_all">删除</el-button>
                         </div>
                     </el-col>
                     <el-col :span="18">
@@ -68,23 +73,23 @@
                         <div style="width: 100%;height: 100%;overflow-y: scroll;">
                             <el-row>
                                 <el-col :span="3">会议名称：</el-col>
-                                <el-col :span="21">你大爷你大爷你大爷你大爷</el-col>
+                                <el-col :span="21">{{confDetail.name}}</el-col>
                             </el-row>
                             <el-row>
                                 <el-col :span="3">开始时间：</el-col>
-                                <el-col :span="21">2017-08-23 10:00 PM</el-col>
+                                <el-col :span="21">{{confDetail.time_s}}</el-col>
                             </el-row> 
                             <el-row>
                                 <el-col :span="3">结束时间：</el-col>
-                                <el-col :span="21">2017-08-23 10:00 PM</el-col>
+                                <el-col :span="21">{{confDetail.time_e}}</el-col>
                             </el-row>
                             <el-row>
                                 <el-col :span="3">状态：</el-col>
-                                <el-col :span="21">未开始</el-col>
+                                <el-col :span="21">{{confDetail.status}}</el-col>
                             </el-row>
                             <el-row>
                                 <el-col :span="3">会议内容：</el-col>
-                                <el-col :span="21">测试测试赛所所所所所所所所测试测试赛所所所所所所所所所所所所所所所所所所所所所所所所所所所所所所所所所测试测试赛所所所所所所所所所所所所所所所所所所所所所所所所所所所所所所所所所测试测试赛所所所所所所所所所所所所所所所所所所所所所所所所所所所所所所所所所所所所所所所所所所所所所所所所所所所所所所所所所所</el-col>
+                                <el-col :span="21">{{confDetail.content}}</el-col>
                             </el-row>
                             <el-row>
                                 <el-col :span="3">会议附件：</el-col>
@@ -99,7 +104,9 @@
                             <el-row>
                                 <el-col :span="3" style="color: #fff;">进直播间</el-col>
                                 <el-col :span="21">
-                                    <el-button type="primary">进入直播房间</el-button>
+                                    <el-button type="primary">
+                                        <a :href="confDetail.url" style="display: block;color:#fff;cursor: point;">进入直播房间</a>
+                                    </el-button>
                                 </el-col>
                             </el-row>
                         </div>
@@ -112,6 +119,7 @@
 </template>
 
 <script>
+import info from '@/utils/l_axios'
 import titleItem from '@/components/main/title.vue'
 import titleActive from '@/components/main/titleActive.vue'
 import description from '@/components/main/description.vue'
@@ -133,15 +141,24 @@ export default {
             conferTheme: '',  //search会议主题
             Dailog: false,
             multiple: [],  //素材管理表选择值
-            conferManaList: [{
-                    theme: '会议',
-                },
-            ],   //素材管理表数据
+            conferManaList: [],   //素材管理表数据
+            IDString: [],
+            delStatus: false,
+            confDetail: {
+                name: '',
+                time_s: '',
+                time_e: '',
+                status: '',
+                content: '',
+                adress: '',
+                url: '',
+                eclo: [],
+            },
         }
     },
     created() {
         if(this.schoolManageCenter){  //学校-会议管理
-
+            info.conferMeetList_s.call(this,this.conferStatus,this.conferTheme);
         }else if(this.teacherManageCenter){  //老师-会议管理
 
         }
@@ -162,27 +179,40 @@ export default {
         handleSizeChange(val) {
             this.materialParams.one_pagenum = val;
             if(this.state == 1){
-                // info.timeTable.call(this,this.materialParams,this.graClaId);
+                info.conferMeetList_s.call(this,this.conferStatus,this.conferTheme);
             }
         },
         handleCurrentChange(val) {
             this.materialParams.curpage = val;
             if(this.state == 1){
-                // info.timeTable.call(this,this.materialParams,this.graClaId);
+                info.conferMeetList_s.call(this,this.conferStatus,this.conferTheme);
             }
         },
         select_Change(val){  //表格选择事件
-            console.log(val);
             this.multiple = val;
         },
-        look_over(){
-            this.Dailog = true;
+        look_over(id){
+            this.confDetail = {
+                name: '',
+                time_s: '',
+                time_e: '',
+                status: '',
+                content: '',
+                adress: '',
+                url: '',
+                eclo: [],
+            };
+            info.conferMeetDetail_s.call(this,id);
         },
-        edit(){
+        edit(id){
 
         },
-        delete(){
-
+        delete_all(){
+            this.delStatus = true;
+            info.conferMeetdel_s.call(this,this.multiple);
+        },
+        delete(id){
+            info.conferMeetdel_s.call(this,id);
         },
         Close_mask(){
             this.Dailog = false;

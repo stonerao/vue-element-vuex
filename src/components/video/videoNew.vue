@@ -1,6 +1,6 @@
 <template>
   <div>
-    <iframe src="http://www.jiaozi.com/video.html" scrolling="no"></iframe>
+    <iframe src="http://www.jiaozi.com/video.html" scrolling="no" width="100%" height="500px"></iframe>
   </div>
 </template>
 <script>

@@ -2231,7 +2231,7 @@ export default {
 
 
 
-        //素材库---素材管理
+        //素材库---素材管理-列表
         materManaList_s(obj, cid, content) {
             let apiUrl = api.materManaList_s;
             let formData = {
@@ -2251,6 +2251,7 @@ export default {
             }).then((res) => {
                 // console.log(res);
                 if (res.status === 200) {
+                    if(res.data.code!=400){
                         this.materManaList = [];  
                         let _data = res.data.data.list;
                         _data.forEach((x) => {
@@ -2266,7 +2267,16 @@ export default {
                         this.materialParams.curpage = res.data.data.page;    //当前第几页
                         this.materialParams.page_count = res.data.data.page_count;  //总共多少页
                         this.materialParams.total_num = parseInt(res.data.data.rows);   //总共多少条数据
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
                     }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
             })
         },
 
@@ -2288,65 +2298,495 @@ export default {
             }).then((res) => {
                 // console.log(res);
                 if (res.status === 200) {
-                    switch(this.requestDiff) {
-                        case 2:     
-                            if((res.data.data.list).length != 0){   //一级分类变更，请求到二级数据
-                                this.manaDisable.cant2 = false;
-                                this.Levelist.Levelist_2 = res.data.data.list;
-                            }else{
-                                this.manaDisable.cant2 = true;
-                                this.searchlist.Level2 = '';
-                                this.searchlist.Level3 = '';
-                                this.searchlist.Level4 = '';
-                                this.searchlist.Level5 = '';
-                                this.Levelist.Levelist_2 = []; 
-                                this.Levelist.Levelist_3 = []; 
-                                this.Levelist.Levelist_4 = []; 
-                                this.Levelist.Levelist_5 = []; 
-                            };
-                            break;
-                        case 3:
-                            if((res.data.data.list).length != 0){
-                                this.manaDisable.cant3 = false;
-                                this.Levelist.Levelist_3 = res.data.data.list;
-                            }else{
-                                this.manaDisable.cant3 = true;
-                                this.searchlist.Level3 = '';
-                                this.searchlist.Level4 = '';
-                                this.searchlist.Level5 = '';
-                                this.Levelist.Levelist_3 = []; 
-                                this.Levelist.Levelist_4 = []; 
-                                this.Levelist.Levelist_5 = []; 
-                            };
-                            break;
-                        case 4:
-                            if((res.data.data.list).length != 0){
-                                this.manaDisable.cant4 = false;
-                                this.Levelist.Levelist_4 = res.data.data.list;
-                            }else{
-                                this.manaDisable.cant4 = true;
-                                this.searchlist.Level4 = '';
-                                this.searchlist.Level5 = '';
-                                this.Levelist.Levelist_4 = []; 
-                                this.Levelist.Levelist_5 = []; 
-                            };
-                            break;
-                        case 5:
-                            if((res.data.data.list).length != 0){
-                                this.manaDisable.cant5 = false;
-                                this.Levelist.Levelist_5 = res.data.data.list;
-                            }else{
-                                this.manaDisable.cant5 = true;
-                                this.searchlist.Level5 = '';
-                                this.Levelist.Levelist_5 = []; 
-                            };
-                            break;
-                        default:
-                            if((res.data.data.list).length != 0){
-                                this.Levelist.Levelist_1 = res.data.data.list;
-                            };
-                            break;
+                    if(res.data.code!=400){
+                        switch(this.requestDiff) {
+                            case 2:     
+                                if((res.data.data.list).length != 0){   //一级分类变更，请求到二级数据
+                                    this.manaDisable.cant2 = false;
+                                    this.Levelist.Levelist_2 = res.data.data.list;
+                                }else{
+                                    this.manaDisable.cant2 = true;
+                                    this.searchlist.Level2 = '';
+                                    this.searchlist.Level3 = '';
+                                    this.searchlist.Level4 = '';
+                                    this.searchlist.Level5 = '';
+                                    this.Levelist.Levelist_2 = []; 
+                                    this.Levelist.Levelist_3 = []; 
+                                    this.Levelist.Levelist_4 = []; 
+                                    this.Levelist.Levelist_5 = []; 
+                                };
+                                break;
+                            case 3:
+                                if((res.data.data.list).length != 0){
+                                    this.manaDisable.cant3 = false;
+                                    this.Levelist.Levelist_3 = res.data.data.list;
+                                }else{
+                                    this.manaDisable.cant3 = true;
+                                    this.searchlist.Level3 = '';
+                                    this.searchlist.Level4 = '';
+                                    this.searchlist.Level5 = '';
+                                    this.Levelist.Levelist_3 = []; 
+                                    this.Levelist.Levelist_4 = []; 
+                                    this.Levelist.Levelist_5 = []; 
+                                };
+                                break;
+                            case 4:
+                                if((res.data.data.list).length != 0){
+                                    this.manaDisable.cant4 = false;
+                                    this.Levelist.Levelist_4 = res.data.data.list;
+                                }else{
+                                    this.manaDisable.cant4 = true;
+                                    this.searchlist.Level4 = '';
+                                    this.searchlist.Level5 = '';
+                                    this.Levelist.Levelist_4 = []; 
+                                    this.Levelist.Levelist_5 = []; 
+                                };
+                                break;
+                            case 5:
+                                if((res.data.data.list).length != 0){
+                                    this.manaDisable.cant5 = false;
+                                    this.Levelist.Levelist_5 = res.data.data.list;
+                                }else{
+                                    this.manaDisable.cant5 = true;
+                                    this.searchlist.Level5 = '';
+                                    this.Levelist.Levelist_5 = []; 
+                                };
+                                break;
+                            default:
+                                if((res.data.data.list).length != 0){
+                                    this.Levelist.Levelist_1 = res.data.data.list;
+                                };
+                                break;
+                        }
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
                     }
+                }else{
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+
+            })
+        },
+
+        //素材库---素材管理--编辑初始详情
+        materManaEdit_b_s(id) {
+            let apiUrl = api.materManaEdit_b_s;
+            let formData = {
+                token: getToken(),
+                id: id
+            };
+            if(this.schoolManageCenter){
+                
+            }else if(this.teacherManageCenter){
+
+            }
+            this.$http(apiUrl, {
+                params: formData
+            }).then((res) => {
+                console.log(res);
+                if (res.status === 200) {
+                   if(res.data.code!=400){
+                        let _begin = res.data.data;
+                        let _circleID = [_begin.cid1,_begin.cid2,_begin.cid3,_begin.cid4,_begin.cid5];
+                        let _circleVal = [_begin.cname1,_begin.cname2,_begin.cname3,_begin.cname4,_begin.cname5];
+                        if(res.data.data.is_share){  //兼容老师中心素材管理
+                            this.create.isShare = res.data.data.is_share;
+                        };
+                        this.create={
+                            theme: res.data.data.title,
+                            themeAdd: '备注信息文字',
+                            conferContent: res.data.data.content,
+                        };
+                        this.floorHelp(1);
+                        _circleID.forEach((x,index)=> {
+                            if(String(x).length != 0){
+                               this.searchlist[`Level${index+1}`] = x;
+                               this.manaDisable[`cant${index+1}`] = false;
+                               this.firstSelect.pid = x;
+                               this.floorHelp(index+2);
+                            }else{
+                                return;
+                            }
+                        });
+                   }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                    }
+                }else{
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
+        //素材库---素材管理-编辑铺数据
+        materManaType0_s(obj,index) {
+            let apiUrl = api.materManaType1_s;
+            let formData = {
+                    token: getToken(),
+                    pid: obj.pid,
+                    type: obj.type
+                };
+            this.$http(apiUrl, {
+                params: formData
+            }).then((res) => {
+                if (res.status === 200) {
+                    if(res.data.code!=400){
+                        switch(index) {
+                            case 2:     
+                                this.Levelist.Levelist_2 = res.data.data.list;
+                                break;
+                            case 3:
+                                this.Levelist.Levelist_3 = res.data.data.list;
+                                break;
+                            case 4:
+                                this.Levelist.Levelist_4 = res.data.data.list;
+                                break;
+                            case 5:
+                                this.Levelist.Levelist_5 = res.data.data.list;
+                                break;
+                            default:
+                                this.Levelist.Levelist_1 = res.data.data.list;
+                                break;
+                        }
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                    }
+                }else{
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
+        //素材库---素材管理-编辑-保存
+        materManaEdit_s(scid,obj,lid) {
+            this.$http({
+                url: api.materManaEdit_s,
+                method: 'post',
+                data: {
+                    token: getToken(),
+                    id: scid,
+                    title: obj.theme,
+                    category_id: lid,
+                    content: obj.conferContent,
+                }
+            }).then((res) => {
+                // console.log(res)
+                if (res.status == 200) {
+                    if(res.data.code!=400){
+                        this.$notify({
+                            message: res.data.data,
+                            type: 'success',
+                            duration: 1000,
+                            onClose: () => {
+                                window.location.reload(true);
+                            }
+                        });
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
+        //素材库---素材管理-删除
+        materManadel_s(id) {
+            if(this.delStatus){   //多删除！
+                id.forEach((x)=> {
+                    this.IDString.push(x.id);
+                })
+                this.IDString = (this.IDString).sort().join(",");
+            }else{
+                this.IDString = id;
+            }
+            this.$http(api.materManadel_s, {
+                params: {
+                    token: getToken(),
+                    ids: this.IDString,
+                }
+            }).then((res) => {
+                // console.log(res);
+                if (res.status === 200) {
+                    if(res.data.code!=400){
+                        this.$notify({
+                            message: res.data.data,
+                            type: 'success',
+                            duration: 1000,
+                            onClose: () => {
+                                window.location.reload(true);
+                            }
+                        });
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                    }
+                }else{
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
+        //素材库---素材管理-添加
+        materManadd_s(obj,lid) {
+            this.$http({
+                url: api.materManadd_s,
+                method: 'post',
+                data: {
+                    token: getToken(),
+                    title: obj.theme,
+                    category_id: lid,
+                    content: obj.conferContent,
+                }
+            }).then((res) => {
+                // console.log(res)
+                if (res.status == 200) {
+                    if(res.data.code!=400){
+                        this.$notify({
+                            message: res.data.data,
+                            type: 'success',
+                            duration: 1000,
+                            onClose: () => {
+                                window.location.reload(true);
+                            }
+                        });
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
+
+        //会议管理--列表
+        conferMeetList_s(obj, status, seData) {
+            let apiUrl = api.conferMeetList_s;
+            let formData = {
+                    token: getToken(),
+                    page: obj.curpage,
+                    pagesize: obj.one_pagenum,
+                    status: status,
+                    search: seData
+                };
+            if(this.schoolManageCenter){
+                
+            }else if(this.teacherManageCenter){
+
+            }
+            this.$http(apiUrl, {
+                params: formData
+            }).then((res) => {
+                console.log(res);
+                if (res.status === 200) {
+                    if(res.data.code!=400){
+                        this.conferManaList = [];  
+                        let _data = res.data.data.list;
+                        _data.forEach((x) => {
+                            this.conferManaList.push({
+                                id: x.id,
+                                theme: x.title,
+                                time_s: x.start_time,
+                                time_e: x.end_time,
+                                creTime: x.add_time,
+                                people: x.user_name,
+                            })
+                        })
+                        this.materialParams.curpage = res.data.data.page;    //当前第几页
+                        this.materialParams.page_count = res.data.data.page_count;  //总共多少页
+                        this.materialParams.total_num = parseInt(res.data.data.rows);   //总共多少条数据
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
+        //素材库---素材管理-删除
+        conferMeetdel_s(id) {
+            if(this.delStatus){   //多删除！
+                id.forEach((x)=> {
+                    this.IDString.push(x.id);
+                })
+                this.IDString = (this.IDString).sort().join(",");
+            }else{
+                this.IDString = id;
+            }
+            this.$http(api.conferMeetdel_s, {
+                params: {
+                    token: getToken(),
+                    ids: this.IDString,
+                }
+            }).then((res) => {
+                // console.log(res);
+                if (res.status === 200) {
+                    if(res.data.code!=400){
+                        this.$notify({
+                            message: res.data.data,
+                            type: 'success',
+                            duration: 1000,
+                            onClose: () => {
+                                window.location.reload(true);
+                            }
+                        });
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                    }
+                }else{
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
+        //素材库---素材管理-详情
+        conferMeetDetail_s(id) {
+            this.$http(api.conferMeetDetail_s, {
+                params: {
+                    token: getToken(),
+                    id: id,
+                }
+            }).then((res) => {
+                // console.log(res);
+                if (res.status === 200) {
+                    if(res.data.code!=400){
+                        let _data = res.data.data;
+                        this.confDetail = {
+                            name: _data.name,
+                            time_s: _data.start_time,
+                            time_e: _data.end_time,
+                            content: _data.content,
+                            url: _data.channel_url,
+                            status: '',
+                            eclo: [],   //附件
+                        };
+                        if(_data.status == 1){
+                            this.confDetail.status = '未开始';
+                        }else if(_data.status == 2){
+                            this.confDetail.status = '进行中';
+                        }else if(_data.status == 3){
+                            this.confDetail.status = '已结束';
+                        }
+                        this.Dailog = true;
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                    }
+                }else{
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
+        //会议管理--创建会议
+        conferMeetCreate_s(obj,chanid) {
+            let apiURL = api.conferMeetCreate_s;
+            let formData = {
+                token: getToken(),
+                title: obj.theme,
+                start_time: this.formatAll(obj.timeStart),
+                end_time: this.formatAll(obj.timeEnd),
+                teachers: obj.confPeople,
+                content: obj.conferContent,
+                is_show: obj.isShow,
+                channelId: chanid,
+            }
+            if(this.creatStatus){   //创建会议
+                console.log(formData)
+            }
+            this.$http({
+                url: apiURL,
+                method: 'post',
+                data: formData
+            }).then((res) => {
+                console.log(res)
+                if (res.status == 200) {
+                    if(res.data.code!=400){
+                        this.$notify({
+                            message: res.data.data,
+                            type: 'success',
+                            duration: 1000,
+                            onClose: () => {
+                                // window.location.reload(true);
+                            }
+                        });
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                        this.create={
+                            theme: '',
+                            themeAdd: '',
+                            timeStart: '',
+                            timeEnd: '',
+                            confPeople: [],
+                            conferContent: '',
+                            isShow: 1,
+                        }
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
+         //会议管理--创建会议---老师列表
+        conferMeetTeacher_s(id) {
+            this.$http(api.conferMeetTeacher_s, {
+                params: {
+                    token: getToken(),
+                }
+            }).then((res) => {
+                console.log(res);
+                if (res.status === 200) {
+                    if(res.data.code!=400){
+                        this.conferPeoList = res.data.data;
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                    }
+                }else{
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
                 }
             })
         },

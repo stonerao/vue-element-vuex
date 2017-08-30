@@ -4,8 +4,7 @@
       <div class="rt">视频上传：</div>
     </el-col>
     <el-col :span="10">
-      <!--<el-button id="file_upload" type="primary">上传视频<i class="el-icon-upload el-icon&#45;&#45;right"></i></el-button>-->
-      <iframe src="http://www.jiaozi.com/video.html?a=1" width="100px"></iframe>
+      <el-button id="file_upload" type="primary">上传视频<i class="el-icon-upload el-icon--right"></i></el-button>
     </el-col>
   </el-row>
 </template>

@@ -20,7 +20,7 @@
       </el-col>
       <el-col :span="20">
         <el-select v-model="value5" multiple placeholder="请选择" style="width: 80%">
-          <el-option v-for="item in classList.department_list" :label="item.department_name" :value="item.department_id">
+          <el-option v-for="item in department_list" :label="item.department_name" :value="item.department_id">
           </el-option>
         </el-select>
       </el-col>
@@ -52,6 +52,11 @@
         videoTitle:'',//视频名称
         value5:'',
         htmlTxt:'',//富文本
+        department_list:[
+          {department_name:'三年级一班',department_id:1},
+          {department_name:'三年级2班',department_id:2},
+          {department_name:'三年级3班',department_id:3},
+        ]
       }
     },
     components:{

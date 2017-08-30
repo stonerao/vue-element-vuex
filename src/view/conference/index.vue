@@ -14,7 +14,7 @@
                     </div>
                     <!--创建会议-->
                     <div v-if="state==1">
-                        <conferCreate :schoolManageCenter="schoolManageCenter"></conferCreate>
+                        <conferCreate :schoolManageCenter="schoolManageCenter" :creatStatus="creatStatus"></conferCreate>
                     </div>
                 </div>
             </div>
@@ -46,7 +46,8 @@ export default {
             ],
             schoolManageCenter: false,  //学校管理中心身份证
             teacherManageCenter: false, //老师管理中心身份证
-            state: 0, 
+            state: 1,
+            creatStatus: true, 
         }
     },
     created() {
