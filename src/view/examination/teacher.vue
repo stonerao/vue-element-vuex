@@ -73,7 +73,8 @@ export default {
             this.state = 8;
         },
         getListData(arr){
-            console.log(arr)
+            this.selectQuestList = arr; 
+            this.state=1;
         }
     }
 }

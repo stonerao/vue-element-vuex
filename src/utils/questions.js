@@ -14,7 +14,7 @@ export default {
             }
         })
     },
-    create_question_type(){
+    create_question_type() {
         this.$http(api.question_type, {
             params: {
                 token: getToken()
@@ -23,14 +23,14 @@ export default {
             if (res.data.code) {
                 this.questionItems = [];
                 let data = res.data.data;
-                data.forEach((x)=>{
+                data.forEach((x) => {
                     this.questionItems.push({
-                        total:'',
-                        every:'',  
-                        type_id:x.type_id,
-                        type_name:x.type_name
+                        total: '',
+                        every: '',
+                        type_id: x.type_id,
+                        type_name: x.type_name
                     })
-                }) 
+                })
             }
         })
     },
@@ -63,7 +63,7 @@ export default {
         let qc_id = this.belongClass3 ? this.belongClass3 : (this.belongClass2 ? this.belongClass2 : this.belongClass1);
         this.$http({
             method: "post",
-            url: this.isSetQues?api.question_edit:api.questions_add,
+            url: this.isSetQues ? api.question_edit : api.questions_add,
             data: {
                 token: getToken(),
                 qc_id: qc_id,
@@ -72,7 +72,7 @@ export default {
                 answer: answer,//参考的答案
                 option: option ? encodeUnicode(JSON.stringify(option)) : null,//选项内容 json
                 q_title: this.textF,//题干
-                q_id:this.isSetQues?this.setQuestionObj.q_id:''
+                q_id: this.isSetQues ? this.setQuestionObj.q_id : ''
             }
         }).then((res) => {
             if (res.data.code == 200) {
@@ -106,6 +106,43 @@ export default {
                 this.t_data = data;
                 this.page_total = parseInt(res.data.page_total);
                 data = null;
+            }
+        })
+    },
+    question_list_select(name) {
+        this.$http(api.question_list, {
+            params: {
+                token: getToken(),
+                q_title: this.seach,
+                page: this.page,
+                curpage: this.curpage
+            }
+        }).then((res) => {
+            if (res.data.code == 200) {
+                let data = res.data.data;
+                data.forEach((x) => {
+                    x.is_share = x.is_share == '1' ? true : false;
+                })
+                this.t_data = data;
+                this.page_total = parseInt(res.data.page_total);
+                data = null;
+                if (this.stateList) {
+                    setTimeout((x) => {
+                        let arr = [];//存储选中过的id
+                        // let rows = this.t_data;
+                        let list = this.getSelectedQuestionList().split(',');
+                        list.forEach((x, index) => {
+                            this.t_data.forEach((y, i) => {
+                                if (y.q_id == x) {
+                                    console.log(y)
+                                    this.$refs.multipleTable.toggleRowSelection(y)
+                                    console.log(this.$refs.multipleTable)
+                                }
+                            })
+                        })
+                    }, 150)
+
+                }
             }
         })
     },
@@ -169,10 +206,10 @@ export default {
                 let num = parseInt(data.q_type_id);
                 var arr = data.q_option;
                 switch (num) {
-                    case 1: 
-                    this.radioItems=[];
-                    this.radio = this.A_Z.indexOf(data.answer) 
-                        arr.forEach((x) => { 
+                    case 1:
+                        this.radioItems = [];
+                        this.radio = this.A_Z.indexOf(data.answer)
+                        arr.forEach((x) => {
                             this.radioItems.push(x);
                         })
                         break;
@@ -194,21 +231,21 @@ export default {
                         arr = null;
                         break;
                     case 3:
-                        this.trueOrFalse  = data.answer;
-                    break;
-                    case 4: 
+                        this.trueOrFalse = data.answer;
+                        break;
+                    case 4:
                         this.fileBlankItems = [];
                         arr.forEach((x) => {
                             this.fileBlankItems.push(x)
                         })
                         this.referenceAnswer = data.answer
-                    break;
-                    case 5: 
-                    this.referenceAnswer = data.answer
-                    break;
-                    case 6: 
-                    this.referenceAnswer = data.answer
-                    break;
+                        break;
+                    case 5:
+                        this.referenceAnswer = data.answer
+                        break;
+                    case 6:
+                        this.referenceAnswer = data.answer
+                        break;
                 }
                 data = null;
             }

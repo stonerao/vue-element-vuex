@@ -19,8 +19,7 @@
                 </el-form-item>
                 <el-form-item label="试卷描述">
                     <el-input v-model="form.name" type="textarea"></el-input>
-                </el-form-item>
-
+                </el-form-item> 
                 <el-form-item label="是否自动生成">
                     <el-switch v-model="isQuestion" on-color="#13ce66" off-color="#ff4949">
                     </el-switch>
@@ -47,6 +46,10 @@
                         </el-col>
                     </el-row>
                 </el-form-item>
+                <el-form-item label="已选择题目" v-if="!isQuestion">
+                    <!-- 选择题库 -->
+                     {{strSelect}}
+                </el-form-item>
                 <el-form-item label="是否共享">
                     <el-switch v-model="form.delivery" on-color="#13ce66" off-color="#ff4949">
                     </el-switch>
@@ -63,6 +66,7 @@
 <script>
 import store from '@/utils/questions' 
 export default {
+    props:['selectQuestList'],
     data() {
         return {
             form: {
@@ -86,6 +90,7 @@ export default {
             belongClass2: '',
             belongClass3: '', 
             isBelongSelect: false,
+            strSelect:'',//已选择的提
         }
     },
     methods: {
@@ -113,7 +118,12 @@ export default {
         store.create_question_type.call(this)
     },
     mounted() {
-
+        if(typeof this.selectQuestList=='string'){
+            this.strSelect = this.selectQuestList.split(",").join(" / ");
+            this.isQuestion = false;
+        }else {
+            this.strSelect ='';
+        }
     },
     watch: {
         belongClass1(val) {
@@ -130,6 +140,9 @@ export default {
             this.belongClass3 = '';
             this.question_classlist(val, 3);
         },
+        selectQuestList(val){
+            console.log(val,1)
+        }
     }
 }
 </script>

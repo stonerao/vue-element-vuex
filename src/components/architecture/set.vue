@@ -9,7 +9,7 @@
 <script>
 import Vue from 'vue'
 import item from '@/components/architecture/item'
- 
+
 let id = 1000;
 export default {
     props: ['objData'],
@@ -49,7 +49,7 @@ export default {
         }
     },
     created() {
-        console.log(this.objData) 
+        console.log(this.objData)
         this.treeData = this.objData
     },
     methods: {
@@ -70,11 +70,10 @@ export default {
                 name: 'new stuff'
             })
         },
-        drop(){
+        drop() {
 
         },
-        datas(){
-console.log(this.treeData)
+        datas() { 
         }
 
     }
@@ -99,16 +98,16 @@ console.log(this.treeData)
 
 .item {
     cursor: pointer;
-    
 }
-.item div{
-       padding-left: 0.2em;
+
+.item div {
+    padding-left: 0.2em;
     line-height: 1.5em;
-    list-style-type: dot; 
-    }
+    list-style-type: dot;
+}
+
 .bold {
     font-weight: bold;
 }
- 
 </style>
 
