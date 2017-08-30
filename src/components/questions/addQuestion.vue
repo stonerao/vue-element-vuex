@@ -154,10 +154,7 @@ export default {
             },
             belongClass1: '',
             belongClass2: '',
-            belongClass3: '',
-            belongClass1Title: '',
-            belongClass2Title: '',
-            belongClass3Title: '',
+            belongClass3: '', 
             isBelongSelect: false,//是否选择完成 为true表示没有下一级
             A_Z: ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "X", "Y", "Z"],
             fileNum: (num) => {

@@ -13,7 +13,11 @@
                      <teacherQuestion></teacherQuestion>
                 </div>
                 <div v-if="state==1">
-                   <createQuestion></createQuestion>
+                   <createQuestion  @list="listSelect"></createQuestion>
+                </div> 
+                <div v-if="state==8">
+                    <!-- 选择试题 -->
+                   <setQuestion stateList='1'></setQuestion>
                 </div> 
             </div>
             <bottomItem></bottomItem>
@@ -27,7 +31,8 @@ import titleActive from '@/components/main/titleActive.vue'
 import description from '@/components/main/description.vue'
 import bottomItem from '@/components/bottom/bottom.vue' 
 import teacherQuestion from '@/components/examination/teacherQuestion.vue' 
-import createQuestion from '@/components/examination/createQuestion.vue' 
+import createQuestion from '@/components/examination/createQuestion.vue'  
+import setQuestion from '@/components/questions/questionList'
 export default {
     data() {
         return {
@@ -50,7 +55,7 @@ export default {
     },
     components: {
         titleItem, titleActive, description, bottomItem, 
-        teacherQuestion,createQuestion
+        teacherQuestion,createQuestion,setQuestion
     },
     methods: {
         emitTransfer(index) {
@@ -61,6 +66,10 @@ export default {
         },
         promptsTem(status) {
             console.log(status)
+        },
+        listSelect(val){
+            //选择试题
+            this.state = 8;
         }
     }
 }

@@ -6,35 +6,49 @@
                 <el-form-item label="试卷标题">
                     <el-input v-model="form.title" class="width200"></el-input>
                 </el-form-item>
+                <el-form-item label="所属分类">
+                    <el-select v-model="belongClass1" placeholder="题库一级分类" class="width125" style="font-size:14px">
+                        <el-option :label="item.qc_name" :value="item.qc_id" v-for="(item,index) in belongClass.items1" :key="index"></el-option>
+                    </el-select>
+                    <el-select v-model="belongClass2" placeholder="题库二级分类" class="width125" style="font-size:14px" v-if="belongClass1&&belongClass.items2.length!=0">
+                        <el-option :label="item.qc_name" :value="item.qc_id" v-for="(item,index) in belongClass.items2" :key="index"></el-option>
+                    </el-select>
+                    <el-select v-model="belongClass3" placeholder="题库三级分类" class="width125" style="font-size:14px" v-if="belongClass2&&belongClass.items3.length!=0">
+                        <el-option :label="item.qc_name" :value="item.qc_id" v-for="(item,index) in belongClass.items3" :key="index"></el-option>
+                    </el-select>
+                </el-form-item>
                 <el-form-item label="试卷描述">
                     <el-input v-model="form.name" type="textarea"></el-input>
                 </el-form-item>
+
                 <el-form-item label="是否自动生成">
-                    <el-switch v-model="isQuestion" on-color="#13ce66" off-color="#ff4949" >
+                    <el-switch v-model="isQuestion" on-color="#13ce66" off-color="#ff4949">
                     </el-switch>
                 </el-form-item>
                 <el-form-item label="自动生成试卷" v-if="isQuestion">
-                     <el-row>
-                         <el-col :span='24' v-for="item in questionItems" :key="item.type_id">
-                             <span>{{item.type_name}}：共<el-input class="width60 margin5" v-model="item.total" size="mini"></el-input>,</span>
-                             <span>每道<el-input class="width60 margin5" v-model="item.every" size="mini"></el-input>分,</span> 
-                              
-                         </el-col>
-                     </el-row> 
+                    <el-row>
+                        <el-col :span='24' v-for="item in questionItems" :key="item.type_id">
+                            <span>{{item.type_name}}：共
+                                <el-input class="width60 margin5" v-model="item.total" size="mini"></el-input>,</span>
+                            <span>每道
+                                <el-input class="width60 margin5" v-model="item.every" size="mini"></el-input>分,</span>
+
+                        </el-col>
+                    </el-row>
                 </el-form-item>
                 <el-form-item label="选择题目" v-if="!isQuestion">
                     <!-- 选择题库 -->
-                     <el-row>
-                         <el-col :span='24'>
-                            <el-button >添加试题</el-button>
-                         </el-col>
-                         <el-col>
+                    <el-row>
+                        <el-col :span='24'>
+                            <el-button @click="addList">添加试题</el-button>
+                        </el-col>
+                        <el-col>
 
-                         </el-col>
-                     </el-row> 
-                </el-form-item> 
+                        </el-col>
+                    </el-row>
+                </el-form-item>
                 <el-form-item label="是否共享">
-                    <el-switch v-model="form.delivery" on-color="#13ce66" off-color="#ff4949" >
+                    <el-switch v-model="form.delivery" on-color="#13ce66" off-color="#ff4949">
                     </el-switch>
                 </el-form-item>
                 <el-form-item label=" ">
@@ -43,11 +57,11 @@
                 </el-form-item>
             </el-form>
         </div>
-        
+
     </div>
 </template>
 <script>
-import store from '@/utils/questions'   
+import store from '@/utils/questions' 
 export default {
     data() {
         return {
@@ -61,24 +75,61 @@ export default {
                 resource: '',
                 desc: ''
             },
-            isQuestion:true,//是否自动生成试卷
-            questionItems:[]
+            isQuestion: true,//是否自动生成试卷
+            questionItems: [],
+            belongClass: {
+                items1: [],
+                items2: [],
+                items3: [],
+            },
+            belongClass1: '',
+            belongClass2: '',
+            belongClass3: '', 
+            isBelongSelect: false,
         }
     },
     methods: {
         onSubmit() {
             console.log('submit!');
+        },
+        question_classlist(id, status) {
+            // 所属分类
+            store.question_classlist.call(this, id, status)
+        },
+        notify(val) {
+            this.$notify({
+                title: '警告',
+                message: val,
+                type: 'warning'
+            });
+        },
+        addList(){
+            // 跳转添加试题列表 
+            this.$emit("list",true)
         }
     },
     created() {
-
+       this.question_classlist("", 1);
         store.create_question_type.call(this)
     },
     mounted() {
 
     },
     watch: {
-
+        belongClass1(val) {
+            // 所属分类1
+            this.belongClass.item2 = [];
+            this.belongClass.item3 = [];
+            this.belongClass2 = '';
+            this.belongClass3 = '';
+            this.question_classlist(val, 2);
+        },
+        belongClass2(val) {
+            // 所属分类2
+            this.belongClass.item3 = [];
+            this.belongClass3 = '';
+            this.question_classlist(val, 3);
+        },
     }
 }
 </script>

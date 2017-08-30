@@ -35,7 +35,7 @@
                     {{scope.row.is_share?'是':'否'}}
                 </template>
             </el-table-column>
-            <el-table-column width="180" label="操作" show-overflow-tooltip>
+            <el-table-column width="180" label="操作" show-overflow-tooltip  v-if="stateList!=1">
                 <template scope="scope">
                     <el-button size="mini" @click="getQues(scope.row)">查看</el-button>
                     <el-button size="mini" @click="setQues(scope.row)">编辑</el-button>
@@ -45,7 +45,8 @@
         </el-table>
         <el-row style="margin-top:10px">
             <el-col :span="12">
-                <el-button size="mini" type="primary" @click="deleteData">删除</el-button>
+                <el-button size="mini" type="primary" @click="deleteData" v-if="stateList!=1">删除</el-button>
+                <el-button size="mini" type="primary" @click="selectOk" v-else>确定</el-button>
             </el-col>
             <el-col :span="12">
                 <el-pagination class="float-right" @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="page" :page-sizes="[curpage]" :page-size="curpage" layout="total, sizes, prev, pager, next, jumper" :total="page_total">
@@ -58,8 +59,12 @@
 
 <script>
 import Preview from '@/components/questions/Preview'
+import {removeSelectQuestion} from '@/utils/auth'
+import {selectedQuestionList} from '@/utils/auth'
+import {getSelectedQuestionList} from '@/utils/auth'
 import store from '@/utils/questions'
 export default {
+    props:['stateList'],
     data() {
         return {
             t_data: [],
@@ -79,7 +84,8 @@ export default {
             this.deletArr = [];
             obj.forEach((x) => {
                 this.deletArr.push(x.q_id)
-            })
+            }); 
+            selectedQuestionList(this.deletArr) 
         },
         seachClick() {
             // 搜索
@@ -133,10 +139,16 @@ export default {
         setQues(obj) {
             // 编辑试题
             this.$emit("SETQUESTION", obj)
+        },
+        selectOk(){
+            // 选择试题过来选择
+             
         }
     },
     created() {
-        this.dataAjax()
+        this.dataAjax();
+       console.log(this.stateList)
+       this.stateList=='1'?removeSelectQuestion():'';
     },
     components: {
         Preview

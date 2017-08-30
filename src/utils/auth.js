@@ -31,10 +31,28 @@ export function isClassLogin(state) {
     Cookies.set(classLogin, 2)
   } else if (state == 3) {
     Cookies.set(classLogin, 3)
-  }else{
+  } else {
     return Cookies.get(classLogin)
   }
 }
 export function getClass() {
   return Cookies.get(classLogin)
+}
+export function selectedQuestionList(obj) {
+  if (typeof obj != 'object') { return }
+  let data =  getSelectedQuestionList().split(",");
+  // data.forEach((x)=>{
+
+  // })
+  console.log(data)
+  Cookies.set('selectedQuestionList',obj.join(","))
+  console.log(getSelectedQuestionList())
+    
+
+}
+export function getSelectedQuestionList(obj) { 
+  return  Cookies.get('selectedQuestionList')
+}
+export function removeSelectQuestion(){
+  return Cookies.remove('selectedQuestionList')
 }
