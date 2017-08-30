@@ -12,9 +12,11 @@
 
         </div>
         <div v-if="state==1">
-          <videoEdit :firstClassList="firstClassList"></videoEdit>
+          <videoEdit :firstClassList="firstClassList" @underClassList="underClassList" :underList="underList" :showList="showList" :classList="classList"></videoEdit>
         </div>
-
+        <div v-if="state==2">
+          <videoNew></videoNew>
+        </div>
       </div>
       <bottomItem></bottomItem>
     </div>
@@ -28,6 +30,7 @@
   import bottomItem from '@/components/bottom/bottom.vue'
   import video from '@/utils/video'
   import videoEdit from '@/components/video/videoEdit'
+  import videoNew from '@/components/video/videoNew'
 
   export default {
     data() {
@@ -35,20 +38,32 @@
         titleItem: [
           { name: "视频分类", index: 0 },
           { name: "视频管理", index: 1 },
+          { name: "视频管理(2)", index: 2 },
         ],
         prompts: [
           `该页面展示管理员的操作日志，可进行删除。`,
           `侧边栏可以进行高级搜索`
         ],
-        state: 1,
+        state: 2,
         firstClassList:[],//一级分类列表
+        underList:{
+          secondList:[],//二级分类
+          thirdList:[],//三级分类
+          fourList:[],//四级分类
+          fiveList:[],//五级分类
+        },
+        showList:1,//显示几级分类
+//        cataid:'',//第三方视频分类ID
+//        writetoken:'',//用户的上传钥匙
+//        classList:[],//班级列表
+        classList:{},//视频上传列表
       }
     },
     created() {
       this.refresh()
     },
     components: {
-      titleItem, titleActive, description, bottomItem,videoEdit
+      titleItem, titleActive, description, bottomItem,videoEdit,videoNew
     },
     methods: {
       emitTransfer(index) {
@@ -64,7 +79,12 @@
       refresh(){
         if(this.state==1){
           video.first_class_list.call(this);
+          video.video_add_show.call(this);
         }
+      },
+      //视频管理视频分类选择框
+      underClassList(id,num){
+        video.under_class_list.call(this,id,num);
       }
     }
   }

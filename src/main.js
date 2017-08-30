@@ -31,7 +31,7 @@ axios.defaults.transformRequest = [function (data) {
   return ret
 }]
 Vue.prototype.$http = axios;
-Vue.config.productionTip = false 
+Vue.config.productionTip = false
 /* UI */
 Vue.use(ElementUI);
 const whileList = ['/login', '/reg', '/admin'];//白名单
@@ -44,8 +44,8 @@ router.beforeEach((to, from, next) => {
     } else {
       document.title = '康德学堂';
     }
-    /* 
-      判断是什么端口登录 
+    /*
+      判断是什么端口登录
       如果进入的页面的路径在当前权限的白名单没有就进入默认页面
     */
     let isClassState = isClassLogin();
