@@ -40,19 +40,22 @@ export function getClass() {
 }
 export function selectedQuestionList(obj) {
   if (typeof obj != 'object') { return }
-  let data =  getSelectedQuestionList().split(",");
-  // data.forEach((x)=>{
-
-  // })
-  console.log(data)
-  Cookies.set('selectedQuestionList',obj.join(","))
-  console.log(getSelectedQuestionList())
-    
-
+  let data = []; 
+  if (getSelectedQuestionList()) {
+    data = getSelectedQuestionList().split(",");
+    obj.forEach((x,index)=>{ 
+      if(data.indexOf(x)==-1){ 
+        data.push(x); 
+      } 
+    })
+  } else {
+    data = [...obj]
+  } 
+  Cookies.set('selectedQuestionList', data.join(","))
 }
-export function getSelectedQuestionList(obj) { 
-  return  Cookies.get('selectedQuestionList')
+export function getSelectedQuestionList(obj) {
+  return Cookies.get('selectedQuestionList')
 }
-export function removeSelectQuestion(){
+export function removeSelectQuestion() {
   return Cookies.remove('selectedQuestionList')
 }

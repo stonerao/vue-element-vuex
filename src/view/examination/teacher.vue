@@ -13,11 +13,11 @@
                      <teacherQuestion></teacherQuestion>
                 </div>
                 <div v-if="state==1">
-                   <createQuestion  @list="listSelect"></createQuestion>
+                   <createQuestion  @list="listSelect"  :selectQuestList="selectQuestList"></createQuestion>
                 </div> 
                 <div v-if="state==8">
                     <!-- 选择试题 -->
-                   <setQuestion stateList='1'></setQuestion>
+                   <setQuestion stateList='1' @getListData="getListData"></setQuestion>
                 </div> 
             </div>
             <bottomItem></bottomItem>
@@ -49,6 +49,7 @@ export default {
                 `侧边栏可以进行高级搜索`
             ],
             state: 0,
+            selectQuestList:[]
         }
     },
     created() {
@@ -70,6 +71,9 @@ export default {
         listSelect(val){
             //选择试题
             this.state = 8;
+        },
+        getListData(arr){
+            console.log(arr)
         }
     }
 }

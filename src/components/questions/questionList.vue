@@ -31,11 +31,11 @@
             <el-table-column width="120" label="是否共享" show-overflow-tooltip>
                 <template scope="scope">
                     <!-- <el-switch v-model="scope.row.is_share" on-color="#13ce66" off-color="" on-text="是" off-text="否" disabled>
-                                </el-switch> -->
+                                                    </el-switch> -->
                     {{scope.row.is_share?'是':'否'}}
                 </template>
             </el-table-column>
-            <el-table-column width="180" label="操作" show-overflow-tooltip  v-if="stateList!=1">
+            <el-table-column width="180" label="操作" show-overflow-tooltip v-if="stateList!=1">
                 <template scope="scope">
                     <el-button size="mini" @click="getQues(scope.row)">查看</el-button>
                     <el-button size="mini" @click="setQues(scope.row)">编辑</el-button>
@@ -59,12 +59,12 @@
 
 <script>
 import Preview from '@/components/questions/Preview'
-import {removeSelectQuestion} from '@/utils/auth'
-import {selectedQuestionList} from '@/utils/auth'
-import {getSelectedQuestionList} from '@/utils/auth'
+import { removeSelectQuestion } from '@/utils/auth'
+import { selectedQuestionList } from '@/utils/auth'
+import { getSelectedQuestionList } from '@/utils/auth'
 import store from '@/utils/questions'
 export default {
-    props:['stateList'],
+    props: ['stateList'],
     data() {
         return {
             t_data: [],
@@ -84,8 +84,8 @@ export default {
             this.deletArr = [];
             obj.forEach((x) => {
                 this.deletArr.push(x.q_id)
-            }); 
-            selectedQuestionList(this.deletArr) 
+            });
+            selectedQuestionList(this.deletArr)
         },
         seachClick() {
             // 搜索
@@ -98,10 +98,25 @@ export default {
         },
         handleSizeChange(val) {
             this.dataAjax();
+
+
+            console.log(getSelectedQuestionList())
         },
         handleCurrentChange(val) {
             this.page = val;
             this.dataAjax();
+            setTimeout(() => {
+                if (this.stateList) {
+                    let rows = this.t_data
+                    console.log(rows)
+                    if (rows) {
+                        rows.forEach(row => {
+                            this.$refs.multipleTable.toggleRowSelection(row);
+                        });
+                    }
+                }
+            }, 500)
+
         },
         dataAjax(seach) {
             this.t_data = [];
@@ -140,15 +155,19 @@ export default {
             // 编辑试题
             this.$emit("SETQUESTION", obj)
         },
-        selectOk(){
+        selectOk() {
             // 选择试题过来选择
-             
+            if (this.stateList) {
+                let arr = getSelectedQuestionList();
+                this.$emit("getListData", arr)
+            }
+
         }
     },
     created() {
         this.dataAjax();
-       console.log(this.stateList)
-       this.stateList=='1'?removeSelectQuestion():'';
+        console.log(this.stateList)
+        this.stateList == '1' ? removeSelectQuestion() : '';
     },
     components: {
         Preview
