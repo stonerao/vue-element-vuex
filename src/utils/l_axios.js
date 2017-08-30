@@ -2719,12 +2719,15 @@ export default {
             let formData = {
                 token: getToken(),
                 title: obj.theme,
-                start_time: obj.timeStart,
-                end_time: obj.timeEnd,
+                start_time: this.formatAll(obj.timeStart),
+                end_time: this.formatAll(obj.timeEnd),
                 teachers: obj.confPeople,
                 content: obj.conferContent,
                 is_show: obj.isShow,
                 channelId: chanid,
+            }
+            if(this.creatStatus){   //创建会议
+                console.log(formData)
             }
             this.$http({
                 url: apiURL,
@@ -2746,8 +2749,41 @@ export default {
                         this.$notify.error({
                             message: res.data.data.error
                         });
+                        this.create={
+                            theme: '',
+                            themeAdd: '',
+                            timeStart: '',
+                            timeEnd: '',
+                            confPeople: [],
+                            conferContent: '',
+                            isShow: 1,
+                        }
                     }
                 }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
+         //会议管理--创建会议---老师列表
+        conferMeetTeacher_s(id) {
+            this.$http(api.conferMeetTeacher_s, {
+                params: {
+                    token: getToken(),
+                }
+            }).then((res) => {
+                console.log(res);
+                if (res.status === 200) {
+                    if(res.data.code!=400){
+                        this.conferPeoList = res.data.data;
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                    }
+                }else{
                     this.$notify.error({
                         message: res.data.data.error
                     });

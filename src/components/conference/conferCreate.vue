@@ -45,7 +45,7 @@
                 <el-col :span="21">
                     <el-col :span="5">
                         <el-select multiple v-model="create.confPeople" placeholder="请选择" style="width: 100%;">
-                            <el-option v-for="item in conferPeoList" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                            <el-option v-for="item in conferPeoList" :key="item.number_id" :label="item.teacher_name" :value="item.number_id"></el-option>
                         </el-select>
                     </el-col>
                 </el-col>
@@ -59,7 +59,9 @@
             <el-row>
                 <el-col :span="3">会议内容：</el-col>
                 <el-col :span="21" class="confContent">
-                    <quillEditor v-model="create.conferContent"></quillEditor>
+                    <el-col :span="10">
+                        <textarea v-model="create.conferContent" style="width: 100%;max-width: 1000px;min-width: 1000px;max-height: 250px;min-height: 200px;max-height: 250px;"></textarea>
+                    </el-col>
                 </el-col>
             </el-row>
             <el-row>
@@ -108,47 +110,46 @@ import titleItem from '@/components/main/title.vue'
 import titleActive from '@/components/main/titleActive.vue'
 import description from '@/components/main/description.vue'
 import bottomItem from '@/components/bottom/bottom.vue'
-import { quillEditor } from 'vue-quill-editor'
 
 export default {
     props: ['schoolManageCenter','teacherManageCenter','creatStatus'],
     data() {
         return {
             create: {
-                confType: 1,
                 theme: '',
                 themeAdd: '',
-                adress: '',
-                adressAdd: '',
                 timeStart: '',
                 timeEnd: '',
                 confPeople: [],
-                messageTime: '',
                 conferContent: '',
                 isShow: 1,
             },
             canNot_a: true,
             pickerOptions1:{},
             conferPeoList: [],   //参会人员列表
+            channelID: 0,
         }
     },
     created() {
         if(this.schoolManageCenter){  //学校-创建会议
             if(this.creatStatus){   //会议创建
-
+                info.conferMeetTeacher_s.call(this);
             }
         }else if(this.teacherManageCenter){  //老师-创建会议
 
         }
     },
     components: {
-        titleItem, titleActive, description, bottomItem, quillEditor
+        titleItem, titleActive, description, bottomItem
     },
     methods: {
         submit(){
             if(this.creatStatus){ 
-                console.log(this.create);
+                info.conferMeetCreate_s.call(this,this.create,this.channelID)
             }
+        },
+        formatAll(date){  //时间处理
+            return info.formatYMDHMS.call(this,date);
         },
     },
     watch:{
