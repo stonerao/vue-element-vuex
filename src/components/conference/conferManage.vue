@@ -43,10 +43,7 @@
                 <el-row :span="24">
                     <el-col :span="6">
                         <div class="footer_search">
-                            <el-select v-model="footerVal" size="small" placeholder="请选择" style="margin-right: 5px;max-width: 160px;">
-                                <el-option v-for="item in footerList" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                            </el-select>
-                            <el-button type="primary" size="mini">确定</el-button>
+                            <el-button type="primary" size="mini">删除</el-button>
                         </div>
                     </el-col>
                     <el-col :span="18">
@@ -134,8 +131,6 @@ export default {
             conferList: '',  //会议状态选择框数据初始
             conferStatus: '', //会议状态
             conferTheme: '',  //search会议主题
-            footerList: '',
-            footerVal: '',
             Dailog: false,
             multiple: [],  //素材管理表选择值
             conferManaList: [{
@@ -192,6 +187,9 @@ export default {
         Close_mask(){
             this.Dailog = false;
         }
+    },
+    watch: {
+
     }
 }
 </script>
