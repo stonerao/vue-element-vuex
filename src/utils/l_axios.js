@@ -2581,4 +2581,135 @@ export default {
             })
         },
 
+
+        //会议管理--列表
+        conferMeetList_s(obj, status, seData) {
+            let apiUrl = api.conferMeetList_s;
+            let formData = {
+                    token: getToken(),
+                    page: obj.curpage,
+                    pagesize: obj.one_pagenum,
+                    status: status,
+                    search: seData
+                };
+            if(this.schoolManageCenter){
+                
+            }else if(this.teacherManageCenter){
+
+            }
+            this.$http(apiUrl, {
+                params: formData
+            }).then((res) => {
+                console.log(res);
+                if (res.status === 200) {
+                    if(res.data.code!=400){
+                        this.conferManaList = [];  
+                        let _data = res.data.data.list;
+                        _data.forEach((x) => {
+                            this.conferManaList.push({
+                                id: x.id,
+                                theme: x.title,
+                                time_s: x.start_time,
+                                time_e: x.end_time,
+                                creTime: x.add_time,
+                                people: x.user_name,
+                            })
+                        })
+                        this.materialParams.curpage = res.data.data.page;    //当前第几页
+                        this.materialParams.page_count = res.data.data.page_count;  //总共多少页
+                        this.materialParams.total_num = parseInt(res.data.data.rows);   //总共多少条数据
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
+        //素材库---素材管理-删除
+        conferMeetdel_s(id) {
+            if(this.delStatus){   //多删除！
+                id.forEach((x)=> {
+                    this.IDString.push(x.id);
+                })
+                this.IDString = (this.IDString).sort().join(",");
+            }else{
+                this.IDString = id;
+            }
+            this.$http(api.conferMeetdel_s, {
+                params: {
+                    token: getToken(),
+                    ids: this.IDString,
+                }
+            }).then((res) => {
+                // console.log(res);
+                if (res.status === 200) {
+                    if(res.data.code!=400){
+                        this.$notify({
+                            message: res.data.data,
+                            type: 'success',
+                            duration: 1000,
+                            onClose: () => {
+                                window.location.reload(true);
+                            }
+                        });
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                    }
+                }else{
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
+        //素材库---素材管理-详情
+        conferMeetDetail_s(id) {
+            this.$http(api.conferMeetDetail_s, {
+                params: {
+                    token: getToken(),
+                    id: id,
+                }
+            }).then((res) => {
+                // console.log(res);
+                if (res.status === 200) {
+                    if(res.data.code!=400){
+                        let _data = res.data.data;
+                        this.confDetail = {
+                            name: _data.name,
+                            time_s: _data.start_time,
+                            time_e: _data.end_time,
+                            content: _data.content,
+                            url: _data.channel_url,
+                            status: '',
+                            eclo: [],   //附件
+                        };
+                        if(_data.status == 1){
+                            this.confDetail.status = '未开始';
+                        }else if(_data.status == 2){
+                            this.confDetail.status = '进行中';
+                        }else if(_data.status == 3){
+                            this.confDetail.status = '已结束';
+                        }
+                        this.Dailog = true;
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                    }
+                }else{
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
 }

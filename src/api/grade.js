@@ -50,4 +50,7 @@ export const api = {
     materManaEdit_s:'Admin/Material/material_edit',   //素材库-素材管理-编辑初始详情（学校）
     materManadel_s:'Admin/Material/material_del',   //素材库-素材管理-素材（学校）
     materManadd_s:'Admin/Material/material_add',   //素材库-素材管理-添加（学校）
+    conferMeetList_s:'Admin/Meeting/meeting_list',   //会议管理列表（学校）
+    conferMeetdel_s:'Admin/Meeting/meeting_del',   //会议管理--删除（学校）
+    conferMeetDetail_s:'Admin/Meeting/meeting_info',   //会议管理--详情（学校）
 }
