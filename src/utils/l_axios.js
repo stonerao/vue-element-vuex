@@ -2230,7 +2230,6 @@ export default {
 
 
 
-
         //素材库---素材管理-列表
         materManaList_s(obj, cid, content) {
             let apiUrl = api.materManaList_s;
@@ -2242,7 +2241,11 @@ export default {
                     search: content
                 };
             if(this.isClassLogin == 2){
-                apiUrl = api.materManaList_t;
+                if(this.commonMaterial){
+                    apiUrl = api.materManaList_t_all;
+                }else{
+                    apiUrl = api.materManaList_t;
+                }
             }
             this.$http(apiUrl, {
                 params: formData
