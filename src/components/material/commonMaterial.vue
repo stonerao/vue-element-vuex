@@ -46,7 +46,7 @@
                 </el-row>
             </div>
             <div class="l_mater_table">
-                <el-table :data="materManaList" tooltip-effect="dark" style="width: 100%" @selection-change="select_Change">
+                <el-table :data="materManaList" tooltip-effect="dark" style="width: 100%">
                     <el-table-column label="ID" prop="id"></el-table-column>
                     <el-table-column label="素材名称" prop="name"></el-table-column>
                     <el-table-column label="创建时间" prop="time"></el-table-column>
@@ -148,9 +148,7 @@ export default {
                 type: 2,
             },
             requestDiff: 1, //区别多级分类请求
-            multiple: [],  //素材管理-选中的表行
             materManaList: [],   //素材管理-列表数据
-            delStatus: false,   //区分单删除及多删除
             IDString: [],
             Dailog: false,
             merDetail: {
