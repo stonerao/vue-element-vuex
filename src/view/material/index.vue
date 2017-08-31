@@ -113,6 +113,34 @@
                                     </el-col>
                                 </el-row>
                             </div>
+                            <div class="myDialog" v-if="Dailog">
+                                <div class="ownDailog" @click="Close_mask">
+                                    <div class="close_btn">
+                                        <i class="el-icon-close"></i>
+                                    </div>
+                                    <div class="content">
+                                        <div style="width: 100%;height: 100%;">
+                                            <el-row>
+                                                <el-col :span="4" style="text-align: left;text-align-last: auto">素材名称：</el-col>
+                                                <el-col :span="20" style="line-height: 23px;">{{merDetail.name}}</el-col>
+                                            </el-row>
+                                            <el-row>
+                                                <el-col :span="4" style="text-align: left;text-align-last: auto">创建时间：</el-col>
+                                                <el-col :span="20" style="line-height: 23px;">{{merDetail.time}}</el-col>
+                                            </el-row> 
+                                            <el-row>
+                                                <el-col :span="4" style="text-align: left;text-align-last: auto">是否共享：</el-col>
+                                                <el-col :span="20" style="line-height: 23px;">{{merDetail.share}}</el-col>
+                                            </el-row>
+                                            <el-row>
+                                                <el-col :span="4" style="text-align: left;text-align-last: auto">素材描述：</el-col>
+                                                <el-col :span="20" style="line-height: 23px;">{{merDetail.detail}}</el-col>
+                                            </el-row>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="dialog_mask" v-if="Dailog" @click="Close_mask"></div>
+                            </div>
                         </div>
                         <!-- 上传素材 -->
                         <div v-if="materMana_2">
@@ -196,6 +224,14 @@ export default {
             },
             delStatus: false,   //区分单删除及多删除
             IDString: [],
+            Dailog: false,
+            merDetail: {
+                name: '',
+                time: '',
+                share: '',
+                detail: '',
+            },
+            mertailDetail: false,
         }
     },
     created() {
@@ -274,10 +310,14 @@ export default {
             info.materManaList_s.call(this,this.materialParams,this.lastId,this.searchlist.inputData);
         },
         CheckDetail(id){   //查看详情
-
+            this.mertailDetail = true;
+            info.materManaEdit_b_s.call(this,id);
         },
         whetherShare(id,share){
             info.materManaShare_t.call(this,id,share);
+        },
+        Close_mask(){
+            this.Dailog = false;
         }
     },
     watch: {

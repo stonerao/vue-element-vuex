@@ -2390,26 +2390,41 @@ export default {
                 // console.log(res);
                 if (res.status === 200) {
                    if(res.data.code!=400){
-                        let _begin = res.data.data;
-                        let _circleID = [_begin.cid1,_begin.cid2,_begin.cid3,_begin.cid4,_begin.cid5];
-                        let _circleVal = [_begin.cname1,_begin.cname2,_begin.cname3,_begin.cname4,_begin.cname5];
-                        this.create={
-                            theme: res.data.data.title,
-                            themeAdd: '备注信息文字',
-                            conferContent: res.data.data.content,
-                            isShare: parseInt(res.data.data.is_share),
-                        };
-                        this.floorHelp(1);
-                        _circleID.forEach((x,index)=> {
-                            if(String(x).length != 0){
-                               this.searchlist[`Level${index+1}`] = x;
-                               this.manaDisable[`cant${index+1}`] = false;
-                               this.firstSelect.pid = x;
-                               this.floorHelp(index+2);
+                        if(!this.mertailDetail){
+                            let _begin = res.data.data;
+                            let _circleID = [_begin.cid1,_begin.cid2,_begin.cid3,_begin.cid4,_begin.cid5];
+                            let _circleVal = [_begin.cname1,_begin.cname2,_begin.cname3,_begin.cname4,_begin.cname5];
+                            this.create={
+                                theme: res.data.data.title,
+                                themeAdd: '备注信息文字',
+                                conferContent: res.data.data.content,
+                                isShare: parseInt(res.data.data.is_share),
+                            };
+                            this.floorHelp(1);
+                            _circleID.forEach((x,index)=> {
+                                if(String(x).length != 0){
+                                   this.searchlist[`Level${index+1}`] = x;
+                                   this.manaDisable[`cant${index+1}`] = false;
+                                   this.firstSelect.pid = x;
+                                   this.floorHelp(index+2);
+                                }else{
+                                    return;
+                                }
+                            });
+                        }else{  //详情
+                            this.Dailog = true;
+                            let _detail = res.data.data;
+                            this.merDetail={
+                                name: _detail.title,
+                                time: _detail.add_time,
+                                detail: _detail.content,
+                            };
+                            if(_detail.is_share == 1){
+                                this.merDetail.share = '是';
                             }else{
-                                return;
+                                this.merDetail.share = '否';
                             }
-                        });
+                        }
                    }else{
                         this.$notify.error({
                             message: res.data.data.error
