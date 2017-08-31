@@ -251,9 +251,8 @@ export default {
                 info.materManaType1_s.call(this,this.firstSelect);
             }
         }else if(this.isClassLogin == 1){
-            if(this.state == 1){  //素材管理
-                info.materManaList_s.call(this,this.materialParams,this.lastId,this.searchlist.inputData);
-                info.materManaType1_s.call(this,this.firstSelect);
+            if(this.state == 0){  //素材分类
+
             }
         }
     },
@@ -266,6 +265,12 @@ export default {
                 return
             }
             this.state = index;
+            if(this.isClassLogin == 1){
+                if(this.state == 1){  //素材管理
+                    info.materManaList_s.call(this,this.materialParams,this.lastId,this.searchlist.inputData);
+                    info.materManaType1_s.call(this,this.firstSelect);
+                }
+            }
         },
         promptsTem(status) {
             console.log(status)

@@ -2632,7 +2632,7 @@ export default {
             this.$http(apiUrl, {
                 params: formData
             }).then((res) => {
-                console.log(res);
+                // console.log(res);
                 if (res.status === 200) {
                     if(res.data.code!=400){
                         this.conferManaList = [];  
