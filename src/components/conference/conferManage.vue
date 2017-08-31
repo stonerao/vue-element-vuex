@@ -15,7 +15,7 @@
                                 </el-input>
                             </el-col>
                             <el-col :span="3">
-                                <el-select v-model="conferStatus" placeholder="会议状态">
+                                <el-select v-model="conferStatus" clearable placeholder="会议状态">
                                     <el-option v-for="item in conferList" :key="item.id" :label="item.statu" :value="item.id">
                                 </el-option>
                             </el-select>
