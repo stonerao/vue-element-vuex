@@ -2715,6 +2715,9 @@ export default {
 
         //会议管理--创建会议
         conferMeetCreate_s(obj,chanid) {
+            if(String(obj.timeStart).length == 0 || String(oobj.timeEnd).length == 0){
+                return
+            }
             let apiURL = api.conferMeetCreate_s;
             let formData = {
                 token: getToken(),
@@ -2784,6 +2787,48 @@ export default {
                         });
                     }
                 }else{
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
+        //会议管理--创建会议
+        conferVideoCreate_s(obj) {
+            this.$http({
+                url: api.conferVideoCreate_s,
+                method: 'post',
+                data: {
+                    token: getToken(),
+                    name: obj.name,
+                    channelPasswd: obj.code,
+                }
+            }).then((res) => {
+                console.log(res)
+                if (res.status == 200) {
+                    if(res.data.code!=400){
+                        this.channelID = channelId;
+                        this.$notify({
+                            message: '创建成功！',
+                            type: 'success',
+                            duration: 1000,
+                        });
+                    }else{
+                        this.$notify({
+                            message: res.data.data,
+                            type: 'error',
+                            duration: 1000,
+                            onClose: () => {
+                                this.Dailog = false;
+                                this.dailogDetail={
+                                    name: '',
+                                    code: '',
+                                }
+                            }
+                        });
+                    }
+                }else {
                     this.$notify.error({
                         message: res.data.data.error
                     });

@@ -80,7 +80,7 @@
             <el-row>
                 <el-col :span="3">会议直播间创建：</el-col>
                 <el-col :span="21">
-                    <el-button type="primary" size="small">创建直播</el-button>
+                    <el-button type="primary" size="small" @click="createVideo">创建直播</el-button>
                 </el-col>
             </el-row>
             <el-row>
@@ -96,10 +96,37 @@
                 <el-col :span="3" style="color: #f7f7f7;">保存操作</el-col>
                 <el-col :span="21">
                     <el-button type="primary" @click="submit">保存</el-button>
-                    <el-button type="primary" style="background: #e0e0e0;border-color: #e0e0e0;color: #5b5b5b">取消</el-button>
+                    <el-button type="primary" style="background: #e0e0e0;border-color: #e0e0e0;color: #5b5b5b" @click="clearData">取消</el-button>
                 </el-col>
             </el-row>
         </div>
+        <div class="myDialog">
+            <div class="ownDailog" v-if="Dailog" style="width:500px;">
+                <div class="close_btn" @click="Close_mask">
+                    <i class="el-icon-close"></i>
+                </div>
+                <div class="content">
+                    <el-row>
+                        <el-col :span="5" style="line-height: 36px;text-align-last: auto;text-align: left">直播间名称：</el-col>
+                        <el-col :span="19">
+                            <el-input v-model="dailogDetail.name" placeholder="请输入名称"></el-input>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="5" style="line-height: 36px;text-align-last: auto;text-align: left">直播间密码：</el-col>
+                        <el-col :span="19">
+                            <el-input v-model="dailogDetail.code" placeholder="请输入密码" type="password"></el-input>
+                        </el-col>
+                    </el-row>
+                    <el-row style="text-align: center">
+                        <el-button type="primary" size="small" @click="videoSure">确定</el-button>
+                        <el-button size="small" @click="Close_mask">取消</el-button>
+                    </el-row>
+                </div>
+            </div>
+            <div class="dialog_mask" v-if="Dailog" @click="Close_mask"></div>
+        </div>
+
     </div>
 </template>
 
@@ -127,7 +154,12 @@ export default {
             canNot_a: true,
             pickerOptions1:{},
             conferPeoList: [],   //参会人员列表
-            channelID: 0,
+            channelID: '',
+            Dailog: false,
+            dailogDetail:{
+                name: '',
+                code: '',
+            }
         }
     },
     created() {
@@ -148,8 +180,30 @@ export default {
                 info.conferMeetCreate_s.call(this,this.create,this.channelID)
             }
         },
+        clearData(){
+            this.create = {
+                theme: '',
+                themeAdd: '',
+                timeStart: '',
+                timeEnd: '',
+                confPeople: [],
+                conferContent: '',
+                isShow: 1,
+            };
+            this.canNot_a = true;
+            this.channelID = '';
+        },
         formatAll(date){  //时间处理
             return info.formatYMDHMS.call(this,date);
+        },
+        createVideo(){
+            this.Dailog = true;
+        },
+        Close_mask(){
+            this.Dailog = false;
+        },
+        videoSure(){
+            info.conferVideoCreate_s.call(this,this.dailogDetail);
         },
     },
     watch:{
