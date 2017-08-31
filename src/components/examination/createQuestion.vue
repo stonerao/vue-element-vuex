@@ -18,8 +18,8 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="试卷描述">
-                    <el-input v-model="form.name" type="textarea"></el-input>
-                </el-form-item> 
+                    <el-input v-model="form.t_desc" type="textarea"></el-input>
+                </el-form-item>
                 <el-form-item label="是否自动生成">
                     <el-switch v-model="isQuestion" on-color="#13ce66" off-color="#ff4949">
                     </el-switch>
@@ -28,11 +28,18 @@
                     <el-row>
                         <el-col :span='24' v-for="item in questionItems" :key="item.type_id">
                             <span>{{item.type_name}}：共
-                                <el-input class="width60 margin5" v-model="item.total" size="mini"></el-input>,</span>
+                                <el-input class="width60 margin5" v-model="item.total" size="mini"></el-input>题,</span>
                             <span>每道
-                                <el-input class="width60 margin5" v-model="item.every" size="mini"></el-input>分,</span>
-
+                                <el-input class="width60 margin5" v-model="item.every" size="mini"></el-input>分</span>
                         </el-col>
+                    </el-row>
+                </el-form-item>
+                <el-form-item label="已选择题目" v-if="!isQuestion">
+                    <!-- 新添加题库 -->
+                    <el-row>
+                        <el-col :span='24'>
+                            <el-button @click="newAddQuestion">新增题目</el-button>
+                        </el-col> 
                     </el-row>
                 </el-form-item>
                 <el-form-item label="选择题目" v-if="!isQuestion">
@@ -41,22 +48,22 @@
                         <el-col :span='24'>
                             <el-button @click="addList">添加试题</el-button>
                         </el-col>
-                        <el-col>
-
+                        <el-col> 
                         </el-col>
                     </el-row>
                 </el-form-item>
                 <el-form-item label="已选择题目" v-if="!isQuestion">
                     <!-- 选择题库 -->
-                     {{strSelect}}
+                    {{strSelect}}
                 </el-form-item>
+                
                 <el-form-item label="是否共享">
-                    <el-switch v-model="form.delivery" on-color="#13ce66" off-color="#ff4949">
+                    <el-switch v-model="shared" on-color="#13ce66" off-color="#ff4949">
                     </el-switch>
                 </el-form-item>
                 <el-form-item label=" ">
                     <el-button type="primary" @click="onSubmit">立即创建</el-button>
-                    <el-button>取消</el-button>
+                    <el-button @click="quits">取消</el-button>
                 </el-form-item>
             </el-form>
         </div>
@@ -64,14 +71,15 @@
     </div>
 </template>
 <script>
-import store from '@/utils/questions' 
+import store from '@/utils/questions'
+import { removeSelectQuestion } from '@/utils/auth'
 export default {
-    props:['selectQuestList'],
+    props: ['selectQuestList'],
     data() {
         return {
             form: {
                 title: '',
-                region: '',
+                t_desc: '',
                 date1: '',
                 date2: '',
                 delivery: false,
@@ -88,14 +96,20 @@ export default {
             },
             belongClass1: '',
             belongClass2: '',
-            belongClass3: '', 
+            belongClass3: '',
             isBelongSelect: false,
-            strSelect:'',//已选择的提
+            strSelect: '',//已选择的提
+            shared: true
         }
     },
     methods: {
         onSubmit() {
-            console.log('submit!');
+            removeSelectQuestion()
+            if (this.isQuestion) {
+                // 是否自动生成试卷
+
+            }
+            store.pushQuestion.call(this)
         },
         question_classlist(id, status) {
             // 所属分类
@@ -108,21 +122,33 @@ export default {
                 type: 'warning'
             });
         },
-        addList(){
+        addList() {
             // 跳转添加试题列表 
-            this.$emit("list",true)
+            if (typeof this.selectQuestList == 'string') {
+                this.$emit('SELECTQUESTIONLISTEVENT', this.selectQuestList)
+            }
+            this.$emit("list", true)
+        },
+        quits() {
+            // 点击取消
+            removeSelectQuestion();
+        },
+        newAddQuestion(){
+            //新添加题目。去题库添题目
+            this.$emit("newAddQuestion",true)
         }
     },
     created() {
-       this.question_classlist("", 1);
-        store.create_question_type.call(this)
+        this.question_classlist("", 1);
+        store.create_question_type.call(this);
+        removeSelectQuestion();
     },
     mounted() {
-        if(typeof this.selectQuestList=='string'){
+        if (typeof this.selectQuestList == 'string') {
             this.strSelect = this.selectQuestList.split(",").join(" / ");
             this.isQuestion = false;
-        }else {
-            this.strSelect ='';
+        } else {
+            this.strSelect = '';
         }
     },
     watch: {
@@ -140,8 +166,7 @@ export default {
             this.belongClass3 = '';
             this.question_classlist(val, 3);
         },
-        selectQuestList(val){
-            console.log(val,1)
+        selectQuestList(val) {
         }
     }
 }

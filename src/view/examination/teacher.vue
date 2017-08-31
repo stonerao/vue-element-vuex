@@ -10,15 +10,26 @@
                 <!--模块开始  -->
                 <div v-if="state==0">
                     <!-- 考试试卷 -->
-                     <teacherQuestion></teacherQuestion>
+                    <teacherQuestion></teacherQuestion>
                 </div>
                 <div v-if="state==1">
-                   <createQuestion  @list="listSelect"  :selectQuestList="selectQuestList"></createQuestion>
-                </div> 
+                    <createQuestion 
+                    @list="listSelect" 
+                    :selectQuestList="selectQuestList" 
+                    @SELECTQUESTIONLISTEVENT="selectEvent" 
+                    @newAddQuestion="new_add_question" 
+                    >
+                </createQuestion>
+                </div>
                 <div v-if="state==8">
                     <!-- 选择试题 -->
-                   <setQuestion stateList='1' @getListData="getListData"></setQuestion>
-                </div> 
+                    <setQuestion stateList='1' @getListData="getListData" :listSelectObj="listSelectObj"></setQuestion>
+                </div>
+                <div v-if="state==9">
+                    <!-- 选择试题 -->
+                    <addQuestion :newAddQuestion='newAddQuestion' @newAddwQuestOut="newAddwQuestOut"></addQuestion>
+                </div>
+                
             </div>
             <bottomItem></bottomItem>
         </div>
@@ -29,10 +40,11 @@
 import titleItem from '@/components/main/title.vue'
 import titleActive from '@/components/main/titleActive.vue'
 import description from '@/components/main/description.vue'
-import bottomItem from '@/components/bottom/bottom.vue' 
-import teacherQuestion from '@/components/examination/teacherQuestion.vue' 
-import createQuestion from '@/components/examination/createQuestion.vue'  
+import bottomItem from '@/components/bottom/bottom.vue'
+import teacherQuestion from '@/components/examination/teacherQuestion.vue'
+import createQuestion from '@/components/examination/createQuestion.vue'
 import setQuestion from '@/components/questions/questionList'
+import addQuestion from '@/components/questions/addQuestion'
 export default {
     data() {
         return {
@@ -49,14 +61,17 @@ export default {
                 `侧边栏可以进行高级搜索`
             ],
             state: 0,
-            selectQuestList:[]
+            selectQuestList: [],
+            listSelectObj: '',
+            newAddQuestion:false,
+            newAddObj:{}
         }
     },
     created() {
     },
     components: {
-        titleItem, titleActive, description, bottomItem, 
-        teacherQuestion,createQuestion,setQuestion
+        titleItem, titleActive, description, bottomItem,
+        teacherQuestion, createQuestion, setQuestion,addQuestion
     },
     methods: {
         emitTransfer(index) {
@@ -68,13 +83,29 @@ export default {
         promptsTem(status) {
             console.log(status)
         },
-        listSelect(val){
+        listSelect(val) {
             //选择试题
             this.state = 8;
         },
-        getListData(arr){
-            this.selectQuestList = arr; 
-            this.state=1;
+        getListData(arr) {
+            this.selectQuestList = arr;
+            this.state = 1;
+        },
+        selectEvent(val) {
+            this.listSelectObj = val;
+            this.listSelect();
+        },
+        new_add_question(){
+            //创建试卷去题库增加题目
+            this.newAddQuestion=true;
+            this.state=9;
+        },
+        newAddwQuestOut(val,data){
+            this.newAddObj = {
+                state: val ,//1是加入 2是不加入老师
+                items:data
+            }
+            console.log(val,data)
         }
     }
 }
