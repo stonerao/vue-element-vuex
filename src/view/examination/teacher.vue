@@ -18,6 +18,7 @@
                     :selectQuestList="selectQuestList" 
                     @SELECTQUESTIONLISTEVENT="selectEvent" 
                     @newAddQuestion="new_add_question" 
+                    :newAddObj="newAddObj"
                     >
                 </createQuestion>
                 </div>
@@ -45,6 +46,9 @@ import teacherQuestion from '@/components/examination/teacherQuestion.vue'
 import createQuestion from '@/components/examination/createQuestion.vue'
 import setQuestion from '@/components/questions/questionList'
 import addQuestion from '@/components/questions/addQuestion'
+
+import { removeSelectQuestion } from '@/utils/auth'
+import { removeCookie } from '@/utils/auth'
 export default {
     data() {
         return {
@@ -68,6 +72,8 @@ export default {
         }
     },
     created() {
+        removeSelectQuestion();
+        removeCookie('NEWADDQUESTIONOUT');
     },
     components: {
         titleItem, titleActive, description, bottomItem,
@@ -80,8 +86,7 @@ export default {
             }
             this.state = index;
         },
-        promptsTem(status) {
-            console.log(status)
+        promptsTem(status) { 
         },
         listSelect(val) {
             //选择试题
@@ -101,11 +106,11 @@ export default {
             this.state=9;
         },
         newAddwQuestOut(val,data){
+            this.state=1;
             this.newAddObj = {
                 state: val ,//1是加入 2是不加入老师
                 items:data
-            }
-            console.log(val,data)
+            } 
         }
     }
 }

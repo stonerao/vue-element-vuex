@@ -1,6 +1,8 @@
 import { api } from '@/api/index'
 import { getToken } from '@/utils/auth'
 import { encodeUnicode } from '@/utils/auth'
+import { setCookie } from '@/utils/auth'
+import { getCookie } from '@/utils/auth'
 export default {
     question_type() {
         // 试题分类
@@ -92,7 +94,13 @@ export default {
                     if (this.isTeacherShare) {
                         this.$emit('newAddwQuestOut', 1, res.data.data)
                     } else {
-                        this.$emit('newAddwQuestOut', 2, res.data.data)
+                        let get = getCookie('NEWADDQUESTIONOUT');
+                        this.$emit('newAddwQuestOut', 2, res.data.data);
+                        if(get){ 
+                            setCookie('NEWADDQUESTIONOUT',JSON.stringify([...JSON.parse(get),res.data.data]))
+                        }else{
+                            setCookie('NEWADDQUESTIONOUT',JSON.stringify([res.data.data]))
+                        } 
                     }
                 } else {
                     this.$notify({
@@ -102,7 +110,7 @@ export default {
                 }
             } else {
                 this.$notify({
-                    message: res.data.datas.error,
+                    message: res.data.data.error,
                     type: 'warning'
                 });
             }
@@ -268,17 +276,9 @@ export default {
             }
         })
     },
-    pushQuestion() {
-        // 提交试卷
-        // 处理提醒列表
-        let arr = [];
-        this.questionItems.forEach((x) => {
-            arr.push({
-                type_id: '',
-                q_count: '',
-                q_source: '',
-            })
-        })
+    pushQuestion(arr) {
+        // 提交试卷 
+        let qc_id = this.belongClass3 ? this.belongClass3 : (this.belongClass2 ? this.belongClass2 : this.belongClass1);
         this.$http({
             url: api.add_testpaper,
             method: 'post',
@@ -289,8 +289,9 @@ export default {
                 is_auto: this.isQuestion ? '2' : '1',
                 q_id: this.selectQuestList,
                 is_share: this.shared ? '1' : '2',
-                arrays: this.isQuestion ? arr : '',
+                question_list: this.isQuestion ? encodeUnicode(JSON.stringify(arr)) : '',
                 q_add_question: '',
+                qc_id:qc_id,
             }
         }).then((res) => {
             if (res.data.code == 200) {
