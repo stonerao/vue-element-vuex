@@ -51,8 +51,10 @@ export const api = {
     materManadel_s:'Admin/Material/material_del',   //素材库-素材管理-素材（学校）
     materManadd_s:'Admin/Material/material_add',   //素材库-素材管理-添加（学校）
     conferMeetList_s:'Admin/Meeting/meeting_list',   //会议管理列表（学校）
+    conferMeetList_t:'Teacher/Meeting/meeting_list',   //会议管理列表（老师）
     conferMeetdel_s:'Admin/Meeting/meeting_del',   //会议管理--删除（学校）
     conferMeetDetail_s:'Admin/Meeting/meeting_info',   //会议管理--详情（学校）
+    conferMeetDetail_t:'Teacher/Meeting/meeting_info',   //会议管理--详情（老师）
     conferMeetCreate_s:'Admin/Meeting/meeting_add',   //会议管理--创建（学校）
     conferMeetTeacher_s:'Admin/Meeting/get_teacher_all',   //会议管理--老师列表（学校）
     conferVideoCreate_s:'Admin/Meeting/live_house_add',   //会议管理--创建直播间（学校）

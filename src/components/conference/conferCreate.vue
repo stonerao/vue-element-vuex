@@ -177,8 +177,11 @@ export default {
                 info.conferMeetTeacher_s.call(this);
                 info.conferMeetDetail_s.call(this,this.CONFERID);
             }
-        }else if(this.teacherManageCenter){  //老师-创建会议
-
+        }else if(this.teacherManageCenter){  //老师-会议编辑
+            if(this.EDITCARD){  //会议编辑
+                info.conferMeetTeacher_s.call(this);
+                info.conferMeetDetail_s.call(this,this.CONFERID);
+            }
         }
     },
     components: {

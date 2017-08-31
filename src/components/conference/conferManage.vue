@@ -11,12 +11,12 @@
                         <el-col :span="18" class="mater_search clearfloat">
                             <el-col :span="5">
                                 <el-input placeholder="输入会议主题名称" style="" v-model="conferTheme">
-                                    <el-button slot="append" icon="search"></el-button>
+                                    <el-button slot="append" icon="search" @click.native="conferSearch"></el-button>
                                 </el-input>
                             </el-col>
                             <el-col :span="3">
                                 <el-select v-model="conferStatus" placeholder="会议状态">
-                                    <el-option v-for="item in conferList" :key="item.value" :label="item.label" :value="item.value">
+                                    <el-option v-for="item in conferList" :key="item.id" :label="item.statu" :value="item.id">
                                 </el-option>
                             </el-select>
                             </el-col>
@@ -25,7 +25,7 @@
                 </div>
                 <div class="l_confer_table l_mater_table">
                     <el-table ref="multipleTable" :data="conferManaList" border tooltip-effect="dark" style="width: 100%" @selection-change="select_Change">
-                        <el-table-column type="selection" width="48"></el-table-column>
+                        <el-table-column type="selection" width="48" v-if="schoolManageCenter"></el-table-column>
                         <el-table-column label="ID" prop="id"></el-table-column>
                         <el-table-column label="会议主题" prop="theme"></el-table-column>
                         <el-table-column label="会议时间">
@@ -39,16 +39,16 @@
                         <el-table-column label="操作">
                             <template scope="scope">
                                 <el-button type="primary" size="mini" icon="view" @click.native="look_over(scope.row.id)" style="margin-left: 0px;margin: 3px 0px">查看</el-button>
-                                <el-button type="primary" size="mini" icon="edit" @click.native="editConfer(scope.row.id)" style="margin-left: 0px;margin: 3px 0px">编辑</el-button>
+                                <el-button type="primary" size="mini" icon="edit" @click.native="editConfer(scope.row.id)" style="margin-left: 0px;margin: 3px 0px" v-if="schoolManageCenter">编辑</el-button>
                                 <el-button type="primary" size="mini" icon="edit" @click.native="beginConfer(scope.row.id)" style="margin-left: 0px;margin: 3px 0px" v-if="scope.row.status == 1 && schoolManageCenter">开始</el-button>
                                 <el-button type="primary" size="mini" icon="edit" @click.native="endConfer(scope.row.channelId)" style="margin-left: 0px;margin: 3px 0px" v-if="scope.row.status == 2 && schoolManageCenter">结束</el-button>
                                 <el-button type="primary" size="mini" icon="edit" @click.native="messageConfer(scope.row.id)" style="margin-left: 0px;margin: 3px 0px" v-if="scope.row.status == 1 && schoolManageCenter">通知</el-button>
-                                <el-button type="primary" size="mini" icon="delete" @click.native="deleteOne(scope.row.id)" style="margin-left: 0px;margin: 3px 0px">删除</el-button>
+                                <el-button type="primary" size="mini" icon="delete"  v-if="schoolManageCenter" @click.native="deleteOne(scope.row.id)" style="margin-left: 0px;margin: 3px 0px">删除</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
                 </div>
-                <div class="l_mater_footer">
+                <div class="l_mater_footer" v-if="schoolManageCenter">
                     <el-row :span="24">
                         <el-col :span="6">
                             <div class="footer_search">
@@ -56,6 +56,20 @@
                             </div>
                         </el-col>
                         <el-col :span="18">
+                            <div class="kd-page">
+                                <el-row>
+                                    <el-col :span="24">
+                                        <el-pagination class="float-right" :current-page="materialParams.curpage" :page-sizes="[15, 20, 25, 30]" :page-size="materialParams.page_count" layout="total, sizes, prev, pager, next, jumper" :total="materialParams.total_num" @size-change="handleSizeChange" @current-change="handleCurrentChange">
+                                        </el-pagination>
+                                    </el-col>
+                                </el-row>
+                            </div>
+                        </el-col>
+                    </el-row>
+                </div>
+                <div class="l_mater_footer" v-else>
+                    <el-row :span="24">
+                        <el-col :span="24">
                             <div class="kd-page">
                                 <el-row>
                                     <el-col :span="24">
@@ -138,7 +152,7 @@ export default {
     props: ['schoolManageCenter','teacherManageCenter'],
     data() {
         return {
-            state: 0, 
+            state: 0,
             materialParams: {   //翻页
                 hasmore: true,
                 curpage: 1,//当前页数
@@ -146,8 +160,19 @@ export default {
                 page_count: 1,//总页数
                 total_num: 0
             },
-            conferList: '',  //会议状态选择框数据初始
-            conferStatus: '', //会议状态
+            conferStatus: '',  //会议状态选择框数据初始
+            conferList: [
+                {
+                    statu: '未开始',
+                    id: 1,
+                },{
+                    statu: '进行中',
+                    id: 2,
+                },{
+                    statu: '已结束',
+                    id: 3,
+                },
+            ], //会议状态
             conferTheme: '',  //search会议主题
             Dailog: false,
             multiple: [],  //素材管理表选择值
@@ -172,9 +197,9 @@ export default {
     },
     created() {
         if(this.schoolManageCenter){  //学校-会议管理
-            info.conferMeetList_s.call(this,this.conferStatus,this.conferTheme);
+            info.conferMeetList_s.call(this,this.materialParams,this.conferStatus,this.conferTheme);
         }else if(this.teacherManageCenter){  //老师-会议管理
-
+            info.conferMeetList_s.call(this,this.materialParams,this.conferStatus,this.conferTheme);
         }
     },
     components: {
@@ -192,15 +217,11 @@ export default {
         },
         handleSizeChange(val) {
             this.materialParams.one_pagenum = val;
-            if(this.state == 1){
-                info.conferMeetList_s.call(this,this.conferStatus,this.conferTheme);
-            }
+            info.conferMeetList_s.call(this,this.materialParams,this.conferStatus,this.conferTheme);
         },
         handleCurrentChange(val) {
             this.materialParams.curpage = val;
-            if(this.state == 1){
-                info.conferMeetList_s.call(this,this.conferStatus,this.conferTheme);
-            }
+            info.conferMeetList_s.call(this,this.materialParams,this.conferStatus,this.conferTheme);
         },
         beginConfer(id){  //开始会议
             info.conferBegin_s.call(this,id);
@@ -247,6 +268,9 @@ export default {
             this.EDITCARD = false;
             this.conferManage_1 = true;
             this.conferManage_2 = false;
+        },
+        conferSearch(){  //搜索显示
+            info.conferMeetList_s.call(this,this.materialParams,this.conferStatus,this.conferTheme);
         }
     },
     watch: {

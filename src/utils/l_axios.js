@@ -2595,12 +2595,12 @@ export default {
             if(this.schoolManageCenter){
                 
             }else if(this.teacherManageCenter){
-
+                apiUrl = api.conferMeetList_t;
             }
             this.$http(apiUrl, {
                 params: formData
             }).then((res) => {
-                // console.log(res);
+                console.log(res);
                 if (res.status === 200) {
                     if(res.data.code!=400){
                         this.conferManaList = [];  
@@ -2675,7 +2675,11 @@ export default {
 
         //会议详情
         conferMeetDetail_s(id) {
-            this.$http(api.conferMeetDetail_s, {
+            let apiURL = api.conferMeetDetail_s;
+            if(this.teacherManageCenter){
+                apiURL = api.conferMeetDetail_t
+            }
+            this.$http(apiURL, {
                 params: {
                     token: getToken(),
                     id: id,
