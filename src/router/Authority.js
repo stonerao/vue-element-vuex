@@ -537,9 +537,9 @@ export const ListTeacher = [
             }
         ]
     }, {
-        path: '/set',
+        path: '/material',
         name: '素材库',
-        redirect: '/set/index',
+        redirect: '/material/index',
         icon: pmsd,
         iconActive: pmsd_active,
         component: Layout,
