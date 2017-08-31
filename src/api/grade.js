@@ -57,4 +57,7 @@ export const api = {
     conferMeetTeacher_s:'Admin/Meeting/get_teacher_all',   //会议管理--老师列表（学校）
     conferVideoCreate_s:'Admin/Meeting/live_house_add',   //会议管理--创建直播间（学校）
     conferMeetEdit_s:'Admin/Meeting/meeting_edit',   //会议管理--编辑（学校）
+    conferBegin_s:'Admin/Meeting/meeting_start',   //会议管理--开始会议（学校）
+    conferClose_s:'Admin/Meeting/live_house_del',   //会议管理--关闭会议（学校）
+    conferMessage_s:'Admin/Meeting/send_meeting_notice',   //会议管理--会议通知（学校）
 }

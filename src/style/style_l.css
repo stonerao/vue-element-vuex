@@ -526,6 +526,13 @@
 .l_layout_outer .l_virtual_wraper .form_group .middle_zhi {
   padding: 0px 16px;
 }
+.l_layout_outer .l_confer_table colgroup col:nth-child(7) {
+  width: 340px;
+}
+.l_layout_outer .l_confer_table .el-table_1_column_7 .cell {
+  padding-left: 10px;
+  padding-right: 10px;
+}
 .l_layout_outer .l_mater_header {
   margin-bottom: 10px;
 }

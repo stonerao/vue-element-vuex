@@ -23,7 +23,7 @@
                         </el-col>
                     </el-row>
                 </div>
-                <div class="l_mater_table">
+                <div class="l_confer_table l_mater_table">
                     <el-table ref="multipleTable" :data="conferManaList" border tooltip-effect="dark" style="width: 100%" @selection-change="select_Change">
                         <el-table-column type="selection" width="48"></el-table-column>
                         <el-table-column label="ID" prop="id"></el-table-column>
@@ -38,9 +38,12 @@
                         <el-table-column label="创始人" prop="people"></el-table-column>
                         <el-table-column label="操作">
                             <template scope="scope">
-                                <el-button type="primary" size="mini" icon="view" @click.native="look_over(scope.row.id)">查看</el-button>
-                                <el-button type="primary" size="mini" icon="edit" @click.native="editConfer(scope.row.id)">编辑</el-button>
-                                <el-button type="primary" size="mini" icon="delete" @click.native="deleteOne(scope.row.id)">删除</el-button>
+                                <el-button type="primary" size="mini" icon="view" @click.native="look_over(scope.row.id)" style="margin-left: 0px;margin: 3px 0px">查看</el-button>
+                                <el-button type="primary" size="mini" icon="edit" @click.native="editConfer(scope.row.id)" style="margin-left: 0px;margin: 3px 0px">编辑</el-button>
+                                <el-button type="primary" size="mini" icon="edit" @click.native="beginConfer(scope.row.id)" style="margin-left: 0px;margin: 3px 0px" v-if="scope.row.status == 1">开始</el-button>
+                                <el-button type="primary" size="mini" icon="edit" @click.native="endConfer(scope.row.channelId)" style="margin-left: 0px;margin: 3px 0px" v-if="scope.row.status == 2">结束</el-button>
+                                <el-button type="primary" size="mini" icon="edit" @click.native="messageConfer(scope.row.id)" style="margin-left: 0px;margin: 3px 0px" v-if="scope.row.status == 1">通知</el-button>
+                                <el-button type="primary" size="mini" icon="delete" @click.native="deleteOne(scope.row.id)" style="margin-left: 0px;margin: 3px 0px">删除</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -199,6 +202,15 @@ export default {
                 info.conferMeetList_s.call(this,this.conferStatus,this.conferTheme);
             }
         },
+        beginConfer(id){  //开始会议
+            info.conferBegin_s.call(this,id);
+        },
+        endConfer(chid){  //结束会议
+            info.conferClose_s.call(this,chid);
+        },
+        messageConfer(id){   //通知消息
+            info.conferMessage_s.call(this,id);
+        },
         select_Change(val){  //表格选择事件
             this.multiple = val;
         },
@@ -243,6 +255,6 @@ export default {
 }
 </script>
  
-<style scoped>
+<style>
 
 </style>
