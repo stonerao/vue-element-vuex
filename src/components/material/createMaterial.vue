@@ -72,7 +72,9 @@
             <el-row>
                 <el-col :span="3">素材描述：</el-col>
                 <el-col :span="21" class="confContent">
-                    <quillEditor v-model="create.conferContent"></quillEditor>
+                    <el-col :span="10">
+                        <textarea v-model="create.conferContent" style="width: 100%;max-width: 1000px;min-width: 1000px;max-height: 250px;min-height: 200px;max-height: 250px;"></textarea>
+                    </el-col>
                 </el-col>
             </el-row>
             <el-row>
@@ -134,14 +136,10 @@ export default {
         }
     },
     created() {
-        if(this.schoolManageCenter){  //学校
-            if(this.materialEdit.status){   //素材库-素材管理-编辑
-                info.materManaEdit_b_s.call(this,this.materialEdit.id);   //编辑初始数据获取
-            }else{  //创建
-                info.materManaType1_s.call(this,this.firstSelect);
-            }
-        }else if(this.teacherManageCenter){  //老师-创建会议
-
+        if(this.materialEdit.status){   //素材库-素材管理-编辑
+            info.materManaEdit_b_s.call(this,this.materialEdit.id);   //编辑初始数据获取
+        }else{  //创建
+            info.materManaType1_s.call(this,this.firstSelect);
         }
     },
     components: {
@@ -158,11 +156,7 @@ export default {
             console.log(status)
         },
         cancelCreate(){
-            if(this.schoolManageCenter){ 
-                this.$emit("CANCEL");
-            }else if(this.teacherManageCenter){ 
-
-            }
+            this.$emit("CANCEL");
         },
         submit(){
             if(this.materialEdit.status){  //编辑提交

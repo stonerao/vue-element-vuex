@@ -2241,10 +2241,8 @@ export default {
                     cid: cid,
                     search: content
                 };
-            if(this.schoolManageCenter){
-                
-            }else if(this.teacherManageCenter){
-
+            if(this.isClassLogin == 2){
+                apiUrl = api.materManaList_t;
             }
             this.$http(apiUrl, {
                 params: formData
@@ -2255,6 +2253,11 @@ export default {
                         this.materManaList = [];  
                         let _data = res.data.data.list;
                         _data.forEach((x) => {
+                            if(parseInt(x.share) == 1){
+                                x.share = true;
+                            }else{
+                                x.share = false;
+                            }
                             this.materManaList.push({
                                 id: x.id,
                                 name: x.title,
@@ -2262,6 +2265,7 @@ export default {
                                 time: x.add_time,
                                 people: x.user_name,
                                 url: x.file_url,
+                                share: x.is_share
                             })
                         })
                         this.materialParams.curpage = res.data.data.page;    //当前第几页
@@ -2288,10 +2292,8 @@ export default {
                     pid: obj.pid,
                     type: obj.type
                 };
-            if(this.schoolManageCenter){
-                
-            }else if(this.teacherManageCenter){
-
+            if(this.teacherManageCenter){
+                apiUrl = api.materManaType1_t
             }
             this.$http(apiUrl, {
                 params: formData
@@ -2379,27 +2381,23 @@ export default {
                 token: getToken(),
                 id: id
             };
-            if(this.schoolManageCenter){
-                
-            }else if(this.teacherManageCenter){
-
+            if(this.teacherManageCenter){
+                apiUrl = api.materManaEdit_b_t;
             }
             this.$http(apiUrl, {
                 params: formData
             }).then((res) => {
-                console.log(res);
+                // console.log(res);
                 if (res.status === 200) {
                    if(res.data.code!=400){
                         let _begin = res.data.data;
                         let _circleID = [_begin.cid1,_begin.cid2,_begin.cid3,_begin.cid4,_begin.cid5];
                         let _circleVal = [_begin.cname1,_begin.cname2,_begin.cname3,_begin.cname4,_begin.cname5];
-                        if(res.data.data.is_share){  //兼容老师中心素材管理
-                            this.create.isShare = res.data.data.is_share;
-                        };
                         this.create={
                             theme: res.data.data.title,
                             themeAdd: '备注信息文字',
                             conferContent: res.data.data.content,
+                            isShare: parseInt(res.data.data.is_share),
                         };
                         this.floorHelp(1);
                         _circleID.forEach((x,index)=> {
@@ -2429,10 +2427,13 @@ export default {
         materManaType0_s(obj,index) {
             let apiUrl = api.materManaType1_s;
             let formData = {
-                    token: getToken(),
-                    pid: obj.pid,
-                    type: obj.type
-                };
+                token: getToken(),
+                pid: obj.pid,
+                type: obj.type
+            };
+            if(this.teacherManageCenter){
+                apiUrl = api.materManaType1_t;
+            }
             this.$http(apiUrl, {
                 params: formData
             }).then((res) => {
@@ -2470,6 +2471,10 @@ export default {
 
         //素材库---素材管理-编辑-保存
         materManaEdit_s(scid,obj,lid) {
+            let apiURL = api.materManaEdit_s;
+            if(this.teacherManageCenter){
+                apiURL = api.materManaEdit_t;
+            }
             this.$http({
                 url: api.materManaEdit_s,
                 method: 'post',
@@ -2507,6 +2512,7 @@ export default {
 
         //素材库---素材管理-删除
         materManadel_s(id) {
+            let apiUrl = api.materManadel_s;
             if(this.delStatus){   //多删除！
                 id.forEach((x)=> {
                     this.IDString.push(x.id);
@@ -2515,7 +2521,10 @@ export default {
             }else{
                 this.IDString = id;
             }
-            this.$http(api.materManadel_s, {
+            if(this.teacherManageCenter){
+                apiUrl = api.materManadel_t;
+            }
+            this.$http(apiUrl, {
                 params: {
                     token: getToken(),
                     ids: this.IDString,
@@ -2547,14 +2556,19 @@ export default {
 
         //素材库---素材管理-添加
         materManadd_s(obj,lid) {
+            let apiUrl = api.materManadd_s;
+            if(this.teacherManageCenter){
+                apiUrl = api.materManadd_t;
+            }
             this.$http({
-                url: api.materManadd_s,
+                url: apiUrl,
                 method: 'post',
                 data: {
                     token: getToken(),
                     title: obj.theme,
                     category_id: lid,
                     content: obj.conferContent,
+                    is_share: obj.isShare
                 }
             }).then((res) => {
                 // console.log(res)
@@ -2966,6 +2980,44 @@ export default {
                             message: res.data.data,
                             type: 'error',
                             duration: 1000,
+                        });
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
+        //老师素材- 是否共享按钮
+        materManaShare_t(id,share) {
+            if(share){
+                share = 1;
+            }else{
+                share = 2;
+            }
+            this.$http(api.materManaShare_t, {
+                params: {
+                    token: getToken(),
+                    id: id,
+                    is_share: share,
+                }
+            }).then((res) => {
+                // console.log(res)
+                if (res.status == 200) {
+                    if(res.data.code!=400){
+                        this.$notify({
+                            message: res.data.data,
+                            type: 'success',
+                            duration: 1000,
+                            onClose: () => {
+                                // window.location.reload(true);
+                            }
+                        });
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
                         });
                     }
                 }else {

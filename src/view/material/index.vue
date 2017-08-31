@@ -65,8 +65,8 @@
                                     <el-table-column type="selection" width="48"></el-table-column>
                                     <el-table-column label="ID" prop="id"></el-table-column>
                                     <el-table-column label="素材名称" prop="name"></el-table-column>
-                                    <el-table-column label="大小" prop="size"></el-table-column>
-                                    <el-table-column label="素材附件">
+                                    <el-table-column label="大小" prop="size" v-if="!teacherManageCenter"></el-table-column>
+                                    <el-table-column label="素材附件" v-if="!teacherManageCenter">
                                         <template scope="scope">
                                             <div v-if="scope.row.url">
                                                 <!-- <router-link :to="scope.row.url">测试</router-link> -->
@@ -74,10 +74,17 @@
                                             </div>
                                         </template>
                                     </el-table-column>
-                                    <el-table-column label="发布时间" prop="time"></el-table-column>
-                                    <el-table-column label="创建人" prop="people"></el-table-column>
+                                    <el-table-column label="创建时间" prop="time" v-if="teacherManageCenter"></el-table-column>
+                                    <el-table-column label="发布时间" prop="time" v-else></el-table-column>
+                                    <el-table-column label="创建人" prop="people" v-if="!teacherManageCenter"></el-table-column>
+                                    <el-table-column label="是否共享" prop="share" v-if="teacherManageCenter">
+                                        <template scope="scope">
+                                            <el-switch v-model="scope.row.share" on-color="#13ce66" off-color="#ff4949" @change="whetherShare(scope.row.id,scope.row.share)"></el-switch>
+                                        </template>
+                                    </el-table-column>
                                     <el-table-column label="操作">
                                         <template scope="scope">
+                                            <el-button type="primary" size="mini" v-if="teacherManageCenter" icon="view" @click.native="CheckDetail(scope.row.id)">查看</el-button>
                                             <el-button type="primary" size="mini" icon="edit" @click.native="edit(scope.row.id)">编辑</el-button>
                                             <el-button type="primary" size="mini" icon="delete" @click.native="my_delete(scope.row.id)">删除</el-button>
                                         </template>
@@ -109,7 +116,7 @@
                         </div>
                         <!-- 上传素材 -->
                         <div v-if="materMana_2">
-                            <createMaterial :schoolManageCenter="schoolManageCenter" :materialEdit="materialEdit" @CANCEL="cancelCreate"></createMaterial>
+                            <createMaterial :schoolManageCenter="schoolManageCenter" :teacherManageCenter="teacherManageCenter" :materialEdit="materialEdit" @CANCEL="cancelCreate"></createMaterial>
                         </div>
                     </div>
                 </div>
@@ -120,6 +127,7 @@
 </template>
 
 <script>
+import { getClass } from '@/utils/auth'
 import info from '@/utils/l_axios'
 import titleItem from '@/components/main/title.vue'
 import titleActive from '@/components/main/titleActive.vue'
@@ -138,8 +146,10 @@ export default {
                 `该页面展示管理员的操作日志，可进行删除。`,
                 `侧边栏可以进行高级搜索`
             ],
-            state: 1, 
-            schoolManageCenter: true,  //学校中心身份证
+            state: 0, 
+            isClassLogin: 1,
+            schoolManageCenter: false,  //学校中心身份证
+            teacherManageCenter: false,  //学校中心身份证
             materialParams: {   //翻页
                 hasmore: true,
                 curpage: 1,//当前页数
@@ -189,6 +199,13 @@ export default {
         }
     },
     created() {
+        this.isClassLogin = getClass();
+        if(this.isClassLogin == 2){ //激活老师管理系统身份
+            this.schoolManageCenter = false;
+            this.teacherManageCenter = true;
+            this.state = 1;
+            this.titleItem=[{ name: "素材管理", index: 1 }];
+        }
         if(this.state == 0){  //素材分类
 
         }else if(this.state == 1){  //素材管理
@@ -212,13 +229,13 @@ export default {
         handleSizeChange(val) {
             this.materialParams.one_pagenum = val;
             if(this.state == 1){
-                // info.timeTable.call(this,this.materialParams,this.graClaId);
+                info.materManaList_s.call(this,this.materialParams,this.lastId,this.searchlist.inputData);
             }
         },
         handleCurrentChange(val) {
             this.materialParams.curpage = val;
             if(this.state == 1){
-                // info.timeTable.call(this,this.materialParams,this.graClaId);
+               info.materManaList_s.call(this,this.materialParams,this.lastId,this.searchlist.inputData);
             }
         },
         select_Change(val){  //表格选择事件
@@ -255,6 +272,12 @@ export default {
                 this.lastId = this.firstSelect.pid;
             }
             info.materManaList_s.call(this,this.materialParams,this.lastId,this.searchlist.inputData);
+        },
+        CheckDetail(id){   //查看详情
+
+        },
+        whetherShare(id,share){
+            info.materManaShare_t.call(this,id,share);
         }
     },
     watch: {

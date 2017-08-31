@@ -84,7 +84,7 @@
                 <div class="myPopup" v-if="Dailog">
                     <div class="Popup">
                         <ul class="popHeader clearfloat">
-                            <li>遵义会议</li>
+                            <li>{{confDetail.name}}</li>
                             <li @click="Close_mask"><i class="el-icon-circle-close"></i></li>
                         </ul>
                         <div class="popContent">

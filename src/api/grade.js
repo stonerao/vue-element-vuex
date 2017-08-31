@@ -45,11 +45,18 @@ export const api = {
     classGradeLog:'Admin/Grade/schedule_change_record_list',   //班级年级日志
     logDetail:'Admin/Grade/show_change_record_info',   //班级年级日志详情
     materManaList_s:'Admin/Material/material_list',   //素材库-素材管理-列表（学校）
+    materManaList_t:'Teacher/Material/material_list',   //素材库-素材管理-列表（老师）
     materManaType1_s:'Admin/Material/material_category_data',   //素材库-素材管理-一级分类（学校）
+    materManaType1_t:'Teacher/Material/material_category_data',   //素材库-素材管理-一级分类（老师）
     materManaEdit_b_s:'Admin/Material/material_info',   //素材库-素材管理-编辑初始详情（学校）
-    materManaEdit_s:'Admin/Material/material_edit',   //素材库-素材管理-编辑初始详情（学校）
-    materManadel_s:'Admin/Material/material_del',   //素材库-素材管理-素材（学校）
+    materManaEdit_b_t:'Teacher/Material/material_info',   //素材库-素材管理-编辑初始详情（老师）
+    materManaEdit_s:'Admin/Material/material_edit',   //素材库-素材管理-编辑保存（学校）
+    materManaEdit_t:'Teacher/Material/material_edit',   //素材库-素材管理-编辑保存（老师）
+    materManadel_s:'Admin/Material/material_del',   //素材库-素材管理-素材上传（学校）
+    materManadel_t:'Teacher/Material/material_del',   //素材库-素材管理-素材上传（老师）
     materManadd_s:'Admin/Material/material_add',   //素材库-素材管理-添加（学校）
+    materManadd_t:'Teacher/Material/material_add',   //素材库-素材管理-添加（老师）
+    materManaShare_t:'Teacher/Material/material_is_share',   //素材库-素材管理-共享（老师）
     conferMeetList_s:'Admin/Meeting/meeting_list',   //会议管理列表（学校）
     conferMeetList_t:'Teacher/Meeting/meeting_list',   //会议管理列表（老师）
     conferMeetdel_s:'Admin/Meeting/meeting_del',   //会议管理--删除（学校）
