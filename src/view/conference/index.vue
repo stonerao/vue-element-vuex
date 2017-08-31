@@ -10,11 +10,11 @@
                 <div class="l_layout_outer">
                     <!--会议管理-->
                     <div v-if="state==0">
-                        <conferManage :schoolManageCenter="schoolManageCenter"></conferManage>
+                        <conferManage :schoolManageCenter="schoolManageCenter" :teacherManageCenter="teacherManageCenter"></conferManage>
                     </div>
-                    <!--创建会议-->
+                        <!--创建会议-->
                     <div v-if="state==1">
-                        <conferCreate :schoolManageCenter="schoolManageCenter" :creatStatus="creatStatus"></conferCreate>
+                        <conferCreate :schoolManageCenter="schoolManageCenter" :teacherManageCenter="teacherManageCenter" :creatStatus="creatStatus"></conferCreate>
                     </div>
                 </div>
             </div>
@@ -26,6 +26,7 @@
 </template>
 
 <script>
+import { getClass } from '@/utils/auth'
 import titleItem from '@/components/main/title.vue'
 import titleActive from '@/components/main/titleActive.vue'
 import description from '@/components/main/description.vue'
@@ -36,6 +37,8 @@ import conferCreate from '@/components/conference/conferCreate.vue'
 export default {
     data() {
         return {
+            state: 0,
+            isClassLogin:1,//登录状态（1.管理员；2.老师；3.学生） 
             titleItem: [
                 { name: "会议管理", index: 0 },
                 { name: "创建会议", index: 1 },
@@ -46,16 +49,19 @@ export default {
             ],
             schoolManageCenter: false,  //学校管理中心身份证
             teacherManageCenter: false, //老师管理中心身份证
-            state: 1,
+            state: 0,
             creatStatus: true, 
         }
     },
     created() {
-        this.schoolManageCenter = true;  //激活学校管理系统身份
-        if(this.state == 0){  //会议管理
-
-        }else if(this.state == 1){  //创建会议
-
+        this.isClassLogin = getClass();
+        if(this.isClassLogin == 1){  //激活学校管理系统身份
+            this.schoolManageCenter = true;
+            this.teacherManageCenter = false;
+        }else if(this.isClassLogin == 2){ //激活老师管理系统身份
+            this.titleItem=[{ name: "会议管理", index: 0 }];
+            this.teacherManageCenter = true;
+            this.schoolManageCenter = false; 
         }
     },
     components: {
