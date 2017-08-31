@@ -3,7 +3,6 @@
             <div class="l_mater_header">
                 <el-row :gutter="15">
                     <el-col :span="6">
-                        <el-button type="primary" icon="plus" size="small" style="margin-right: 12px;" @click.native="createMaterial">上传素材</el-button>
                         <img src="../../assets/index/shuaxin.png" class="icon-img-xs" />刷新-共{{materialParams.total_num}}条记录
                     </el-col>
                     <el-col :span="18" class="mater_search clearfloat">
