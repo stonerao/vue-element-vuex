@@ -40,9 +40,9 @@
                             <template scope="scope">
                                 <el-button type="primary" size="mini" icon="view" @click.native="look_over(scope.row.id)" style="margin-left: 0px;margin: 3px 0px">查看</el-button>
                                 <el-button type="primary" size="mini" icon="edit" @click.native="editConfer(scope.row.id)" style="margin-left: 0px;margin: 3px 0px">编辑</el-button>
-                                <el-button type="primary" size="mini" icon="edit" @click.native="beginConfer(scope.row.id)" style="margin-left: 0px;margin: 3px 0px" v-if="scope.row.status == 1">开始</el-button>
-                                <el-button type="primary" size="mini" icon="edit" @click.native="endConfer(scope.row.channelId)" style="margin-left: 0px;margin: 3px 0px" v-if="scope.row.status == 2">结束</el-button>
-                                <el-button type="primary" size="mini" icon="edit" @click.native="messageConfer(scope.row.id)" style="margin-left: 0px;margin: 3px 0px" v-if="scope.row.status == 1">通知</el-button>
+                                <el-button type="primary" size="mini" icon="edit" @click.native="beginConfer(scope.row.id)" style="margin-left: 0px;margin: 3px 0px" v-if="scope.row.status == 1 && schoolManageCenter">开始</el-button>
+                                <el-button type="primary" size="mini" icon="edit" @click.native="endConfer(scope.row.channelId)" style="margin-left: 0px;margin: 3px 0px" v-if="scope.row.status == 2 && schoolManageCenter">结束</el-button>
+                                <el-button type="primary" size="mini" icon="edit" @click.native="messageConfer(scope.row.id)" style="margin-left: 0px;margin: 3px 0px" v-if="scope.row.status == 1 && schoolManageCenter">通知</el-button>
                                 <el-button type="primary" size="mini" icon="delete" @click.native="deleteOne(scope.row.id)" style="margin-left: 0px;margin: 3px 0px">删除</el-button>
                             </template>
                         </el-table-column>
@@ -120,7 +120,7 @@
                 </div>
             </div>
             <div v-if="conferManage_2">
-                <conferEdit :schoolManageCenter="schoolManageCenter" :EDITCARD="EDITCARD" :CONFERID="CONFERID" @EDITBACK="EDITBACK"></conferEdit>
+                <conferEdit :schoolManageCenter="schoolManageCenter" :teacherManageCenter="teacherManageCenter" :EDITCARD="EDITCARD" :CONFERID="CONFERID" @EDITBACK="EDITBACK"></conferEdit>
             </div>
         </div>
     </div>
