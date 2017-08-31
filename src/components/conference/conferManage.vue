@@ -38,8 +38,8 @@
                     <el-table-column label="操作">
                         <template scope="scope">
                             <el-button type="primary" size="mini" icon="view" @click.native="look_over(scope.row.id)">查看</el-button>
-                            <el-button type="primary" size="mini" icon="edit" @click.native="edit(scope.row.id)">编辑</el-button>
-                            <el-button type="primary" size="mini" icon="delete" @click.native="delete(scope.row.id)">删除</el-button>
+                            <el-button type="primary" size="mini" icon="edit" @click.native="editConfer(scope.row.id)">编辑</el-button>
+                            <el-button type="primary" size="mini" icon="delete" @click.native="deleteOne(scope.row.id)">删除</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -204,14 +204,14 @@ export default {
             };
             info.conferMeetDetail_s.call(this,id);
         },
-        edit(id){
+        editConfer(id){
 
         },
         delete_all(){
             this.delStatus = true;
             info.conferMeetdel_s.call(this,this.multiple);
         },
-        delete(id){
+        deleteOne(id){
             info.conferMeetdel_s.call(this,id);
         },
         Close_mask(){

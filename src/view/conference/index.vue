@@ -46,7 +46,7 @@ export default {
             ],
             schoolManageCenter: false,  //学校管理中心身份证
             teacherManageCenter: false, //老师管理中心身份证
-            state: 1,
+            state: 0,
             creatStatus: true, 
         }
     },
