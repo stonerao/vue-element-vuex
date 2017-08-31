@@ -2600,7 +2600,7 @@ export default {
             this.$http(apiUrl, {
                 params: formData
             }).then((res) => {
-                console.log(res);
+                // console.log(res);
                 if (res.status === 200) {
                     if(res.data.code!=400){
                         this.conferManaList = [];  
@@ -2631,7 +2631,7 @@ export default {
             })
         },
 
-        //素材库---素材管理-删除
+        //会议-删除
         conferMeetdel_s(id) {
             if(this.delStatus){   //多删除！
                 id.forEach((x)=> {
@@ -2671,7 +2671,7 @@ export default {
             })
         },
 
-        //素材库---素材管理-详情
+        //会议详情
         conferMeetDetail_s(id) {
             this.$http(api.conferMeetDetail_s, {
                 params: {
@@ -2682,24 +2682,39 @@ export default {
                 // console.log(res);
                 if (res.status === 200) {
                     if(res.data.code!=400){
-                        let _data = res.data.data;
-                        this.confDetail = {
-                            name: _data.name,
-                            time_s: _data.start_time,
-                            time_e: _data.end_time,
-                            content: _data.content,
-                            url: _data.channel_url,
-                            status: '',
-                            eclo: [],   //附件
-                        };
-                        if(_data.status == 1){
-                            this.confDetail.status = '未开始';
-                        }else if(_data.status == 2){
-                            this.confDetail.status = '进行中';
-                        }else if(_data.status == 3){
-                            this.confDetail.status = '已结束';
+                        if(!this.EDITCARD){
+                            let _data = res.data.data;
+                            this.confDetail = {
+                                name: _data.name,
+                                time_s: _data.start_time,
+                                time_e: _data.end_time,
+                                content: _data.content,
+                                url: _data.channel_url,
+                                status: '',
+                                eclo: [],   //附件
+                            };
+                            if(_data.status == 1){
+                                this.confDetail.status = '未开始';
+                            }else if(_data.status == 2){
+                                this.confDetail.status = '进行中';
+                            }else if(_data.status == 3){
+                                this.confDetail.status = '已结束';
+                            }
+                            this.Dailog = true;
+                        }else{  //编辑会议初始详情
+                            let _data = res.data.data;
+                            this.create={
+                                theme: _data.title,
+                                themeAdd: '备注信息文字',
+                                timeStart: _data.start_time,
+                                timeEnd: _data.end_time,
+                                confPeople: _data.teachers.split(','),
+                                conferContent: _data.content,
+                                isShow: parseInt(_data.is_show),
+                            };
+                            this.channelName = _data.name;
+                            this.channelID = _data.channelid;
                         }
-                        this.Dailog = true;
                     }else{
                         this.$notify.error({
                             message: res.data.data.error
@@ -2715,15 +2730,30 @@ export default {
 
         //会议管理--创建会议
         conferMeetCreate_s(obj,chanid) {
-            if(String(obj.timeStart).length == 0 || String(oobj.timeEnd).length == 0){
+            if(String(obj.timeStart).length == 0 || String(obj.timeEnd).length == 0){
                 return
+            }else{
+                if((String(obj.timeStart)).indexOf('-') != -1){
+
+                }else{
+                    if(String(obj.timeStart).length > 4){
+                        obj.timeStart= this.formatAll(obj.timeStart);
+                    }
+                }
+                if((String(obj.timeEnd)).indexOf('-') != -1){
+
+                }else{
+                    if(String(obj.timeEnd).length > 4){
+                        obj.timeEnd= this.formatAll(obj.timeEnd);
+                    }
+                }
             }
             let apiURL = api.conferMeetCreate_s;
             let formData = {
                 token: getToken(),
                 title: obj.theme,
-                start_time: this.formatAll(obj.timeStart),
-                end_time: this.formatAll(obj.timeEnd),
+                start_time: obj.timeStart,
+                end_time: obj.timeEnd,
                 teachers: obj.confPeople,
                 content: obj.conferContent,
                 is_show: obj.isShow,
@@ -2731,13 +2761,16 @@ export default {
             }
             if(this.creatStatus){   //创建会议
                 console.log(formData)
+            }else if(this.EDITCARD){
+                apiURL = api.conferMeetEdit_s;
+                formData.id = this.CONFERID;
             }
             this.$http({
                 url: apiURL,
                 method: 'post',
                 data: formData
             }).then((res) => {
-                console.log(res)
+                // console.log(res)
                 if (res.status == 200) {
                     if(res.data.code!=400){
                         this.$notify({
@@ -2745,7 +2778,7 @@ export default {
                             type: 'success',
                             duration: 1000,
                             onClose: () => {
-                                // window.location.reload(true);
+                                window.location.reload(true);
                             }
                         });
                     }else{
@@ -2777,7 +2810,7 @@ export default {
                     token: getToken(),
                 }
             }).then((res) => {
-                console.log(res);
+                // console.log(res);
                 if (res.status === 200) {
                     if(res.data.code!=400){
                         this.conferPeoList = res.data.data;

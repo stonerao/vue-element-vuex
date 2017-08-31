@@ -77,10 +77,16 @@
                     </el-col>
                 </el-col>
             </el-row>
-            <el-row>
+            <el-row v-if="!EDITCARD">
                 <el-col :span="3">会议直播间创建：</el-col>
                 <el-col :span="21">
                     <el-button type="primary" size="small" @click="createVideo">创建直播</el-button>
+                </el-col>
+            </el-row>
+            <el-row v-else>
+                <el-col :span="3">会议直播间名字：</el-col>
+                <el-col :span="21">
+                    <span>{{channelName}}</span>
                 </el-col>
             </el-row>
             <el-row>
@@ -139,7 +145,7 @@ import description from '@/components/main/description.vue'
 import bottomItem from '@/components/bottom/bottom.vue'
 
 export default {
-    props: ['schoolManageCenter','teacherManageCenter','creatStatus'],
+    props: ['schoolManageCenter','teacherManageCenter','creatStatus','EDITCARD','CONFERID'],
     data() {
         return {
             create: {
@@ -155,6 +161,7 @@ export default {
             pickerOptions1:{},
             conferPeoList: [],   //参会人员列表
             channelID: '',
+            channelName: '',
             Dailog: false,
             dailogDetail:{
                 name: '',
@@ -166,6 +173,9 @@ export default {
         if(this.schoolManageCenter){  //学校-创建会议
             if(this.creatStatus){   //会议创建
                 info.conferMeetTeacher_s.call(this);
+            }else if(this.EDITCARD){  //会议编辑
+                info.conferMeetTeacher_s.call(this);
+                info.conferMeetDetail_s.call(this,this.CONFERID);
             }
         }else if(this.teacherManageCenter){  //老师-创建会议
 
@@ -176,22 +186,27 @@ export default {
     },
     methods: {
         submit(){
-            if(this.creatStatus){ 
-                info.conferMeetCreate_s.call(this,this.create,this.channelID)
-            }
+            // if(this.creatStatus){ 
+            //     info.conferMeetCreate_s.call(this,this.create,this.channelID)
+            // }
+            info.conferMeetCreate_s.call(this,this.create,this.channelID)
         },
         clearData(){
-            this.create = {
-                theme: '',
-                themeAdd: '',
-                timeStart: '',
-                timeEnd: '',
-                confPeople: [],
-                conferContent: '',
-                isShow: 1,
-            };
-            this.canNot_a = true;
-            this.channelID = '';
+            if(this.EDITCARD){
+               this.$emit('EDITBACK');
+            }else{
+                 this.create = {
+                    theme: '',
+                    themeAdd: '',
+                    timeStart: '',
+                    timeEnd: '',
+                    confPeople: [],
+                    conferContent: '',
+                    isShow: 1,
+                };
+                this.canNot_a = true;
+                this.channelID = '';
+            }
         },
         formatAll(date){  //时间处理
             return info.formatYMDHMS.call(this,date);
