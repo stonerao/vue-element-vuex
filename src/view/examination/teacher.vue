@@ -18,7 +18,7 @@
                     :selectQuestList="selectQuestList" 
                     @SELECTQUESTIONLISTEVENT="selectEvent" 
                     @newAddQuestion="new_add_question" 
-                    :newAddObj="newAddObj"
+                    :newAddObj="newAddObj" @createQuit='createQuit'
                     >
                 </createQuestion>
                 </div>
@@ -111,6 +111,10 @@ export default {
                 state: val ,//1是加入 2是不加入老师
                 items:data
             } 
+        },
+        createQuit(){
+            // 创建试卷取消
+            this.state=0;
         }
     }
 }
