@@ -23,6 +23,8 @@ import Authority from '@/view/authority/index'
 import myClass from '@/view/myClass/index'
 //视频管理
 import video from '@/view/video/index'
+//直播管理
+import videoOnline from '@/view/videoOnline/index'
 //素材库(学校)
 import materLibrary from '@/view/material/index'
 //会议管理(老师)
@@ -167,9 +169,9 @@ export const constList = [
             }
         ]
     }, {
-        path: '/set',
+        path: '/videoOnline',
         name: '直播管理',
-        redirect: '/set/index',
+        redirect: '/videoOnline/index',
         icon: zb,
         iconActive: zb_acitve,
         component: Layout,
@@ -177,7 +179,7 @@ export const constList = [
             {
                 path: 'index',
                 name: '-直播管理',
-                component: setVue,
+                component: videoOnline,
             }
         ]
     }, {

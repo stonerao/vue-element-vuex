@@ -1,5 +1,5 @@
 import {api} from '@/api/video'
-import { getToken } from '@/utils/auth'
+import { getToken ,getClass} from '@/utils/auth'
 import Cookies from 'js-cookie'
 
 export default {
@@ -59,20 +59,52 @@ export default {
       }
     })
   },
-  //发布视频--展示页面
-  video_add_show(){
-    this.$http(api.videoAddShow,{
+  //视频列表
+  video_list(){
+      this.$http(api.videoList,{
+        params:{
+          token:getToken(),
+          curpage:this.pageSize,
+          class_id:this.classId,
+          keywords:this.searchTxt,
+          page:this.currentPage
+        }
+      }).then((res)=>{
+        if(res.data.code==200){
+          this.total=res.data.all_pagecount;
+          this.classList=res.data.data;
+        }
+      })
+  },
+  //学校--删除视频(等数据检测)
+  video_delete(id){
+    this.$http(api.videoDelet,{
       params:{
-        token:getToken()
+        token:getToken(),
+        id:id
       }
     }).then((res)=>{
       if(res.data.code==200){
-        // this.classList=res.data.data.department_list;
-        // this.cataid=res.data.data.cataid;
-        // this.writetoken=res.data.data.writetoken;
-        this.classList=res.data.data;
-        Cookies.set('cataid',res.data.data.cataid);
-        Cookies.set('writetoken',res.data.data.writetoken);
+        this.$message({
+          message: res.data.data,
+          type: 'success'
+        });
+        this.refreshList();
+      }else{
+        this.$message.error(res.data.data.error)
+      }
+    })
+  },
+  //学校--视频详情
+  video_info(id){
+    this.$http(api.videoInfo,{
+      params:{
+        token:getToken(),
+        id:id
+      }
+    }).then((res)=>{
+      if(res.data.code==200){
+        this.videoId=res.data.data.vid;
       }
     })
   },
