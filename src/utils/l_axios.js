@@ -2256,10 +2256,10 @@ export default {
                         this.materManaList = [];  
                         let _data = res.data.data.list;
                         _data.forEach((x) => {
-                            if(parseInt(x.share) == 1){
-                                x.share = true;
-                            }else{
-                                x.share = false;
+                            if(parseInt(x.is_share) == 1){
+                                x.is_share = true;
+                            }else if(parseInt(x.is_share) == 2){
+                                x.is_share = false;
                             }
                             this.materManaList.push({
                                 id: x.id,
