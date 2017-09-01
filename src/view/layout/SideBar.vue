@@ -10,7 +10,7 @@
         <div class="kd-toggle" @click="toggle">--</div>
     </div>
 </template>
-<script> 
+<script>
 import { constListMap } from '@/router'
 import { constListFun } from '@/router'
 export default {
@@ -29,7 +29,7 @@ export default {
             this.$emit("Toggle", this.show);
         }
     },
-    mounted() { 
+    mounted() {
         this.routers = constListFun();
     }
 }

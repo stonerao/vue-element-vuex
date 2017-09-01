@@ -96,11 +96,11 @@ export default {
                     } else {
                         let get = getCookie('NEWADDQUESTIONOUT');
                         this.$emit('newAddwQuestOut', 2, res.data.data);
-                        if(get){ 
-                            setCookie('NEWADDQUESTIONOUT',JSON.stringify([...JSON.parse(get),res.data.data]))
-                        }else{
-                            setCookie('NEWADDQUESTIONOUT',JSON.stringify([res.data.data]))
-                        } 
+                        if (get) {
+                            setCookie('NEWADDQUESTIONOUT', JSON.stringify([...JSON.parse(get), res.data.data]))
+                        } else {
+                            setCookie('NEWADDQUESTIONOUT', JSON.stringify([res.data.data]))
+                        }
                     }
                 } else {
                     this.$notify({
@@ -158,14 +158,16 @@ export default {
                     setTimeout((x) => {
                         let arr = [];//存储选中过的id
                         // let rows = this.t_data;
-                        let list = this.getSelectedQuestionList().split(',').sort();
-                        list.forEach((x, index) => {
-                            this.t_data.forEach((y, i) => {
-                                if (y.q_id == x) {
-                                    this.$refs.multipleTable.toggleRowSelection(y)
-                                }
+                        if (this.getSelectedQuestionList()) { 
+                            let list = this.getSelectedQuestionList().split(',').sort();
+                            list.forEach((x, index) => {
+                                this.t_data.forEach((y, i) => {
+                                    if (y.q_id == x) {
+                                        this.$refs.multipleTable.toggleRowSelection(y)
+                                    }
+                                })
                             })
-                        })
+                        }
                     }, 150)
 
                 }
@@ -291,7 +293,7 @@ export default {
                 is_share: this.shared ? '1' : '2',
                 question_list: this.isQuestion ? encodeUnicode(JSON.stringify(arr)) : '',
                 q_add_question: '',
-                qc_id:qc_id,
+                qc_id: qc_id,
             }
         }).then((res) => {
             if (res.data.code == 200) {

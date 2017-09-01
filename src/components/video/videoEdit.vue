@@ -1,66 +1,53 @@
 <template>
   <div>
-    <el-row>
-      <el-col :span="4">
-        <div class="rt">视频名称：</div>
-      </el-col>
-      <el-col :span="8">
-        <el-input v-model="videoTitle" size="small" id="title"></el-input>
-      </el-col>
-      <el-col :span="12">
-        <div class="gray">请输入视频名称，例如：直线与曲线讲义</div>
-      </el-col>
-    </el-row>
     <!--视频分类-->
-    <videoType :firstClassList="firstClassList" @underListChoose="underListChoose" :underList="underList" :showList="showList"></videoType>
-    <videoUp :classList="classList"></videoUp>
-    <el-row>
-      <el-col :span="4">
-        <div class="rt">可观看班级：</div>
-      </el-col>
-      <el-col :span="20">
-        <el-select v-model="value5" multiple placeholder="请选择" style="width: 80%">
-          <el-option v-for="item in department_list" :label="item.department_name" :value="item.department_id">
-          </el-option>
-        </el-select>
-      </el-col>
-    </el-row>
-    <el-row>
-      <el-col :span="4">
-        <div class="rt">视频描述简介：</div>
-      </el-col>
-      <el-col :span="20">
-        <quillEditor v-model="htmlTxt"></quillEditor>
-      </el-col>
-    </el-row>
-    <el-row>
-      <el-col :span="10" :offset="4">
-        <el-button type="primary">主要按钮</el-button>
-        <el-button >主要按钮</el-button>
-      </el-col>
-    </el-row>
+    <videoType :firstClassList="firstClassList" @underListChoose="underListChoose" :underList="underList" :showList="showList" :total="total" @showUp="upShow" @searchList="listSearch"></videoType>
+    <el-table :data="classList" style="width: 100%" >
+      <el-table-column type="selection" width="55"></el-table-column>
+        <el-table-column label="视频名称" show-overflow-tooltip>
+          <template scope="scope">
+            <div class="clear">
+              <img :src="scope.row.first_image" alt="" style="width: 160px;height: 120px;float:left">
+              <span style="float:left;line-height: 120px;margin-left: 10px">{{scope.row.title}}</span>
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column prop="filesize" label="大小"  width="120" show-overflow-tooltip >
+        </el-table-column>
+        <el-table-column prop="add_time" label="发布时间" width="180" show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column  label="操作" width="280">
+          <template scope="scope">
+            <div>
+              <el-button type="primary" size="small" icon="search" @click="playVideo(scope.row.id)">查看</el-button>
+              <el-button size="small" icon="edit" @click="editVideo(scope.row.id)">编辑</el-button>
+              <el-button size="small" icon="delete" @click="deleteVideo(scope.row.id)">删除</el-button>
+            </div>
+          </template>
+        </el-table-column>
+    </el-table>
+    <!--视频播放-->
+    <videoPlay v-if="playShow==1" @closePlay="closePlay"></videoPlay>
   </div>
 </template>
 <script>
-  import { quillEditor } from 'vue-quill-editor'
   import videoType from '@/components/video/videoType'
-  import videoUp from '@/components/video/videoUp'
+  import videoPlay from '@/components/video/videoPlay'
+  import {set} from '@/assets/icon'
+
   export default{
-    props:['firstClassList','underList','showList','classList'],
+    props:['firstClassList','underList','showList','classList','total','classList','videoId'],
     data(){
       return{
-        videoTitle:'',//视频名称
-        value5:'',
-        htmlTxt:'',//富文本
-        department_list:[
-          {department_name:'三年级一班',department_id:1},
-          {department_name:'三年级2班',department_id:2},
-          {department_name:'三年级3班',department_id:3},
-        ]
+        testList:[
+          {id:1,title:'王二小',filesize:'1024',add_time:'2017/08/21',first_image:set}
+        ],
+        vid:'',//删除的视频id
+        playShow:0,//显示播放页面
       }
     },
     components:{
-      quillEditor,videoType,videoUp
+      videoType,videoPlay
     },
     methods: {
       upload(){
@@ -68,26 +55,37 @@
       },
       underListChoose(id,num){
         this.$emit('underClassList',id,num)
+      },
+      upShow(val,num){
+        this.$emit('showUp',1,0)
+      },
+      listSearch(id,text){
+        this.$emit('searchList',id,text);
+      },
+      //删除视频
+      deleteVideo(id){
+        this.vid=id;
+        this.$emit('videoDelete',this.vid)
+      },
+      //播放视频
+      playVideo(id){
+        this.$emit('videoPlay',id);
+        this.playShow=1;
+      },
+      //关闭视频
+      closePlay(val){
+        this.playShow=val;
+      },
+      //编辑视频
+      editVideo(id){
+        this.$emit('videoEdit',1,id,1)
       }
     },
     watch:{
-      videoTitle(){
 
-      }
     }
   }
 </script>
 <style lang="less" type="text/less">
-  .ql-container,.ql-editor{
-    height:auto;
-    min-height:100px;
-  }
-  div{
-    line-height: 30px;
-    font-size: 12px;
-    .gray{
-      color:#808080;
-      margin-left: 15px;
-    }
-  }
+
 </style>

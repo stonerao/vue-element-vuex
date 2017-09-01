@@ -1,9 +1,16 @@
 <template>
-    <section class="add-inp">
-        <button @click="datas">click</button>
-        <ul id="demo">
-            <item class="item" :model="item" @drop="drop" v-for="item in treeData"></item>
-        </ul>
+    <section class="add-inp"> 
+
+        <div id="demo" class="r-demos">
+            <div class="r-demos-item">
+                <div></div>
+                <div>排序</div>
+                <div>部门权限名称</div>
+                <div>是否显示</div>
+                <div>操作</div>
+            </div>
+        </div>
+        <item class="item " :model="item" @drop="drop" v-for="item in treeData"></item>
     </section>
 </template>
 <script>
@@ -19,30 +26,7 @@ export default {
             bag: 'first-bag',
             treeData: {
                 name: 'My Tree',
-                children: [
-                    { name: 'hello' },
-                    { name: 'wat' },
-                    {
-                        name: 'child folder',
-                        children: [
-                            {
-                                name: 'child folder',
-                                children: [
-                                    { name: 'hello' },
-                                    { name: 'wat' }
-                                ]
-                            },
-                            { name: 'hello' },
-                            { name: 'wat' },
-                            {
-                                name: 'child folder',
-                                children: [
-                                    { name: 'hello' },
-                                    { name: 'wat' }
-                                ]
-                            }
-                        ]
-                    }
+                children: [ 
                 ]
             }
 
@@ -53,28 +37,7 @@ export default {
         this.treeData = this.objData
     },
     methods: {
-        toggle: function() {
-            if (this.isFolder) {
-                this.open = !this.open
-            }
-        },
-        changeType: function() {
-            if (!this.isFolder) {
-                Vue.set(this.model, 'children', [])
-                this.addChild()
-                this.open = true
-            }
-        },
-        addChild: function() {
-            this.model.children.push({
-                name: 'new stuff'
-            })
-        },
-        drop() {
-
-        },
-        datas() { 
-        }
+         
 
     }
     , components: {
@@ -87,7 +50,7 @@ export default {
     }
 }
 </script>
-<style>
+<style lang="less">
 .container div {
     cursor: move;
     cursor: grab;
@@ -99,15 +62,13 @@ export default {
 .item {
     cursor: pointer;
 }
-
-.item div {
-    padding-left: 0.2em;
-    line-height: 1.5em;
-    list-style-type: dot;
+.item>div{
+    margin-block-end:5px;
 }
-
-.bold {
-    font-weight: bold;
+.r-demos-inp{
+   
 }
+ 
+ 
 </style>
 

@@ -39,6 +39,7 @@
                     <el-row>
                         <el-col :span='24'>
                             <el-button @click="newAddQuestion">新增题目</el-button>
+                            <span class="marginleft10">已添加{{getNewTile}}道</span>
                         </el-col>
                     </el-row>
                 </el-form-item>
@@ -47,8 +48,10 @@
                     <el-row>
                         <el-col :span='24'>
                             <el-button @click="addList">添加试题</el-button>
+
                         </el-col>
                         <el-col>
+
                         </el-col>
                     </el-row>
                 </el-form-item>
@@ -76,6 +79,7 @@ import { removeSelectQuestion } from '@/utils/auth'
 
 import { selectedQuestionList } from '@/utils/auth'
 import { getSelectedQuestionList } from '@/utils/auth'
+import { getCookie } from '@/utils/auth'
 export default {
     props: ['selectQuestList', 'newAddObj'],//newAddObj加入老师传入过来的数据
     data() {
@@ -102,30 +106,44 @@ export default {
             belongClass3: '',
             isBelongSelect: false,
             strSelect: '',//已选择的提
-            shared: true
+            shared: true,
+            getNewTile: 0
         }
     },
     methods: {
         onSubmit() {
-            
+            if (this.form.title == '') {
+                // 试卷标题不能为空
+                this.notify(`试卷标题不能为空`)
+                return
+            }
+            if (!this.isBelongSelect) {
+                // 是否选择题库类型 
+                this.notify('请选择题库类型');
+                return;
+            }
             var arr = {};
             if (this.isQuestion) {
+                let isAllSelect = false;
                 // 是否自动生成试卷 
                 this.questionItems.forEach((x, index) => {
-                    if((x.total==''&&x.every!='')||(x.total!=''&&x.every=='')){
+                    if ((x.total == '' && x.every != '') || (x.total != '' && x.every == '')) {
                         this.notify(`请检查${x.type_name}`)
                         return
-                    }else{
-                        
+                    } else if(x.total != '' && x.every != ''){
+                        isAllSelect=true;
                     }
                     arr[x.type_id] = {
                         type_id: x.type_id,
                         q_count: x.total,
                         q_source: x.every,
                     }
-                }) 
+                })
+                if(!isAllSelect){
+                    this.notify('请填写自动生成试卷选项');
+                }
             }
-            store.pushQuestion.call(this,arr);
+            store.pushQuestion.call(this, arr);
             removeSelectQuestion()
         },
         question_classlist(id, status) {
@@ -149,6 +167,7 @@ export default {
         quits() {
             // 点击取消
             removeSelectQuestion();
+            this.$emit('createQuit', false)
         },
         newAddQuestion() {
             //新添加题目。去题库添题目
@@ -185,7 +204,10 @@ export default {
         } else {
             this.strSelect = '';
         }
-
+        if (getCookie('NEWADDQUESTIONOUT')) {
+            this.getNewTile = JSON.parse(getCookie('NEWADDQUESTIONOUT')).length;
+            this.isQuestion = false;
+        }
     },
     watch: {
         belongClass1(val) {
