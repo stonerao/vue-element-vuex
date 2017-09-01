@@ -1,16 +1,17 @@
 <template>
-    <draggable class="item-template">  
+    <div class="item-template">   
         <div :class="{bold: isFolder}" @dblclick="changeType">
-            <input v-model="model.label" placeholder="新增"></input>
-            <span @click="changeType">新增下级</span>
-            <span v-if="isFolder">+</span>
+            <span></span>
+            <input type="checkbox"/><span v-if="isFolder" @click="changeType">+</span>
+            <input v-model="model.label" placeholder="新增" class="r-demos-inp" :class="!isFolder?'marginleft15':''"></input>
+            <span>新增下级</span> 
         </div>
         <div v-show="open" v-if="isFolder">
             <item class="item" v-for="model in model.children" :model="model">
             </item>
             <!-- <li class="add" @click="addChild">+</li> -->
         </div>
-    </draggable>
+    </div>
 </template>
 <script>  
 import Vue from 'vue'
@@ -45,7 +46,7 @@ export default {
             }
         },
         changeType: function() {
-            if (!this.isFolder) {
+            if (!this.isFolder) { 
                 Vue.set(this.model, 'children', [])
                 this.addChild()
                 this.open = true

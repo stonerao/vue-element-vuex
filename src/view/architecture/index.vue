@@ -34,8 +34,7 @@
                                             <el-col :span="12">
                                                 <el-button type="primary" size="mini" style="" class=" float-right r-zz-ok" @click="departmentManagement">管理</el-button>
                                             </el-col>
-                                        </el-row>
-    
+                                        </el-row> 
                                     </div>
                                     <div class="kd-children-box">
                                         <el-tree :data="sdata" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
