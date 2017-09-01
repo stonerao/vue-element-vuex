@@ -13,7 +13,7 @@
                 </div>
             </el-col>
         </el-row>
-        <el-table  ref="multipleTable" :data="t_data" tooltip-effect="dark" style="width: 100%" @selection-change="selectOption">
+        <el-table ref="multipleTable" :data="t_data" tooltip-effect="dark" style="width: 100%" @selection-change="selectOption">
             <el-table-column type="selection" width="55">
             </el-table-column>
             <el-table-column label="id" width="80" show-overflow-tooltip>
@@ -31,7 +31,7 @@
             <el-table-column width="120" label="是否共享" show-overflow-tooltip>
                 <template scope="scope">
                     <!-- <el-switch v-model="scope.row.is_share" on-color="#13ce66" off-color="" on-text="是" off-text="否" disabled>
-                                                        </el-switch> -->
+                                                            </el-switch> -->
                     {{scope.row.is_share?'是':'否'}}
                 </template>
             </el-table-column>
@@ -64,7 +64,7 @@ import { selectedQuestionList } from '@/utils/auth'
 import { getSelectedQuestionList } from '@/utils/auth'
 import store from '@/utils/questions'
 export default {
-    props: ['stateList'],
+    props: ['stateList', 'listSelectObj'],
     data() {
         return {
             t_data: [],
@@ -76,7 +76,7 @@ export default {
             previewBox: {},//试题预览
             isPrev: false,
             questionClass: '',//id class
-            multipleTable:[]
+            multipleTable: []
         }
     },
     methods: {
@@ -98,18 +98,17 @@ export default {
             this.dataAjax();
         },
         handleSizeChange(val) {
-            this.dataAjax(); 
+            this.dataAjax();
             console.log(getSelectedQuestionList())
         },
         handleCurrentChange(val) {
-            this.page = val;
+            this.page = parseInt(val);
+            console.log(val)
             store.question_list_select.call(this); 
-            
         },
         dataAjax(seach) {
-            this.t_data = []; 
-            store.question_list.call(this, seach)
-             
+            this.t_data = [];
+            store.question_list.call(this, seach) 
         },
         deleteData(id, status) {
             // 删除
@@ -152,13 +151,18 @@ export default {
             }
 
         },
-        getSelectedQuestionList(){
+        getSelectedQuestionList() {
             return getSelectedQuestionList()
         }
     },
     created() {
-        this.dataAjax(); 
-        this.stateList == '1' ? removeSelectQuestion() : '';
+        if (this.stateList == '1') {
+            this.handleCurrentChange(1)
+        }else{ 
+            this.dataAjax();
+            }
+
+
     },
     components: {
         Preview

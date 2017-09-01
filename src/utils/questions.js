@@ -1,6 +1,8 @@
 import { api } from '@/api/index'
 import { getToken } from '@/utils/auth'
 import { encodeUnicode } from '@/utils/auth'
+import { setCookie } from '@/utils/auth'
+import { getCookie } from '@/utils/auth'
 export default {
     question_type() {
         // 试题分类
@@ -59,30 +61,56 @@ export default {
 
         })
     },
-    questions_add(option, answer) {
+    questions_add(option, answer, state) {
         let qc_id = this.belongClass3 ? this.belongClass3 : (this.belongClass2 ? this.belongClass2 : this.belongClass1);
+        let datas = {
+            token: getToken(),
+            qc_id: qc_id,
+            is_share: this.selectVal ? '1' : '2',//是否共享 1：是，2：否
+            q_type_id: this.questionClass,//题型ID
+            answer: answer,//参考的答案
+            option: option ? encodeUnicode(JSON.stringify(option)) : null,//选项内容 json
+            q_title: this.textF,//题干
+            q_id: this.isSetQues ? this.setQuestionObj.q_id : ''
+        }
+        if (state == 1) {
+            datas.is_add = this.isTeacherShare ? '1' : '2'
+        }
+        let url;
+        if (this.isSetQues) {
+            url = api.question_edit
+        } else if (state == 1) {
+            url = api.testpaper_addquestion
+        } else {
+            url = api.questions_add
+        }
         this.$http({
             method: "post",
-            url: this.isSetQues ? api.question_edit : api.questions_add,
-            data: {
-                token: getToken(),
-                qc_id: qc_id,
-                is_share: this.selectVal ? '1' : '2',//是否共享 1：是，2：否
-                q_type_id: this.questionClass,//题型ID
-                answer: answer,//参考的答案
-                option: option ? encodeUnicode(JSON.stringify(option)) : null,//选项内容 json
-                q_title: this.textF,//题干
-                q_id: this.isSetQues ? this.setQuestionObj.q_id : ''
-            }
+            url: url,
+            data: datas
         }).then((res) => {
             if (res.data.code == 200) {
-                this.$notify({
-                    message: res.data.data,
-                    type: 'success'
-                });
+                if (state == 1) {
+                    if (this.isTeacherShare) {
+                        this.$emit('newAddwQuestOut', 1, res.data.data)
+                    } else {
+                        let get = getCookie('NEWADDQUESTIONOUT');
+                        this.$emit('newAddwQuestOut', 2, res.data.data);
+                        if(get){ 
+                            setCookie('NEWADDQUESTIONOUT',JSON.stringify([...JSON.parse(get),res.data.data]))
+                        }else{
+                            setCookie('NEWADDQUESTIONOUT',JSON.stringify([res.data.data]))
+                        } 
+                    }
+                } else {
+                    this.$notify({
+                        message: res.data.data,
+                        type: 'success'
+                    });
+                }
             } else {
                 this.$notify({
-                    message: res.data.datas.error,
+                    message: res.data.data.error,
                     type: 'warning'
                 });
             }
@@ -130,13 +158,11 @@ export default {
                     setTimeout((x) => {
                         let arr = [];//存储选中过的id
                         // let rows = this.t_data;
-                        let list = this.getSelectedQuestionList().split(',');
+                        let list = this.getSelectedQuestionList().split(',').sort();
                         list.forEach((x, index) => {
                             this.t_data.forEach((y, i) => {
                                 if (y.q_id == x) {
-                                    console.log(y)
                                     this.$refs.multipleTable.toggleRowSelection(y)
-                                    console.log(this.$refs.multipleTable)
                                 }
                             })
                         })
@@ -219,7 +245,6 @@ export default {
                         this.checkbox = data.answer.split(",");
                         this.checkbox.forEach((x, index) => {
                             if (this.A_Z.indexOf(x) != -1) {
-                                console.log(this.A_Z.indexOf(x))
                                 boxArr.push(this.A_Z.indexOf(x))
                             }
 
@@ -248,6 +273,34 @@ export default {
                         break;
                 }
                 data = null;
+            }
+        })
+    },
+    pushQuestion(arr) {
+        // 提交试卷 
+        let qc_id = this.belongClass3 ? this.belongClass3 : (this.belongClass2 ? this.belongClass2 : this.belongClass1);
+        this.$http({
+            url: api.add_testpaper,
+            method: 'post',
+            data: {
+                token: getToken(),
+                t_title: this.form.title,
+                t_desc: this.form.t_desc,
+                is_auto: this.isQuestion ? '2' : '1',
+                q_id: this.selectQuestList,
+                is_share: this.shared ? '1' : '2',
+                question_list: this.isQuestion ? encodeUnicode(JSON.stringify(arr)) : '',
+                q_add_question: '',
+                qc_id:qc_id,
+            }
+        }).then((res) => {
+            if (res.data.code == 200) {
+
+            } else {
+                this.$message({
+                    type: 'success',
+                    message: res.data.data.error
+                });
             }
         })
     }

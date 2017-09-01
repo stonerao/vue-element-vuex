@@ -45,4 +45,5 @@ export const api = {
     StudentSpace_list:"Student/Studentspace/space_list",//学生空间列表 
     Studentspace_pay:"Student/Studentspace/space_pay",//学生购买
     add_testpaper:"Teacher/Examinationcenter/add_testpaper",//添加试卷
+    testpaper_addquestion:"Teacher/Examinationcenter/testpaper_addquestion",//添加试卷时添加试题
 }

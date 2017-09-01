@@ -117,6 +117,10 @@
                     <el-switch v-model="selectVal" on-color="#13ce66" off-color="" on-text="是" off-text="否">
                     </el-switch>
                 </el-form-item>
+                <el-form-item label="是否加入老师个人题库 ">
+                    <el-switch v-model="isTeacherShare" on-color="#13ce66" off-color="" on-text="是" off-text="否">
+                    </el-switch>
+                </el-form-item>
                 <el-form-item label=" ">
                     <el-button type="primary" @click="onSubmit">立即创建</el-button>
                     <el-button type="success" @click="onSubmit(1)">预览试题</el-button>
@@ -132,7 +136,7 @@ import store from '@/utils/questions'
 import Preview from '@/components/questions/Preview'
 import { quillEditor } from 'vue-quill-editor'
 export default {
-    props: ['setQuestionObj', 'isSetQues'],
+    props: ['setQuestionObj', 'isSetQues', 'newAddQuestion'],//newAddQuestion true 考试添加试题过来 
     data() {
         return {
             form: {
@@ -154,7 +158,7 @@ export default {
             },
             belongClass1: '',
             belongClass2: '',
-            belongClass3: '', 
+            belongClass3: '',
             isBelongSelect: false,//是否选择完成 为true表示没有下一级
             A_Z: ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "X", "Y", "Z"],
             fileNum: (num) => {
@@ -176,7 +180,8 @@ export default {
             qOrA: '',//问答题
             calculation: '',//计算题
             previewBox: {},//试题预览
-            isPrev: false
+            isPrev: false,
+            isTeacherShare: true,//是否加入老师个人题库
         }
     },
     methods: {
@@ -289,7 +294,13 @@ export default {
                     q_class: q_class
                 })
             } else {
-                store.questions_add.call(this, title, answer ? answer : '');
+                console.log(this.newAddQuestion)
+                if (this.newAddQuestion) {
+                    // 是否是添加试卷过来的
+                    store.questions_add.call(this, title, answer ? answer : '',1)
+                } else {
+                    store.questions_add.call(this, title, answer ? answer : '');
+                }
             }
         },
         questionAll() {
@@ -361,7 +372,7 @@ export default {
         // 编辑试题过来
         if (this.setQuestionObj && this.isSetQues) {
             store.question_info.call(this, this.setQuestionObj.q_id);
-           
+
         }
     },
     watch: {
@@ -383,8 +394,8 @@ export default {
             this.belongClass3 = '';
             this.question_classlist(val, 3);
         },
-        checkbox(val){
-         
+        checkbox(val) {
+
         }
     },
     components: {

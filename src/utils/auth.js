@@ -59,3 +59,12 @@ export function getSelectedQuestionList(obj) {
 export function removeSelectQuestion() {
   return Cookies.remove('selectedQuestionList')
 }
+export function setCookie(name,data){
+  return Cookies.set(name, data)
+}
+export function getCookie(name){
+  return Cookies.get(name)
+}
+export function removeCookie(name){
+  return Cookies.remove(name)
+}
