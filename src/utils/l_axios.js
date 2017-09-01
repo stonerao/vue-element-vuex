@@ -2530,6 +2530,9 @@ export default {
 
         //素材库---素材管理-删除
         materManadel_s(id) {
+            if(id.length == 0){
+                return
+            }
             let apiUrl = api.materManadel_s;
             if(this.delStatus){   //多删除！
                 id.forEach((x)=> {
@@ -2667,6 +2670,9 @@ export default {
 
         //会议-删除
         conferMeetdel_s(id) {
+            if(id.length == 0){
+                return
+            }
             if(this.delStatus){   //多删除！
                 id.forEach((x)=> {
                     this.IDString.push(x.id);
