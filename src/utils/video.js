@@ -1,6 +1,6 @@
 import {api} from '@/api/video'
-import { getToken ,getClass} from '@/utils/auth'
-import Cookies from 'js-cookie'
+import { getToken } from '@/utils/auth'
+
 
 export default {
   first_class_list(){

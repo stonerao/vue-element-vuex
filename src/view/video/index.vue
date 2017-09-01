@@ -149,6 +149,9 @@
     },
     watch:{
       state(){
+        this.currentPage=1;
+        this.pageSize=10;
+        this.total=0;
         this.showUp=0;
         this.searchTxt='';
         this.classId='';
