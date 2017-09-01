@@ -73,6 +73,15 @@
 .l_layout_outer .showLog_outer input {
   max-width: 200px;
 }
+.l_layout_outer .el-upload-list li {
+  float: left;
+  max-width: 200px;
+  margin-right: 20px;
+  margin-top: 0px;
+}
+.l_layout_outer .el-upload-list li a {
+  margin-right: 30px;
+}
 .l_layout_outer .l_search_header0 .el-form-item {
   margin-bottom: 0px;
 }

@@ -50,14 +50,10 @@
             <el-row>
                 <el-col :span="3">上传素材附件：</el-col>
                 <el-col :span="21">
-                    <el-col :span="4">
-                        <el-button type="primary" size="small" icon="upload2">上传文件</el-button>
-                        <img src="">
-                    </el-col>
-                    <el-col :span="10">
-                        <el-button type="primary" size="small">删除</el-button>
-                        <span>上传图片格式必须是gif,jpg,jpeg,png;图片大小在200kb以内</span>
-                    </el-col>
+                    <el-upload class="upload-demo clearfloat" action="https://jsonplaceholder.typicode.com/posts/" :on-success="uploadSuccess" :on-remove="uploadRemove" :file-list="fileList">
+                        <el-button size="small" icon="upload2" type="primary">点击上传</el-button>
+                        <div slot="tip" class="el-upload__tip">上传图片格式必须是gif,jpg,jpeg,png;图片大小在200kb以内</div>
+                    </el-upload>
                 </el-col>
             </el-row>
             <el-row v-if="this.teacherManageCenter">
@@ -133,6 +129,7 @@ export default {
                 type: 2,
             },
             lastId: 0,
+            fileList: [], //上传文件列表
         }
     },
     created() {
@@ -154,6 +151,12 @@ export default {
         },
         promptsTem(status) {
             console.log(status)
+        },
+        uploadSuccess(response, file, fileList){  //文件上传返回数据
+
+        },
+        uploadRemove(file, fileList){  //已上传文件删除
+
         },
         cancelCreate(){
             this.$emit("CANCEL");
