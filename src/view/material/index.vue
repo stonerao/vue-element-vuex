@@ -295,7 +295,8 @@ export default {
             this.delStatus = true;
             info.materManadel_s.call(this,this.multiple);
         },
-        createMaterial(){
+        createMaterial(){  //创建素材
+            this.materialEdit.status = false;
             this.materMana_1 = false;
             this.materMana_2 = true;
         },
