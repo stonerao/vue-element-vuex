@@ -3045,4 +3045,41 @@ export default {
                 }
             })
         },
+
+        //老师素材- 是否共享按钮
+        materAllDetail_t(id) {
+            this.$http(api.materAllDetail_t, {
+                params: {
+                    token: getToken(),
+                    id: id,
+                }
+            }).then((res) => {
+                if (res.status == 200) {
+                    if(res.data.code!=400){
+                        this.Dailog = true;
+                        let _detail = res.data.data;
+                        this.merDetail={
+                            name: _detail.title,
+                            time: _detail.add_time,
+                            detail: _detail.content,
+                        };
+                        if(_detail.is_share == 1){
+                            this.merDetail.share = '是';
+                        }else{
+                            this.merDetail.share = '否';
+                        }
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
+        
 }

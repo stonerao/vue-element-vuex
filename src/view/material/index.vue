@@ -251,7 +251,7 @@ export default {
                 info.materManaType1_s.call(this,this.firstSelect);
             }
         }else if(this.isClassLogin == 1){
-            if(this.state == 0){  //素材分类
+            if(this.state == 0){  //素材分类---学校中心
 
             }
         }
