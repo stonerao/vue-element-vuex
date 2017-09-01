@@ -10,7 +10,7 @@
                 <div class="l_layout_outer">
                     <!--素材分类  -->
                     <div v-if="state==0">
-                        素材分类!
+                        <classifyMaterial :MATERIALCLASSIFY="MATERIALCLASSIFY"></classifyMaterial>
                     </div>
                     <!--素材管理  -->
                     <div v-if="state==1">
@@ -167,6 +167,7 @@ import description from '@/components/main/description.vue'
 import bottomItem from '@/components/bottom/bottom.vue'
 import createMaterial from '@/components/material/createMaterial.vue'
 import commonMaterial from '@/components/material/commonMaterial.vue'
+import classifyMaterial from '@/components/material/classifyMaterial.vue'
 
 export default {
     data() {
@@ -237,6 +238,7 @@ export default {
                 detail: '',
             },
             mertailDetail: false,
+            MATERIALCLASSIFY: false,  //素材分类身份证
         }
     },
     created() {
@@ -252,12 +254,12 @@ export default {
             }
         }else if(this.isClassLogin == 1){
             if(this.state == 0){  //素材分类---学校中心
-
+                this.MATERIALCLASSIFY = true;
             }
         }
     },
     components: {
-        titleItem, titleActive, description, bottomItem, createMaterial, commonMaterial
+        titleItem, titleActive, description, bottomItem, createMaterial, commonMaterial, classifyMaterial
     },
     methods: {
         emitTransfer(index) {
