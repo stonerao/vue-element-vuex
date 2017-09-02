@@ -406,18 +406,18 @@ export default {
                 detail: '',
             }
         },
-        rowClick(data, index, event) {
+        rowClick(data, index, event) {   //素材分类操作开始！
                 console.log('当前行数据:' + data)
                 console.log('点击行号:' + index)
                 console.log('点击事件:' + event)
             },
-            selectionClick(arr) {
-                console.log('选中数据id数组:' + arr)
-            },
-            sortClick(key, type) {
-                console.log('排序字段:' + key)
-                console.log('排序规则:' + type)
-            }
+        selectionClick(arr) {
+            console.log('选中数据id数组:' + arr)
+        },
+        sortClick(key, type) {
+            console.log('排序字段:' + key)
+            console.log('排序规则:' + type)
+        },
     },
     watch: {
         ['searchlist.Level1'](val){
