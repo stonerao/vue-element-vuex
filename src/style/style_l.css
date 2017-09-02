@@ -744,6 +744,19 @@
   margin-top: 5px;
   min-width: 50px;
 }
+.l_recursion .table-bordered thead th {
+  text-align: left;
+}
+.l_recursion .table-bordered thead th label {
+  padding-left: 9px;
+}
+.l_recursion .table-bordered thead th:nth-child(1) {
+  text-align: center;
+  width: 50px;
+}
+.l_recursion .table-bordered thead th:nth-child(1) label {
+  padding-left: 0px;
+}
 @media screen and (max-width: 1618px) {
   .l_layout_outer .l_graCla_list .li_list {
     width: 17.9%;
