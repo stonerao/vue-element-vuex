@@ -20,6 +20,7 @@
                             <input type="checkbox" :value="item.id" v-model="checkGroup" class="colums1">
                         </label>
                         <div v-if="column.type === 'action'">
+                            <!-- 操作按钮 -->
                             <el-button :type="action.type" size="small" @click.native="RowClick(item,$event,index,action.text)" v-for='action in (column.actions)' :key='column.text'>{{action.text}}</el-button>
                         </div>
                         <label @click="toggle(index,item)" v-if="!column.type">

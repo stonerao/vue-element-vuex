@@ -246,19 +246,16 @@ export default {
             columns: [{
                     type: 'selection'
                 }, {
-                    title: '编码',
+                    title: '排序',
                     key: 'code',
                     sortable: true
                 }, {
-                    title: '名称',
+                    title: '分类名称',
                     key: 'name'
                 }, {
-                    title: '状态',
+                    title: '是否显示',
                     key: 'status'
-                }, {
-                    title: '备注',
-                    key: 'remark'
-                }, {
+                },{
                     title: '操作',
                     type: 'action',
                     actions: [{
@@ -279,20 +276,20 @@ export default {
                     status: '启用',
                     remark: '测试数据测试数据',
                     children: [{
-                        id: '01',
+                        id: '2-01',
                         code: '00001',
                         name: '测试数据01',
                         status: '启用',
                         remark: '测试数据测试数据',
                         children: [{
-	                        id: '001',
+	                        id: '2-1-01',
 	                        code: '000001',
 	                        name: '测试数据001',
 	                        status: '启用',
 	                        remark: '测试数据测试数据',
 	                    }]
                     }, {
-                        id: '02',
+                        id: '2-02',
                         code: '00002',
                         name: '测试数据02',
                         status: '启用',
