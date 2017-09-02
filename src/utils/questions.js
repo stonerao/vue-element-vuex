@@ -367,10 +367,10 @@ export default {
                 e_title:this.form.name,
                 e_starttime:parseInt(Date.parse(this.form.date1)/1000),
                 e_endtime:parseInt(Date.parse(this.form.date2)/1000),
-                e_relation_tid:2,
-                e_class:10,
+                e_relation_tid:this.form.ex2,
+                e_class:this.form.ex1,
                 e_allsource:this.form.tol,
-                e_question_source:'',
+                e_question_source:this.form.e_question_source,
             }
         })
     },

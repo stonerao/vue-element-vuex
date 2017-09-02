@@ -26,6 +26,15 @@
         <el-form-item label="考试总分">
             <el-input v-model="form.tol" class="width150"></el-input>
         </el-form-item>
+        <el-form-item label="班级id">
+            <el-input v-model="form.ex1" class="width150"></el-input>
+        </el-form-item>
+        <el-form-item label="试卷id">
+            <el-input v-model="form.ex2" class="width150"></el-input>
+        </el-form-item>
+        <el-form-item label="e_question_source">
+            <el-input v-model="form.e_question_source" class="width150"></el-input>
+        </el-form-item>
         <el-form-item label=" ">
             <el-button type="primary" @click="onSubmit">立即创建</el-button>
             <el-button>取消</el-button>
@@ -47,7 +56,10 @@ export default {
                 type: [],
                 resource: '',
                 desc: '',
-                tol:""
+                tol: "",
+                ex2:'',
+                ex1:'',
+                e_question_source:''
             },
             pickerOptions0: {
                 disabledDate(time) {
