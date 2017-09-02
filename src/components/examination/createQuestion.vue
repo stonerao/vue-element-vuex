@@ -130,17 +130,19 @@ export default {
                     if ((x.total == '' && x.every != '') || (x.total != '' && x.every == '')) {
                         this.notify(`请检查${x.type_name}`)
                         return
-                    } else if(x.total != '' && x.every != ''){
-                        isAllSelect=true;
+                    } else if (x.total != '' && x.every != '') {
+                        isAllSelect = true;
+                        arr[x.type_id] = {
+                            type_id: x.type_id,
+                            q_count: x.total,
+                            q_source: x.every,
+                        }
                     }
-                    arr[x.type_id] = {
-                        type_id: x.type_id,
-                        q_count: x.total,
-                        q_source: x.every,
-                    }
+
                 })
-                if(!isAllSelect){
+                if (!isAllSelect) {
                     this.notify('请填写自动生成试卷选项');
+                    return
                 }
             }
             store.pushQuestion.call(this, arr);

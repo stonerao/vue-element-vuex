@@ -6,7 +6,7 @@
             <input v-model="model.label" placeholder="新增" class="r-demos-inp" :class="!isFolder?'marginleft15':''"></input>
             <span>新增下级</span> 
         </div>
-        <div v-show="open" v-if="isFolder">
+        <div v-show="open" v-if="isFolder" class="r-demos-elment">
             <item class="item" v-for="model in model.children" :model="model">
             </item>
             <!-- <li class="add" @click="addChild">+</li> -->
