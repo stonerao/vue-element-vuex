@@ -22,6 +22,9 @@
                     >
                 </createQuestion>
                 </div>
+                <div v-if="state==3">
+                    <createExamination></createExamination>
+                </div>
                 <div v-if="state==8">
                     <!-- 选择试题 -->
                     <setQuestion stateList='1' @getListData="getListData" :listSelectObj="listSelectObj"></setQuestion>
@@ -46,6 +49,7 @@ import teacherQuestion from '@/components/examination/teacherQuestion.vue'
 import createQuestion from '@/components/examination/createQuestion.vue'
 import setQuestion from '@/components/questions/questionList'
 import addQuestion from '@/components/questions/addQuestion'
+import createExamination from '@/components/examination/createExamination'
 
 import { removeSelectQuestion } from '@/utils/auth'
 import { removeCookie } from '@/utils/auth'
@@ -77,7 +81,7 @@ export default {
     },
     components: {
         titleItem, titleActive, description, bottomItem,
-        teacherQuestion, createQuestion, setQuestion,addQuestion
+        teacherQuestion, createQuestion, setQuestion,addQuestion,createExamination
     },
     methods: {
         emitTransfer(index) {

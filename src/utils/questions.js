@@ -3,6 +3,8 @@ import { getToken } from '@/utils/auth'
 import { encodeUnicode } from '@/utils/auth'
 import { setCookie } from '@/utils/auth'
 import { getCookie } from '@/utils/auth'
+import { removeSelectQuestion } from '@/utils/auth'
+import { removeCookie } from '@/utils/auth'
 export default {
     question_type() {
         // 试题分类
@@ -292,15 +294,65 @@ export default {
                 q_id: this.selectQuestList,
                 is_share: this.shared ? '1' : '2',
                 question_list: this.isQuestion ? encodeUnicode(JSON.stringify(arr)) : '',
-                q_add_question: '',
+                q_add_question: getCookie('NEWADDQUESTIONOUT')?encodeUnicode(getCookie('NEWADDQUESTIONOUT')):'',
                 qc_id: qc_id,
             }
         }).then((res) => {
             if (res.data.code == 200) {
+                removeSelectQuestion();
+                removeCookie("NEWADDQUESTIONOUT");
+                this.getNewTile=0;
+                this.$notify({
+                    title: '成功',
+                    message: res.data.data,
+                    type: 'success'
+                  });
 
             } else {
                 this.$message({
                     type: 'success',
+                    message: res.data.data.error
+                });
+            }
+        })
+    },
+    TeacherQuestionList(){
+        this.$http(api.testpaper_list,{
+            params:{
+                token:getToken(),
+                t_title:this.seach,
+                page:this.page,
+                curpage:this.curpage
+            }
+        }).then((res)=>{ 
+            if(res.data.code==200){
+                let data = res.data;
+                this.t_data = res.data.data;
+                this.all_pagecount =  parseInt(data.page_total)
+                data = null;
+            }else{
+
+            }
+        })
+    },
+    testpaper_delete(id) {
+        if (typeof id == 'object') {
+            id = id.join(",")
+        }
+        this.$http(api.testpaper_delete, {
+            params: {
+                token: getToken(),
+                t_id: id
+            }
+        }).then((res) => {
+            if (res.data.code == 200) {
+                this.$message({
+                    type: res.data.data,
+                    message: '删除成功!'
+                });
+            }else{
+                this.$message({
+                    type: 'info',
                     message: res.data.data.error
                 });
             }

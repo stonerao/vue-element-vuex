@@ -46,4 +46,6 @@ export const api = {
     Studentspace_pay:"Student/Studentspace/space_pay",//学生购买
     add_testpaper:"Teacher/Examinationcenter/add_testpaper",//添加试卷
     testpaper_addquestion:"Teacher/Examinationcenter/testpaper_addquestion",//添加试卷时添加试题
+    testpaper_list:"Teacher/Examinationcenter/testpaper_list",//考试列表
+    testpaper_delete:"Teacher/Examinationcenter/testpaper_delete",//删除考试试卷
 }
