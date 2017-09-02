@@ -8,8 +8,8 @@
                             <el-checkbox v-model="checks" @click.native="handleCheckAll"></el-checkbox>
                         </label>
                         <label v-else>
-                        {{ renderHeader(column, index) }}
-                    </label>
+                            {{ renderHeader(column, index) }}
+                        </label>
                     </th>
                 </tr>
             </thead>
