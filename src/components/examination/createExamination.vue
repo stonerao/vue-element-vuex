@@ -13,7 +13,7 @@
         </el-form-item>
         <el-form-item label="结束时间">
             <el-col :span="24">
-                <el-date-picker v-model="form.date1" type="datetime" :picker-options="pickerOptions0" placeholder="选择日期时间">
+                <el-date-picker v-model="form.date2" type="datetime" :picker-options="pickerOptions0" placeholder="选择日期时间">
                 </el-date-picker>
             </el-col>
         </el-form-item>
@@ -24,7 +24,7 @@
             </el-select>
         </el-form-item>
         <el-form-item label="考试总分">
-            <el-input v-model="form.name" class="width150"></el-input>
+            <el-input v-model="form.tol" class="width150"></el-input>
         </el-form-item>
         <el-form-item label=" ">
             <el-button type="primary" @click="onSubmit">立即创建</el-button>
@@ -33,6 +33,8 @@
     </el-form>
 </template>
 <script>
+
+import store from '@/utils/questions'
 export default {
     data() {
         return {
@@ -44,7 +46,8 @@ export default {
                 delivery: false,
                 type: [],
                 resource: '',
-                desc: ''
+                desc: '',
+                tol:""
             },
             pickerOptions0: {
                 disabledDate(time) {
@@ -56,6 +59,7 @@ export default {
     methods: {
         onSubmit() {
             console.log('submit!');
+            store.createExamQuestion.call(this)
         }
     },
     created() {
