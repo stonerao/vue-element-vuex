@@ -130,16 +130,6 @@
                     'min-width': val + 'px'
                 }
             },
-            // 排序事件
-            handleSort(index, type) {
-                this.cloneColumns.forEach((col) => col._sortType = 'normal');
-                if (this.cloneColumns[index]._sortType === type) {
-                    this.cloneColumns[index]._sortType = 'normal'
-                } else {
-                    this.cloneColumns[index]._sortType = type
-                }
-                this.$emit('on-sort-change', this.cloneColumns[index]['key'], this.cloneColumns[index]['_sortType'])
-            },
             // 点击某一行事件
             RowClick(data, event, index, text) {
                 let result = this.makeData(data)
