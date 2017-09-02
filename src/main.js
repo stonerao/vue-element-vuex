@@ -5,6 +5,7 @@ import axios from 'axios';
 import App from './App';
 import router from './router';
 import ElementUI from 'element-ui';//UI框架 element
+
 import 'element-ui/lib/theme-default/index.css';
 import '@/style/reset.css';//reset css
 import '@/style/style.less';//style less
