@@ -757,6 +757,18 @@
 .l_recursion .table-bordered thead th:nth-child(1) label {
   padding-left: 0px;
 }
+.l_recursion .addNews {
+  display: inline-block;
+  margin-left: 10px;
+  color: #1997e4;
+  cursor: pointer;
+}
+.l_recursion .orderInput {
+  width: 50px;
+}
+.l_recursion .orderInput input {
+  padding: 3px;
+}
 @media screen and (max-width: 1618px) {
   .l_layout_outer .l_graCla_list .li_list {
     width: 17.9%;

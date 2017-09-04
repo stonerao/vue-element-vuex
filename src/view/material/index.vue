@@ -12,7 +12,7 @@
                     <div v-if="state==0">
                         <!-- <classifyMaterial :MATERIALCLASSIFY="MATERIALCLASSIFY"></classifyMaterial> -->
                         <div class="l_recursion">
-                      		<TreeGrid :items='materData' :columns='columns' @on-row-click='rowClick' @on-selection-change='selectionClick'></TreeGrid>
+                      		<TreeGrid :items='materData' :columns='columns' :lTreeGrid="lTreeGrid" @on-row-click='rowClick' @on-selection-change='selectionClick'></TreeGrid>
                       	</div>
                     </div>
                     <!--素材管理  -->
@@ -243,24 +243,25 @@ export default {
             },
             mertailDetail: false,
             MATERIALCLASSIFY: false,  //素材分类身份证
+            lTreeGrid: true,   //自己的身份证
             columns: [{
                     type: 'selection'
                 }, {
                     title: '排序',
-                    key: 'code'
+                    key: 'code',
+                    add: true,
                 }, {
                     title: '分类名称',
+                    type: 'input',
                     key: 'name'
                 }, {
                     title: '是否显示',
+                    type: 'switch',
                     key: 'status'
                 },{
                     title: '操作',
                     type: 'action',
                     actions: [{
-                        type: 'primary',
-                        text: '编辑'
-                    },{
                         type: 'default',
                         text: '删除'
                     }]
@@ -269,39 +270,50 @@ export default {
                 id: '1',
                 code: '0001',
                 name: '测试数据1',
-                status: '启用',
+                status: true,
+                sort: '1',
+                children: [],
             }, {
                 id: '2',
                 code: '0002',
                 name: '测试数据2',
-                status: '启用',
+                status: false,
+                sort: '2',
                 children: [{
                     id: '2-01',
                     code: '00001',
                     name: '测试数据01',
-                    status: '启用',
+                    status: false,
+                    sort: '21',
                     children: [{
                         id: '2-1-01',
                         code: '000001',
                         name: '测试数据001',
                         status: '启用',
+                    	sort: '211',
                     }]
                 }, {
                     id: '2-02',
                     code: '00002',
                     name: '测试数据02',
-                    status: '启用',
+                    status: true,
+                    sort: '22',
+                    children: [],
                 }]
             }, {
                 id: '3',
                 code: '0003',
                 name: '测试数据3',
-                status: '启用',
+                status: true,
+                sort: '3',
+                children: [],
             }, {
                 id: '4',
                 code: '0004',
                 name: '测试数据4',
-                status: '启用',
+                status: false,
+                sort: '4',
+                children: [],
             }]
         }
     },

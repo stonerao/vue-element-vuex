@@ -19,17 +19,29 @@
                         <label v-if="column.type === 'selection'">
                             <input type="checkbox" :value="item.id" v-model="checkGroup" class="colums1">
                         </label>
+                        <div v-if="column.type === 'input'">
+                            <!-- 分类名称 -->
+                            <el-input v-model="item.name" placeholder="请输入分类名称" style="width: 150px;"></el-input>
+                        </div>
+                        <div v-if="column.type === 'switch'">
+                            <!-- 分类名称 -->
+                            <el-switch v-model="item.status" on-color="#13ce66" off-color="#ff4949"></el-switch>
+                        </div>
                         <div v-if="column.type === 'action'">
                             <!-- 操作按钮 -->
                             <el-button :type="action.type" size="small" @click.native="RowClick(item,$event,index,action.text)" v-for='action in (column.actions)' :key='column.text'>{{action.text}}</el-button>
                         </div>
-                        <label @click="toggle(index,item)" v-if="!column.type">
-                        <span v-if='snum==1'>
-                            <i v-html='item.spaceHtml'></i>
-                            <i v-if="item.children&&item.children.length>0" :class="{'el-icon-plus':!item.expanded,'el-icon-minus':item.expanded }"></i>
-                            <i v-else class="ms-tree-space"></i>
-                        </span> {{renderBody(item,column) }}
-                    </label>
+                        <label v-if="!column.type">
+                            <span @click="toggle(index,item)" v-if='snum==1'>
+                                <i v-html='item.spaceHtml'></i>
+                                <i v-if="item.children&&item.children.length>0" :class="{'el-icon-caret-bottom':!item.expanded,'el-icon-caret-top':item.expanded }"></i>
+                                <i v-else class="ms-tree-space"></i>
+                            </span> 
+                            <el-input v-model="item.code" placeholder="请输入序号" class="orderInput"></el-input>
+                            <div v-if="column.add" class="addNews" @click="createNewRow(item.id,item.sort)"> 
+                                <i class="el-icon-plus"></i> <span>新增下级</span>
+                            </div>
+                        </label>
                     </td>
                 </tr>
             </tbody>
@@ -37,6 +49,7 @@
     </div>
 </template>
 <script>
+    import Vue from 'vue'
     export default {
         name: 'treeGrid',
         props: {
@@ -46,7 +59,8 @@
                 default: function () {
                     return [];
                 }
-            }
+            },
+            lTreeGrid: Boolean,
         },
         data() {
             return {
@@ -77,6 +91,7 @@
             },
             items() {
                 if (this.items) {
+                    console.log(this.items)
                     this.dataLength = this.Length(this.items)
                     this.initData(this.deepCopy(this.items), 1, null);
                     this.checkGroup = this.renderCheck(this.items)
@@ -102,6 +117,7 @@
         },
         mounted() {
             if (this.items) {
+                // console.log(this.items);
                 this.dataLength = this.Length(this.items);
                 this.initData(this.deepCopy(this.items), 1, null);
                 this.cloneColumns = this.makeColumns();
@@ -124,6 +140,12 @@
             }
         },
         methods: {
+            createNewRow(id,sort){  //新增下级
+                if(this.lTreeGrid){  //L的身份证
+                    console.log(id);
+                    console.log(sort);
+                }
+            },
             // 设置td宽度
             tdWidth(val) {
                 if (val) return {
@@ -177,25 +199,29 @@
             initData(items, level, parent) {
                 this.initItems = []
                 let spaceHtml = "";
-                for (var i = 1; i < level; i++) {
+                for (var i = 1; i < level; i++) {  //第一次进函数时不得执行！
                     spaceHtml += "<i class='ms-tree-space'></i>"
                 }
+                console.log(items);  //初始数据
                 items.forEach((item, index) => {
-                    item = Object.assign({}, item, {
+                    item = Object.assign({}, item, {   //ES6深度拷贝并添加新字段！
                         "parent": parent,
                         "level": level,
                         "spaceHtml": spaceHtml
                     });
+                    // console.log(item);  //字段添加且赋值
+                    // console.log(item.expanded);  //初始不存在的
                     if ((typeof item.expanded) == "undefined") {
                         item = Object.assign({}, item, {
-                            "expanded": false
+                            "expanded": false          //false为“折叠”，true就“展开”
                         });
                     }
-                    if ((typeof item.show) == "undefined") {
+                    if ((typeof item.show) == "undefined") {   
                         item = Object.assign({}, item, {
-                            "isShow": false
+                            "isShow": false           //行，显示与否？
                         });
                     }
+                    // console.log(item);    //处理的数据A
                     item = Object.assign({}, item, {
                         "load": (item.expanded ? true : false)
                     });
@@ -320,6 +346,7 @@
 
             // 返回内容
             renderBody(row, column, index) {
+                console.log(row[column.key])
                 return row[column.key]
             },
             // 默认选中
