@@ -247,8 +247,7 @@ export default {
                     type: 'selection'
                 }, {
                     title: '排序',
-                    key: 'code',
-                    sortable: true
+                    key: 'code'
                 }, {
                     title: '分类名称',
                     key: 'name'
