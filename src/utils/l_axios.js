@@ -3087,5 +3087,49 @@ export default {
             })
         },
 
+        //素材分类
+        materType(pid) {
+            this.$http(api.materType, {
+                params: {
+                    token: getToken(),
+                    pid: pid,
+                    type: 1,
+                }
+            }).then((res) => { 
+                if (res.status == 200) {
+                    if(res.data.code!=400){
+                        if(!this.LoadChild){
+                            this.materData = res.data.data.list;
+                        }else{
+                            this.newData = res.data.data.list;
+                            // this.newData.forEach((x)=>{
+                            //     this.materData[0].children.push(x);
+                            // })
+                            this.materData[0].children = this.newData;
+                            console.log(this.materData)
+                        }
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+            // let _this =this;
+            // function di(datas){
+            //     for(var key in datas){
+            //         if(pid==datas[k].id){
+            //             return
+            //         }else{
+            //             di(_this.materData.children)
+            //         }
+            //     }
+                 
+            // }
+        },
         
 }

@@ -21,7 +21,7 @@
                         </label>
                         <div v-if="column.type === 'input'">
                             <!-- 分类名称 -->
-                            <el-input v-model="item.name" placeholder="请输入分类名称" style="width: 150px;"></el-input>
+                            <el-input v-model="item.category_name" placeholder="请输入分类名称" style="width: 150px;"></el-input>
                         </div>
                         <div v-if="column.type === 'switch'">
                             <!-- 分类名称 -->
@@ -34,10 +34,10 @@
                         <label v-if="!column.type">
                             <span @click="toggle(index,item)" v-if='snum==1'>
                                 <i v-html='item.spaceHtml'></i>
-                                <i v-if="item.children&&item.children.length>0" :class="{'el-icon-caret-bottom':!item.expanded,'el-icon-caret-top':item.expanded }"></i>
+                                <i v-if="item.children" :class="{'el-icon-caret-bottom':!item.expanded,'el-icon-caret-top':item.expanded }" @click="loadMore(item.expanded,item.id,item)"></i>
                                 <i v-else class="ms-tree-space"></i>
                             </span> 
-                            <el-input v-model="item.code" placeholder="请输入序号" class="orderInput"></el-input>
+                            <el-input v-model="item.sort" placeholder="请输入序号" class="orderInput"></el-input>
                             <div v-if="column.add" class="addNews" @click="createNewRow(item.id,item.sort)"> 
                                 <i class="el-icon-plus"></i> <span>新增下级</span>
                             </div>
@@ -49,7 +49,7 @@
     </div>
 </template>
 <script>
-    import Vue from 'vue'
+    import info from '@/utils/l_axios'
     export default {
         name: 'treeGrid',
         props: {
@@ -61,7 +61,6 @@
                 }
             },
             lTreeGrid: Boolean,
-            state:Number
         },
         data() {
             return {
@@ -73,7 +72,13 @@
                 tdsWidth: 0, //td总宽
                 timer: false, //控制监听时长
                 dataLength: 0, //树形数据长度
+                itemss:[],
+                click: false,
+                newData: []
             }
+        },
+        create(){
+
         },
         computed: {
             tableWidth() {
@@ -91,8 +96,8 @@
                 }
             },
             items() { 
+                console.log('监听执行！')
                 if (this.items) {
-                    console.log(this.items)
                     this.dataLength = this.Length(this.items)
                     this.initData(this.deepCopy(this.items), 1, null);
                     this.checkGroup = this.renderCheck(this.items)
@@ -118,7 +123,6 @@
         },
         mounted() {
             if (this.items) {
-                // console.log(this.items);
                 this.dataLength = this.Length(this.items);
                 this.initData(this.deepCopy(this.items), 1, null);
                 this.cloneColumns = this.makeColumns();
@@ -141,6 +145,38 @@
             }
         },
         methods: {
+            refresh(){
+                this.initData(this.deepCopy(this.items), 1, null);
+            },
+            loadMore(load,id,item){
+                console.log(item)
+                if(this.lTreeGrid){
+                    if(!load){
+                        this.$emit('LoadData',id);
+                    //     item.children=[{
+                    //     id: '2-1-01',
+                    //     sort: '000001',
+                    //     category_name: '测试数据001',
+                    //     status: false,
+                    //     children:[]
+                    // }]
+                    // var i=1;
+                    // let _this = this
+                    // function dis(iteme){  
+                    //     iteme.forEach((x)=>{
+                    //         if(id==x.id){ 
+                    //             x.children = 1;
+                    //             console.log(_this.items)
+                    //         }else{
+                    //             dis(item.children)
+                    //         }
+                            
+                    //     })
+                    // }
+                    // dis(_this.items)
+                    }
+                }
+            },
             createNewRow(id,sort){  //新增下级
                 if(this.lTreeGrid){  //L的身份证
                     console.log(id);
@@ -203,7 +239,7 @@
                 for (var i = 1; i < level; i++) {  //第一次进函数时不得执行！
                     spaceHtml += "<i class='ms-tree-space'></i>"
                 }
-                console.log(items);  //初始数据
+                // console.log(items);  //初始数据
                 items.forEach((item, index) => {
                     item = Object.assign({}, item, {   //ES6深度拷贝并添加新字段！
                         "parent": parent,
@@ -347,7 +383,6 @@
 
             // 返回内容
             renderBody(row, column, index) {
-                console.log(row[column.key])
                 return row[column.key]
             },
             // 默认选中
