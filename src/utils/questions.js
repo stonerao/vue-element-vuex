@@ -368,13 +368,22 @@ export default {
                 e_starttime:parseInt(Date.parse(this.form.date1)/1000),
                 e_endtime:parseInt(Date.parse(this.form.date2)/1000),
                 e_relation_tid:this.form.ex2,
-                e_class:this.form.ex1,
+                e_class:this.form.age.join(","),
                 e_allsource:this.form.tol,
                 e_question_source:this.form.e_question_source,
             }
         })
     },
     grade_list(){
-        //年纪
+        //年纪 
+        this.$http({
+           method:"post",
+           data:{
+               token:getToken()
+           },
+           url:api.Teacherclass_list,
+        }).then((res)=>{ 
+            this.ages.age = res.data.data; 
+        })
     }
 }

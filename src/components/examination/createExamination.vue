@@ -18,10 +18,10 @@
             </el-col>
         </el-form-item>
         <el-form-item label="考试班级">
-            <el-select class="width200" v-model="form.region" multiple placeholder="考试班级">
-                <el-option label="区域一" value="shanghai"></el-option>
-                <el-option label="区域二" value="beijing"></el-option>
+            <el-select class="width200" v-model="form.age" multiple   placeholder="考试年纪">
+                <el-option :label="item.class_name" :value="item.department_id" v-for="item in ages.age" :key="item"></el-option> 
             </el-select>
+              
         </el-form-item>
         <el-form-item label="考试总分">
             <el-input v-model="form.tol" class="width150"></el-input>
@@ -49,7 +49,7 @@ export default {
         return {
             form: {
                 name: '',
-                region: [],
+                age: [],
                 date1: '',
                 date2: '',
                 delivery: false,
@@ -57,16 +57,22 @@ export default {
                 resource: '',
                 desc: '',
                 tol: "",
-                ex2:'',
-                ex1:'',
-                e_question_source:''
+                ex2: '',
+                ex1: '',
+                e_question_source: ''
             },
             pickerOptions0: {
                 disabledDate(time) {
-            
-            
-                }}}
-            
+
+
+                }
+            },
+            ages:{
+                age:[],
+                class:[]
+            }
+        }
+
     },
     methods: {
         onSubmit() {
@@ -74,14 +80,16 @@ export default {
             store.createExamQuestion.call(this)
         }
     },
-    created() {
-
+    created() { 
+        store.grade_list.call(this)
     },
     mounted() {
 
     },
     watch: {
+        ['form.age'](){
 
+        }
     }
 }
 </script>
