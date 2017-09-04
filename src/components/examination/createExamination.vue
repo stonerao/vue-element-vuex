@@ -13,7 +13,7 @@
         </el-form-item>
         <el-form-item label="结束时间">
             <el-col :span="24">
-                <el-date-picker v-model="form.date1" type="datetime" :picker-options="pickerOptions0" placeholder="选择日期时间">
+                <el-date-picker v-model="form.date2" type="datetime" :picker-options="pickerOptions0" placeholder="选择日期时间">
                 </el-date-picker>
             </el-col>
         </el-form-item>
@@ -24,7 +24,16 @@
             </el-select>
         </el-form-item>
         <el-form-item label="考试总分">
-            <el-input v-model="form.name" class="width150"></el-input>
+            <el-input v-model="form.tol" class="width150"></el-input>
+        </el-form-item>
+        <el-form-item label="班级id">
+            <el-input v-model="form.ex1" class="width150"></el-input>
+        </el-form-item>
+        <el-form-item label="试卷id">
+            <el-input v-model="form.ex2" class="width150"></el-input>
+        </el-form-item>
+        <el-form-item label="e_question_source">
+            <el-input v-model="form.e_question_source" class="width150"></el-input>
         </el-form-item>
         <el-form-item label=" ">
             <el-button type="primary" @click="onSubmit">立即创建</el-button>
@@ -33,6 +42,8 @@
     </el-form>
 </template>
 <script>
+
+import store from '@/utils/questions'
 export default {
     data() {
         return {
@@ -44,18 +55,23 @@ export default {
                 delivery: false,
                 type: [],
                 resource: '',
-                desc: ''
+                desc: '',
+                tol: "",
+                ex2:'',
+                ex1:'',
+                e_question_source:''
             },
             pickerOptions0: {
                 disabledDate(time) {
-                    return time.getTime() < Date.now() - 8.64e7;
-                }
-            },
-        }
+            
+            
+                }}}
+            
     },
     methods: {
         onSubmit() {
             console.log('submit!');
+            store.createExamQuestion.call(this)
         }
     },
     created() {

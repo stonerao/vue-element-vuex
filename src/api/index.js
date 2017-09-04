@@ -48,4 +48,5 @@ export const api = {
     testpaper_addquestion:"Teacher/Examinationcenter/testpaper_addquestion",//添加试卷时添加试题
     testpaper_list:"Teacher/Examinationcenter/testpaper_list",//考试列表
     testpaper_delete:"Teacher/Examinationcenter/testpaper_delete",//删除考试试卷
+    add_examination:"Teacher/Examinationcenter/add_examination",//创建考试
 }
