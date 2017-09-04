@@ -61,6 +61,7 @@
                 }
             },
             lTreeGrid: Boolean,
+            state:Number
         },
         data() {
             return {
@@ -89,7 +90,7 @@
                     }, 400)
                 }
             },
-            items() {
+            items() { 
                 if (this.items) {
                     console.log(this.items)
                     this.dataLength = this.Length(this.items)

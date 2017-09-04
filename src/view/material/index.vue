@@ -12,7 +12,7 @@
                     <div v-if="state==0">
                         <!-- <classifyMaterial :MATERIALCLASSIFY="MATERIALCLASSIFY"></classifyMaterial> -->
                         <div class="l_recursion">
-                      		<TreeGrid :items='materData' :columns='columns' :lTreeGrid="lTreeGrid" @on-row-click='rowClick' @on-selection-change='selectionClick'></TreeGrid>
+                      		<TreeGrid :items='materData' :columns='columns' :state="isState" :lTreeGrid="lTreeGrid" @on-row-click='rowClick' @on-selection-change='selectionClick'></TreeGrid>
                       	</div>
                     </div>
                     <!--素材管理  -->
@@ -176,6 +176,7 @@ import TreeGrid from '@/components/material/TreeGrid.vue'
 export default {
     data() {
         return {
+        	isState:1,
             titleItem: [
                 { name: "素材分类", index: 0 },
                 { name: "素材管理", index: 1 },
