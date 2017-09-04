@@ -105,6 +105,7 @@ export default {
     }).then((res)=>{
       if(res.data.code==200){
         this.videoId=res.data.data.vid;
+        console.log(res)
       }
     })
   },

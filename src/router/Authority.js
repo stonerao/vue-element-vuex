@@ -29,7 +29,8 @@ import videoOnline from '@/view/videoOnline/index'
 import materLibrary from '@/view/material/index'
 //会议管理(老师)
 import conferManage from '@/view/conference/index'
-
+//视频直播（老师学生）
+import videoOther from '@/view/videoOther/index'
 /*
     版权中心
 */
@@ -363,9 +364,9 @@ export const ListStundent = [
             }
         ]
     }, {
-        path: '/set',
+        path: '/videoOther',
         name: '视频直播',
-        redirect: '/set/index',
+        redirect: '/videoOther/index',
         icon: pmsd,
         iconActive: pmsd_active,
         component: Layout,
@@ -373,7 +374,7 @@ export const ListStundent = [
             {
                 path: 'index',
                 name: '-视频直播',
-                component: setVue,
+                component: videoOther,
             }
         ]
     }, {
@@ -497,9 +498,9 @@ export const ListTeacher = [
             }
         ]
     }, {
-        path: '/set',
+        path: '/videoOther',
         name: '视频直播',
-        redirect: '/set/index',
+        redirect: '/videoOther/index',
         icon: pmsd,
         iconActive: pmsd_active,
         component: Layout,
@@ -507,7 +508,7 @@ export const ListTeacher = [
             {
                 path: 'index',
                 name: '-视频直播',
-                component: setVue,
+                component: videoOther,
             }
         ]
     }, {

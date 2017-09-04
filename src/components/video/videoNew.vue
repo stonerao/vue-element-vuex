@@ -19,7 +19,7 @@
     mounted(){
       this.tokenId=getToken();
       this.srcTxt=`http://kdxx.test.kh888.cn/Admin/Video/video_add?token=${this.tokenId}`;
-      this.srcEdit=`http://kdxx.test.kh888.cn/Admin/Video/video_add?token=${this.tokenId}&id=${this.videoId}`
+      this.srcEdit=`http://kdxx.test.kh888.cn/Admin/Video/video_edit?token=${this.tokenId}&id=${this.videoId}`
     },
     methods:{
       back(){

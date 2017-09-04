@@ -68,7 +68,7 @@ export default{
     data(){
         return{
           time:'',
-          className:'',
+          className:[],
           teacherName:'',
           houseName:'',
           text:'',
@@ -87,20 +87,22 @@ export default{
             department_ids:'',
             teacher_id:'',
             house_name:'',
+            context:'',
           },
+          liveId:'',//直播id
         }
     },
     methods:{
 //      时间选择
       timeChange(val){
         let arr=val.split(' - ');
-        console.log(arr)
         this.data.live_stime=arr[0];
         this.data.live_etime=arr[1];
       },
       //班级选择
       classChoose(val){
        this.data.department_ids= val.join(',');
+
       },
       //老师选择
       teacherChoose(val){
@@ -109,8 +111,7 @@ export default{
 
       //创建直播提交
       add(){
-        console.log(this.data)
-        this.$emit('liveSubmit',this.data)
+        this.$emit('liveSubmit',this.data,this.liveId)
       },
       //取消
       cancel(){
@@ -121,7 +122,29 @@ export default{
 
     },
     mounted(){
-
+      if(this.addShowList.live_info.live_id){
+        let obj=this.addShowList.live_info;
+        let classObj=this.addShowList.relation_list;
+        let department_ids='';
+        let ids=[];
+        for(let i=0;i<classObj.length;i++){
+          ids.push(classObj[i].department_id);
+        }
+        department_ids=ids.join(',');
+        this.data={
+          token:getToken(),
+          live_title:obj.live_title,
+          live_stime:obj.live_stime,
+          live_etime:obj.live_etime,
+          department_ids:department_ids,
+          teacher_id:obj.teacher_id,
+          house_name:obj.house_name,
+          context:obj.live_desc
+        };
+        this.className=ids;
+        this.teacherName=obj.teacher_id;
+        this.liveId=obj.live_id;
+      }
     },
     watch:{
 

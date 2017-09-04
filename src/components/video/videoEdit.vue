@@ -27,7 +27,7 @@
         </el-table-column>
     </el-table>
     <!--视频播放-->
-    <videoPlay v-if="playShow==1" @closePlay="closePlay"></videoPlay>
+    <videoPlay v-if="playShow==1" @closePlay="closePlay" :videoId="vid"></videoPlay>
   </div>
 </template>
 <script>
@@ -42,7 +42,7 @@
         testList:[
           {id:1,title:'王二小',filesize:'1024',add_time:'2017/08/21',first_image:set}
         ],
-        vid:'',//删除的视频id
+        vid:'',//视频id
         playShow:0,//显示播放页面
       }
     },
@@ -69,8 +69,8 @@
       },
       //播放视频
       playVideo(id){
-        this.$emit('videoPlay',id);
         this.playShow=1;
+        this.vid=id;
       },
       //关闭视频
       closePlay(val){
