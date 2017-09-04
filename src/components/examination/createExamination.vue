@@ -63,10 +63,10 @@ export default {
             },
             pickerOptions0: {
                 disabledDate(time) {
-                    return time.getTime() < Date.now() - 8.64e7;
-                }
-            },
-        }
+            
+            
+                }}}
+            
     },
     methods: {
         onSubmit() {
