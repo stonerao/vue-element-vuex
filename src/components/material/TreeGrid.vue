@@ -40,8 +40,8 @@
     export default {
         name: 'treeGrid',
         props: {
-            columns: Array,
-            items: {
+            columns: Array,   //列表头--数据
+            items: {    //tree---数据
                 type: Array,
                 default: function () {
                     return [];
@@ -102,10 +102,10 @@
         },
         mounted() {
             if (this.items) {
-                this.dataLength = this.Length(this.items)
+                this.dataLength = this.Length(this.items);
                 this.initData(this.deepCopy(this.items), 1, null);
                 this.cloneColumns = this.makeColumns();
-                this.checkGroup = this.renderCheck(this.items)
+                this.checkGroup = this.renderCheck(this.items);
                 if (this.checkGroup.length == this.dataLength) {
                     this.checks = true
                 } else {

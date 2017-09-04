@@ -12,7 +12,7 @@
                     <div v-if="state==0">
                         <!-- <classifyMaterial :MATERIALCLASSIFY="MATERIALCLASSIFY"></classifyMaterial> -->
                         <div class="l_recursion">
-                      		<TreeGrid :items='data' :columns='columns' @on-row-click='rowClick' @on-selection-change='selectionClick' @on-sort-change='sortClick'></TreeGrid>
+                      		<TreeGrid :items='materData' :columns='columns' @on-row-click='rowClick' @on-selection-change='selectionClick'></TreeGrid>
                       	</div>
                     </div>
                     <!--素材管理  -->
@@ -265,44 +265,44 @@ export default {
                         text: '删除'
                     }]
                 }],
-                data: [{
-                    id: '1',
-                    code: '0001',
-                    name: '测试数据1',
-                    status: '启用',
-                }, {
-                    id: '2',
-                    code: '0002',
-                    name: '测试数据2',
+            materData: [{
+                id: '1',
+                code: '0001',
+                name: '测试数据1',
+                status: '启用',
+            }, {
+                id: '2',
+                code: '0002',
+                name: '测试数据2',
+                status: '启用',
+                children: [{
+                    id: '2-01',
+                    code: '00001',
+                    name: '测试数据01',
                     status: '启用',
                     children: [{
-                        id: '2-01',
-                        code: '00001',
-                        name: '测试数据01',
-                        status: '启用',
-                        children: [{
-	                        id: '2-1-01',
-	                        code: '000001',
-	                        name: '测试数据001',
-	                        status: '启用',
-	                    }]
-                    }, {
-                        id: '2-02',
-                        code: '00002',
-                        name: '测试数据02',
+                        id: '2-1-01',
+                        code: '000001',
+                        name: '测试数据001',
                         status: '启用',
                     }]
                 }, {
-                    id: '3',
-                    code: '0003',
-                    name: '测试数据3',
-                    status: '启用',
-                }, {
-                    id: '4',
-                    code: '0004',
-                    name: '测试数据4',
+                    id: '2-02',
+                    code: '00002',
+                    name: '测试数据02',
                     status: '启用',
                 }]
+            }, {
+                id: '3',
+                code: '0003',
+                name: '测试数据3',
+                status: '启用',
+            }, {
+                id: '4',
+                code: '0004',
+                name: '测试数据4',
+                status: '启用',
+            }]
         }
     },
     created() {
@@ -412,10 +412,6 @@ export default {
             },
         selectionClick(arr) {
             console.log('选中数据id数组:' + arr)
-        },
-        sortClick(key, type) {
-            console.log('排序字段:' + key)
-            console.log('排序规则:' + type)
         },
     },
     watch: {
