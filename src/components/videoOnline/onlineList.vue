@@ -7,7 +7,7 @@
       <el-col :span="8">
         <el-button type="primary" @click="addOnline"><b>+</b>创建直播</el-button>
       </el-col>
-      <el-col :span="7">
+      <el-col :span="7" >
         <el-select v-model="typeText1" @change="selectChange" placeholder="请选择直播状态" size="small" class="rt">
           <el-option v-for="item in checkTypeList" :label="item.name" :value="item.value">
           </el-option>
@@ -78,7 +78,7 @@
             <el-col :span="20">{{detail.live_desc}}</el-col>
           </el-row>
           <el-row>
-            <el-col :offset="4">
+            <el-col :offset="4" :span="20">
               <el-button type="primary" @click="watchLive(detail.channelId)">进入直播间</el-button>
             </el-col>
           </el-row>

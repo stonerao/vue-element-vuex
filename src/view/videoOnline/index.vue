@@ -182,6 +182,7 @@ export default {
         this.total=0;
         this.searchTxt='';
         this.checkType='';
+        this.refreshList();
       }
   }
 }

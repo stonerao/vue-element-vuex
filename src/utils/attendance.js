@@ -426,7 +426,9 @@ export default {
       }).then((res)=>{
         if(res.data.code==200){
           this.sAttList=res.data.data;
+
         }
+        console.log( res.data)
       })
     }else{
       //老师考勤
@@ -435,7 +437,9 @@ export default {
       }).then((res)=>{
         if(res.data.code==200){
           this.sAttList=res.data.data;
+
         }
+        console.log( res.data)
       })
     }
   }

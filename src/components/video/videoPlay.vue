@@ -7,13 +7,14 @@
   </div>
 </template>
 <script>
-  import { getToken } from '@/utils/auth'
+  import { getToken ,getClass} from '@/utils/auth'
   export default{
     props:['videoId'],
     data(){
       return{
-        playSrc:'',
+        isClass:getClass(),
         tokenId:getToken(),
+        playSrc:'',
       }
     },
     methods:{
@@ -22,7 +23,11 @@
       }
     },
     mounted(){
-      this.playSrc=`http://kdxx.test.kh888.cn/Admin/Video/video_info?token=${this.tokenId}&id=${this.videoId}`
+      if(this.isClass==1){
+        this.playSrc=`http://kdxx.test.kh888.cn/Admin/Video/video_info?token=${this.tokenId}&id=${this.videoId}`
+      }else{
+        this.playSrc=`http://kdxx.test.kh888.cn/Student/Video/student_video_info?token=${this.tokenId}&id=${this.videoId}`
+      }
     }
   }
 </script>

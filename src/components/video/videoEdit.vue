@@ -36,7 +36,7 @@
   import {set} from '@/assets/icon'
 
   export default{
-    props:['firstClassList','underList','showList','classList','total','classList','videoId'],
+    props:['firstClassList','underList','showList','total','classList','videoId'],
     data(){
       return{
         testList:[
