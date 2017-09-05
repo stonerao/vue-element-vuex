@@ -131,6 +131,7 @@
                     show: 1,
                 },
                 Dailog: false,
+                checkGroupHelp: true,
             }
         },
         create(){
@@ -329,7 +330,7 @@
                 return ((item.level == 1) || (item.parent && item.parent.expanded && item.isShow));
             },
             toggle(index, item) {
-                console.log(item);
+                // console.log(item);
                 let level = item.level + 1;
                 let spaceHtml = "";
                 this.LoadChild = true;
@@ -411,7 +412,9 @@
                     this.checkGroup = this.getArray(this.checkGroup.concat(this.All(this.initItems)))
                     // console.log(this.checkGroup);
                 } else {
-                    this.checkGroup = [];
+                    if(this.checkGroupHelp){
+                        this.checkGroup = [];
+                    }
                 }
                 // this.$emit('on-selection-change', this.checkGroup)
             },
@@ -433,12 +436,14 @@
                 // console.log(this.dataLength)
                 if (this.dataLength > 0 && data.length === this.dataLength) {
                     this.checks = true;
+                    this.checkGroupHelp = true;
                 } else {
                     this.checks = false;
+                    this.checkGroupHelp = false;
                 }
-                console.log(this.checks)
                 this.$emit('on-selection-change', this.checkGroup)
                 this.selectString = this.checkGroup;
+                // console.log(this.selectString);
             },
             All(data) {
                 let arr = []
@@ -527,10 +532,9 @@
                 return map[toString.call(obj)];
             },
             checkBoxRefresh(){  //修复checkbox的bug
-                console.log(this.initItems);
+                // console.log(this.initItems);
                 if (this.initItems) {
                     this.dataLength = this.initItems.length;
-                    // this.checkGroup = this.renderCheck(this.items)
                     if (this.checkGroup.length == this.dataLength) {
                         this.checks = true
                     } else {
