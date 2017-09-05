@@ -21,10 +21,10 @@
                         </label>
                         <div v-if="column.type === 'input'">
                             <!-- 分类名称 -->
-                            <el-input v-model="item.category_name" placeholder="请输入分类名称" style="width: 150px;" @change="materTypeEdi(item.id,item.category_name,item.sort)"></el-input>
+                            <el-input v-model="item.category_name" placeholder="请输入分类名称" style="width: 200px;" @change="materTypeEdi(item.id,item.category_name,item.sort)"></el-input>
                         </div>
                         <div v-if="column.type === 'switch'">
-                            <!-- 分类名称 -->
+                            <!-- 切换按钮 -->
                             <el-switch v-model="item.status" on-color="#13ce66" off-color="#ff4949" @change="whetherShow(item.id,item.status)"></el-switch>
                         </div>
                         <div v-if="column.type === 'action'">
@@ -172,6 +172,7 @@
                 deep: true
             },
             checkGroup(data) {
+                // console.log(data);
                 this.checkAllGroupChange(data)
             },
             checks() {
@@ -406,8 +407,9 @@
                 // this.checks = !this.checks;
                 if (this.checks) {
                     this.checkGroup = this.getArray(this.checkGroup.concat(this.All(this.items)))
+                    // console.log(this.checkGroup);
                 } else {
-                    this.checkGroup = []
+                    this.checkGroup = [];
                 }
                 // this.$emit('on-selection-change', this.checkGroup)
             },
