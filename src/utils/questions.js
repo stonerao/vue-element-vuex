@@ -160,7 +160,7 @@ export default {
                     setTimeout((x) => {
                         let arr = [];//存储选中过的id
                         // let rows = this.t_data;
-                        if (this.getSelectedQuestionList()) { 
+                        if (this.getSelectedQuestionList()) {
                             let list = this.getSelectedQuestionList().split(',').sort();
                             list.forEach((x, index) => {
                                 this.t_data.forEach((y, i) => {
@@ -294,19 +294,19 @@ export default {
                 q_id: this.selectQuestList,
                 is_share: this.shared ? '1' : '2',
                 question_list: this.isQuestion ? encodeUnicode(JSON.stringify(arr)) : '',
-                q_add_question: getCookie('NEWADDQUESTIONOUT')?encodeUnicode(getCookie('NEWADDQUESTIONOUT')):'',
+                q_add_question: getCookie('NEWADDQUESTIONOUT') ? encodeUnicode(getCookie('NEWADDQUESTIONOUT')) : '',
                 qc_id: qc_id,
             }
         }).then((res) => {
             if (res.data.code == 200) {
                 removeSelectQuestion();
                 removeCookie("NEWADDQUESTIONOUT");
-                this.getNewTile=0;
+                this.getNewTile = 0;
                 this.$notify({
                     title: '成功',
                     message: res.data.data,
                     type: 'success'
-                  });
+                });
 
             } else {
                 this.$message({
@@ -316,21 +316,21 @@ export default {
             }
         })
     },
-    TeacherQuestionList(){
-        this.$http(api.testpaper_list,{
-            params:{
-                token:getToken(),
-                t_title:this.seach,
-                page:this.page,
-                curpage:this.curpage
+    TeacherQuestionList() {
+        this.$http(api.testpaper_list, {
+            params: {
+                token: getToken(),
+                t_title: this.seach,
+                page: this.page,
+                curpage: this.curpage
             }
-        }).then((res)=>{ 
-            if(res.data.code==200){
+        }).then((res) => {
+            if (res.data.code == 200) {
                 let data = res.data;
                 this.t_data = res.data.data;
-                this.all_pagecount =  parseInt(data.page_total)
+                this.all_pagecount = parseInt(data.page_total)
                 data = null;
-            }else{
+            } else {
 
             }
         })
@@ -350,7 +350,7 @@ export default {
                     type: res.data.data,
                     message: '删除成功!'
                 });
-            }else{
+            } else {
                 this.$message({
                     type: 'info',
                     message: res.data.data.error
@@ -358,32 +358,91 @@ export default {
             }
         })
     },
-    createExamQuestion(){
+    createExamQuestion() {
         this.$http({
-            method:"post",
-            url:api.add_examination,
-            data:{
-                token:getToken(),
-                e_title:this.form.name,
-                e_starttime:parseInt(Date.parse(this.form.date1)/1000),
-                e_endtime:parseInt(Date.parse(this.form.date2)/1000),
-                e_relation_tid:this.form.ex2,
-                e_class:this.form.age.join(","),
-                e_allsource:this.form.tol,
-                e_question_source:this.form.e_question_source,
+            method: "post",
+            url: api.add_examination,
+            data: {
+                token: getToken(),
+                e_title: this.form.name,
+                e_starttime: parseInt(Date.parse(this.form.date1) / 1000),
+                e_endtime: parseInt(Date.parse(this.form.date2) / 1000),
+                e_relation_tid: this.selectObjs.t_id,
+                e_class: this.if_set ? this.t.t_id : this.form.age.join(","),
+                e_allsource: this.form.tol,
+                e_question_source: this.form.e_question_source,
+            }
+        }).then((res) => {
+            if (res.data.code == 200) {
+                this.$message({
+                    type: 'info',
+                    message: res.data.data
+                });
+            } else {
+                this.$message({
+                    type: 'info',
+                    message: res.data.data.error
+                });
             }
         })
     },
-    grade_list(){
+    setExamQuestion() {
+        this.$http({
+            method: "post",
+            url: api.edit_examination,
+            data: {
+                token: getToken(),
+                e_title: this.form.name,
+                e_starttime: parseInt(Date.parse(this.form.date1) / 1000),
+                e_endtime: parseInt(Date.parse(this.form.date2) / 1000),
+                e_relation_tid: this.if_set ? this.t.t_id : this.selectObjs.t_id,
+                e_class: this.form.age.join(","),
+                e_allsource: this.form.tol,
+                e_question_source: this.form.e_question_source,
+                e_id: this.form.e_id
+            }
+        }).then((res) => {
+            if (res.data.code == 200) {
+                this.$message({
+                    type: 'info',
+                    message: res.data.data
+                });
+                this.$emit("setExamOk",true)
+            } else {
+                this.$message({
+                    type: 'info',
+                    message: res.data.data.error
+                });
+            }
+        })
+    },
+    grade_list() {
         //年纪 
         this.$http({
-           method:"post",
-           data:{
-               token:getToken()
-           },
-           url:api.Teacherclass_list,
-        }).then((res)=>{ 
-            this.ages.age = res.data.data; 
+            method: "post",
+            data: {
+                token: getToken()
+            },
+            url: api.Teacherclass_list,
+        }).then((res) => {
+            this.ages.age = res.data.data;
+        })
+    },
+    examList() {
+        this.$http(api.examination_list, {
+            params: {
+                token: getToken(),
+                e_title: this.seach,
+                e_class: this.e_class,
+                page: this.page,
+                curpage: this.curpage,
+            }
+        }).then((res) => {
+            if (res.data.code == 200) {
+                this.t_data = res.data.data;
+                this.page_total = parseInt(res.data.page_total);
+                this.page = parseInt(res.data.page);
+            }
         })
     }
 }

@@ -50,4 +50,6 @@ export const api = {
     testpaper_delete:"Teacher/Examinationcenter/testpaper_delete",//删除考试试卷
     add_examination:"Teacher/Examinationcenter/add_examination",//创建考试
     Teacherclass_list:"Teacher/Examinationcenter/class_list",//创建考试
+    examination_list:"Teacher/Examinationcenter/examination_list",//老师考试列表
+    edit_examination:"Teacher/Examinationcenter/edit_examination",//编辑考试
 }
