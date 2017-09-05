@@ -12,7 +12,7 @@
                     <div v-if="state==0">
                         <!-- <classifyMaterial :MATERIALCLASSIFY="MATERIALCLASSIFY"></classifyMaterial> -->
                         <div class="l_recursion">
-                      		<TreeGrid :items='materData' :columns='columns' :lTreeGrid="lTreeGrid" @on-row-click='rowClick' @on-selection-change='selectionClick' @LoadData="loadTree"></TreeGrid>
+                      		<TreeGrid :items='materData' :columns='columns' :lTreeGrid="lTreeGrid" @on-row-click='rowClick' @on-selection-change='selectionClick' @RELOADATA="reloadTreeData"></TreeGrid>
                       	</div>
                     </div>
                     <!--素材管理  -->
@@ -268,7 +268,6 @@ export default {
             }],
             materData: [],
             materHandleID: 0,
-            LoadChild: false,
 	    }
 	},
     created() {
@@ -293,9 +292,8 @@ export default {
         titleItem, titleActive, description, bottomItem, createMaterial, commonMaterial, classifyMaterial, TreeGrid
     },
     methods: {
-    	loadTree(id){
-            this.LoadChild = true;
-            info.materType.call(this,id); 
+    	reloadTreeData(){  //删除tree数据后数据重新加载
+    		info.materType.call(this,0);
     	},
         emitTransfer(index) {
             if (this.state == index) {
@@ -377,12 +375,12 @@ export default {
             }
         },
         rowClick(data, index, event) {   //素材分类操作开始！
-                console.log('当前行数据:' + data)
-                console.log('点击行号:' + index)
-                console.log('点击事件:' + event)
-            },
+            // console.log('当前行数据:' + data)
+            // console.log('点击行号:' + index)
+            // console.log('点击事件:' + event)
+        },
         selectionClick(arr) {
-            console.log('选中数据id数组:' + arr)
+            // console.log('选中数据id数组:' + arr)
         },
     },
     watch: {
