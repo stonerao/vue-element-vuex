@@ -292,7 +292,7 @@ export default {
         titleItem, titleActive, description, bottomItem, createMaterial, commonMaterial, classifyMaterial, TreeGrid
     },
     methods: {
-    	reloadTreeData(){
+    	reloadTreeData(){  //删除tree数据后数据重新加载
     		info.materType.call(this,0);
     	},
         emitTransfer(index) {
