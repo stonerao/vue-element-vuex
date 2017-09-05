@@ -1064,6 +1064,25 @@ body,
     background: rgba(0, 0, 0, 0.5);
     z-index: 1000;
     min-width: 1200px;
+    .r-alert-list {
+        margin-left: 30px;
+        li {
+            line-height: 35px;
+            color: #444;
+            >span:first-child {
+                font-weight: bold;
+            }
+            button {
+                background: #1183dc;
+                font-size: 16px;
+                color: #fff;
+                padding: 5px 15px;
+                border: 0;
+                margin-top: 10px;
+                cursor: pointer;
+            }
+        }
+    }
     .r-alert-content {
         width: 1200px;
         position: absolute;
@@ -1229,12 +1248,86 @@ body,
 }
 
 .r-demos {
-     .r-demos-item {
+    .r-demos-item {
         >div {
             display: inline-block;
         }
-        >div{
-            
+        >div {}
+    }
+}
+
+.r_good {
+    @border_1: 1px solid #ededed;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background: #fff;
+    z-index: 10000;
+    .r_good_box {
+        margin: 100px auto 0 auto;
+        width: 1200px;
+        border: #eee solid 1px;
+        min-height: 100px;
+        overflow: hidden;
+        >div {
+            float: left;
+        }
+        .r_good_box_left {
+            width: 250px;
+            overflow: hidden;
+            margin: 10px;
+            ul {
+                overflow: hidden;
+                border-top: @border_1;
+                border-left: @border_1;
+            }
+            li {
+                @height: 30px;
+                float: left;
+                display: inline-block;
+                width: @height;
+                text-align: center;
+                line-height: @height;
+                height: @height;
+                border-right: @border_1;
+                border-bottom: @border_1;
+                cursor: pointer;
+                transition: all .2s;
+            }
+            li:hover {
+                background: rgb(25, 152, 228);
+                color: #fff;
+            }
+        }
+        .r_good_box_right {
+            width: 880px;
+            padding: 20px;
+            min-height: 300px; // background: #aaa;
+            margin-top: 10px;
+            >h3 {
+                font-size: 22px; 
+                color: #444;
+            }
+            p { 
+                margin-top: 5px;
+                color: #666;
+            }
+            .r_select_answer{
+                margin-top:10px;
+            }
+            .r_select_answer{
+                ul{
+                    margin-top:20px;
+                    li{
+                        margin:10px 0;
+                    }
+                }
+            }
         }
     }
+}
+.r_center{
+    text-align:center;
 }

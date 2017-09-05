@@ -263,6 +263,8 @@ export default {
             }
             this.state = index;
             this.t_data = [];
+            this.search=''
+            this.studentAjax();
             
         },
         promptsTem(status) {

@@ -75,7 +75,7 @@ export default {
         selectOption(obj) {
             // 选择tab 
             obj.forEach((x)=>{
-                selectArr.push(x.e_id)
+                selectArr.push(x.e_id);
             })
         },
         deleteData(id) {

@@ -39,6 +39,8 @@ export function constListFun() {
 // 登录
 import login from '@/view/login/login'
 import adminLogin from '@/view/login/admin'
+
+import good_exam from '@/view/examination/good_exam'
 /*
   路由配置
 */
@@ -60,12 +62,12 @@ export const constRouterMap = [
   },
   {
     path: '/login',
-    name: '登录中心',
+    name: '-登录中心',
     component: login
   },
   {
     path: '/admin',
-    name: '管理员登录',
+    name: '-管理员登录',
     component: adminLogin
   },
   {
@@ -74,8 +76,13 @@ export const constRouterMap = [
   },
   {
     path: '/shoping',
-    name: '教材购买',
+    name: '-教材购买',
     component: shopingVal
+  },
+  {
+    path: '/good_exam',
+    name: '-考试',
+    component: good_exam
   }
 ]
 

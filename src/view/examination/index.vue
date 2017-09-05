@@ -28,6 +28,7 @@ import description from '@/components/main/description.vue'
 import bottomItem from '@/components/bottom/bottom.vue'
 import myPapers from '@/components/examination/myPapers.vue'
 import history from '@/components/examination/history.vue'
+import store from '@/utils/examination'
 export default {
     data() {
         return {

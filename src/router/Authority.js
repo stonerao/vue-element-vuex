@@ -253,21 +253,7 @@ export const constList = [
                 component: materLibrary,
             }
         ]
-    }, {
-        path: '/questions',
-        name: '试题库',
-        redirect: '/questions/index',
-        icon: st,
-        iconActive: st_active,
-        component: Layout,
-        children: [
-            {
-                path: 'index',
-                name: '-试题库',
-                component: questions,
-            }
-        ]
-    }, {
+    },  {
         path: '/notice',
         name: '通知管理',
         redirect: '/notice/index',
@@ -437,7 +423,8 @@ export const ListStundent = [
     {
         path: '/adminIndex',
         redirect: "/one/index"
-    }
+    } 
+    
 ]
 // 老师
 export const ListTeacher = [

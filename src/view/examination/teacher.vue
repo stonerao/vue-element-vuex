@@ -79,6 +79,7 @@ export default {
     created() {
         removeSelectQuestion();
         removeCookie('NEWADDQUESTIONOUT');
+       
     },
     components: {
         titleItem, titleActive, description, bottomItem,
@@ -86,9 +87,13 @@ export default {
     },
     methods: {
         emitTransfer(index) {
+            if(index==3){  
+                 removeCookie("CREATEDEXAM")
+            }
             if (this.state == index) {
                 return
             }
+            
             this.state = index;
         },
         promptsTem(status) {

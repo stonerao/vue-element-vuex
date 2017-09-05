@@ -4,15 +4,15 @@ export const api = {
     teacher_add:'/Admin/teacher/teacher_add',//增加老师
     teacher_edit:'/Admin/teacher/teacher_edit',//编辑老师
     teacher_delete:'/Admin/teacher/teacher_delete',//删除老师
-    studentlist:'/Student/SchoolStudent/studentlist',//学生列表
+    studentlist:'Admin/teacher/studentlist',//学生列表
     department_list:'/Admin/Department/department_list',//所有组织结构关系表
-    studentListMent:'/Student/SchoolStudent/department_list',//学生组织结构关系
-    areaList:"Student/SchoolStudent/area_list",//省 列表
+    studentListMent:'Admin/teacher/department_list',//学生组织结构关系
+    areaList:"Student/StudentIndex/area_list",//省 列表
     addStundet:"Student/SchoolStudent/studentadd",//添加学生
     setStundet:"Student/SchoolStudent/studentedit",//编辑学生
     studentdelete:"Student/SchoolStudent/studentdelete",//删除学生
-    grade_list:"Student/SchoolStudent/grade_list",//二级联动-年级
-    class_list:"Student/SchoolStudent/class_list",//二级联动-班级
+    grade_list:"Admin/teacher/grade_list",//二级联动-年级
+    class_list:"Admin/teacher/class_list",//二级联动-班级
     department_index:"Admin/Department/department_index",//组织架构 列表 首页
     show_teacher_member:"Admin/Department/show_teacher_member",//展示老师列表
     save_member_maintain:"Admin/Department/save_member_maintain",//展示老师列表
@@ -52,4 +52,6 @@ export const api = {
     Teacherclass_list:"Teacher/Examinationcenter/class_list",//创建考试
     examination_list:"Teacher/Examinationcenter/examination_list",//老师考试列表
     edit_examination:"Teacher/Examinationcenter/edit_examination",//编辑考试
+    Studentexamination_list:"Student/SchoolStudent/examination_list",//学生 考试列表
+    examination_info:"Student/SchoolStudent/examination_info",//考试详情
 }

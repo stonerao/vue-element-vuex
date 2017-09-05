@@ -23,24 +23,27 @@
             </el-select>
 
         </el-form-item>
+        <el-form-item label="考试市场">
+            <el-input v-model="form.tiem" class="width150"></el-input>
+        </el-form-item>
         <el-form-item label="考试总分">
             <el-input v-model="form.tol" class="width150"></el-input>
         </el-form-item>
         <!-- <el-form-item label="班级id">
-                        <el-input v-model="form.ex1" class="width150"></el-input>
-                    </el-form-item> -->
+                            <el-input v-model="form.ex1" class="width150"></el-input>
+                        </el-form-item> -->
         <el-form-item label="选择试卷">
             <el-button @click="selectExam">选择</el-button>
             <span v-if="exam_info" class="marginleft15">
                 已选择:{{selectObjs.t_title}}
             </span>
-             <span v-else class="marginleft15">
+            <span v-else class="marginleft15">
                 已选择:{{t.t_title}}
             </span>
         </el-form-item>
         <!-- <el-form-item label="e_question_source">
-                        <el-input v-model="form.e_question_source" class="width150"></el-input>
-                    </el-form-item> -->
+                            <el-input v-model="form.e_question_source" class="width150"></el-input>
+                        </el-form-item> -->
         <el-form-item label=" ">
             <el-button type="primary" @click="onSubmit">{{!if_set?'立即创建':'确认编辑'}}</el-button>
             <el-button @click="quit">取消</el-button>
@@ -50,6 +53,9 @@
 <script>
 
 import store from '@/utils/questions'
+import {setCookie} from '@/utils/auth'
+import {getCookie} from '@/utils/auth' 
+
 export default {
     props: ['selectObjs', 'set_e_id'],
     data() {
@@ -63,16 +69,15 @@ export default {
                 type: [],
                 resource: '',
                 desc: '',
-                e_id:'',
+                e_id: '',
                 tol: "",
                 ex2: '',
                 ex1: '',//班级id
-                e_question_source: ''
+                e_question_source: '',
+                tiem: ""
             },
             pickerOptions0: {
-                disabledDate(time) {
-
-
+                disabledDate(time) { 
                 }
             },
             ages: {
@@ -81,28 +86,37 @@ export default {
             },
             exam_info: false,
             if_set: false,
-            t:{
-                t_title:'',
-                t_id:''
+            t: {
+                t_title: '',
+                t_id: ''
             }
         }
 
     },
     methods: {
-        onSubmit() {
-            if(!this.if_set){
+        onSubmit() {   
+            if (this.form.tiem == ''|| !parseInt(this.form.tiem)>0 ) {
+                this.$notify({
+                    message: '考试时长有误',
+                    type: 'info',
+                });
+                return
+            }
+            if (!this.if_set) {
                 store.createExamQuestion.call(this);
-                }else{ 
+            } else {
                 store.setExamQuestion.call(this);
             }
         },
         selectExam() {
             // 选择试卷 
-            this.$emit("selectExam", true)
+            setCookie("CREATEDEXAM",this.form);
+            console.log(JSON.parse(getCookie("CREATEDEXAM")))
+            this.$emit("selectExam", true);
         },
-        quit(){
-            if(this.if_set){
-                this.$emit("quit",false)
+        quit() {
+            if (this.if_set) {
+                this.$emit("quit", false)
             }
         }
     },
@@ -110,16 +124,18 @@ export default {
         store.grade_list.call(this);
         if (this.selectObjs.t_id) {
             this.form.ex1 = this.selectObjs.t_id;
-            this.exam_info = true
-        }
+            this.exam_info = true;
+            this.form=JSON.parse(getCookie("CREATEDEXAM"));
+        } 
         if (this.set_e_id.e_id) {
-            let obj = this.set_e_id; 
+            let obj = this.set_e_id;
             this.if_set = true;
             this.form.name = obj.e_title
             this.form.date1 = new Date(parseInt(obj.e_starttime) * 1000)
             this.form.date2 = new Date(parseInt(obj.e_time) * 1000)
             this.form.age = obj.e_class.split(",")
             this.form.tol = obj.e_allsource;
+            this.form.tiem = obj.e_whenlong;
             this.form.e_id = obj.e_id;
             this.t.t_title = obj.t_title;
             this.t.t_id = obj.e_relation_tid;
@@ -134,7 +150,7 @@ export default {
 
     },
     watch: {
-
+         
     }
 }
 </script>

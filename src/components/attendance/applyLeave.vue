@@ -65,6 +65,9 @@
     components:{
       uteacher
     },
+    created(){
+      console.log(this.checkTypeList)
+    },
     methods:{
       apply(){
        this.$emit('apply')

@@ -21,55 +21,44 @@
                 </div>
             </el-col>
         </el-row>
-        <el-table ref="multipleTable" :data="tableData3" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
+        <el-table ref="multipleTable" :data="t_data" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55">
             </el-table-column>
             <el-table-column label="id" width="80" show-overflow-tooltip>
-                <template scope="scope">{{ scope.row.id }}</template>
+                <template scope="scope">{{ scope.row.e_id }}</template>
             </el-table-column>
-            <el-table-column prop="papersName" label="试卷名称" show-overflow-tooltip>
-            </el-table-column>
-            <el-table-column prop="class" label="科目" show-overflow-tooltip>
-            </el-table-column>
-            <el-table-column prop="name" label="时间设定" show-overflow-tooltip>
-                <template scope="scope">
-                    <p>{{ scope.row.timeSet }}</p>
-                    <p>{{ scope.row.timeSet2 }}</p>
-                </template>
-            </el-table-column>
-            <el-table-column prop="name" label="考试时长" show-overflow-tooltip>
-                <template scope="scope">
-                    {{ scope.row.time }} 分钟
-                </template>
-            </el-table-column>
-            <el-table-column prop="fenz" label="卷面总长" show-overflow-tooltip>
-            </el-table-column>
-            <el-table-column prop="fen" label="及格分数" show-overflow-tooltip>
-            </el-table-column>
+            <el-table-column prop="e_title" label="试卷名称" show-overflow-tooltip>
+            </el-table-column> 
+            <el-table-column prop="e_allsource" label="卷面总分" show-overflow-tooltip>
+            </el-table-column> 
+            <el-table-column prop="e_whenlong" label="考试时长" show-overflow-tooltip>
+            </el-table-column> 
             <el-table-column label="创建人" show-overflow-tooltip>
                 <template scope="scope">
-                    <p>{{ scope.row.setName }}</p>
-                    <p>{{ scope.row.papersNameTime }}</p>
+                    <p>{{ scope.row.teacher_name }}</p>
+                    <p>{{ scope.row.e_time }}</p>
                 </template>
             </el-table-column>
             <el-table-column prop="address" label="操作" show-overflow-tooltip>
                 <template scope="scope">
-                    <el-button size="mini" icon='edit' @click="goExam">进入考试</el-button>
+                    <el-button size="mini" icon='edit' @click="goExam(scope.row)">进入考试</el-button>
                 </template>
             </el-table-column>
         </el-table>
         <el-row>
-            <el-col :span="24">
-                <!-- <el-pagination class="float-right" @size-change="SizeChange" @current-change="CurrentChange" :current-page="currentPage" :page-sizes="pageSizes" :page-size="pageSize" layout="total, sizes, prev, pager, next, jumper" :total="all_pagecount">
-                </el-pagination> -->
+            <el-col :span="24"> 
+                <el-pagination class="float-right" @size-change="SizeChange" @current-change="CurrentChange" :current-page="page" :page-sizes="[curpage]" :page-size="curpage" layout="total, sizes, prev, pager, next, jumper" :total="all_pagecount">
+                </el-pagination>
             </el-col>
         </el-row>
-        <!-- <alertExam></alertExam> -->
+        <alertExam v-if="is_alert" @examgood="examgood" :obj="is_alert_obj" @is_over="is_over"></alertExam>
+       
     </div>
 </template>
 
 <script>
-import alertExam from '@/components/examination/alertExam'
+import alertExam from '@/components/examination/alertExam'  
+import store from '@/utils/examination'
 export default {
     data() {
         return {
@@ -78,23 +67,13 @@ export default {
                 id: ""
             },
             seach: "",
-            selectVal: '',
-            tableData3: [{
-                date: '2016-05-03',
-                name: '王小虎',
-                papersName: '2016年半期考试试卷，数学模拟考试',
-                address: '上海市普陀区金沙江路 1518 弄',
-                id: '231',
-                class: "语文",
-                timeSet: '2017-8-21 17:15:57',
-                timeSet2: '2017-8-21 17:15:57',
-                time: '10',
-                fenz: '150',
-                fen: '100',
-                setName: '创建人',
-                papersNameTime: '2017-8-21 17:18:58'
-            },]
-
+            selectVal: '',  
+            page:1,
+                curpage:10,
+                all_pagecount:0,
+            t_data: [ ],
+            is_alert:false,
+            is_alert_obj:{}
         }
     },
     methods: {
@@ -104,7 +83,8 @@ export default {
         seachClick() {
             // 搜索
 
-        }, toggleSelection(rows) {
+        },
+         toggleSelection(rows) {
             if (rows) {
                 rows.forEach(row => {
                     this.$refs.multipleTable.toggleRowSelection(row);
@@ -116,14 +96,37 @@ export default {
         handleSelectionChange(val) {
             this.multipleSelection = val;
         },
-        goExam(id){
+        goExam(obj){
             // 开始考试
+            this.is_alert_obj=obj
+            this.is_alert = true; 
+        },
+        ajax(){
+            store.Studentexamination_list.call(this)
+        },
+        is_over(){
+            // 关闭模态框
+            this.is_alert = false; 
+        },
+        CurrentChange(){
+            // fanye 
+        },
+        SizeChange(){
 
+        },
+        examgood(state){
+            // 
+            if(state==true){
 
+            }
         }
+        
     },
     components:{
-        alertExam
+        alertExam 
+    },
+    created(){
+        this.ajax()
     }
 }
 </script>

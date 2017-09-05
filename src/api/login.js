@@ -5,7 +5,7 @@ export const api = {
     loginCode: "Teacher/Login/get_verify",//老师登陆图形验证码
     quitLogin:"Teacher/Login/logout",//教师 退出登录
     studentLogin:"Student/StudentLogin/student_login",//学生登录
-    areaList:"Student/SchoolStudent/area_list",//省 列表
+    areaList:"Student/StudentIndex/area_list",//省 列表
     // areaList:"Student/SchoolStudent/area_list",//市 列表
     // areaList:"Student/SchoolStudent/area_list",//区 列表
 }

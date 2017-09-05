@@ -371,6 +371,7 @@ export default {
                 e_class: this.if_set ? this.t.t_id : this.form.age.join(","),
                 e_allsource: this.form.tol,
                 e_question_source: this.form.e_question_source,
+                e_whenlong:parseInt(this.form.tiem)
             }
         }).then((res) => {
             if (res.data.code == 200) {
@@ -399,7 +400,8 @@ export default {
                 e_class: this.form.age.join(","),
                 e_allsource: this.form.tol,
                 e_question_source: this.form.e_question_source,
-                e_id: this.form.e_id
+                e_id: this.form.e_id,
+                e_whenlong:parseInt(this.form.tiem)
             }
         }).then((res) => {
             if (res.data.code == 200) {

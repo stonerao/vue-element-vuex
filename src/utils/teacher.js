@@ -215,7 +215,11 @@ export default {
 
     },
     grade_list() {
-        this.$http(api.grade_list).then((res) => {
+        this.$http(api.grade_list,{
+            params:{
+                token:getToken()
+            }
+        }).then((res) => {
             if (res.data.code == 200) {
                 this.gradeForm = res.data.data;
             }

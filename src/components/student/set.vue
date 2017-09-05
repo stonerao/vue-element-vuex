@@ -140,7 +140,7 @@
                         </el-row>
     
                     </div>
-                    <div class="add-inp-item-addname margin-left">如：13800000000</div>
+                    <!-- <div class="add-inp-item-addname margin-left">如：13800000000</div> -->
                 </div>
     
                 <!--  -->
@@ -151,7 +151,7 @@
                     <div class="add-inp-item-inp">
                         <el-input v-model="obj.member_name" type="text"></el-input>
                     </div>
-                    <div class="add-inp-item-addname margin-left">如：13800000000</div>
+                    <!-- <div class="add-inp-item-addname margin-left">如：13800000000</div> -->
                 </div>
                 <div class="add-inp-item">
                     <div class="add-inp-item-name">
@@ -160,7 +160,7 @@
                     <div class="add-inp-item-inp">
                         <el-input v-model="obj.password" type="password"></el-input>
                     </div>
-                    <div class="add-inp-item-addname margin-left">如：13800000000</div>
+                    <!-- <div class="add-inp-item-addname margin-left">如：13800000000</div> -->
                 </div>
                 <div class="add-inp-item ">
                     <div class="add-inp-item-name">
@@ -174,7 +174,7 @@
                             </el-select>
                         </div>
                     </div>
-                    <div class="add-inp-item-addname margin-left">如：13800000000</div>
+                    <!-- <div class="add-inp-item-addname margin-left">如：13800000000</div> -->
                 </div>
                 <div class="add-inp-item">
                     <div class="add-inp-item-name">
@@ -183,7 +183,7 @@
                     <div class="add-inp-item-inp">
                         <el-input v-model="obj.st_certificates_number" type="text"></el-input>
                     </div>
-                    <div class="add-inp-item-addname margin-left">如：13800000000</div>
+                    <!-- <div class="add-inp-item-addname margin-left">如：13800000000</div> -->
                 </div>
                 <!--  -->
                 <div class="add-inp-item ">
@@ -207,7 +207,7 @@
                         </el-row>
     
                     </div>
-                    <div class="add-inp-item-addname margin-left">如：13800000000</div>
+                    <!-- <div class="add-inp-item-addname margin-left">如：13800000000</div> -->
                 </div> 
                 <div class="add-inp-item">
                     <div class="add-inp-item-name">
@@ -219,7 +219,7 @@
                         <el-radio class="radio" v-model="obj.st_status" label="3">休学</el-radio>
                         <el-radio class="radio" v-model="obj.st_status" label="4">开除</el-radio>
                     </div>
-                    <div class="add-inp-item-addname margin-left">如：13800000000</div>
+                    <!-- <div class="add-inp-item-addname margin-left">如：13800000000</div> -->
                 </div>
     
                 <div class="add-inp-btn">
