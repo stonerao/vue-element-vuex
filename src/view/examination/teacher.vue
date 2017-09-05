@@ -10,20 +10,17 @@
                 <!--模块开始  -->
                 <div v-if="state==0">
                     <!-- 考试试卷 -->
-                    <teacherQuestion></teacherQuestion>
+                    <teacherQuestion @selectNative="selectQuestion" :state="selectExamstate"></teacherQuestion>
                 </div>
                 <div v-if="state==1">
-                    <createQuestion 
-                    @list="listSelect" 
-                    :selectQuestList="selectQuestList" 
-                    @SELECTQUESTIONLISTEVENT="selectEvent" 
-                    @newAddQuestion="new_add_question" 
-                    :newAddObj="newAddObj" @createQuit='createQuit'
-                    >
-                </createQuestion>
+                    <createQuestion @list="listSelect" :selectQuestList="selectQuestList" @SELECTQUESTIONLISTEVENT="selectEvent" @newAddQuestion="new_add_question" :newAddObj="newAddObj" @createQuit='createQuit'>
+                    </createQuestion>
+                </div>
+                <div v-if="state==2">
+                    <examinationList @setQuestion="setQuestionList"></examinationList>
                 </div>
                 <div v-if="state==3">
-                    <createExamination></createExamination>
+                    <createExamination @quit="examQuit" @setExamOk="setExamOk" :set_e_id="set_e_id" :selectObjs="examstateQuestion" @selectExam="selectExam"></createExamination>
                 </div>
                 <div v-if="state==8">
                     <!-- 选择试题 -->
@@ -33,7 +30,7 @@
                     <!-- 选择试题 -->
                     <addQuestion :newAddQuestion='newAddQuestion' @newAddwQuestOut="newAddwQuestOut"></addQuestion>
                 </div>
-                
+
             </div>
             <bottomItem></bottomItem>
         </div>
@@ -50,6 +47,7 @@ import createQuestion from '@/components/examination/createQuestion.vue'
 import setQuestion from '@/components/questions/questionList'
 import addQuestion from '@/components/questions/addQuestion'
 import createExamination from '@/components/examination/createExamination'
+import examinationList from '@/components/examination/examinationList'
 
 import { removeSelectQuestion } from '@/utils/auth'
 import { removeCookie } from '@/utils/auth'
@@ -71,8 +69,11 @@ export default {
             state: 0,
             selectQuestList: [],
             listSelectObj: '',
-            newAddQuestion:false,
-            newAddObj:{}
+            newAddQuestion: false,
+            newAddObj: {},
+            selectExamstate: false,//true是创建试卷过去
+            examstateQuestion: {},//存储考试试卷的选择
+            set_e_id: ''
         }
     },
     created() {
@@ -81,7 +82,7 @@ export default {
     },
     components: {
         titleItem, titleActive, description, bottomItem,
-        teacherQuestion, createQuestion, setQuestion,addQuestion,createExamination
+        teacherQuestion, createQuestion, setQuestion, addQuestion, createExamination, examinationList
     },
     methods: {
         emitTransfer(index) {
@@ -90,7 +91,7 @@ export default {
             }
             this.state = index;
         },
-        promptsTem(status) { 
+        promptsTem(status) {
         },
         listSelect(val) {
             //选择试题
@@ -104,21 +105,50 @@ export default {
             this.listSelectObj = val;
             this.listSelect();
         },
-        new_add_question(){
+        new_add_question() {
             //创建试卷去题库增加题目
-            this.newAddQuestion=true;
-            this.state=9;
+            this.newAddQuestion = true;
+            this.state = 9;
         },
-        newAddwQuestOut(val,data){
-            this.state=1;
+        newAddwQuestOut(val, data) {
+            this.state = 1;
             this.newAddObj = {
-                state: val ,//1是加入 2是不加入老师
-                items:data
-            } 
+                state: val,//1是加入 2是不加入老师
+                items: data
+            }
         },
-        createQuit(){
+        createQuit() {
             // 创建试卷取消
-            this.state=0;
+            this.state = 0;
+        },
+        selectExam() {
+            //创建试卷过来 考试试卷
+            this.state = 0
+            this.selectExamstate = true;
+        },
+        selectQuestion(obj) {
+            //考试试卷选择到创建考试去
+            this.state = 3;
+            this.examstateQuestion = obj
+
+        },
+        setQuestionList(obj) {
+            // 编辑创建考试
+            this.set_e_id = obj;
+            this.titleItem.forEach((x) => {
+                x.index == 3 ? x.name = '编辑考试' : '';
+            })
+            this.state = 3;
+        },
+        examQuit(obj) {
+            this.titleItem.forEach((x) => {
+                x.index == 3 ? x.name = '创建考试' : '';
+            })
+            this.state = 2;
+        },
+        setExamOk() {
+            // 编辑成功
+            this.examQuit()
         }
     }
 }

@@ -35,7 +35,9 @@
                     <el-button size="mini" @click="deleted(scope.row.t_id)">删除</el-button>
                     <el-button size="mini">导出试卷</el-button>
                     </div>
-                    <div v-else></div>
+                    <div v-else>
+                      <el-button size="mini" @click="seleceQuestion(scope.row)">选择</el-button>
+                    </div>
                 </template>
             </el-table-column>
         </el-table>
@@ -106,6 +108,9 @@ export default {
                 });
             });
 
+        },
+        seleceQuestion(obj){
+            this.$emit("selectNative",obj)
         }
     },
     created() {
