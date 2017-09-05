@@ -154,6 +154,7 @@
             items() { 
                 // console.log('监听执行！')
                 if (this.items) {
+                    // console.log(this.items)
                     this.dataLength = this.Length(this.items)
                     this.initData(this.deepCopy(this.items), 1, null);
                     this.checkGroup = this.renderCheck(this.items)
