@@ -34,7 +34,8 @@
                         <label v-if="!column.type">
                             <span @click="toggle(index,item)" v-if='snum==1'>
                                 <i v-html='item.spaceHtml'></i>
-                                <i v-if="item.children" :class="{'el-icon-caret-bottom':!item.expanded,'el-icon-caret-top':item.expanded }" @click="loadMore(item.expanded,item.id,item)"></i>
+                                <i v-if="item.children" :class="{'el-icon-caret-bottom':!item.expanded,'el-icon-caret-top':item.expanded }"></i>
+                                <!-- <i v-if="item.children" :class="{'el-icon-caret-bottom':!item.expanded,'el-icon-caret-top':item.expanded }" @click="loadMore(item.expanded,item.id,item)"></i> -->
                                 <i v-else class="ms-tree-space"></i>
                             </span> 
                             <el-input v-model="item.sort" placeholder="请输入序号" class="orderInput"></el-input>
@@ -250,7 +251,7 @@
                     // console.log(item.expanded);  //初始不存在的
                     if ((typeof item.expanded) == "undefined") {
                         item = Object.assign({}, item, {
-                            "expanded": false          //false为“折叠”，true就“展开”---->小三角图标！
+                            "expanded": false          //小三角图标---->false为“折叠”，true就“展开”！
                         });
                     }
                     if ((typeof item.show) == "undefined") {   
@@ -263,8 +264,8 @@
                         "load": (item.expanded ? true : false)
                     });
                     this.initItems.push(item);
-                    if (item.children && item.expanded) {
-                        this.initData(item.children, level + 1, item);
+                    if (item.children && item.expanded) {  //如果有子集children数据，就进入children，且把上一层处理的数据作为下一层的父元素！（递归）
+                        this.initData(item.children, level + 1, item);  
                     }
                 })
             },
@@ -275,33 +276,33 @@
             toggle(index, item) {
                 let level = item.level + 1;
                 let spaceHtml = "";
-                for (var i = 1; i < level; i++) {
+                for (var i = 1; i < level; i++) {  //前面的空格间隙！多一级就多一个空隙html
                     spaceHtml += "<i class='ms-tree-space'></i>"
                 }
                 if (item.children) {
-                    if (item.expanded) {
+                    if (item.expanded) {  //true---->展开
                         item.expanded = !item.expanded;
                         this.close(index, item);
                     } else {
                         item.expanded = !item.expanded;
-                        if (item.load) {
+                        if (item.load) {  //true---->未加载
                             this.open(index, item);
                         } else {
                             item.load = true;
-                            item.children.forEach((child, childIndex) => {
-                                this.initItems.splice((index + childIndex + 1), 0, child);
+                            item.children.forEach((child, childIndex) => {  //展开时加载数据！
+                                this.initItems.splice((index + childIndex + 1), 0, child);   //下标为index + childIndex + 1处添加item.children数据！
                                 //设置监听属性
                                 this.$set(this.initItems[index + childIndex + 1], 'parent', item);
                                 this.$set(this.initItems[index + childIndex + 1], 'level', level);
                                 this.$set(this.initItems[index + childIndex + 1], 'spaceHtml', spaceHtml);
                                 this.$set(this.initItems[index + childIndex + 1], 'isShow', true);
-                                this.$set(this.initItems[index + childIndex + 1], 'expanded', false);
+                                this.$set(this.initItems[index + childIndex + 1], 'expanded', false);    //false为“小三角”--“未展开”状态！
                             })
                         }
                     }
                 }
             },
-            open(index, item) {
+            open(index, item) {  //递归展开行！
                 if (item.children) {
                     item.children.forEach((child, childIndex) => {
                         child.isShow = true;
@@ -311,7 +312,7 @@
                     })
                 }
             },
-            close(index, item) {
+            close(index, item) {   //递归关闭行！
                 if (item.children) {
                     item.children.forEach((child, childIndex) => {
                         child.isShow = false;
