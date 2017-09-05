@@ -21,7 +21,7 @@
                         </label>
                         <div v-if="column.type === 'input'">
                             <!-- 分类名称 -->
-                            <el-input v-model="item.category_name" placeholder="请输入分类名称" style="width: 150px;"></el-input>
+                            <el-input v-model="item.category_name" placeholder="请输入分类名称" style="width: 150px;" @change="materTypeEdit(item.id,item.category_name,item.sort)"></el-input>
                         </div>
                         <div v-if="column.type === 'switch'">
                             <!-- 分类名称 -->
@@ -37,7 +37,7 @@
                                 <i v-if="item.children" :class="{'el-icon-caret-bottom':!item.expanded,'el-icon-caret-top':item.expanded }"></i>
                                 <i v-else class="ms-tree-space"></i>
                             </span> 
-                            <el-input v-model="item.sort" placeholder="请输入序号" class="orderInput"></el-input>
+                            <el-input v-model="item.sort" placeholder="请输入序号" class="orderInput" @change="materTypeEdit(item.id,item.category_name,item.sort)"></el-input>
                             <div v-if="column.add" class="addNews" @click="createNewRow(item.id,item.sort)"> 
                                 <i class="el-icon-plus"></i> <span>新增下级</span>
                             </div>
@@ -145,16 +145,10 @@
             }
         },
         methods: {
-            refresh(){
-                this.initData(this.deepCopy(this.items), 1, null);
-            },
-            loadMore(load,id,item){
-                console.log(item)
-                if(this.lTreeGrid){
-                    if(!load){
-                        this.$emit('LoadData',id);
-                    }
-                }
+            materTypeEdit(id,name,sort){  //编辑数据
+                console.log(id);
+                console.log(name);
+                console.log(sort);
             },
             createNewRow(id,sort){  //新增下级
                 if(this.lTreeGrid){  //L的身份证
@@ -269,16 +263,13 @@
                         this.loading = false;
                     } else {  //如果未展开行！
                         item.expanded = !item.expanded;
-                        if (item.load) {  //true---->未加载
-                            // console.log('11111');
+                        if (item.load) {  //true---->未加载(如果有数据就直接打开，不加载数据了！)
                             this.open(index, item);
                             this.loading = false;
-                        } else {  //有数据进入这里准备展开;
-                            // console.log('22222');
+                        } else {  //没数据进入这里加载;
                             item.load = true;
                             this.loading = true;
                             //测试加载数据并请求接口
-                            // console.log(item.id);
                             info.materType.call(this,item.id);
                             setTimeout((x)=> {
                                 // console.log(this.childrenData);

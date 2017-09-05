@@ -3118,4 +3118,104 @@ export default {
             })
         },
         
+        //素材分类-编辑分类
+        materTypeEdit(obj) {
+            if(String(obj.name).length == 0 || String(obj.sort).length == 0){
+                return
+            }
+            this.$http({
+                url: api.materTypeEdit,
+                method: 'post',
+                data: {
+                    token: getToken(),
+                    id: obj.id,
+                    cate_name: obj.name,
+                    sort: obj.sort,
+                }
+            }).then((res) => {
+                console.log(res);
+                if (res.status == 200) {
+                    if(res.data.code!=400){
+                        // this.$notify({
+                        //     message: res.data.data,
+                        //     type: 'success',
+                        //     duration: 1000,
+                        //     onClose: () => {
+                        //         window.location.reload(true);
+                        //     }
+                        // });
+                    }else{
+                        this.$notify({
+                            message: res.data.data,
+                            type: 'error',
+                            duration: 1000,
+                        });
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
+        //素材分类--编辑初始详情展示
+        materTypeEdit_detail(id) {
+            this.$http(api.materTypeEdit_detail, {
+                params: {
+                    token: getToken(),
+                    id: id,
+                }
+            }).then((res) => { 
+                console.log(res);
+                if (res.status == 200) {
+                    if(res.data.code!=400){
+                        
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
+        //素材分类--编辑-是否显示
+        materTypeEdit_show(id,show) {
+            if(show){
+                show = 1;
+            }else{
+                show = 2;
+            }
+            this.$http(api.materTypeEdit_show, {
+                params: {
+                    token: getToken(),
+                    id: id,
+                    is_show: show,
+                }
+            }).then((res) => { 
+                console.log(res);
+                if (res.status == 200) {
+                    if(res.data.code!=400){
+                        this.$notify({
+                            message: res.data.data,
+                            type: 'success',
+                            duration: 1000,
+                        });
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
 }
