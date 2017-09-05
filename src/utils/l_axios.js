@@ -3101,12 +3101,7 @@ export default {
                         if(!this.LoadChild){
                             this.materData = res.data.data.list;
                         }else{
-                            this.newData = res.data.data.list;
-                            // this.newData.forEach((x)=>{
-                            //     this.materData[0].children.push(x);
-                            // })
-                            this.materData[0].children = this.newData;
-                            console.log(this.materData)
+                            this.childrenData = res.data.data.list;
                         }
                     }else{
                         this.$notify.error({

@@ -35,7 +35,6 @@
                             <span @click="toggle(index,item)" v-if='snum==1'>
                                 <i v-html='item.spaceHtml'></i>
                                 <i v-if="item.children" :class="{'el-icon-caret-bottom':!item.expanded,'el-icon-caret-top':item.expanded }"></i>
-                                <!-- <i v-if="item.children" :class="{'el-icon-caret-bottom':!item.expanded,'el-icon-caret-top':item.expanded }" @click="loadMore(item.expanded,item.id,item)"></i> -->
                                 <i v-else class="ms-tree-space"></i>
                             </span> 
                             <el-input v-model="item.sort" placeholder="请输入序号" class="orderInput"></el-input>
@@ -73,9 +72,9 @@
                 tdsWidth: 0, //td总宽
                 timer: false, //控制监听时长
                 dataLength: 0, //树形数据长度
-                itemss:[],
-                click: false,
-                newData: []
+                itess:[],
+                LoadChild: false,
+                childrenData: [],
             }
         },
         create(){
@@ -154,27 +153,6 @@
                 if(this.lTreeGrid){
                     if(!load){
                         this.$emit('LoadData',id);
-                    //     item.children=[{
-                    //     id: '2-1-01',
-                    //     sort: '000001',
-                    //     category_name: '测试数据001',
-                    //     status: false,
-                    //     children:[]
-                    // }]
-                    // var i=1;
-                    // let _this = this
-                    // function dis(iteme){  
-                    //     iteme.forEach((x)=>{
-                    //         if(id==x.id){ 
-                    //             x.children = 1;
-                    //             console.log(_this.items)
-                    //         }else{
-                    //             dis(item.children)
-                    //         }
-                            
-                    //     })
-                    // }
-                    // dis(_this.items)
                     }
                 }
             },
@@ -276,33 +254,46 @@
             toggle(index, item) {
                 let level = item.level + 1;
                 let spaceHtml = "";
+                this.LoadChild = true;
+                this.childrenData = [];
                 for (var i = 1; i < level; i++) {  //前面的空格间隙！多一级就多一个空隙html
                     spaceHtml += "<i class='ms-tree-space'></i>"
                 }
-                if (item.children) {
-                    if (item.expanded) {  //true---->展开
+                if (item.children) {  //如果存在子元素-----加载数据！！！！！！
+                    if (item.expanded) {  //true---->如果三角形是展开的---->就通过下面的关闭！
                         item.expanded = !item.expanded;
                         this.close(index, item);
-                    } else {
+                    } else {  //如果未展开行！
                         item.expanded = !item.expanded;
                         if (item.load) {  //true---->未加载
+                            console.log('11111');
                             this.open(index, item);
-                        } else {
+                        } else {  //有数据进入这里准备展开;
+                            console.log('22222');
                             item.load = true;
-                            item.children.forEach((child, childIndex) => {  //展开时加载数据！
-                                this.initItems.splice((index + childIndex + 1), 0, child);   //下标为index + childIndex + 1处添加item.children数据！
-                                //设置监听属性
-                                this.$set(this.initItems[index + childIndex + 1], 'parent', item);
-                                this.$set(this.initItems[index + childIndex + 1], 'level', level);
-                                this.$set(this.initItems[index + childIndex + 1], 'spaceHtml', spaceHtml);
-                                this.$set(this.initItems[index + childIndex + 1], 'isShow', true);
-                                this.$set(this.initItems[index + childIndex + 1], 'expanded', false);    //false为“小三角”--“未展开”状态！
-                            })
+                            //测试加载数据并请求接口
+                            // console.log(item.id);
+                            info.materType.call(this,item.id);
+                            setTimeout((x)=> {
+                                console.log(this.childrenData);
+                                if(this.childrenData.length > 0){
+                                    item.children = this.childrenData;  //后执行了！
+                                }
+                                item.children.forEach((child, childIndex) => {  //展开时加载数据！
+                                    this.initItems.splice((index + childIndex + 1), 0, child);   //下标为index + childIndex + 1处添加item.children数据！
+                                    //设置监听属性
+                                    this.$set(this.initItems[index + childIndex + 1], 'parent', item);
+                                    this.$set(this.initItems[index + childIndex + 1], 'level', level);
+                                    this.$set(this.initItems[index + childIndex + 1], 'spaceHtml', spaceHtml);
+                                    this.$set(this.initItems[index + childIndex + 1], 'isShow', true);
+                                    this.$set(this.initItems[index + childIndex + 1], 'expanded', false);    //false为“小三角”--“未展开”状态！
+                                })
+                            },200);
                         }
                     }
                 }
             },
-            open(index, item) {  //递归展开行！
+            open(index, item) {  //递归展开行数据！
                 if (item.children) {
                     item.children.forEach((child, childIndex) => {
                         child.isShow = true;
