@@ -63,6 +63,7 @@ export const api = {
     materTypeEdit:'Admin/Material/material_category_update_sort',   //素材库-素材分类---编辑
     materTypeEdit_detail:'Admin/Material/material_category_info',   //素材库-素材分类---编辑初始详情
     materTypeEdit_add:'Admin/Material/material_category_add',   //素材库-素材分类---添加
+    materTypeEdit_del:'Admin/Material/material_category_del',   //素材库-素材分类---删除
     materTypeEdit_show:'Admin/Material/material_category_update_status',   //素材库-素材分类---编辑是否显示
     conferMeetList_s:'Admin/Meeting/meeting_list',   //会议管理列表（学校）
     conferMeetList_t:'Teacher/Meeting/meeting_list',   //会议管理列表（老师）

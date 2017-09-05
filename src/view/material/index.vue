@@ -12,7 +12,7 @@
                     <div v-if="state==0">
                         <!-- <classifyMaterial :MATERIALCLASSIFY="MATERIALCLASSIFY"></classifyMaterial> -->
                         <div class="l_recursion">
-                      		<TreeGrid :items='materData' :columns='columns' :lTreeGrid="lTreeGrid" @on-row-click='rowClick' @on-selection-change='selectionClick' @RELOADDATA="RELOAD"></TreeGrid>
+                      		<TreeGrid :items='materData' :columns='columns' :lTreeGrid="lTreeGrid" @on-row-click='rowClick' @on-selection-change='selectionClick'></TreeGrid>
                       	</div>
                     </div>
                     <!--素材管理  -->
@@ -292,9 +292,6 @@ export default {
         titleItem, titleActive, description, bottomItem, createMaterial, commonMaterial, classifyMaterial, TreeGrid
     },
     methods: {
-    	RELOAD(){
-            // info.materType.call(this,0);
-    	},
         emitTransfer(index) {
             if (this.state == index) {
                 return
@@ -375,12 +372,12 @@ export default {
             }
         },
         rowClick(data, index, event) {   //素材分类操作开始！
-                console.log('当前行数据:' + data)
-                console.log('点击行号:' + index)
-                console.log('点击事件:' + event)
-            },
+            // console.log('当前行数据:' + data)
+            // console.log('点击行号:' + index)
+            // console.log('点击事件:' + event)
+        },
         selectionClick(arr) {
-            console.log('选中数据id数组:' + arr)
+            // console.log('选中数据id数组:' + arr)
         },
     },
     watch: {

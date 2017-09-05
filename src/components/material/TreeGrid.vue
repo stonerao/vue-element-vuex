@@ -246,7 +246,8 @@
             RowClick(data, event, index, text) {  //单独删除数据
                 let result = this.makeData(data)
                 this.$emit('on-row-click', result, event, index, text);
-                console.log(data.id);
+                // console.log(data.id);
+                info.materTypeEdit_del.call(this,data.id);
             },
             // 点击事件 返回数据处理
             makeData(data) {
@@ -355,6 +356,7 @@
                             setTimeout((x)=> {
                                 // console.log(this.childrenData);
                                 if(this.childrenData.length > 0){
+                                    item.children = [];
                                     item.children = this.childrenData;  //后执行了！
                                 }
                                 item.children.forEach((child, childIndex) => {  //展开时加载数据！
@@ -373,7 +375,9 @@
                 }
             },
             reloadChildren(index, item){  //新增后重新加载数据
+                this.Dailog = false;
                 item.load = false;
+                // item.expanded = false;
                 this.toggle(index, item);
             },
             open(index, item) {  //递归展开行数据！

@@ -3220,12 +3220,6 @@ export default {
         materTypeEdit_add(obj) {
             if(String(obj.name).length == 0 || String(obj.sort).length == 0){
                 return
-            }else{
-                if(obj.show == 1){
-                    obj.show = true;
-                }else{
-                    obj.show = false;
-                }
             }
             this.$http({
                 url: api.materTypeEdit_add,
@@ -3238,7 +3232,7 @@ export default {
                     is_show: obj.show,
                 }
             }).then((res) => {
-                console.log(res)
+                // console.log(res)
                 if (res.status == 200) {
                     if(res.data.code!=400){
                         this.$notify({
@@ -3247,8 +3241,6 @@ export default {
                             duration: 1000,
                             onClose: () => {
                                 this.reloadChildren(this.createNewData.index, this.createNewData.item);
-                                this.Dailog = false;
-                                // window.location.reload(true);
                             }
                         });
                     }else{
@@ -3263,6 +3255,38 @@ export default {
                             sort: '',
                             show: 1,
                         };
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
+        //素材分类--删除数据
+        materTypeEdit_del(id) {
+            this.$http(api.materTypeEdit_del, {
+                params: {
+                    token: getToken(),
+                    ids: id,
+                }
+            }).then((res) => { 
+                console.log(res);
+                if (res.status == 200) {
+                    if(res.data.code!=400){
+                        this.$notify({
+                            message: res.data.data,
+                            type: 'success',
+                            duration: 1000,
+                            onClose: () => {
+                                // window.location.reload(true);
+                            }
+                        });
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
                     }
                 }else {
                     this.$notify.error({
