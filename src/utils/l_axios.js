@@ -3218,6 +3218,15 @@ export default {
 
         //素材分类--添加分类
         materTypeEdit_add(obj) {
+            if(String(obj.name).length == 0 || String(obj.sort).length == 0){
+                return
+            }else{
+                if(obj.show == 1){
+                    obj.show = true;
+                }else{
+                    obj.show = false;
+                }
+            }
             this.$http({
                 url: api.materTypeEdit_add,
                 method: 'post',
@@ -3237,6 +3246,8 @@ export default {
                             type: 'success',
                             duration: 1000,
                             onClose: () => {
+                                this.reloadChildren(this.createNewData.index, this.createNewData.item);
+                                this.Dailog = false;
                                 // window.location.reload(true);
                             }
                         });
@@ -3246,6 +3257,12 @@ export default {
                             type: 'error',
                             duration: 1000,
                         });
+                        this.createNewData = {
+                            id: 0,
+                            name: '',
+                            sort: '',
+                            show: 1,
+                        };
                     }
                 }else {
                     this.$notify.error({

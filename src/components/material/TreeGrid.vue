@@ -37,8 +37,8 @@
                                 <i v-if="item.children" :class="{'el-icon-caret-bottom':!item.expanded,'el-icon-caret-top':item.expanded }"></i>
                                 <i v-else class="ms-tree-space"></i>
                             </span> 
-                            <el-input v-model="item.sort" placeholder="请输入序号" class="orderInput" @change="materTypeEdi(item.id,item.category_name,item.sort)"></el-input>
-                            <div v-if="column.add" class="addNews" @click="createNewRow(item.id)"> 
+                            <el-input v-model="item.sort"  type="number" placeholder="请输入序号" class="orderInput" @change="materTypeEdi(item.id,item.category_name,item.sort)"></el-input>
+                            <div v-if="column.add" class="addNews" @click="createNewRow(item,index)"> 
                                 <i class="el-icon-plus"></i> <span>新增下级</span>
                             </div>
                         </label>
@@ -73,16 +73,21 @@
                         <el-col :span="4" style="text-align-last: auto;text-align: left;line-height: 36px;">分类排序：</el-col>
                         <el-col :span="20">
                             <el-col :span="15">
-                                <el-input v-model="createNewData.sort" placeholder="请输入分类序号"></el-input>
+                                <el-input v-model="createNewData.sort" type="number" placeholder="请输入分类序号"></el-input>
                             </el-col>
                         </el-col>
                     </el-row>
                     <el-row :span="24">
                         <el-col :span="4" style="text-align-last: auto;text-align: left;line-height: 36px;">是否显示：</el-col>
-                        <el-col :span="20">{{createNewData.show}}</el-col>
+                        <el-col :span="20">
+                            <el-radio-group v-model="createNewData.show" style="margin-top: 9px;">
+                                <el-radio :label="1">是</el-radio>
+                                <el-radio :label="2">否</el-radio>
+                            </el-radio-group>
+                        </el-col>
                     </el-row>
                     <el-row :span="24" style="text-align: center;">
-                        <el-button type="primary">保存</el-button>
+                        <el-button type="primary" @click.native="creatSubmit">保存</el-button>
                         <el-button @click.native="Close_mask">取消</el-button>
                     </el-row>
                 </div>
@@ -120,10 +125,10 @@
                 childrenData: [],
                 selectString: '',
                 createNewData: {
-                    id: '',
+                    id: 0,
                     name: '',
                     sort: '',
-                    show: '',
+                    show: 1,
                 },
                 Dailog: false,
             }
@@ -196,13 +201,16 @@
             }
         },
         methods: {
-            Close_mask(){
+            creatSubmit(){  //新增提交！
+                info.materTypeEdit_add.call(this,this.createNewData);
+            },
+            Close_mask(){  //关闭弹窗
                 this.Dailog = false;
                 this.createNewData = {
-                    id: '',
+                    id: 0,
                     name: '',
                     sort: '',
-                    show: '',
+                    show: 1,
                 }
             },
             DeleteMater_All(){
@@ -214,17 +222,18 @@
             materTypeEdi(id,name,sort){  //编辑数据
                 info.materTypeEdit.call(this,id,name,sort);
             },
-            createNewRow(id){  //新增下级
+            createNewRow(item,index){  //新增下级
                 if(this.lTreeGrid){  //L的身份证
                     this.createNewData = {
-                        id: '',
+                        id: 0,
                         name: '',
                         sort: '',
-                        show: '',
+                        show: 1,
                     }
-                    this.createNewData.id = id;
+                    this.createNewData.id = item.id;
+                    this.createNewData.index = index;
+                    this.createNewData.item = item;
                     this.Dailog = true;
-                    // info.materTypeEdit_add.call(this,obj)
                 }
             },
             // 设置td宽度
@@ -362,6 +371,10 @@
                         }
                     }
                 }
+            },
+            reloadChildren(index, item){  //新增后重新加载数据
+                item.load = false;
+                this.toggle(index, item);
             },
             open(index, item) {  //递归展开行数据！
                 if (item.children) {

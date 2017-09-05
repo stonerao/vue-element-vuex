@@ -12,7 +12,7 @@
                     <div v-if="state==0">
                         <!-- <classifyMaterial :MATERIALCLASSIFY="MATERIALCLASSIFY"></classifyMaterial> -->
                         <div class="l_recursion">
-                      		<TreeGrid :items='materData' :columns='columns' :lTreeGrid="lTreeGrid" @on-row-click='rowClick' @on-selection-change='selectionClick' @LoadData="loadTree"></TreeGrid>
+                      		<TreeGrid :items='materData' :columns='columns' :lTreeGrid="lTreeGrid" @on-row-click='rowClick' @on-selection-change='selectionClick' @RELOADDATA="RELOAD"></TreeGrid>
                       	</div>
                     </div>
                     <!--素材管理  -->
@@ -268,7 +268,6 @@ export default {
             }],
             materData: [],
             materHandleID: 0,
-            LoadChild: false,
 	    }
 	},
     created() {
@@ -293,9 +292,8 @@ export default {
         titleItem, titleActive, description, bottomItem, createMaterial, commonMaterial, classifyMaterial, TreeGrid
     },
     methods: {
-    	loadTree(id){
-            this.LoadChild = true;
-            info.materType.call(this,id); 
+    	RELOAD(){
+            // info.materType.call(this,0);
     	},
         emitTransfer(index) {
             if (this.state == index) {
