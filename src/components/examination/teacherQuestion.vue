@@ -16,7 +16,7 @@
         </el-row>
         <!--考试试卷  -->
         <el-table ref="multipleTable" :data="t_data" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
-            <el-table-column type="selection" width="55">
+            <el-table-column type="selection" width="55" v-if="!state">
             </el-table-column>
             <el-table-column label="id" width="60" show-overflow-tooltip>
                 <template scope="scope">{{ scope.row.t_id }}</template>
@@ -27,11 +27,15 @@
             </el-table-column>
             <el-table-column label="操作" width="300" show-overflow-tooltip>
                 <template scope="scope">
+                    <div  v-if="!state">
+
                     <el-button size="mini">查看</el-button>
                     <el-button size="mini">编辑</el-button>
                     <el-button size="mini">配置</el-button>
                     <el-button size="mini" @click="deleted(scope.row.t_id)">删除</el-button>
                     <el-button size="mini">导出试卷</el-button>
+                    </div>
+                    <div v-else></div>
                 </template>
             </el-table-column>
         </el-table>
@@ -49,6 +53,7 @@
 <script>
 import store from '@/utils/questions'
 export default {
+    props:['state'],//如果为真是创建考试过来
     data() {
         return {
             t_data: [],

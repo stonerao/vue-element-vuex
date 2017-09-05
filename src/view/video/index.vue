@@ -12,7 +12,7 @@
 
         </div>
         <div v-if="state==1">
-          <videoEdit v-if="showUp==0" :firstClassList="firstClassList" :underList="underList" :showList="showList" @underClassList="underClassList" :total="total" @showUp="upShow" @searchList="listSearch" :classList="classList" @videoDelete="deleteVideo" @videoPlay="playVideo" :videoId="videoId" @videoEdit="videoEdit"></videoEdit>
+          <videoEdit v-if="showUp==0" :firstClassList="firstClassList" :underList="underList" :showList="showList" @underClassList="underClassList" :total="total" @showUp="upShow" @searchList="listSearch" :classList="classList" @videoDelete="deleteVideo"  :videoId="videoId" @videoEdit="videoEdit"></videoEdit>
           <videoNew v-if="showUp==1" @hiddenUp="hiddenUp" :videoId="videoId" :upType="upType"></videoNew>
         </div>
         <div class="kd-page" v-if="showUp==0">
@@ -135,10 +135,6 @@
             message: '已取消删除'
           });
         });
-      },
-      //播放视频
-      playVideo(id){
-        video.video_info.call(this,id)
       },
       //编辑视频
       videoEdit(val,id,num){

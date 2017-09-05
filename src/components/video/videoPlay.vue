@@ -2,15 +2,19 @@
   <div class="video_detail">
     <div>
       <a href="javascript:void(0)" @click="close">x</a>
-      <iframe src="http://www.jiaozi.com/videoPlay.html" scrolling="no" ></iframe>
+      <iframe :src="playSrc" scrolling="no" ></iframe>
     </div>
   </div>
 </template>
 <script>
+  import { getToken ,getClass} from '@/utils/auth'
   export default{
+    props:['videoId'],
     data(){
       return{
-
+        isClass:getClass(),
+        tokenId:getToken(),
+        playSrc:'',
       }
     },
     methods:{
@@ -19,7 +23,11 @@
       }
     },
     mounted(){
-
+      if(this.isClass==1){
+        this.playSrc=`http://kdxx.test.kh888.cn/Admin/Video/video_info?token=${this.tokenId}&id=${this.videoId}`
+      }else{
+        this.playSrc=`http://kdxx.test.kh888.cn/Student/Video/student_video_info?token=${this.tokenId}&id=${this.videoId}`
+      }
     }
   }
 </script>

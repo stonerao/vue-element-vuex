@@ -33,15 +33,15 @@
               </div>
               <!--学校中心老师考勤-->
               <div v-if="state==5">
-                <sAttendance :total="total" :list="sAttList" :state="state"></sAttendance>
+                <sAttendance :total="total" :list="sAttList" :state="state" @getSList="getSList"></sAttendance>
               </div>
               <!--学校中心学生考勤-->
               <div v-if="state==6">
-                <sAttendance :total="total" :list="sAttList" :state="state"></sAttendance>
+                <sAttendance :total="total" :list="sAttList" :state="state" @getSList="getSList"></sAttendance>
               </div>
               <!--学校中心班级考勤-->
               <div v-if="state==7">
-                <sAttendance :total="total" :list="sAttList" :gradeList="gradeList" :classList="classList" :lessonList="lessonList" :state="state" @changeType="chooseClass" @chooseClass="classChoose" @getSList="getsAttList"></sAttendance>
+                <sAttendance :total="total" :list="sAttList" :gradeList="gradeList" :classList="classList" :lessonList="lessonList" :state="state" @changeType="chooseClass" @chooseClass="classChoose" @getSList="getSList"></sAttendance>
               </div>
                 <!--填写申请-->
                 <div v-if="addState==1">
@@ -309,7 +309,7 @@ export default {
         att.get_schedule_lesson.call(this,id,time)
       },
       //学校中心班级考勤(获取考勤列表)
-      getsAttList(data){
+      getSList(data){
         this.sAttList=[];
         if(this.state==7){
           //班级考勤列表

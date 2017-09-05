@@ -22,10 +22,10 @@
           <el-option v-for="item in classList" :label="item.department_name" :value="item.department_id"></el-option>
         </el-select>
       </el-col>
-      <el-col :span="5" :offset="typeVal==1? 5:8">
+      <el-col :span="5" :offset="typeVal==1? 4:7">
         <el-date-picker v-model="value6" @change="timeChange" :disabled="className===''" type="date" placeholder="选择日期" class="rt" size="small"></el-date-picker>
       </el-col>
-      <el-col :span="6">
+      <el-col :span="7">
         <el-select  @change="lessonChoose" v-model="lessonName" :disabled="value6===''" placeholder="请选择节次" size="small" class="lf" style="margin-left: 15px">
           <el-option v-for="item in lessonList" :label="item.lesson" :value="item.num"></el-option>
         </el-select>
@@ -145,7 +145,7 @@
             search:this.personName
           }
         }
-        this.$emit('getSList',data)
+        this.$emit('getSList',data);
       },
 
     },

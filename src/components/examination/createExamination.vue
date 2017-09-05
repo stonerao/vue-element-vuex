@@ -13,18 +13,27 @@
         </el-form-item>
         <el-form-item label="结束时间">
             <el-col :span="24">
-                <el-date-picker v-model="form.date1" type="datetime" :picker-options="pickerOptions0" placeholder="选择日期时间">
+                <el-date-picker v-model="form.date2" type="datetime" :picker-options="pickerOptions0" placeholder="选择日期时间">
                 </el-date-picker>
             </el-col>
         </el-form-item>
         <el-form-item label="考试班级">
-            <el-select class="width200" v-model="form.region" multiple placeholder="考试班级">
-                <el-option label="区域一" value="shanghai"></el-option>
-                <el-option label="区域二" value="beijing"></el-option>
+            <el-select class="width200" v-model="form.age" multiple   placeholder="考试年纪">
+                <el-option :label="item.class_name" :value="item.department_id" v-for="item in ages.age" :key="item"></el-option> 
             </el-select>
+              
         </el-form-item>
         <el-form-item label="考试总分">
-            <el-input v-model="form.name" class="width150"></el-input>
+            <el-input v-model="form.tol" class="width150"></el-input>
+        </el-form-item>
+        <el-form-item label="班级id">
+            <el-input v-model="form.ex1" class="width150"></el-input>
+        </el-form-item>
+        <el-form-item label="试卷id">
+            <el-input v-model="form.ex2" class="width150"></el-input>
+        </el-form-item>
+        <el-form-item label="e_question_source">
+            <el-input v-model="form.e_question_source" class="width150"></el-input>
         </el-form-item>
         <el-form-item label=" ">
             <el-button type="primary" @click="onSubmit">立即创建</el-button>
@@ -33,39 +42,54 @@
     </el-form>
 </template>
 <script>
+
+import store from '@/utils/questions'
 export default {
     data() {
         return {
             form: {
                 name: '',
-                region: [],
+                age: [],
                 date1: '',
                 date2: '',
                 delivery: false,
                 type: [],
                 resource: '',
-                desc: ''
+                desc: '',
+                tol: "",
+                ex2: '',
+                ex1: '',
+                e_question_source: ''
             },
             pickerOptions0: {
                 disabledDate(time) {
-                    return time.getTime() < Date.now() - 8.64e7;
+
+
                 }
             },
+            ages:{
+                age:[],
+                class:[]
+            }
         }
+
     },
     methods: {
         onSubmit() {
             console.log('submit!');
+            store.createExamQuestion.call(this)
         }
     },
-    created() {
-
+    created() { 
+        store.grade_list.call(this)
     },
     mounted() {
 
     },
     watch: {
+        ['form.age'](){
 
+        }
     }
 }
 </script>

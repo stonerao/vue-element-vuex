@@ -11,7 +11,7 @@
 
               </div>
               <div v-if="state==1">
-                <onlineList v-if="addOnline==0" :total="total" @searchList="searchList" :videoList="videoList" @addShow="addShow"></onlineList>
+                <onlineList v-if="addOnline==0" :total="total" @searchList="searchList" :videoList="videoList" @addShow="addShow" @liveCancel="liveCancel" @detailLive="detailLive" :showDetail="showDetail" :detail="detail" @liveDelete="liveDelete" @liveEdit="liveEdit" @liveClose="liveClose"></onlineList>
                 <onlineAdd v-else :addShowList="addShowList" @liveSubmit="liveSubmit" @cancelAdd="cancelAdd"></onlineAdd>
               </div>
               <div class="kd-page" v-if="addOnline==0">
@@ -36,6 +36,7 @@ import bottomItem from '@/components/bottom/bottom.vue'
 import onlineList from '@/components/videoOnline/onlineList'
 import onlineAdd from '@/components/videoOnline/onlineAdd'
 import video from '@/utils/videoOnline'
+import { getToken ,getClass} from '@/utils/auth'
 export default {
     data() {
         return {
@@ -56,10 +57,12 @@ export default {
             videoList:[],//直播列表
             addOnline:0,//创建直播间状态
             addShowList:[],//直播展示页面列表
+            showDetail:0,//直播间详情展示页面
+            detail:[],//直播间详情
         }
     },
     created() {
-      this.refreshList()
+      this.refreshList();
     },
     components: {
         titleItem, titleActive, description, bottomItem,onlineList,onlineAdd
@@ -102,13 +105,75 @@ export default {
         this.addOnline=1;
       },
       //创建直播间
-      liveSubmit(data){
-        video.live_add_submit.call(this,data)
+      liveSubmit(data,id){
+        if(id){
+          data.live_id=id;
+          video.live_edit_submit.call(this,data)
+        }else{
+          video.live_add_submit.call(this,data)
+        }
       },
       //取消创建直播间
       cancelAdd(){
         this.addOnline=0;
       },
+      //禁用直播
+      liveCancel(id,status){
+        this.$confirm('确定禁用直播吗?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          video.live_cancel.call(this,id,status)
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消'
+          });
+        });
+      },
+      //直播间详情
+      detailLive(id){
+        if(id){
+          video.live_info.call(this,id)
+        }else{
+          this.showDetail=0;
+        }
+      },
+      //删除直播
+      liveDelete(id){
+        this.$confirm('确定删除直播吗?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          video.delete_live.call(this,id);
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消'
+          });
+        });
+      },
+      //编辑直播
+      liveEdit(id){
+        video.edit_live.call(this,id)
+      },
+      //关闭直播
+      liveClose(id){
+        this.$confirm('确定关闭直播吗?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          video.close_live.call(this,id)
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消'
+          });
+        });
+      }
     },
   watch:{
       state(){
@@ -117,6 +182,7 @@ export default {
         this.total=0;
         this.searchTxt='';
         this.checkType='';
+        this.refreshList();
       }
   }
 }
