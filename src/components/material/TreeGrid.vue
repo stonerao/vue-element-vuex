@@ -250,7 +250,7 @@
                     // console.log(item.expanded);  //初始不存在的
                     if ((typeof item.expanded) == "undefined") {
                         item = Object.assign({}, item, {
-                            "expanded": false          //false为“折叠”，true就“展开”
+                            "expanded": false          //false为“折叠”，true就“展开”---->小三角图标！
                         });
                     }
                     if ((typeof item.show) == "undefined") {   
