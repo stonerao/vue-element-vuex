@@ -3266,6 +3266,9 @@ export default {
 
         //素材分类--删除数据
         materTypeEdit_del(id) {
+            if(Array.isArray(id)){
+                id = id.sort().join(",");
+            }
             this.$http(api.materTypeEdit_del, {
                 params: {
                     token: getToken(),
