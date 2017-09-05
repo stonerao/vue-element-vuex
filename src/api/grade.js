@@ -60,8 +60,9 @@ export const api = {
     materManaShare_t:'Teacher/Material/material_is_share',   //素材库-素材管理-共享（老师）
     materAllDetail_t:'Teacher/Material/shared_material_info',   //素材库-素材管理-共享详情（老师）
     materType:'Admin/Material/material_category_data',   //素材库-素材分类列表
-    materTypeEdit:'Admin/Material/material_category_edit',   //素材库-素材分类---编辑
+    materTypeEdit:'Admin/Material/material_category_update_sort',   //素材库-素材分类---编辑
     materTypeEdit_detail:'Admin/Material/material_category_info',   //素材库-素材分类---编辑初始详情
+    materTypeEdit_add:'Admin/Material/material_category_add',   //素材库-素材分类---添加
     materTypeEdit_show:'Admin/Material/material_category_update_status',   //素材库-素材分类---编辑是否显示
     conferMeetList_s:'Admin/Meeting/meeting_list',   //会议管理列表（学校）
     conferMeetList_t:'Teacher/Meeting/meeting_list',   //会议管理列表（老师）

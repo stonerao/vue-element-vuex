@@ -21,11 +21,11 @@
                         </label>
                         <div v-if="column.type === 'input'">
                             <!-- 分类名称 -->
-                            <el-input v-model="item.category_name" placeholder="请输入分类名称" style="width: 150px;" @change="materTypeEdit(item.id,item.category_name,item.sort)"></el-input>
+                            <el-input v-model="item.category_name" placeholder="请输入分类名称" style="width: 150px;" @change="materTypeEdi(item.id,item.category_name,item.sort)"></el-input>
                         </div>
                         <div v-if="column.type === 'switch'">
                             <!-- 分类名称 -->
-                            <el-switch v-model="item.status" on-color="#13ce66" off-color="#ff4949"></el-switch>
+                            <el-switch v-model="item.status" on-color="#13ce66" off-color="#ff4949" @change="whetherShow(item.id,item.status)"></el-switch>
                         </div>
                         <div v-if="column.type === 'action'">
                             <!-- 操作按钮 -->
@@ -37,8 +37,8 @@
                                 <i v-if="item.children" :class="{'el-icon-caret-bottom':!item.expanded,'el-icon-caret-top':item.expanded }"></i>
                                 <i v-else class="ms-tree-space"></i>
                             </span> 
-                            <el-input v-model="item.sort" placeholder="请输入序号" class="orderInput" @change="materTypeEdit(item.id,item.category_name,item.sort)"></el-input>
-                            <div v-if="column.add" class="addNews" @click="createNewRow(item.id,item.sort)"> 
+                            <el-input v-model="item.sort" placeholder="请输入序号" class="orderInput" @change="materTypeEdi(item.id,item.category_name,item.sort)"></el-input>
+                            <div v-if="column.add" class="addNews" @click="createNewRow(item.id)"> 
                                 <i class="el-icon-plus"></i> <span>新增下级</span>
                             </div>
                         </label>
@@ -46,6 +46,49 @@
                 </tr>
             </tbody>
         </table>
+        <div class="l_mater_footer">
+            <el-row :span="24">
+                <el-col :span="6">
+                    <div class="footer_search">
+                        <el-button type="primary" size="mini" @click.native="DeleteMater_All">删除</el-button>
+                    </div>
+                </el-col>
+            </el-row>
+        </div>
+        <div class="myDialog">
+            <div class="ownDailog" v-if="Dailog">
+                <div class="close_btn">
+                    <i class="el-icon-close" @click="Close_mask"></i>
+                </div>
+                <div class="content">
+                    <el-row :span="24">
+                        <el-col :span="4" style="text-align-last: auto;text-align: left;line-height: 36px;">分类名称：</el-col>
+                        <el-col :span="20">
+                            <el-col :span="15">
+                                <el-input v-model="createNewData.name" placeholder="请输入分类名称"></el-input>
+                            </el-col>
+                        </el-col>
+                    </el-row>
+                    <el-row :span="24">
+                        <el-col :span="4" style="text-align-last: auto;text-align: left;line-height: 36px;">分类排序：</el-col>
+                        <el-col :span="20">
+                            <el-col :span="15">
+                                <el-input v-model="createNewData.sort" placeholder="请输入分类序号"></el-input>
+                            </el-col>
+                        </el-col>
+                    </el-row>
+                    <el-row :span="24">
+                        <el-col :span="4" style="text-align-last: auto;text-align: left;line-height: 36px;">是否显示：</el-col>
+                        <el-col :span="20">{{createNewData.show}}</el-col>
+                    </el-row>
+                    <el-row :span="24" style="text-align: center;">
+                        <el-button type="primary">保存</el-button>
+                        <el-button @click.native="Close_mask">取消</el-button>
+                    </el-row>
+                </div>
+            </div>
+            <div class="dialog_mask" v-if="Dailog" @click="Close_mask"></div>
+        </div>
     </div>
 </template>
 <script>
@@ -75,6 +118,14 @@
                 loading: false,
                 LoadChild: false,
                 childrenData: [],
+                selectString: '',
+                createNewData: {
+                    id: '',
+                    name: '',
+                    sort: '',
+                    show: '',
+                },
+                Dailog: false,
             }
         },
         create(){
@@ -145,15 +196,35 @@
             }
         },
         methods: {
-            materTypeEdit(id,name,sort){  //编辑数据
-                console.log(id);
-                console.log(name);
-                console.log(sort);
+            Close_mask(){
+                this.Dailog = false;
+                this.createNewData = {
+                    id: '',
+                    name: '',
+                    sort: '',
+                    show: '',
+                }
             },
-            createNewRow(id,sort){  //新增下级
+            DeleteMater_All(){
+                console.log('删除');
+            },
+            whetherShow(id,status){  //切换按钮
+                info.materTypeEdit_show.call(this,id,status);
+            },
+            materTypeEdi(id,name,sort){  //编辑数据
+                info.materTypeEdit.call(this,id,name,sort);
+            },
+            createNewRow(id){  //新增下级
                 if(this.lTreeGrid){  //L的身份证
-                    console.log(id);
-                    console.log(sort);
+                    this.createNewData = {
+                        id: '',
+                        name: '',
+                        sort: '',
+                        show: '',
+                    }
+                    this.createNewData.id = id;
+                    this.Dailog = true;
+                    // info.materTypeEdit_add.call(this,obj)
                 }
             },
             // 设置td宽度
@@ -163,9 +234,10 @@
                 }
             },
             // 点击某一行事件
-            RowClick(data, event, index, text) {
+            RowClick(data, event, index, text) {  //单独删除数据
                 let result = this.makeData(data)
-                this.$emit('on-row-click', result, event, index, text)
+                this.$emit('on-row-click', result, event, index, text);
+                console.log(data.id);
             },
             // 点击事件 返回数据处理
             makeData(data) {
@@ -334,13 +406,14 @@
                 }
                 return result;
             },
-            checkAllGroupChange(data) {
+            checkAllGroupChange(data) {  //勾选删除数据
                 if (this.dataLength > 0 && data.length === this.dataLength) {
                     this.checks = true;
                 } else {
                     this.checks = false;
                 }
                 this.$emit('on-selection-change', this.checkGroup)
+                this.selectString = this.checkGroup;
             },
             All(data) {
                 let arr = []

@@ -3119,21 +3119,19 @@ export default {
         },
         
         //素材分类-编辑分类
-        materTypeEdit(obj) {
-            if(String(obj.name).length == 0 || String(obj.sort).length == 0){
+        materTypeEdit(id,name,sort) {
+            if(String(name).length == 0 || String(sort).length == 0){
                 return
             }
-            this.$http({
-                url: api.materTypeEdit,
-                method: 'post',
-                data: {
+            this.$http(api.materTypeEdit, {
+                params: {
                     token: getToken(),
-                    id: obj.id,
-                    cate_name: obj.name,
-                    sort: obj.sort,
+                    id: id,
+                    category_name: name,
+                    sort: sort,
                 }
             }).then((res) => {
-                console.log(res);
+                // console.log(res);
                 if (res.status == 200) {
                     if(res.data.code!=400){
                         // this.$notify({
@@ -3141,7 +3139,6 @@ export default {
                         //     type: 'success',
                         //     duration: 1000,
                         //     onClose: () => {
-                        //         window.location.reload(true);
                         //     }
                         // });
                     }else{
@@ -3198,17 +3195,56 @@ export default {
                     is_show: show,
                 }
             }).then((res) => { 
-                console.log(res);
+                // console.log(res);
+                if (res.status == 200) {
+                    if(res.data.code!=400){
+                        this.$notify({
+                            message: '操作成功！',
+                            type: 'success',
+                            duration: 1000
+                        });
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
+        //素材分类--添加分类
+        materTypeEdit_add(obj) {
+            this.$http({
+                url: api.materTypeEdit_add,
+                method: 'post',
+                data: {
+                    token: getToken(),
+                    pid: obj.id,
+                    cate_name: obj.name,
+                    sort: obj.sort,
+                    is_show: obj.show,
+                }
+            }).then((res) => {
+                console.log(res)
                 if (res.status == 200) {
                     if(res.data.code!=400){
                         this.$notify({
                             message: res.data.data,
                             type: 'success',
                             duration: 1000,
+                            onClose: () => {
+                                // window.location.reload(true);
+                            }
                         });
                     }else{
-                        this.$notify.error({
-                            message: res.data.data.error
+                        this.$notify({
+                            message: res.data.data,
+                            type: 'error',
+                            duration: 1000,
                         });
                     }
                 }else {
