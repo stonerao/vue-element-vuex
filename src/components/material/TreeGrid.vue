@@ -152,9 +152,8 @@
                 }
             },
             items() { 
-                // console.log('监听执行！')
+                console.log('监听执行！')
                 if (this.items) {
-                    // console.log(this.items)
                     this.dataLength = this.Length(this.items)
                     this.initData(this.deepCopy(this.items), 1, null);
                     this.checkGroup = this.renderCheck(this.items)
@@ -172,7 +171,7 @@
                 deep: true
             },
             checkGroup(data) {
-                // console.log(data);
+                // this.dataLength = this.initItems.length;
                 this.checkAllGroupChange(data)
             },
             checks() {
@@ -330,6 +329,7 @@
                 return ((item.level == 1) || (item.parent && item.parent.expanded && item.isShow));
             },
             toggle(index, item) {
+                console.log(item);
                 let level = item.level + 1;
                 let spaceHtml = "";
                 this.LoadChild = true;
@@ -371,6 +371,7 @@
                                     this.$set(this.initItems[index + childIndex + 1], 'expanded', false);    //false为“小三角”--“未展开”状态！
                                 });
                                 this.loading = false;
+                                this.checkBoxRefresh();   //刷新checkbox个数
                             },200);
                         }
                     }
@@ -406,7 +407,8 @@
             handleCheckAll() {
                 // this.checks = !this.checks;
                 if (this.checks) {
-                    this.checkGroup = this.getArray(this.checkGroup.concat(this.All(this.items)))
+                    // this.checkGroup = this.getArray(this.checkGroup.concat(this.All(this.items)))
+                    this.checkGroup = this.getArray(this.checkGroup.concat(this.All(this.initItems)))
                     // console.log(this.checkGroup);
                 } else {
                     this.checkGroup = [];
@@ -427,11 +429,14 @@
                 return result;
             },
             checkAllGroupChange(data) {  //勾选删除数据
+                // console.log(data.length)
+                // console.log(this.dataLength)
                 if (this.dataLength > 0 && data.length === this.dataLength) {
                     this.checks = true;
                 } else {
                     this.checks = false;
                 }
+                console.log(this.checks)
                 this.$emit('on-selection-change', this.checkGroup)
                 this.selectString = this.checkGroup;
             },
@@ -520,6 +525,18 @@
                     '[object Object]': 'object'
                 };
                 return map[toString.call(obj)];
+            },
+            checkBoxRefresh(){  //修复checkbox的bug
+                console.log(this.initItems);
+                if (this.initItems) {
+                    this.dataLength = this.initItems.length;
+                    // this.checkGroup = this.renderCheck(this.items)
+                    if (this.checkGroup.length == this.dataLength) {
+                        this.checks = true
+                    } else {
+                        this.checks = false
+                    }
+                }
             }
         },
         beforeDestroy() {
