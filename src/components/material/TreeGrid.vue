@@ -1,5 +1,5 @@
 <template>
-    <div :style="{width:tableWidth}" class='autoTbale'>
+    <div :style="{width:tableWidth}" class='autoTbale' v-loading="loading">
         <table class="table table-bordered" id='hl-tree-table'>
             <thead>
                 <tr>
@@ -72,7 +72,7 @@
                 tdsWidth: 0, //td总宽
                 timer: false, //控制监听时长
                 dataLength: 0, //树形数据长度
-                itess:[],
+                loading: false,
                 LoadChild: false,
                 childrenData: [],
             }
@@ -259,23 +259,29 @@
                 for (var i = 1; i < level; i++) {  //前面的空格间隙！多一级就多一个空隙html
                     spaceHtml += "<i class='ms-tree-space'></i>"
                 }
+                if(this.childrenData.length == 0){
+                    this.loading = false;
+                }
                 if (item.children) {  //如果存在子元素-----加载数据！！！！！！
                     if (item.expanded) {  //true---->如果三角形是展开的---->就通过下面的关闭！
                         item.expanded = !item.expanded;
                         this.close(index, item);
+                        this.loading = false;
                     } else {  //如果未展开行！
                         item.expanded = !item.expanded;
                         if (item.load) {  //true---->未加载
-                            console.log('11111');
+                            // console.log('11111');
                             this.open(index, item);
+                            this.loading = false;
                         } else {  //有数据进入这里准备展开;
-                            console.log('22222');
+                            // console.log('22222');
                             item.load = true;
+                            this.loading = true;
                             //测试加载数据并请求接口
                             // console.log(item.id);
                             info.materType.call(this,item.id);
                             setTimeout((x)=> {
-                                console.log(this.childrenData);
+                                // console.log(this.childrenData);
                                 if(this.childrenData.length > 0){
                                     item.children = this.childrenData;  //后执行了！
                                 }
@@ -287,7 +293,8 @@
                                     this.$set(this.initItems[index + childIndex + 1], 'spaceHtml', spaceHtml);
                                     this.$set(this.initItems[index + childIndex + 1], 'isShow', true);
                                     this.$set(this.initItems[index + childIndex + 1], 'expanded', false);    //false为“小三角”--“未展开”状态！
-                                })
+                                });
+                                this.loading = false;
                             },200);
                         }
                     }

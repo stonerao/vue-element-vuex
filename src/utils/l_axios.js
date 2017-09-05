@@ -3098,10 +3098,12 @@ export default {
             }).then((res) => { 
                 if (res.status == 200) {
                     if(res.data.code!=400){
-                        if(!this.LoadChild){
-                            this.materData = res.data.data.list;
-                        }else{
-                            this.childrenData = res.data.data.list;
+                        if(this.lTreeGrid){  //自己身份证
+                            if(!this.LoadChild){
+                                this.materData = res.data.data.list;
+                            }else{
+                                this.childrenData = res.data.data.list;
+                            }
                         }
                     }else{
                         this.$notify.error({
@@ -3114,17 +3116,6 @@ export default {
                     });
                 }
             })
-            // let _this =this;
-            // function di(datas){
-            //     for(var key in datas){
-            //         if(pid==datas[k].id){
-            //             return
-            //         }else{
-            //             di(_this.materData.children)
-            //         }
-            //     }
-                 
-            // }
         },
         
 }

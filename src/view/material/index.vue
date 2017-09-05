@@ -269,48 +269,6 @@ export default {
             materData: [],
             materHandleID: 0,
             LoadChild: false,
-            // materData: [{
-            //     id: '1',
-            //     sort: '0001',
-            //     category_name: '测试数据1',
-            //     status: true,
-            //     children: [],
-            // }, {
-            //     id: '2',
-            //     sort: '0002',
-            //     category_name: '测试数据2',
-            //     status: false,
-            //     children: [{
-            //         id: '2-01',
-            //         sort: '00001',
-            //         category_name: '测试数据01',
-            //         status: false,
-            //         children: [{
-            //             id: '2-1-01',
-            //             sort: '000001',
-            //             category_name: '测试数据001',
-            //             status: false,
-            //         }]
-            //     }, {
-            //         id: '2-02',
-            //         sort: '00002',
-            //         category_name: '测试数据02',
-            //         status: true,
-            //         children: [],
-            //     }]
-            // }, {
-            //     id: '3',
-            //     sort: '0003',
-            //     category_name: '测试数据3',
-            //     status: true,
-            //     children: [],
-            // }, {
-            //     id: '4',
-            //     sort: '0004',
-            //     category_name: '测试数据4',
-            //     status: false,
-            //     children: [],
-            // }],
 	    }
 	},
     created() {
