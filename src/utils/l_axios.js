@@ -3272,7 +3272,7 @@ export default {
                     ids: id,
                 }
             }).then((res) => { 
-                console.log(res);
+                // console.log(res);
                 if (res.status == 200) {
                     if(res.data.code!=400){
                         this.$notify({
@@ -3280,7 +3280,7 @@ export default {
                             type: 'success',
                             duration: 1000,
                             onClose: () => {
-                                // window.location.reload(true);
+                                this.$emit('RELOADATA');
                             }
                         });
                     }else{

@@ -152,7 +152,7 @@
                 }
             },
             items() { 
-                console.log('监听执行！')
+                // console.log('监听执行！')
                 if (this.items) {
                     this.dataLength = this.Length(this.items)
                     this.initData(this.deepCopy(this.items), 1, null);
@@ -213,8 +213,8 @@
                     show: 1,
                 }
             },
-            DeleteMater_All(){
-                console.log('删除');
+            DeleteMater_All(){  //勾选删除
+                info.materTypeEdit_del.call(this,this.selectString);
             },
             whetherShow(id,status){  //切换按钮
                 info.materTypeEdit_show.call(this,id,status);
