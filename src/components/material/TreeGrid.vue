@@ -204,7 +204,9 @@
         },
         methods: {
             creatSubmit(){  //新增提交！
-                info.materTypeEdit_add.call(this,this.createNewData);
+                if(this.lTreeGrid){
+                    info.materTypeEdit_add.call(this,this.createNewData);
+                }
             },
             Close_mask(){  //关闭弹窗
                 this.Dailog = false;
@@ -216,13 +218,19 @@
                 }
             },
             DeleteMater_All(){  //勾选删除
-                info.materTypeEdit_del.call(this,this.selectString);
+                if(this.lTreeGrid){
+                    info.materTypeEdit_del.call(this,this.selectString);
+                }
             },
             whetherShow(id,status){  //切换按钮
-                info.materTypeEdit_show.call(this,id,status);
+                if(this.lTreeGrid){
+                    info.materTypeEdit_show.call(this,id,status);
+                }
             },
             materTypeEdi(id,name,sort){  //编辑数据
-                info.materTypeEdit.call(this,id,name,sort);
+                if(this.lTreeGrid){
+                    info.materTypeEdit.call(this,id,name,sort);
+                }
             },
             createNewRow(item,index){  //新增下级
                 if(this.lTreeGrid){  //L的身份证
@@ -249,7 +257,9 @@
                 let result = this.makeData(data)
                 this.$emit('on-row-click', result, event, index, text);
                 // console.log(data.id);
-                info.materTypeEdit_del.call(this,data.id);
+                if(this.lTreeGrid){
+                    info.materTypeEdit_del.call(this,data.id);
+                }
             },
             // 点击事件 返回数据处理
             makeData(data) {
@@ -355,7 +365,9 @@
                             item.load = true;
                             this.loading = true;
                             //测试加载数据并请求接口
-                            info.materType.call(this,item.id);
+                            if(this.lTreeGrid){
+                                info.materType.call(this,item.id);
+                            }
                             setTimeout((x)=> {
                                 // console.log(this.childrenData);
                                 if(this.childrenData.length > 0){
@@ -408,7 +420,6 @@
             handleCheckAll() {
                 // this.checks = !this.checks;
                 if (this.checks) {
-                    // this.checkGroup = this.getArray(this.checkGroup.concat(this.All(this.items)))
                     this.checkGroup = this.getArray(this.checkGroup.concat(this.All(this.initItems)))
                     // console.log(this.checkGroup);
                 } else {
