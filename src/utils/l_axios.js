@@ -3266,7 +3266,10 @@ export default {
 
         //素材分类--删除数据
         materTypeEdit_del(id) {
-            if(Array.isArray(id)){
+            // if(Array.isArray(id)){ //兼容性不好
+            //     id = id.sort().join(",");
+            // }
+            if(id instanceof Array){ 
                 id = id.sort().join(",");
             }
             this.$http(api.materTypeEdit_del, {
