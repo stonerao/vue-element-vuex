@@ -3279,7 +3279,7 @@ export default {
                 if (res.status == 200) {
                     if(res.data.code!=400){
                         this.$notify({
-                            message: res.data.data,
+                            message: res.data.data.msg,
                             type: 'success',
                             duration: 1000,
                             onClose: () => {
