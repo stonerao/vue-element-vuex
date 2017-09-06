@@ -427,6 +427,7 @@ export const ListStundent = [
     
 ]
 // 老师
+import teacherOperation from '@/view/operation/teacher'
 export const ListTeacher = [
     {
         path: '/myClass',
@@ -443,9 +444,9 @@ export const ListTeacher = [
             }
         ]
     }, {
-        path: '/set',
+        path: '/teacherOperation',
         name: '作业管理',
-        redirect: '/set/index',
+        redirect: '/teacherOperation/index',
         icon: pmsd,
         iconActive: pmsd_active,
         component: Layout,
@@ -453,7 +454,7 @@ export const ListTeacher = [
             {
                 path: 'index',
                 name: '-作业管理',
-                component: setVue,
+                component: teacherOperation,
             }
         ]
     }, {

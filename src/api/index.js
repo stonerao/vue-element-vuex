@@ -8,8 +8,8 @@ export const api = {
     department_list:'/Admin/Department/department_list',//所有组织结构关系表
     studentListMent:'Admin/teacher/department_list',//学生组织结构关系
     areaList:"Student/StudentIndex/area_list",//省 列表
-    addStundet:"Student/SchoolStudent/studentadd",//添加学生
-    setStundet:"Student/SchoolStudent/studentedit",//编辑学生
+    addStundet:"Student/StudentIndex/studentadd",//添加学生
+    setStundet:"Student/StudentIndex/studentedit",//编辑学生
     studentdelete:"Student/SchoolStudent/studentdelete",//删除学生
     grade_list:"Admin/teacher/grade_list",//二级联动-年级
     class_list:"Admin/teacher/class_list",//二级联动-班级

@@ -157,7 +157,11 @@ export default {
                     })
                 })
                 this.t_data = res.data.data;
-                this.stundentCount = res.data.count;
+                this.stundentCount = {
+                    count:res.data.count,
+                    boycount:res.data.boycount,
+                    girlcount:res.data.girlcount
+                };
                 this.studentList.total_num = parseInt(res.data.page_total);
 
 

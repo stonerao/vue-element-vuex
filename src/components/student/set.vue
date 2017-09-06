@@ -105,39 +105,18 @@
                         家长列表：
                     </div>
                     <div class="add-inp-item-inp">
-                        <el-row :gutter="6">
+                        <el-row :gutter="6" v-for="(item,index) in parents">
                             <el-col :span="6">
-                                <el-input v-model="parents[0].name" placeholder="姓名"></el-input>
+                                <el-input v-model="item.name" placeholder="姓名"></el-input>
                             </el-col>
                             <el-col :span="6">
-                                <el-input v-model="parents[0].rala" placeholder="关系"></el-input>
+                                <el-input v-model="item.rala" placeholder="关系"></el-input>
                             </el-col>
                             <el-col :span="12">
-                                <el-input v-model="parents[0].mobile" placeholder="电话" type="number"></el-input>
+                                <el-input v-model="item.mobile" placeholder="电话" type="number"></el-input>
                             </el-col>
                         </el-row>
-                        <el-row :gutter="6">
-                            <el-col :span="6">
-                                <el-input v-model="parents[1].name" placeholder="姓名"></el-input>
-                            </el-col>
-                            <el-col :span="6">
-                                <el-input v-model="parents[1].rala" placeholder="关系"></el-input>
-                            </el-col>
-                            <el-col :span="12">
-                                <el-input v-model="parents[1].mobile" placeholder="电话" type="number"></el-input>
-                            </el-col>
-                        </el-row>
-                        <el-row :gutter="6">
-                            <el-col :span="6">
-                                <el-input v-model="parents[2].name" placeholder="姓名"></el-input>
-                            </el-col>
-                            <el-col :span="6">
-                                <el-input v-model="parents[2].rala" placeholder="关系"></el-input>
-                            </el-col>
-                            <el-col :span="12">
-                                <el-input v-model="parents[2].mobile" placeholder="电话" type="number"></el-input>
-                            </el-col>
-                        </el-row>
+                        
     
                     </div>
                     <!-- <div class="add-inp-item-addname margin-left">如：13800000000</div> -->
@@ -341,6 +320,7 @@ export default {
         }
     },
     created() { 
+        
         if (this.state == 1) {
 
         } else if (this.state == 2) {
@@ -365,19 +345,17 @@ export default {
                 obj.st_grade = dataObj.st_grade ? dataObj.st_grade : '';//年级
                 obj.st_class = dataObj.st_class ? dataObj.st_class : '';//班级
                 obj.st_status = dataObj.st_status ? dataObj.st_status : '';//就读状态（1：在校，2：毕业，3：休学，4：开除） 
- 
+            console.log(this.parents,1)
             }
         }
         // 年纪
-        store.grade_list.call(this);
- 
-
-
+        store.grade_list.call(this);  
     },
     mounted() {
         //加载省份\
        
         this.getArea(1)
+        
     },
     watch: {
         province_id(val) {

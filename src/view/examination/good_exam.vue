@@ -28,9 +28,9 @@
                         </ul>
                     </div>
                 </div>
-                <el-row>
-                    <el-col :span="12">&nbsp;<el-button size="mini" v-if="index>0">上一题</el-button></el-col>{{index}}{{items.length}}
-                    <el-col :span="12"><el-button class="float-right" size="mini" v-if="(index+1)<=items.length">下一题</el-button></el-col>
+                <el-row style="margin:25px 0">
+                    <el-col :span="12">&nbsp;<el-button size="mini" v-show="index>0" @click="curPage(1)">上一题</el-button></el-col> 
+                    <el-col :span="12">&nbsp;<el-button class="float-right" size="mini" v-show="(index+1)<items.length" @click="curPage(2)">下一题</el-button></el-col>
                 </el-row>
                 <el-button type="primary" @click="submit">提交</el-button>
             </div>
@@ -67,6 +67,19 @@ export default {
                         type: 'warning'
                     });
             console.log(this.items)
+        },
+        curPage(state){
+            // 翻页
+            if(state==1){
+                if(this.index>0){
+                    this.index--;
+                }
+            }else if(state==2){
+                if((this.index+1)<this.items.length)
+                {
+                   this.index++; 
+                }
+            }
         }
     },
     created() {
