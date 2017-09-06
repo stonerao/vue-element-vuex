@@ -14,7 +14,7 @@
                             <el-button type="primary" icon="plus" size="small" @click="addStudent">增加学生</el-button>
                             <el-button type="primary" icon="plus" size="small">批量导入</el-button>
                             <span>
-                                <img src="../../assets/index/shuaxin.png" class="icon-img-xs marginleft5" @click="studentRefresh" />刷新-共{{studentList.total_num}}条记录</span>
+                                <img src="../../assets/index/shuaxin.png" class="icon-img-xs marginleft5" @click="studentRefresh" />刷新</span>
                             <span>当前总人数：
                                 <a class="red-color">{{stundentCount.count}}</a>人</span>
                             <span>男生：
@@ -83,8 +83,9 @@
                     <el-row :gutter="10" class="class-header">
                         <el-col :span="19" class="class-titles">
                             <span>
-                                <img src="../../assets/index/shuaxin.png" class="icon-img-xs" @click="studentRefresh" />刷新-共{{studentList.total_num}}条记录</span>
+                                <img src="../../assets/index/shuaxin.png" class="icon-img-xs" @click="studentRefresh" />刷新</span>
                             <span>当前总人数：
+                                
                                 <a class="red-color">{{stundentCount.count}}</a>人</span>
                             <span>男生：
                                 <a class="cheng-color">{{stundentCount.boycount}}</a>人</span>
