@@ -2,7 +2,7 @@
     <header class="kd-header">
         <el-row>
             <el-col :span="5">
-                <section class="kd-header-logo">
+                <section class="kd-header-logo marginleft15">
                     XXX学校管理系统
                 </section>
             </el-col>
@@ -18,7 +18,7 @@
                                 <span v-html="obj.manager_name"></span>
                             </p>
                         </section>
-    
+
                     </router-link>
                     <router-link tag="li" to="setMsg" class="kd-header-icon">
                         <p class="kd-header-icons">
@@ -47,20 +47,22 @@
                 </ul>
             </el-col>
         </el-row>
-    
+
     </header>
 </template>
 <script>
 import store from '@/utils/commos'
 import { api } from '@/api/layout'
 import { getToken } from '@/utils/auth'
+import { isClassLogin } from '@/utils/auth'
 export default {
     data() {
         return {
             obj: {
                 manager_avatar: '',
                 manager_name: ''
-            }
+            },
+            name: ""
         }
     },
     created() {
@@ -77,9 +79,20 @@ export default {
                 // console.log(this.obj)
             }
         })
+        switch (parseInt(isClassLogin())) {
+            case 1:
+                this.name = '学校'
+                break;
+            case 2:
+                this.name = '老师'
+                break;
+            case 3:
+                this.name = '学生'
+                break;
+        }
     },
-    methods:{
-        quit(){
+    methods: {
+        quit() {
             //推出登陆
             store.quitLogin.call(this)
         }

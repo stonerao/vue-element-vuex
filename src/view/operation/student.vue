@@ -2,20 +2,14 @@
     <div class="kd-app-main">
         <titleItem :titleText="$route.name.substring(1)"></titleItem>
         <div class="kd-box">
-            <div class="kd-app-box">
-                <titleActive :titles="titleItem" @Transfer="emitTransfer" :state="state"></titleActive>
-            </div>
+
             <div class="kd-box-content">
                 <description :prompts="prompts" @PromPts="promptsTem"></description>
                 <!--模块开始  -->
-                <div v-if="state==0">
-                    <teacer_list v-if="status.state==0" @tablist="tab_list"></teacer_list>
-                    <student_list  v-else-if="status.state==1"></student_list>
-                </div>
-                <div v-if="state==1">
-                    <release></release>
-                </div>
-    
+
+                <s_list v-if="state==0" @myOperation="myOperation" @tablist="tab_list"></s_list>
+                <get_operation v-else-if="state==1" :status="status_id"></get_operation>
+
             </div>
             <bottomItem></bottomItem>
         </div>
@@ -24,34 +18,29 @@
 
 <script>
 import titleItem from '@/components/main/title.vue'
-import titleActive from '@/components/main/titleActive.vue'
 import description from '@/components/main/description.vue'
 import bottomItem from '@/components/bottom/bottom.vue'
-import teacer_list from '@/components/operation/teacer_list'
-import release from '@/components/operation/release'
-import student_list from '@/components/operation/student_list'
+import s_list from '@/components/operation/s_list'
+import get_operation from '@/components/operation/get_operation'
 export default {
     data() {
         return {
-            titleItem: [
-                { name: "作业管理", index: 0 },
-                { name: "布置作业", index: 1 },
-            ],
             prompts: [
                 `该页面展示管理员的操作日志，可进行删除。`,
                 `侧边栏可以进行高级搜索`
             ],
-            state: 0, 
-            status:{
-                state:0
-            }
+            state: 0,
+            status: {
+                state: 0
+            },
+            status_id:""
         }
     },
     created() {
     },
     components: {
-        titleItem, titleActive, description, bottomItem,
-        teacer_list,release,student_list
+        titleItem, description, bottomItem,
+        s_list, get_operation
     },
     methods: {
         emitTransfer(index) {
@@ -63,8 +52,12 @@ export default {
         promptsTem(status) {
             console.log(status)
         },
-        tab_list(){
-            this.status.state=1;
+        tab_list() {
+            this.status.state = 1;
+        },
+        myOperation(val) {
+            this.state = 1;
+            this.status_id=val
         }
     }
 }

@@ -305,7 +305,7 @@ export const constList = [
 // 学生
 // 我的作业
 import operation from '@/view/operation/myOperation'
-
+import studentOperation from '@/view/operation/student'
 export const ListStundent = [
     {
         path: '/operation',
@@ -318,7 +318,7 @@ export const ListStundent = [
             {
                 path: 'index',
                 name: '-我的作业',
-                component: operation,
+                component: studentOperation,
             }
         ]
     }, {
