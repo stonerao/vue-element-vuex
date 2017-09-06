@@ -23,9 +23,13 @@
                             <!-- 分类名称 -->
                             <el-input v-model="item.category_name" placeholder="请输入分类名称" style="width: 200px;" @change="materTypeEdi(item.id,item.category_name,item.sort)"></el-input>
                         </div>
-                        <div v-if="column.type === 'switch'">
+                        <div v-if="column.type === 'switch'&&lTreeGrid">
                             <!-- 切换按钮 -->
                             <el-switch v-model="item.status" on-color="#13ce66" off-color="#ff4949" @change="whetherShow(item.id,item.status)"></el-switch>
+                        </div>
+                        <div v-if="column.type === 'switch'&&rTreeGrid">
+                            <!-- 切换按钮 -->
+                            <el-switch v-model="item._status" on-color="#13ce66" off-color="#ff4949" @change="whetherShow(item.id,item._status)"></el-switch>
                         </div>
                         <div v-if="column.type === 'action'">
                             <!-- 操作按钮 -->
@@ -98,6 +102,7 @@
 </template>
 <script>
     import info from '@/utils/l_axios'
+    import tree from '@/utils/treeGrid'
     export default {
         name: 'treeGrid',
         props: {
@@ -109,6 +114,7 @@
                 }
             },
             lTreeGrid: Boolean,
+            rTreeGrid: Boolean,
         },
         data() {
             return {
@@ -206,6 +212,8 @@
             creatSubmit(){  //新增提交！
                 if(this.lTreeGrid){
                     info.materTypeEdit_add.call(this,this.createNewData);
+                }else if(this.rTreeGrid){
+                    tree.materTypeEdit_add.call(this,this.createNewData);
                 }
             },
             Close_mask(){  //关闭弹窗
@@ -220,16 +228,22 @@
             DeleteMater_All(){  //勾选删除
                 if(this.lTreeGrid){
                     info.materTypeEdit_del.call(this,this.selectString);
+                }else if(this.rTreeGrid){
+                    tree.materTypeEdit_del.call(this,this.selectString);
                 }
             },
             whetherShow(id,status){  //切换按钮
                 if(this.lTreeGrid){
                     info.materTypeEdit_show.call(this,id,status);
+                }else if(this.rTreeGrid){
+                    tree.materTypeEdit_show.call(this,id,status);
                 }
             },
             materTypeEdi(id,name,sort){  //编辑数据
                 if(this.lTreeGrid){
                     info.materTypeEdit.call(this,id,name,sort);
+                }else if(this.rTreeGrid){
+                    tree.materTypeEdit.call(this,id,name,sort);
                 }
             },
             createNewRow(item,index){  //新增下级
@@ -259,6 +273,8 @@
                 // console.log(data.id);
                 if(this.lTreeGrid){
                     info.materTypeEdit_del.call(this,data.id);
+                }else if(this.rTreeGrid){
+                    tree.materTypeEdit_del.call(this,data.id);
                 }
             },
             // 点击事件 返回数据处理
@@ -367,6 +383,8 @@
                             //测试加载数据并请求接口
                             if(this.lTreeGrid){
                                 info.materType.call(this,item.id);
+                            }else if(this.rTreeGrid){
+                                tree.materType.call(this,item.id);
                             }
                             setTimeout((x)=> {
                                 // console.log(this.childrenData);

@@ -87,7 +87,8 @@
                             <addSetUser state="1" :dataObj="dataObj" @QUITQROUP="QUITQROUP"></addSetUser>
                         </div>
                         <div v-if="oneStatus==2">
-                            <architectureSet :objData="sdata"></architectureSet>
+                            <!-- <architectureSet :objData="sdata"></architectureSet> -->
+                            <TreeGrid :items='materData' :columns='columns' :rTreeGrid="rTreeGrid" @RELOADATA="reloadTreeData"></TreeGrid>
                         </div>
                     </div>
                 </div>
@@ -269,6 +270,9 @@ import bottomItem from '@/components/bottom/bottom.vue'
 import architectureSet from '@/components/architecture/set.vue'
 import addSetUser from '@/components/architecture/addSetUser.vue'
 import store from '@/utils/architecture'
+import info from '@/utils/treeGrid'
+import TreeGrid from '@/components/material/TreeGrid.vue'
+
 export default {
     data() {
         return {
@@ -332,7 +336,33 @@ export default {
                 items: [],
                 all_pagecount: '',
                 selectArr:[],//选择存储的数组
-            }
+            },
+            columns: [{
+                type: 'selection'
+            }, {
+                title: '排序',
+                key: 'code',
+                add: true,
+            }, {
+                title: '部门权限名称',
+                type: 'input',
+                key: 'name'
+            }, {
+                title: '是否显示',
+                type: 'switch',
+                key: 'status'
+            },{
+                title: '操作',
+                type: 'action',
+                actions: [{
+                    type: 'default',
+                    text: '删除'
+                }]
+            }],
+            rTreeGrid: true,   //自己的身份证
+            materData: [],
+            materHandleID: 0,
+            LoadChild: false,
         }
     },
     created() {
@@ -342,7 +372,7 @@ export default {
         this.Visible = true;
     },
     components: {
-        titleItem, titleActive, description, bottomItem, architectureSet, addSetUser
+        titleItem, titleActive, description, bottomItem, architectureSet, addSetUser, TreeGrid
     },
     methods: {
         emitTransfer(index) {
@@ -449,6 +479,10 @@ export default {
             // 部门点击管理列表
             this.oneStatus = 2;
             this.stateObj.one = false;
+            info.materType.call(this,this.materHandleID);
+        },
+        reloadTreeData(){  //删除tree数据后数据重新加载
+            info.materType.call(this,0);
         },
         addClassOne(state) {
             // 部门管理增加分类
