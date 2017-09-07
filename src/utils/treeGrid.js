@@ -105,55 +105,7 @@ export default {
                 }
             })
         },
-
-        //素材分类--添加分类
-        materTypeEdit_add(obj) {
-            if(String(obj.name).length == 0 || String(obj.sort).length == 0){
-                return
-            }
-            this.$http({
-                url: api.materTypeEdit_add,
-                method: 'post',
-                data: {
-                    token: getToken(),
-                    pid: obj.id,
-                    cate_name: obj.name,
-                    sort: obj.sort,
-                    is_show: obj.show,
-                }
-            }).then((res) => {
-                // console.log(res)
-                if (res.status == 200) {
-                    if(res.data.code!=400){
-                        this.$notify({
-                            message: res.data.data,
-                            type: 'success',
-                            duration: 1000,
-                            onClose: () => {
-                                this.reloadChildren(this.createNewData.index, this.createNewData.item);
-                            }
-                        });
-                    }else{
-                        this.$notify({
-                            message: res.data.data,
-                            type: 'error',
-                            duration: 1000,
-                        });
-                        this.createNewData = {
-                            id: 0,
-                            name: '',
-                            sort: '',
-                            show: 1,
-                        };
-                    }
-                }else {
-                    this.$notify.error({
-                        message: res.data.data.error
-                    });
-                }
-            })
-        },
-
+        
         //素材分类--删除数据
         materTypeEdit_del(id) {
             if(id instanceof Array){ 
@@ -188,5 +140,102 @@ export default {
                 }
             })
         },
+
+        //组织部门-添加部门初始
+        commonDepart_handle(id) {
+            let apiUrl = api.commonDepart_handle;
+            let formData = {
+                token: getToken(),
+                department_id: id,
+            }
+            this.$http(apiUrl, {
+                params: formData
+            }).then((res) => { 
+                // console.log(res);
+                if (res.status == 200) {
+                    if(res.data.code!=400){
+                        if(this.DIST){  //添加组织
+                            this.create.id = res.data.data.root_id;
+                            this.Toptions = res.data.data.teacher_list;
+                            this.whetherShow = {
+                                grade: res.data.data.show_year,
+                                virtual: res.data.data.show_virtual,
+                                entity: res.data.data.show_entity,
+                                normal: res.data.data.show_normal,
+                                teacher: res.data.data.show_head_teacher,
+                            };
+                        }
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
+        //组织部门-添加部门-提交
+        commonDepart_add(obj,tid) {
+            let apiUrl = api.commonDepart_add;
+            let formData = {
+                token: getToken(),
+                department_id: obj.id,
+                department_name: obj.name,
+                special_tag: obj.tag,
+                department_info: obj.intro,
+                status: obj.status,
+                head_teacher_id: tid,
+            };
+            if(!this.DIST){
+
+            }
+            this.$http({
+                url: apiUrl,
+                method: 'post',
+                data: formData
+            }).then((res) => {
+                // console.log(res)
+                if (res.status == 200) {
+                    if(res.data.code!=400){
+                        this.$notify({
+                            message: res.data.data,
+                            type: 'success',
+                            duration: 1000,
+                            onClose: () => {
+                                if(this.DIST){
+                                    this.addSuccess(); //添加成功刷新数据
+                                }else{
+                                    // this.reloadChildren(this.createNewData.index, this.createNewData.item);
+                                }
+                            }
+                        });
+                    }else{
+                        if(this.DIST){  //添加部门标识
+                            this.create = {
+                                id: this.DerpartID,
+                                name: '',
+                                tag: 1,
+                                intro: '',
+                                status: 0,
+                            }
+                        }
+                        this.$notify({
+                            message: res.data.data,
+                            type: 'error',
+                            duration: 1000,
+                        });
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
 }
 

@@ -1,7 +1,7 @@
 <template>
     <div>
         <!-- 增加组织部门按钮 -->
-        <div v-if="rTreeGrid">   
+        <div v-if="rTreeGrid&&btnShow">   
             <el-button type="primary" icon="plus" size="small" style="margin-bottom: 10px;" @click="r_add_derpart">添加组织部门</el-button>
         </div>
         <div v-if="tableShow" :style="{width:tableWidth}" class='autoTbale' v-loading="loading">
@@ -107,7 +107,7 @@
         </div>
         <!-- 增加组织部门 -->
         <div v-if="addDepart">
-            <ADDDEPART :DerpartID="DerpartID" @DEPARTCANCEL="DEPARTCANCEL"></ADDDEPART>
+            <ADDDEPART :DerpartID="DerpartID" :DIST="distinguish" @DEPARTCANCEL="DEPARTCANCEL"></ADDDEPART>
         </div>
     </div>
 </template>
@@ -154,6 +154,7 @@
                 addDepart: false,
                 distinguish: false,  //组织部门-区分‘新增下级’&‘添加’
                 DerpartID: 0,
+                btnShow: true,
             }
         },
         create(){
@@ -228,19 +229,23 @@
             ADDDEPART
         },
         methods: {
-            DEPARTCANCEL(){  //组织部门添加组织部门-取消
+            DEPARTCANCEL(val){  //组织部门添加组织部门-取消
                 this.DerpartID = 0;
                 this.distinguish = false;
-                this.rTreeGrid = true;
                 this.tableShow = true;
                 this.addDepart = false;
+                this.btnShow = true;
+                console.log(val);
+                if(val){//添加成功重新加载数据
+                    this.$emit("RELOADATA");
+                }
             },
             r_add_derpart(){  //组织部门添加组织部门
                 this.DerpartID = 0;
                 this.distinguish = true;
-                this.rTreeGrid = false;
                 this.tableShow = false;
                 this.addDepart = true;
+                this.btnShow = false;
             },
             creatSubmit(){  //新增提交！
                 if(this.lTreeGrid){
@@ -298,9 +303,9 @@
                 }else if(this.rTreeGrid){
                     this.DerpartID = item.id;
                     this.distinguish = false;
-                    this.rTreeGrid = false;
                     this.tableShow = false;
                     this.addDepart = true;
+                    this.btnShow = false;
                 }
             },
             // 设置td宽度

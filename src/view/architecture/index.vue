@@ -88,7 +88,7 @@
                         </div>
                         <div v-if="oneStatus==2" class="l_layout_outer">
                             <!-- <architectureSet :objData="sdata"></architectureSet> -->
-                            <div class="l_recursion">
+                            <div class="l_recursion rTreeHelp">
                                 <TreeGrid :items='materData' :columns='columns' :rTreeGrid="rTreeGrid" @RELOADATA="reloadTreeData"></TreeGrid>
                             </div>
                         </div>

@@ -17,10 +17,16 @@
                 <el-col :span="3">特殊部门标记：</el-col>
                 <el-col :span="21">
                     <el-radio-group v-model="create.tag">
-                        <el-radio :label="1">无</el-radio>
-                        <el-radio :label="2">年级</el-radio>
-                        <el-radio :label="3">虚拟班</el-radio>
-                        <el-radio :label="4">实体班</el-radio>
+                        <el-radio :label="1" v-if="whetherShow.normal">无</el-radio>
+                        <el-radio :label="2" v-if="whetherShow.grade">年级</el-radio>
+                        <el-radio :label="3" v-if="whetherShow.virtual">虚拟班</el-radio>
+                        <el-select v-model="teacherID" placeholder="请选择" v-if="whetherShow.virtual" :disabled="disable">
+                            <el-option v-for="item in Toptions" :key="item.teacher_id" :label="item.teacher_name" :value="item.teacher_id"></el-option>
+                        </el-select>
+                        <el-radio :label="4" v-if="whetherShow.entity">实体班</el-radio>
+                        <el-select v-model="teacherID" placeholder="请选择" v-if="whetherShow.entity" :disabled="disable">
+                            <el-option v-for="item in Toptions" :key="item.teacher_id" :label="item.teacher_name" :value="item.teacher_id"></el-option>
+                        </el-select>
                     </el-radio-group>
                 </el-col>
             </el-row>
@@ -36,8 +42,8 @@
                 <el-col :span="3">状态：</el-col>
                 <el-col :span="21">
                     <el-radio-group v-model="create.status">
-                        <el-radio :label="1">启用</el-radio>
-                        <el-radio :label="2">禁用</el-radio>
+                        <el-radio :label="0">启用</el-radio>
+                        <el-radio :label="1">禁用</el-radio>
                     </el-radio-group>
                 </el-col>
             </el-row>
@@ -56,33 +62,55 @@
 import tree from '@/utils/treeGrid'
 
 export default {
-    props: ['DerpartID'],
+    props: ['DerpartID','DIST'],
     data() {
         return {
             create: {
+                id: this.DerpartID,
                 name: '',
                 tag: 1,
                 intro: '',
-                status: 1,
+                status: 0,
             },
+            whetherShow: {
+                grade: false,
+                virtual: false,
+                entity: false,
+                normal: false,
+                teacher: false,
+            },
+            Toptions:[],
+            teacherID: '',
+            disable: true,   
         }
     },
     created() {
-        
+        tree.commonDepart_handle.call(this,this.DerpartID)
     },
     components: {
         
     },
     methods: {
         submit(){
-            
+            if(this.DIST){
+                tree.commonDepart_add.call(this,this.create,this.teacherID);
+            }
         },
         cancelCreate(){
-            this.$emit('DEPARTCANCEL');
+            this.$emit('DEPARTCANCEL',false);
+        },
+        addSuccess(){  //添加成功刷新数据
+            this.$emit('DEPARTCANCEL',true);
         }
     },
     watch:{
-        
+        ['create.tag'](val){
+            if(val == 3 || val == 4){
+                this.disable = false;
+            }else{
+                this.disable = true;
+            }
+        }
     }
 }
 </script>
