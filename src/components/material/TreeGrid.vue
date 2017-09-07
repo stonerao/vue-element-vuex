@@ -235,9 +235,11 @@
                 this.tableShow = true;
                 this.addDepart = false;
                 this.btnShow = true;
-                console.log(val);
-                if(val){//添加成功重新加载数据
+                if(val == 1){//添加成功重新加载数据
                     this.$emit("RELOADATA");
+                }else if(val == 2){
+                    console.log('执行了！')
+                    this.reloadChildren(this.createNewData.index, this.createNewData.item);
                 }
             },
             r_add_derpart(){  //组织部门添加组织部门
@@ -289,16 +291,16 @@
                 }
             },
             createNewRow(item,index){  //新增下级
-                if(this.lTreeGrid){  //L的身份证
-                    this.createNewData = {
+                this.createNewData = {
                         id: 0,
                         name: '',
                         sort: '',
                         show: 1,
                     }
-                    this.createNewData.id = item.id;
-                    this.createNewData.index = index;
-                    this.createNewData.item = item;
+                this.createNewData.id = item.id;
+                this.createNewData.index = index;
+                this.createNewData.item = item;
+                if(this.lTreeGrid){  //L的身份证
                     this.Dailog = true;
                 }else if(this.rTreeGrid){
                     this.DerpartID = item.id;
@@ -457,10 +459,15 @@
                 }
             },
             reloadChildren(index, item){  //新增后重新加载数据
-                this.Dailog = false;
                 item.load = false;
                 // item.expanded = false;
                 this.toggle(index, item);
+                if(this.lTreeGrid){
+                    this.Dailog = false;
+                }else if(this.rTreeGrid){
+
+                }
+
             },
             open(index, item) {  //递归展开行数据！
                 if (item.children) {

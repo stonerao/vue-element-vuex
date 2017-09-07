@@ -114,14 +114,14 @@ export default {
             this.$http(api.materTypeEdit_del, {
                 params: {
                     token: getToken(),
-                    ids: id,
+                    department_id: id,
                 }
             }).then((res) => { 
                 // console.log(res);
                 if (res.status == 200) {
                     if(res.data.code!=400){
                         this.$notify({
-                            message: res.data.data,
+                            message: '删除成功！',
                             type: 'success',
                             duration: 1000,
                             onClose: () => {
@@ -156,15 +156,15 @@ export default {
                     if(res.data.code!=400){
                         if(this.DIST){  //添加组织
                             this.create.id = res.data.data.root_id;
-                            this.Toptions = res.data.data.teacher_list;
-                            this.whetherShow = {
-                                grade: res.data.data.show_year,
-                                virtual: res.data.data.show_virtual,
-                                entity: res.data.data.show_entity,
-                                normal: res.data.data.show_normal,
-                                teacher: res.data.data.show_head_teacher,
-                            };
                         }
+                        this.Toptions = res.data.data.teacher_list;
+                        this.whetherShow = {
+                            grade: res.data.data.show_year,
+                            virtual: res.data.data.show_virtual,
+                            entity: res.data.data.show_entity,
+                            normal: res.data.data.show_normal,
+                            teacher: res.data.data.show_head_teacher,
+                        };
                     }else{
                         this.$notify.error({
                             message: res.data.data.error
@@ -209,7 +209,7 @@ export default {
                                 if(this.DIST){
                                     this.addSuccess(); //添加成功刷新数据
                                 }else{
-                                    // this.reloadChildren(this.createNewData.index, this.createNewData.item);
+                                    this.addNextSuccess();
                                 }
                             }
                         });

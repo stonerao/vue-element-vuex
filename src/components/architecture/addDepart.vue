@@ -92,16 +92,17 @@ export default {
     },
     methods: {
         submit(){
-            if(this.DIST){
-                tree.commonDepart_add.call(this,this.create,this.teacherID);
-            }
+            tree.commonDepart_add.call(this,this.create,this.teacherID);
         },
         cancelCreate(){
-            this.$emit('DEPARTCANCEL',false);
+            this.$emit('DEPARTCANCEL',0);
         },
         addSuccess(){  //添加成功刷新数据
-            this.$emit('DEPARTCANCEL',true);
-        }
+            this.$emit('DEPARTCANCEL',1);
+        },
+        addNextSuccess(){  //添加成功刷新数据
+            this.$emit('DEPARTCANCEL',2);
+        },
     },
     watch:{
         ['create.tag'](val){
