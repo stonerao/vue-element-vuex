@@ -8,11 +8,12 @@
             <div class="kd-box-content">
                 <description :prompts="prompts" @PromPts="promptsTem"></description>
                 <!--模块开始  -->
-                <!-- <div v-if="state==0">
-<notice></notice>
-                </div> -->
-                 <notice></notice>
-    
+                <div v-if="state==0">
+                    <notice state='1'></notice>
+                </div>
+                <div  v-if="state==1">
+                    <release></release>
+                </div>
             </div>
             <bottomItem></bottomItem>
         </div>
@@ -25,21 +26,25 @@ import titleActive from '@/components/main/titleActive.vue'
 import description from '@/components/main/description.vue'
 import bottomItem from '@/components/bottom/bottom.vue'
 import notice from '@/components/notice/index'
+import release from '@/components/notice/release'
 export default {
     data() {
         return {
-            titleItem: [],
+            titleItem: [
+                { name: "通知列表", index: 0 },
+                { name: "发通知", index: 1 },
+            ],
             prompts: [
                 `该页面展示管理员的操作日志，可进行删除。`,
                 `侧边栏可以进行高级搜索`
             ],
-            state: 0, 
+            state: 0,
         }
     },
     created() {
     },
     components: {
-        titleItem, titleActive, description, bottomItem,notice
+        titleItem, titleActive, description, bottomItem, notice,release
     },
     methods: {
         emitTransfer(index) {
@@ -48,9 +53,9 @@ export default {
             }
             this.state = index;
         },
-        promptsTem(status) {
-            console.log(status)
-        }
+        promptsTem(status) { 
+        },
+
     }
 }
 </script>

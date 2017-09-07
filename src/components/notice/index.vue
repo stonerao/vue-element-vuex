@@ -2,8 +2,8 @@
     <div class="r-notice">
         <el-row>
             <el-col :span='15'>
-                <span class="line-height-36">
-                    <img src="../../assets/index/shuaxin.png" class="icon-img-xs marginleft5" @click="resh" />刷新-共1条记录
+                <span>
+                    <img src="../../assets/index/shuaxin.png" class="icon-img-xs marginleft5" @click="resh" />刷新-共{{page_total}}条记录
                 </span>
             </el-col>
             <el-col :span="9">
@@ -17,14 +17,16 @@
             <el-table-column type="selection" width="55">
             </el-table-column>
             <el-table-column label="id" width="80" show-overflow-tooltip>
-                <template scope="scope">{{ scope.row.id }}</template>
+                <template scope="scope">{{ scope.row.zn_id }}</template>
             </el-table-column>
-            <el-table-column prop="title" label="主题" show-overflow-tooltip>
-            </el-table-column>  
-            <el-table-column label="发布人" width="180"  show-overflow-tooltip>
-                <template scope="scope"><span class="index-color">{{scope.row.name}}</span></template>
+            <el-table-column prop="zn_title" label="标题" show-overflow-tooltip>
             </el-table-column>
-            <el-table-column prop="date" width="220"  label="时间" show-overflow-tooltip>
+            <el-table-column label="发布人" width="180" show-overflow-tooltip>
+                <template scope="scope">
+                    <span class="index-color">{{scope.row.zn_send}}</span>
+                </template>
+            </el-table-column>
+            <el-table-column prop="zn_time" width="220" label="时间" show-overflow-tooltip>
             </el-table-column>
             <el-table-column prop="address" width="120" label="操作" show-overflow-tooltip>
                 <template scope="scope">
@@ -32,15 +34,29 @@
                 </template>
             </el-table-column>
         </el-table>
+         <el-row style="margin-top:10px">
+            <el-col :span="12">
+                &nbsp;
+            </el-col>
+            <el-col :span="12">
+                <el-pagination class="float-right" @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="page" :page-sizes="[curpage]" :page-size="curpage" layout="total, sizes, prev, pager, next, jumper" :total="page_total">
+                </el-pagination>
+            </el-col>
+        </el-row>
     </div>
 </template>
 
-<script>
-export default {
+<script> 
+import store from '@/utils/notice'
+export default { 
+    props:['state'],
     data() {
         return {
             t_data: [{ id: '001', title: 'sdakhdahdjsa', name: 'fuck', date: '2017-8-22 09:13:08' }],
-            seach:''
+            seach: "",
+            page: 1,
+            curpage: 10,
+            page_total:0
         }
     },
     methods: {
@@ -50,10 +66,26 @@ export default {
         seachClick() {
             // 搜索
         },
-        resh(){
+        resh() {
             // 刷新
 
+        },
+        seachClick() {
+            // 搜索
+        },
+        handleSizeChange(){
+
+        },
+        ajax(){
+            store.AdminNotice_list.call(this,this.state);
+        },
+        handleCurrentChange(val){
+            this.curpage=val;
+            this.ajax();
         }
+    },
+    created(){
+        this.ajax();
     }
 }
 </script>

@@ -27,10 +27,45 @@
                             </li>
                         </ul>
                     </div>
+                    <div v-else-if="items[index].q_type_id=='2'">
+                        <el-checkbox-group v-model="items[index].answer">
+                            <el-checkbox style="display:block;margin-top:10px;margin-left:0" v-for="(item,indexs) in items[index].q_option" :key="indexs" :label="item.index">{{item.index}} {{item.title}}</el-checkbox>
+                        </el-checkbox-group>
+                    </div>
+                    <div v-if="items[index].q_type_id=='3'">
+                        <ul>
+                            <li v-for="(item,indexs) in if_question" :key="indexs">
+                                <label>
+                                    <el-radio class="radio" v-model="items[index].answer" :label="item.index"> {{item.title}}</el-radio>
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+                    <div v-if="items[index].q_type_id=='4'">
+                        <!-- <ul>
+                                <li v-for="(item,indexs) in items[index].q_option" :key="indexs">
+                                    <el-input v-model="items[index].answer" placeholder="请输入内容"></el-input>
+                                </li>
+                            </ul> -->
+                        <el-input type="textarea" :rows="4" placeholder="请输入答案" v-model="items[index].answer">
+                        </el-input>
+                    </div>
+                    <div v-if="items[index].q_type_id=='5'">
+                        <el-input type="textarea" :rows="4" placeholder="请输入答案" v-model="items[index].answer">
+                        </el-input>
+                    </div>
+                    <div v-if="items[index].q_type_id=='6'">
+                        <el-input type="textarea" :rows="4" placeholder="请输入答案" v-model="items[index].answer">
+                        </el-input>
+                    </div>
                 </div>
                 <el-row style="margin:25px 0">
-                    <el-col :span="12">&nbsp;<el-button size="mini" v-show="index>0" @click="curPage(1)">上一题</el-button></el-col> 
-                    <el-col :span="12">&nbsp;<el-button class="float-right" size="mini" v-show="(index+1)<items.length" @click="curPage(2)">下一题</el-button></el-col>
+                    <el-col :span="12">&nbsp;
+                        <el-button size="mini" v-show="index>0" @click="curPage(1)">上一题</el-button>
+                    </el-col>
+                    <el-col :span="12">&nbsp;
+                        <el-button class="float-right" size="mini" v-show="(index+1)<items.length" @click="curPage(2)">下一题</el-button>
+                    </el-col>
                 </el-row>
                 <el-button type="primary" @click="submit">提交</el-button>
             </div>
@@ -47,7 +82,12 @@ export default {
             obj: {},
             index: 0,//当前题目索引
             items: [{ q_title: '' }],
-            radio: ''
+            radio: '',
+            if_question: [
+                { title: "正确", index: '0' },
+                { title: "错误", index: '1' },
+            ],
+        answer:[]
         }
     },
     methods: {
@@ -56,28 +96,43 @@ export default {
         },
         submit() {
             let arr = []
+            // 如果当前没有做题
             this.items.forEach((x, index) => {
                 if (x.answer == '') {
-                    arr.push(index + 1) 
+                    arr.push(index + 1)
                 }
             })
-            this.$notify({
-                        title: '警告',
-                        message: `第${arr.join(",")}没有答题`,
-                        type: 'warning'
-                    });
-            console.log(this.items)
+
+            if (arr.length > 0) {
+                console.log(arr.length)
+                this.$notify({
+                    title: '警告',
+                    message: `第${arr.join(",")}没有答题`,
+                    type: 'warning'
+                }); return
+            }
+            this.answer = [];
+            this.items.forEach((x,index)=>{
+                if(x.q_type_id=='2'&&typeof x.answer=='object'){
+                    x.answer=x.answer.join(",");
+                }
+                this.answer.push({
+                    answer:x.answer,
+                    q_type_id:x.q_type_id, 
+                    q_id:x.q_id
+                })
+            })
+            store.pushAnswer.call(this,this.answer)
         },
-        curPage(state){
+        curPage(state) {
             // 翻页
-            if(state==1){
-                if(this.index>0){
+            if (state == 1) {
+                if (this.index > 0) {
                     this.index--;
                 }
-            }else if(state==2){
-                if((this.index+1)<this.items.length)
-                {
-                   this.index++; 
+            } else if (state == 2) {
+                if ((this.index + 1) < this.items.length) {
+                    this.index++;
                 }
             }
         }

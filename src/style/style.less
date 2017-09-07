@@ -1268,7 +1268,7 @@ body,
     .r_good_box {
         margin: 100px auto 0 auto;
         width: 1200px;
-        border: #eee solid 1px;
+        // border: #eee solid 1px;
         min-height: 100px;
         overflow: hidden;
         >div {
@@ -1277,8 +1277,10 @@ body,
         .r_good_box_left {
             width: 250px;
             overflow: hidden;
+            display: inline-block;
             margin: 10px;
             ul {
+                display: inline-block;
                 overflow: hidden;
                 border-top: @border_1;
                 border-left: @border_1;
@@ -1318,6 +1320,9 @@ body,
                 margin-top: 10px;
             }
             .r_select_answer {
+                >div{
+                    margin-top:30px;
+                }
                 ul {
                     margin-top: 20px;
                     li {
@@ -1358,4 +1363,7 @@ body,
             }
         }
     } // margin-right:10px;
+}
+.quill-editor{
+    background:#fff;
 }

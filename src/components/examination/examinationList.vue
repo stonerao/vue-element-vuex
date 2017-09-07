@@ -75,8 +75,9 @@ export default {
         },
         selectOption(obj) {
             // 选择tab 
+            console.log(obj)
             obj.forEach((x)=>{
-                selectArr.push(x.e_id);
+                this.selectArr.push(x.e_id);
             })
         },
         deleteData(id) {

@@ -126,7 +126,8 @@ export default {
         alertExam 
     },
     created(){
-        this.ajax()
+        this.ajax();
+        
     }
 }
 </script>

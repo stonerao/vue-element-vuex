@@ -63,4 +63,10 @@ export const api = {
     show_student_task:"Teacher/Examinationcenter/show_student_task",//老师查看学生提交作业的详情
     show_addtesklist:"Teacher/Examinationcenter/show_addtesklist",//查看作业下的提交作业列表
     teacher_review:"Teacher/Examinationcenter/teacher_review",//老师作业评阅
+    pushAnswer:"Student/SchoolStudent/answer",//学生提交答案
+    add_notice:"Admin/Notice/add_notice",//发布通知
+    receive_list:"Admin/Notice/receive_list",//接收人列表
+    AdminNotice_list:"Admin/Notice/notice_list",//学校通知列表
+    student_notice_list:"Student/Notice/student_notice_list",//学生通知列表
+    teacher_notice_list:"Teacher/Notice/teacher_notice_list",//老师通知列表
 }
