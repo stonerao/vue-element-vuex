@@ -359,6 +359,15 @@ export default {
         })
     },
     createExamQuestion() {
+        if(this.selectObjs.t_id==undefined){
+            this.$message({
+                type: 'info',
+                message: '请选择试卷'
+            });
+            return
+        }
+        let str = this.if_set ? this.t.t_id : this.form.age.join(",");
+        str = `,${str},`
         this.$http({
             method: "post",
             url: api.add_examination,
@@ -368,7 +377,7 @@ export default {
                 e_starttime: parseInt(Date.parse(this.form.date1) / 1000),
                 e_endtime: parseInt(Date.parse(this.form.date2) / 1000),
                 e_relation_tid: this.selectObjs.t_id,
-                e_class: this.if_set ? this.t.t_id : this.form.age.join(","),
+                e_class: str,
                 e_allsource: this.form.tol,
                 e_question_source: this.form.e_question_source,
                 e_whenlong:parseInt(this.form.tiem)

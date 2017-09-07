@@ -5,4 +5,5 @@ export const api={
   groupDetail:'Admin/StoreGroup/group_info',//权限组详情
   editGroup:'Admin/StoreGroup/group_edit',//编辑权限组
   deleteGroup:'Admin/StoreGroup/delete',//删除权限组
+  nav_list:'Admin/StoreGroup/nav_list',//权限组权限列表
 }

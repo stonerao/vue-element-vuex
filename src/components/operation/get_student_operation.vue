@@ -4,20 +4,23 @@
             <div v-html="obj.task_title"></div>
         </el-form-item>
         <el-form-item label="作业内容">
-            <div v-html="obj.task_desc"></div>
+            <div v-html="obj.at_desc"></div>
         </el-form-item>
         <el-form-item label="交作业时间">
-            <div v-html="obj.task_time"></div>
+            <div v-html="obj.student_time"></div>
         </el-form-item>
         <el-form-item label="老师">
             <div v-html="obj.teacher_name"></div>
         </el-form-item>
-        <el-form-item label="我的作业">
+        <el-form-item label="学生">
+            <div v-html="obj.student_name"></div>
+        </el-form-item>
+        <el-form-item label="作业评阅">
             <quillEditor style="background:#fff" v-model="val" :content="content"></quillEditor>
         </el-form-item>
         <el-form-item label=" ">
-            <el-button type="primary" @click="submit">去完成作业</el-button>
-            <el-button>查看老师审批</el-button>
+            <el-button type="primary" @click="submit">评阅</el-button>
+            <el-button @click="quit">取消</el-button>
         </el-form-item>
 
     </el-form>
@@ -27,7 +30,7 @@ import store from '@/utils/operation'
 
 import { quillEditor } from 'vue-quill-editor'
 export default {
-    props: ['status'],
+    props: ['state'],
     data() {
         return {
             form: {
@@ -39,21 +42,17 @@ export default {
         }
     },
     methods: {
-        submit() {
-            if (this.val == '') {
-                this.$notify.error({
-                    title: '错误',
-                    message: '作业不能为空'
-                });
-                return
-            }
-            store.addztask.call(this)
+        submit() { 
+            store.teacher_review.call(this)
+        },
+        quit() {
+            this.$emit("quit", true)
         }
     },
     created() {
-        console.log(this.status)
-        if (this.status) {
-            store.show_task.call(this, this.status)
+        console.log(this.state)
+        if (this.state) {
+            store.show_student_task.call(this, this.state)
         }
     },
     mounted() {

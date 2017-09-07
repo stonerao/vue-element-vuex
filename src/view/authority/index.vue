@@ -53,7 +53,7 @@
               <el-col :span="15">
                 <div class="authority_checkbox">
                   <el-checkbox-group v-model="groupCtrList">
-                    <el-checkbox v-for="item in ctrList" :label="item.name"></el-checkbox>
+                    <el-checkbox v-for="item in ctrList" :label="item.controller">{{item.name}}</el-checkbox>
                   </el-checkbox-group>
                 </div>
               </el-col>
