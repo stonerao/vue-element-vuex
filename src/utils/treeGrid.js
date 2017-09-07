@@ -431,6 +431,7 @@ export default {
                                     this.$emit('RELOADATA');
                                     setTimeout((x)=>{
                                         this.Dailog = false;
+                                        this.checkBoxRefresh();
                                     },100)
                                 }
                             }

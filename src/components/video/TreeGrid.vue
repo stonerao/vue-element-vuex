@@ -430,6 +430,7 @@
             //checkbox 全选 选择事件
             handleCheckAll() {
                 // this.checks = !this.checks;
+                // console.log(this.initItems)
                 if (this.checks) {
                     this.checkGroup = this.getArray(this.checkGroup.concat(this.All(this.initItems)))
                     // console.log(this.checkGroup);
@@ -470,7 +471,7 @@
             All(data) {
                 let arr = []
                 data.forEach((item) => {
-                    arr.push(item.id)
+                    arr.push(item.vc_id)
                     if (item.children && item.children.length > 0) {
                         arr = arr.concat(this.All(item.children));
                     }
