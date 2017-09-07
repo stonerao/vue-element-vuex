@@ -32,7 +32,6 @@ export default {
         })
     },
     add_task() {
-
         this.$http({
             method: 'post',
             url: api.add_task,
@@ -70,55 +69,110 @@ export default {
             }
         })
     },
-    show_task(id){
-        this.$http(api.show_task,{
-            params:{
-                token:getToken(),
-                task_id:id
+    show_task(id) {
+        this.$http(api.show_task, {
+            params: {
+                token: getToken(),
+                task_id: id
             }
-        }).then((res)=>{
-            if(res.data.code==200){
+        }).then((res) => {
+            if (res.data.code == 200) {
                 this.obj = res.data.data
             }
         })
     },
-    addztask(){
+    addztask() {
         this.$http({
-            method:"post",
-            url:api.addztask,
-            data:{
-                token:getToken(),
-                task_id:this.status,
-                at_desc:this.val
+            method: "post",
+            url: api.addztask,
+            data: {
+                token: getToken(),
+                task_id: this.status,
+                at_desc: this.val
             }
-        }).then((res)=>{
-            if(res.data.code==200){
+        }).then((res) => {
+            if (res.data.code == 200) {
                 this.$notify({
                     title: '成功',
                     message: res.data.data,
                     type: 'success'
                 });
-            }else{
+            } else {
                 this.$notify.error({
                     title: '错误',
                     message: res.data.data.error
-                  });
+                });
             }
         })
     },
-    teacher_tasklist(){
-        this.$http(api.teacher_tasklist,{
-            params:{
-                token:getToken(), 
-                is_review:this.form.state,
-                task_class:this.seach,
-                page:this.page,
-                curpage:this.curpage,
+    teacher_tasklist(id) {
+        this.$http(api.teacher_tasklist, {
+            params: {
+                token: getToken(),
+                is_review: this.form.state,
+                task_class: this.seach,
+                page: this.page,
+                curpage: this.curpage,
             }
-        }).then((res)=>{
-            if(res.data.code==200){
-                this.t_data=res.data.data;
+        }).then((res) => {
+            if (res.data.code == 200) {
+                this.t_data = res.data.data;
                 this.page_total = parseInt(res.data.page_total)
+            }
+        })
+    },
+    show_addtesklist(id) {
+        this.$http(api.show_addtesklist, {
+            params: {
+                token: getToken(),
+                task_id: id,
+                is_review: this.form.state,
+                page: this.page,
+                curpage: this.curpage,
+            }
+        }).then((res) => {
+            if (res.data.code == 200) {
+                this.t_data = res.data.data;
+                this.page_total = parseInt(res.data.page_total)
+            }
+        })
+    },
+    show_student_task(id) {
+        // 老师查看学生作业
+        this.$http(api.show_student_task, {
+            params: {
+                token: getToken(),
+                at_id: id
+            }
+        }).then((res) => {
+            if (res.data.code == 200) {
+                this.obj = res.data.data;
+            }
+        })
+    },
+    teacher_review() {
+        //老师提交
+        this.$http({
+            method: 'post',
+            url: api.teacher_review,
+            data: {
+                token: getToken(),
+                at_id: this.state,
+                review_desc: this.val
+            }
+        }).then((res) => {
+            if (res.data.code == 200) {
+                this.$notify({
+                    title: '成功',
+                    message: res.data.data,
+                    type: 'success'
+                });
+                this.$emit("quit", true)
+            } else {
+                this.$notify.error({
+                    title: '错误',
+                    message: res.data.data.error
+                });
             }
         })
     }

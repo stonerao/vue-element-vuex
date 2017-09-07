@@ -70,6 +70,7 @@ export default {
             this.ajax()
         },
         ajax() {
+            this.t_data=[]
             store.examList.call(this);
         },
         selectOption(obj) {
@@ -88,8 +89,9 @@ export default {
         handleSizeChange() {
 
         },
-        handleCurrentChange() {
-
+        handleCurrentChange(val) {
+            this.page=val;
+             this.ajax()
         }
     },
     created() {

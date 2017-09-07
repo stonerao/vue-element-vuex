@@ -7,19 +7,19 @@
             <ul>
                 <li>
                     <span>年/班级</span>
-                    <span>20123</span>
+                    <span>{{list_state.class_name}}</span>
                 </li>
                 <li>
                     <span>作业名称</span>
-                    <span>20123</span>
+                    <span>{{list_state.task_title}}</span>
                 </li>
+                <!-- <li>
+                        <span>任务要求</span>
+                        <span>20123</span>
+                    </li> -->
                 <li>
-                    <span>任务要求</span>
-                    <span>20123</span>
-                </li>
-                <li>
-                    <span>学生交作业时间:</span><br/>
-                    <span>2017-9-6 16:23:17</span>
+                    <span>布置时间:</span><br/>
+                    <span>{{list_state.task_time}}</span>
                 </li>
             </ul>
             <el-row>
@@ -39,8 +39,8 @@
             <el-row>
                 <el-col :span='7'>
                     <span class="line-height-36">
-                        <el-button size="mini" type="primary">返回列表</el-button>
-                        <img src="../../assets/index/shuaxin.png" class="icon-img-xs marginleft5" @click="resh" />刷新-共1 条记录
+                        <el-button size="mini" type="primary" @click="back">返回列表</el-button>
+                        <img src="../../assets/index/shuaxin.png" class="icon-img-xs marginleft5" @click="resh" />刷新-共 {{page_total}} 条记录
                     </span>
                 </el-col>
                 <el-col :span="17">
@@ -49,8 +49,8 @@
                             <el-option v-for="item in studentState" :key="item.id" :label="item.name" :value="item.id">
                             </el-option>
                         </el-select>
-                        <el-input placeholder="请输入试卷名称" icon="search" v-model="seach" :on-icon-click="seachClick" class="width150 marginleft10">
-                        </el-input>
+                        <!-- <el-input placeholder="请输入试卷名称" icon="search" v-model="seach" :on-icon-click="seachClick" class="width150 marginleft10"> -->
+                        <!-- </el-input> -->
                     </div>
                 </el-col>
             </el-row>
@@ -58,7 +58,7 @@
                 <el-table-column type="selection" width="55">
                 </el-table-column>
                 <el-table-column label="学生姓名" show-overflow-tooltip>
-                    <template scope="scope">{{ scope.row.st_name }}</template>
+                    <template scope="scope">{{ scope.row.student_name }}</template>
                 </el-table-column>
 
                 <el-table-column label="完成时间" show-overflow-tooltip>
@@ -68,11 +68,10 @@
                 </el-table-column>
                 <el-table-column prop="review_type" width="180" label="批改状态" show-overflow-tooltip>
                 </el-table-column>
-
                 <el-table-column width="180" label="操作" show-overflow-tooltip>
                     <template scope="scope">
-                        <el-button size="mini" @click="getQues(scope.row)">查看</el-button>
-                        <el-button size="mini" @click="setQues(scope.row)">编辑</el-button>
+                        <el-button size="mini" @click="getQues(scope.row.at_id)">查看</el-button>
+                        <!-- <el-button size="mini" @click="setQues(scope.row)">编辑</el-button> -->
                         <el-button size="mini" @click="deleteData(scope.row.q_id,true)">删除</el-button>
                     </template>
                 </el-table-column>
@@ -95,7 +94,7 @@
 <script>
 import store from '@/utils/operation'
 export default {
-    props: ['status'],
+    props: ['status', 'list_state'],
     data() {
         return {
             seach: '',
@@ -110,7 +109,8 @@ export default {
                 { name: "未批改", id: 0 },
                 { name: "已批改", id: 1 },
             ],
-            page_total: 0
+            page_total: 0,
+            id_state: ""
         }
     },
     methods: {
@@ -123,8 +123,8 @@ export default {
         selectOption() {
 
         },
-        getQues() {
-
+        getQues(val) {
+            this.$emit("toOperation", val)
         },
         setQues() {
 
@@ -134,7 +134,7 @@ export default {
         },
         ajax() {
             this.t_data = []
-            store.teacher_tasklist.call(this)
+            store.show_addtesklist.call(this, this.id_state)
         },
         CurrentChange(val) {
             this.page = val;
@@ -142,16 +142,21 @@ export default {
         },
         SizeChange(val) {
 
+        },
+        back() {
+            // 返回列表
+            this.$emit("backList", true)
         }
     },
     created() {
+        this.id_state = this.list_state.task_id;
         this.ajax();
     },
     mounted() {
 
     },
     watch: {
-        ['form.state'](val) { 
+        ['form.state'](val) {
             this.ajax()
         }
     }

@@ -3,7 +3,7 @@
         <el-row>
             <el-col :span="5">
                 <section class="kd-header-logo marginleft15">
-                    XXX学校管理系统
+                   康德{{name}}管理系统
                 </section>
             </el-col>
             <el-col :span="19">

@@ -72,8 +72,8 @@ export default {
         resh() {
             this.ajax()
         },
-        getQues() {
-            this.$emit("tablist", true)
+        getQues(obj) {
+            this.$emit("tablist", obj)
         },
         setQues() {
 

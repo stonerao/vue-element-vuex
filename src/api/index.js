@@ -60,4 +60,7 @@ export const api = {
     show_task:"Student/SchoolStudent/show_student_task",//学生查看当前作业
     addztask:"Student/SchoolStudent/addztask",//学生作业提交
     teacher_tasklist:"Teacher/Examinationcenter/teacher_tasklist",//老师查看学生提交的作业列表
+    show_student_task:"Teacher/Examinationcenter/show_student_task",//老师查看学生提交作业的详情
+    show_addtesklist:"Teacher/Examinationcenter/show_addtesklist",//查看作业下的提交作业列表
+    teacher_review:"Teacher/Examinationcenter/teacher_review",//老师作业评阅
 }

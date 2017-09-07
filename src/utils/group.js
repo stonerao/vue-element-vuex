@@ -18,15 +18,15 @@ export default {
       }
     })
   },
-  controller_list(){
-    this.$http(api.controllerList,{
+  controller_list(){ 
+    this.$http(api.nav_list,{
       params:{
         token:getToken()
       }
     }).then((res)=>{
-      console.log(res)
       if(res.status==200){
         this.ctrList=res.data.store_menu.nav;
+        
       }
     })
   },

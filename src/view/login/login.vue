@@ -1,5 +1,5 @@
 <template>
-    <div class="t-login admin-login t-login-b">
+    <div class="t-login admin-login t-login-b"  >
         <div class="t-login-main">
             <div class="t-login-logo">
                 <img src="../../assets/login/logo.png">
@@ -30,7 +30,7 @@
                         </span>
                     </li>
                     <li>
-                        <el-button type="primary" class="t-submit" @click="sub">登录</el-button>
+                        <el-button type="primary" class="t-submit" @click="sub" >登录</el-button>
                     </li>
                     <li class="r-login-switch">
                        <span class="float-right ">选择登录方式：<el-switch v-model="typestate" off-text="学生" on-text="老师 "  on-color="#13ce66" off-color="#ff4949">

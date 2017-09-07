@@ -9,8 +9,9 @@
                 <description :prompts="prompts" @PromPts="promptsTem"></description>
                 <!--模块开始  -->
                 <div v-if="state==0">
-                    <teacer_list v-if="status.state==0" @tablist="tab_list"></teacer_list>
-                    <student_list  v-else-if="status.state==1"></student_list>
+                    <teacer_list v-if="status.state==0"  @tablist="tab_list"></teacer_list>
+                    <student_list @backList="backList" @toOperation="toOperation" :list_state="list_state" v-else-if="status.state==1"></student_list>
+                    <get_student_operation @quit="taskQuit" :state="toStudentState" v-else-if="status.state==2"></get_student_operation>
                 </div>
                 <div v-if="state==1">
                     <release></release>
@@ -30,6 +31,7 @@ import bottomItem from '@/components/bottom/bottom.vue'
 import teacer_list from '@/components/operation/teacer_list'
 import release from '@/components/operation/release'
 import student_list from '@/components/operation/student_list'
+import get_student_operation from '@/components/operation/get_student_operation'
 export default {
     data() {
         return {
@@ -44,14 +46,16 @@ export default {
             state: 0, 
             status:{
                 state:0
-            }
+            },
+            toStudentState:0,
+            list_state:''
         }
     },
     created() {
     },
     components: {
         titleItem, titleActive, description, bottomItem,
-        teacer_list,release,student_list
+        teacer_list,release,student_list,get_student_operation
     },
     methods: {
         emitTransfer(index) {
@@ -63,7 +67,20 @@ export default {
         promptsTem(status) {
             console.log(status)
         },
-        tab_list(){
+        tab_list(obj){ 
+            this.list_state = obj;
+            this.status.state=1;
+        },
+        backList(val){
+            // 列表返回
+             this.status.state=0;
+        },
+        toOperation(val){ 
+            this.toStudentState = val;
+            this.status.state=2;
+        },
+        taskQuit(){
+            // 评阅作业是返回
             this.status.state=1;
         }
     }
