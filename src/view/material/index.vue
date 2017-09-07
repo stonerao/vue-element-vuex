@@ -268,6 +268,7 @@ export default {
             }],
             materData: [],
             materHandleID: 0,
+            LoadChild: false,
 	    }
 	},
     created() {

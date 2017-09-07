@@ -1,103 +1,120 @@
 <template>
-    <div :style="{width:tableWidth}" class='autoTbale' v-loading="loading">
-        <table class="table table-bordered" id='hl-tree-table'>
-            <thead>
-                <tr>
-                    <th v-for="(column,index) in cloneColumns">
-                        <label v-if="column.type === 'selection'">
-                            <el-checkbox v-model="checks" @click.native="handleCheckAll"></el-checkbox>
-                        </label>
-                        <label v-else>
-                            {{ renderHeader(column, index) }}
-                        </label>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="(item,index) in initItems" v-show="show(item)" :class="{'child-tr':item.parent}">
-                    <td v-for="(column,snum) in columns" :style=tdWidth(column.width)>
-                        <label v-if="column.type === 'selection'">
-                            <input type="checkbox" :value="item.id" v-model="checkGroup" class="colums1">
-                        </label>
-                        <div v-if="column.type === 'input'">
-                            <!-- 分类名称 -->
-                            <el-input v-model="item.category_name" placeholder="请输入分类名称" style="width: 200px;" @change="materTypeEdi(item.id,item.category_name,item.sort)"></el-input>
-                        </div>
-                        <div v-if="column.type === 'switch'">
-                            <!-- 切换按钮 -->
-                            <el-switch v-model="item.status" on-color="#13ce66" off-color="#ff4949" @change="whetherShow(item.id,item.status)"></el-switch>
-                        </div>
-                        <div v-if="column.type === 'action'">
-                            <!-- 操作按钮 -->
-                            <el-button :type="action.type" size="small" @click.native="RowClick(item,$event,index,action.text)" v-for='action in (column.actions)' :key='column.text'>{{action.text}}</el-button>
-                        </div>
-                        <label v-if="!column.type">
-                            <span @click="toggle(index,item)" v-if='snum==1'>
-                                <i v-html='item.spaceHtml'></i>
-                                <i v-if="item.children" :class="{'el-icon-caret-bottom':!item.expanded,'el-icon-caret-top':item.expanded }"></i>
-                                <i v-else class="ms-tree-space"></i>
-                            </span> 
-                            <el-input v-model="item.sort"  type="number" placeholder="请输入序号" class="orderInput" @change="materTypeEdi(item.id,item.category_name,item.sort)"></el-input>
-                            <div v-if="column.add" class="addNews" @click="createNewRow(item,index)"> 
-                                <i class="el-icon-plus"></i> <span>新增下级</span>
-                            </div>
-                        </label>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="l_mater_footer">
-            <el-row :span="24">
-                <el-col :span="6">
-                    <div class="footer_search">
-                        <el-button type="primary" size="mini" @click.native="DeleteMater_All">删除</el-button>
-                    </div>
-                </el-col>
-            </el-row>
+    <div>
+        <!-- 增加组织部门按钮 -->
+        <div v-if="rTreeGrid&&btnShow">   
+            <el-button type="primary" icon="plus" size="small" style="margin-bottom: 10px;" @click="r_add_derpart">添加组织部门</el-button>
         </div>
-        <div class="myDialog">
-            <div class="ownDailog" v-if="Dailog">
-                <div class="close_btn">
-                    <i class="el-icon-close" @click="Close_mask"></i>
-                </div>
-                <div class="content">
-                    <el-row :span="24">
-                        <el-col :span="4" style="text-align-last: auto;text-align: left;line-height: 36px;">分类名称：</el-col>
-                        <el-col :span="20">
-                            <el-col :span="15">
-                                <el-input v-model="createNewData.name" placeholder="请输入分类名称"></el-input>
-                            </el-col>
-                        </el-col>
-                    </el-row>
-                    <el-row :span="24">
-                        <el-col :span="4" style="text-align-last: auto;text-align: left;line-height: 36px;">分类排序：</el-col>
-                        <el-col :span="20">
-                            <el-col :span="15">
-                                <el-input v-model="createNewData.sort" type="number" placeholder="请输入分类序号"></el-input>
-                            </el-col>
-                        </el-col>
-                    </el-row>
-                    <el-row :span="24">
-                        <el-col :span="4" style="text-align-last: auto;text-align: left;line-height: 36px;">是否显示：</el-col>
-                        <el-col :span="20">
-                            <el-radio-group v-model="createNewData.show" style="margin-top: 9px;">
-                                <el-radio :label="1">是</el-radio>
-                                <el-radio :label="2">否</el-radio>
-                            </el-radio-group>
-                        </el-col>
-                    </el-row>
-                    <el-row :span="24" style="text-align: center;">
-                        <el-button type="primary" @click.native="creatSubmit">保存</el-button>
-                        <el-button @click.native="Close_mask">取消</el-button>
-                    </el-row>
-                </div>
+        <div v-if="tableShow" :style="{width:tableWidth}" class='autoTbale' v-loading="loading">
+            <table class="table table-bordered" id='hl-tree-table'>
+                <thead>
+                    <tr>
+                        <th v-for="(column,index) in cloneColumns">
+                            <label v-if="column.type === 'selection'">
+                                <el-checkbox v-model="checks" @click.native="handleCheckAll"></el-checkbox>
+                            </label>
+                            <label v-else>
+                                {{ renderHeader(column, index) }}
+                            </label>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(item,index) in initItems" v-show="show(item)" :class="{'child-tr':item.parent}">
+                        <td v-for="(column,snum) in columns" :style=tdWidth(column.width)>
+                            <label v-if="column.type === 'selection'&&lTreeGrid">
+                                <input type="checkbox" :value="item.id" v-model="checkGroup" class="colums1">
+                            </label>
+                            <div v-if="column.type === 'input'">
+                                <!-- 分类名称 -->
+                                <el-input v-model="item.category_name" placeholder="请输入分类名称" style="width: 200px;" @change="materTypeEdi(item.id,item.category_name,item.sort)"></el-input>
+                            </div>
+                            <div v-if="column.type === 'switch'&&lTreeGrid">
+                                <!-- 切换按钮 -->
+                                <el-switch v-model="item.status" on-color="#13ce66" off-color="#ff4949" @change="whetherShow(item.id,item.status)"></el-switch>
+                            </div>
+                            <div v-if="column.type === 'switch'&&rTreeGrid">
+                                <!-- 切换按钮 -->
+                                <el-switch v-model="item._status" on-color="#13ce66" off-color="#ff4949" @change="whetherShow(item.id,item._status)"></el-switch>
+                            </div>
+                            <div v-if="column.type === 'action'">
+                                <!-- 操作按钮 -->
+                                <el-button :type="action.type" size="small" @click.native="RowClick(item,$event,index,action.text)" v-for='action in (column.actions)' :key='column.text'>{{action.text}}</el-button>
+                            </div>
+                            <label v-if="!column.type">
+                                <span @click="toggle(index,item)" v-if='snum==1'>
+                                    <i v-html='item.spaceHtml'></i>
+                                    <i v-if="item.children" :class="{'el-icon-caret-bottom':!item.expanded,'el-icon-caret-top':item.expanded }"></i>
+                                    <i v-else class="ms-tree-space"></i>
+                                </span> 
+                                <el-input v-model="item.sort"  type="number" placeholder="请输入序号" class="orderInput" @change="materTypeEdi(item.id,item.category_name,item.sort)"></el-input>
+                                <div v-if="column.add" class="addNews" @click="createNewRow(item,index)"> 
+                                    <i class="el-icon-plus"></i> <span>新增下级</span>
+                                </div>
+                            </label>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="l_mater_footer" v-if="lTreeGrid">
+                <el-row :span="24">
+                    <el-col :span="6">
+                        <div class="footer_search">
+                            <el-button type="primary" size="mini" @click.native="DeleteMater_All">删除</el-button>
+                        </div>
+                    </el-col>
+                </el-row>
             </div>
-            <div class="dialog_mask" v-if="Dailog" @click="Close_mask"></div>
+            <!-- 素材管理的弹窗 -->
+            <div class="myDialog" v-if="lTreeGrid">
+                <div class="ownDailog" v-if="Dailog">
+                    <div class="close_btn">
+                        <i class="el-icon-close" @click="Close_mask"></i>
+                    </div>
+                    <div class="content">
+                        <el-row :span="24">
+                            <el-col :span="4" style="text-align-last: auto;text-align: left;line-height: 36px;">分类名称：</el-col>
+                            <el-col :span="20">
+                                <el-col :span="15">
+                                    <el-input v-model="createNewData.name" placeholder="请输入分类名称"></el-input>
+                                </el-col>
+                            </el-col>
+                        </el-row>
+                        <el-row :span="24">
+                            <el-col :span="4" style="text-align-last: auto;text-align: left;line-height: 36px;">分类排序：</el-col>
+                            <el-col :span="20">
+                                <el-col :span="15">
+                                    <el-input v-model="createNewData.sort" type="number" placeholder="请输入分类序号"></el-input>
+                                </el-col>
+                            </el-col>
+                        </el-row>
+                        <el-row :span="24">
+                            <el-col :span="4" style="text-align-last: auto;text-align: left;line-height: 36px;">是否显示：</el-col>
+                            <el-col :span="20">
+                                <el-radio-group v-model="createNewData.show" style="margin-top: 9px;">
+                                    <el-radio :label="1">是</el-radio>
+                                    <el-radio :label="2">否</el-radio>
+                                </el-radio-group>
+                            </el-col>
+                        </el-row>
+                        <el-row :span="24" style="text-align: center;">
+                            <el-button type="primary" @click.native="creatSubmit">保存</el-button>
+                            <el-button @click.native="Close_mask">取消</el-button>
+                        </el-row>
+                    </div>
+                </div>
+                <div class="dialog_mask" v-if="Dailog" @click="Close_mask"></div>
+            </div>
+        </div>
+        <!-- 增加组织部门 -->
+        <div v-if="addDepart">
+            <ADDDEPART :DerpartID="DerpartID" :DIST="distinguish" @DEPARTCANCEL="DEPARTCANCEL"></ADDDEPART>
         </div>
     </div>
 </template>
 <script>
     import info from '@/utils/l_axios'
+    import tree from '@/utils/treeGrid'
+    import ADDDEPART from '@/components/architecture/addDepart.vue'
     export default {
         name: 'treeGrid',
         props: {
@@ -109,6 +126,7 @@
                 }
             },
             lTreeGrid: Boolean,
+            rTreeGrid: Boolean,
         },
         data() {
             return {
@@ -132,10 +150,15 @@
                 },
                 Dailog: false,
                 checkGroupHelp: true,
+                tableShow: true,  
+                addDepart: false,
+                distinguish: false,  //组织部门-区分‘新增下级’&‘添加’
+                DerpartID: 0,
+                btnShow: true,
             }
         },
         create(){
-
+            console.log(this.lTreeGrid)
         },
         computed: {
             tableWidth() {
@@ -202,40 +225,88 @@
                 })()
             }
         },
+        components: {
+            ADDDEPART
+        },
         methods: {
-            creatSubmit(){  //新增提交！
-                info.materTypeEdit_add.call(this,this.createNewData);
-            },
-            Close_mask(){  //关闭弹窗
-                this.Dailog = false;
-                this.createNewData = {
-                    id: 0,
-                    name: '',
-                    sort: '',
-                    show: 1,
+            DEPARTCANCEL(val){  //组织部门添加组织部门-取消
+                this.DerpartID = 0;
+                this.distinguish = false;
+                this.tableShow = true;
+                this.addDepart = false;
+                this.btnShow = true;
+                if(val == 1){//添加成功重新加载数据
+                    this.$emit("RELOADATA");
+                }else if(val == 2){
+                    this.reloadChildren(this.createNewData.index, this.createNewData.item);
                 }
             },
-            DeleteMater_All(){  //勾选删除
-                info.materTypeEdit_del.call(this,this.selectString);
+            r_add_derpart(){  //组织部门添加组织部门
+                this.DerpartID = 0;
+                this.distinguish = true;
+                this.tableShow = false;
+                this.addDepart = true;
+                this.btnShow = false;
             },
-            whetherShow(id,status){  //切换按钮
-                info.materTypeEdit_show.call(this,id,status);
+            creatSubmit(){  //新增提交！
+                if(this.lTreeGrid){
+                    info.materTypeEdit_add.call(this,this.createNewData);
+                }else if(this.rTreeGrid){
+                    tree.materTypeEdit_add.call(this,this.createNewData);
+                }
             },
-            materTypeEdi(id,name,sort){  //编辑数据
-                info.materTypeEdit.call(this,id,name,sort);
-            },
-            createNewRow(item,index){  //新增下级
-                if(this.lTreeGrid){  //L的身份证
+            Close_mask(){  //关闭弹窗
+                if(this.lTreeGrid){
                     this.createNewData = {
                         id: 0,
                         name: '',
                         sort: '',
                         show: 1,
                     }
-                    this.createNewData.id = item.id;
-                    this.createNewData.index = index;
-                    this.createNewData.item = item;
+                    this.Dailog = false;
+                }else if(this.rTreeGrid){
+
+                }
+            },
+            DeleteMater_All(){  //勾选删除
+                if(this.lTreeGrid){
+                    info.materTypeEdit_del.call(this,this.selectString);
+                }else if(this.rTreeGrid){
+                    tree.materTypeEdit_del.call(this,this.selectString);
+                }
+            },
+            whetherShow(id,status){  //切换按钮
+                if(this.lTreeGrid){
+                    info.materTypeEdit_show.call(this,id,status);
+                }else if(this.rTreeGrid){
+                    tree.materTypeEdit_show.call(this,id,status);
+                }
+            },
+            materTypeEdi(id,name,sort){  //编辑数据
+                if(this.lTreeGrid){
+                    info.materTypeEdit.call(this,id,name,sort);
+                }else if(this.rTreeGrid){
+                    tree.materTypeEdit.call(this,id,name,sort);
+                }
+            },
+            createNewRow(item,index){  //新增下级
+                this.createNewData = {
+                        id: 0,
+                        name: '',
+                        sort: '',
+                        show: 1,
+                    }
+                this.createNewData.id = item.id;
+                this.createNewData.index = index;
+                this.createNewData.item = item;
+                if(this.lTreeGrid){  //L的身份证
                     this.Dailog = true;
+                }else if(this.rTreeGrid){
+                    this.DerpartID = item.id;
+                    this.distinguish = false;
+                    this.tableShow = false;
+                    this.addDepart = true;
+                    this.btnShow = false;
                 }
             },
             // 设置td宽度
@@ -249,7 +320,11 @@
                 let result = this.makeData(data)
                 this.$emit('on-row-click', result, event, index, text);
                 // console.log(data.id);
-                info.materTypeEdit_del.call(this,data.id);
+                if(this.lTreeGrid){
+                    info.materTypeEdit_del.call(this,data.id);
+                }else if(this.rTreeGrid){
+                    tree.materTypeEdit_del.call(this,data.id);
+                }
             },
             // 点击事件 返回数据处理
             makeData(data) {
@@ -355,7 +430,11 @@
                             item.load = true;
                             this.loading = true;
                             //测试加载数据并请求接口
-                            info.materType.call(this,item.id);
+                            if(this.lTreeGrid){
+                                info.materType.call(this,item.id);
+                            }else if(this.rTreeGrid){
+                                tree.materType.call(this,item.id);
+                            }
                             setTimeout((x)=> {
                                 // console.log(this.childrenData);
                                 if(this.childrenData.length > 0){
@@ -379,10 +458,15 @@
                 }
             },
             reloadChildren(index, item){  //新增后重新加载数据
-                this.Dailog = false;
                 item.load = false;
                 // item.expanded = false;
                 this.toggle(index, item);
+                if(this.lTreeGrid){
+                    this.Dailog = false;
+                }else if(this.rTreeGrid){
+
+                }
+
             },
             open(index, item) {  //递归展开行数据！
                 if (item.children) {
@@ -408,7 +492,6 @@
             handleCheckAll() {
                 // this.checks = !this.checks;
                 if (this.checks) {
-                    // this.checkGroup = this.getArray(this.checkGroup.concat(this.All(this.items)))
                     this.checkGroup = this.getArray(this.checkGroup.concat(this.All(this.initItems)))
                     // console.log(this.checkGroup);
                 } else {
@@ -470,7 +553,7 @@
                 if ('renderHeader' in this.columns[$index]) {
                     return this.columns[$index].renderHeader(column, $index);
                 } else {
-                    return column.title || '#';
+                    return column.title || '';
                 }
             },
 

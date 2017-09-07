@@ -664,9 +664,6 @@
   height: 16px;
   margin-top: 9px;
 }
-.l_recursion .autoTbale {
-  overflow: auto;
-}
 .l_recursion table {
   width: 100%;
   border-spacing: 0;
@@ -768,6 +765,12 @@
 }
 .l_recursion .orderInput input {
   padding: 3px;
+}
+.rTreeHelp.l_recursion #hl-tree-table tr th:nth-child(1),
+.rTreeHelp.l_recursion #hl-tree-table tr td:nth-child(1) {
+  width: 0px;
+  opacity: 0;
+  display: none;
 }
 @media screen and (max-width: 1618px) {
   .l_layout_outer .l_graCla_list .li_list {
