@@ -81,12 +81,11 @@
                             </el-col>
                         </el-row>
                         <el-row :span="24">
-                            <el-col :span="4" style="text-align-last: auto;text-align: left;line-height: 36px;">是否显示：</el-col>
+                            <el-col :span="4" style="text-align-last: auto;text-align: left;line-height: 36px;">上级分类：</el-col>
                             <el-col :span="20">
-                                <el-radio-group v-model="createNewData.show" style="margin-top: 9px;">
-                                    <el-radio :label="1">是</el-radio>
-                                    <el-radio :label="2">否</el-radio>
-                                </el-radio-group>
+                                <el-select v-model="createNewData.up" placeholder="请选择">
+                                    <el-option v-for="item in UpList" :key="item.vc_id" :label="item.vc_name" :value="item.vc_id"></el-option>
+                                </el-select>
                             </el-col>
                         </el-row>
                         <el-row :span="24" style="text-align: center;">
@@ -132,10 +131,11 @@
                     id: 0,
                     name: '',
                     sort: '',
-                    show: 1,
+                    up: '',
                 },
                 Dailog: false,
                 checkGroupHelp: true,
+                UpList: [],
                 loadNext: false,
                 addDepart: false,
                 distinguish: false,  //组织部门-区分‘新增下级’&‘添加’
@@ -216,18 +216,24 @@
         },
         methods: {
             r_add_derpart(){  //组织部门添加组织部门
-                this.DerpartID = 0;
-                this.distinguish = true;
+                this.createNewData = {
+                    id: 0,
+                    name: '',
+                    sort: '',
+                    up: '',
+                }
+                this.distinguish = false;  //区分新增下级及添加按钮
+                tree.videoList_addB.call(this);
             },
             creatSubmit(){  //新增提交！
-                tree.materTypeEdit_add.call(this,this.createNewData);
+                tree.videoList_add.call(this,this.createNewData);
             },
             Close_mask(){  //关闭弹窗
                 this.createNewData = {
                     id: 0,
                     name: '',
                     sort: '',
-                    show: 1,
+                    up: '',
                 }
                 this.Dailog = false;
             },
@@ -242,15 +248,16 @@
             },
             createNewRow(item,index){  //新增下级
                 this.createNewData = {
-                        id: 0,
-                        name: '',
-                        sort: '',
-                        show: 1,
-                    }
-                this.createNewData.id = item.id;
+                    id: 0,
+                    name: '',
+                    sort: '',
+                    up: '',
+                }
+                this.createNewData.id = item.vc_id;
                 this.createNewData.index = index;
                 this.createNewData.item = item;
-                this.Dailog = true;
+                this.distinguish = true;  //区分新增下级及添加按钮
+                tree.videoList_addB.call(this,item.vc_id);
             },
             // 设置td宽度
             tdWidth(val) {
@@ -263,7 +270,7 @@
                 let result = this.makeData(data)
                 this.$emit('on-row-click', result, event, index, text);
                 // console.log(data.id);
-                tree.materTypeEdit_del.call(this,data.id);
+                tree.materTypeEdit_del.call(this,data.vc_id);
             },
             // 点击事件 返回数据处理
             makeData(data) {

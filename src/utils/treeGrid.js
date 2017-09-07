@@ -370,5 +370,77 @@ export default {
             })
         },
 
+        //添加初始
+        videoList_addB(id) {
+            let apiURL = api.videoList_addB;
+            let formData = {
+                token: getToken(),
+            };
+            this.$http(apiURL, {
+                params: formData
+            }).then((res) => { 
+                // console.log(res);
+                if (res.status == 200) {
+                    if(res.data.code!=400){
+                        this.Dailog = true;
+                        this.UpList = res.data.data;
+                        if(this.distinguish){  //新增下级
+                            let _begin = res.data.data;
+                            _begin.forEach((x)=>{
+                                if(x.vc_id == this.createNewData.id){
+                                    this.createNewData.up = parseInt(x.vc_id);
+                                }
+                            });
+                        }
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
+        //添加分类
+        videoList_add(obj) {
+            this.$http({
+                url: api.videoList_add,
+                method: 'post',
+                data: {
+                    token: getToken(),
+                    pid: 1,
+                    vc_id: obj.up,
+                    vc_name: obj.name,
+                    vc_sort: obj.sort,
+                }
+            }).then((res) => { 
+                // console.log(res);
+                if (res.status == 200) {
+                    if(res.data.code!=400){
+                        this.$notify({
+                            message: res.data.data,
+                            type: 'success',
+                            duration: 1000,
+                            onClose: () => {
+                                this.reloadChildren(this.createNewData.index, this.createNewData.item);
+                            }
+                        });
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
 }
 

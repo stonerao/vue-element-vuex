@@ -10,4 +10,6 @@ export const api = {
     videoList_show:'Admin/Video/ajax_change_class',   //视频管理-列表-是否显示
     videoList_edit:'Admin/Video/class_edit_direct',   //视频管理-列表-编辑分类
     videoList_del:'Admin/Video/class_delete',   //视频管理-列表-删除分类
+    videoList_addB:'Admin/Video/class_add_show',   //视频管理-列表-添加分类初始
+    videoList_add:'Admin/Video/class_add',   //视频管理-列表-添加分类
 }
