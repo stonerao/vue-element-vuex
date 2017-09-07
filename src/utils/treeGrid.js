@@ -4,7 +4,7 @@ import {getToken} from '@/utils/auth'
 export default {
         //素材分类
         materType(pid) {
-            console.log(this.LoadChild)
+            // console.log(this.LoadChild)
             this.$http(api.materType, {
                 params: {
                     token: getToken(),
@@ -71,43 +71,18 @@ export default {
             })
         },
 
-        //素材分类--编辑初始详情展示
-        materTypeEdit_detail(id) {
-            this.$http(api.materTypeEdit_detail, {
-                params: {
-                    token: getToken(),
-                    id: id,
-                }
-            }).then((res) => { 
-                console.log(res);
-                if (res.status == 200) {
-                    if(res.data.code!=400){
-                        
-                    }else{
-                        this.$notify.error({
-                            message: res.data.data.error
-                        });
-                    }
-                }else {
-                    this.$notify.error({
-                        message: res.data.data.error
-                    });
-                }
-            })
-        },
-
         //素材分类--编辑-是否显示
         materTypeEdit_show(id,show) {
             if(show){
-                show = 1;
+                show = 0;
             }else{
-                show = 2;
+                show = 1;
             }
             this.$http(api.materTypeEdit_show, {
                 params: {
                     token: getToken(),
                     id: id,
-                    is_show: show,
+                    status: show,
                 }
             }).then((res) => { 
                 // console.log(res);
@@ -181,9 +156,6 @@ export default {
 
         //素材分类--删除数据
         materTypeEdit_del(id) {
-            // if(Array.isArray(id)){ //兼容性不好
-            //     id = id.sort().join(",");
-            // }
             if(id instanceof Array){ 
                 id = id.sort().join(",");
             }

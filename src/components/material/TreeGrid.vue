@@ -218,11 +218,15 @@
             },
             Close_mask(){  //关闭弹窗
                 this.Dailog = false;
-                this.createNewData = {
-                    id: 0,
-                    name: '',
-                    sort: '',
-                    show: 1,
+                if(this.lTreeGrid){
+                    this.createNewData = {
+                        id: 0,
+                        name: '',
+                        sort: '',
+                        show: 1,
+                    }
+                }else if(this.rTreeGrid){
+
                 }
             },
             DeleteMater_All(){  //勾选删除
@@ -257,8 +261,10 @@
                     this.createNewData.id = item.id;
                     this.createNewData.index = index;
                     this.createNewData.item = item;
-                    this.Dailog = true;
+                }else{
+
                 }
+                this.Dailog = true;
             },
             // 设置td宽度
             tdWidth(val) {

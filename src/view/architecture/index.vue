@@ -86,9 +86,11 @@
                         <div v-if="oneStatus==1">
                             <addSetUser state="1" :dataObj="dataObj" @QUITQROUP="QUITQROUP"></addSetUser>
                         </div>
-                        <div v-if="oneStatus==2">
+                        <div v-if="oneStatus==2" class="l_layout_outer">
                             <!-- <architectureSet :objData="sdata"></architectureSet> -->
-                            <TreeGrid :items='materData' :columns='columns' :rTreeGrid="rTreeGrid" @RELOADATA="reloadTreeData"></TreeGrid>
+                            <div class="l_recursion">
+                                <TreeGrid :items='materData' :columns='columns' :rTreeGrid="rTreeGrid" @RELOADATA="reloadTreeData"></TreeGrid>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -462,7 +464,6 @@ export default {
                     message: '已取消删除'
                 });
             });
-
 
         },
         addDladogUser() {
