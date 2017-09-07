@@ -10,7 +10,10 @@ export default {
             }
         }).then((res)=>{
             removeToken();
-            res.data.status=='true'?history.go(0):'';
+             
+            if( res.data.status=='true'){
+                this.$router.push({path:"/login"})
+            }
         })
     }
 }

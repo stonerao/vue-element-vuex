@@ -67,7 +67,7 @@
                                         <el-button type="primary" size="mini">毕业</el-button>
                                     </el-col>
                                     <el-col :span="12">
-                                        <el-pagination class="float-right" @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="studentList.curpage" :page-sizes="[10, 15, 20, 25]" :page-size="studentList.page_count" layout="total, sizes, prev, pager, next, jumper" :total="studentList.total_num">
+                                        <el-pagination class="float-right" @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="studentList.curpage" :page-sizes="[10, 15, 20, 25]" :page-size="studentList.page_count" layout="total, sizes, prev, pager, next, jumper" :total="parseInt(stundentCount.count)">
                                         </el-pagination> 
                                     </el-col>
                                 </el-row> 

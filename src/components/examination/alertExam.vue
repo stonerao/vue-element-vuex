@@ -34,6 +34,7 @@ export default {
         },
         submit(){
             // this.$emit("examgood",true)
+            if(this.obj.e_id)
             this.$router.push({path:'/good_exam',query:{e_id:this.obj.e_id}})
         }
     }

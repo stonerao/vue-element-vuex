@@ -8,9 +8,9 @@ export const api = {
     department_list:'/Admin/Department/department_list',//所有组织结构关系表
     studentListMent:'Admin/teacher/department_list',//学生组织结构关系
     areaList:"Student/StudentIndex/area_list",//省 列表
-    addStundet:"Student/StudentIndex/studentadd",//添加学生
-    setStundet:"Student/StudentIndex/studentedit",//编辑学生
-    studentdelete:"Student/SchoolStudent/studentdelete",//删除学生
+    addStundet:"Admin/teacher/studentadd",//添加学生
+    setStundet:"Admin/teacher/studentedit",//编辑学生
+    studentdelete:"Admin/teacher/studentdelete",//删除学生
     grade_list:"Admin/teacher/grade_list",//二级联动-年级
     class_list:"Admin/teacher/class_list",//二级联动-班级
     department_index:"Admin/Department/department_index",//组织架构 列表 首页
@@ -54,4 +54,10 @@ export const api = {
     edit_examination:"Teacher/Examinationcenter/edit_examination",//编辑考试
     Studentexamination_list:"Student/SchoolStudent/examination_list",//学生 考试列表
     examination_info:"Student/SchoolStudent/examination_info",//考试详情
+    task_list:"Teacher/Examinationcenter/task_list",//作业列表
+    add_task:"Teacher/Examinationcenter/add_task",//添加作业
+    studentTask_list:"Student/SchoolStudent/task_list",//学生查看我的作业列表
+    show_task:"Student/SchoolStudent/show_student_task",//学生查看当前作业
+    addztask:"Student/SchoolStudent/addztask",//学生作业提交
+    teacher_tasklist:"Teacher/Examinationcenter/teacher_tasklist",//老师查看学生提交的作业列表
 }

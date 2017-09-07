@@ -20,21 +20,15 @@
             <el-table-column label="id" width="80" show-overflow-tooltip>
                 <template scope="scope">{{ scope.row.task_id }}</template>
             </el-table-column>
-            <el-table-column prop="task_title" label="题干" show-overflow-tooltip>
+            <el-table-column prop="task_title" label="题目" show-overflow-tooltip>
+            </el-table-column> 
+            <el-table-column prop="class_name" width="180" label="班级" show-overflow-tooltip>
             </el-table-column>
-            <!-- <el-table-column label="试题类型" width="120" show-overflow-tooltip>
-                    <template scope="scope">
-                        <span class="index-color">{{scope.row.type_name}}</span>
-                    </template>
-                </el-table-column> -->
-            <el-table-column prop="task_time" width="180" label="时间" show-overflow-tooltip>
-                 </el-table-column> 
-            <el-table-column prop="class_name" width="180" label="作业班级" show-overflow-tooltip>
+            <el-table-column prop="teacher_name" width="180" label="老师" show-overflow-tooltip>
             </el-table-column> 
             <el-table-column width="180" label="操作" show-overflow-tooltip>
                 <template scope="scope">
-                    <el-button size="mini" @click="getQues(scope.row)">查看</el-button>
-                    <el-button size="mini" @click="setQues(scope.row)">编辑</el-button>
+                    <el-button size="mini" @click="getQues(scope.row.task_id)">查看</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -72,18 +66,12 @@ export default {
         resh() {
             this.ajax()
         },
-        getQues() {
-            this.$emit("tablist", true)
-        },
-        setQues() {
-
-        },
-        deleteData() {
-
-        },
+        getQues(val) { 
+            this.$emit("myOperation",val)
+        }, 
         ajax() {
             this.t_data=[]
-            store.task_list.call(this)
+            store.studentList.call(this)
         },
         SizeChange() {
 
