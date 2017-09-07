@@ -385,12 +385,12 @@ export default {
                         this.Dailog = true;
                         this.UpList = res.data.data;
                         if(this.distinguish){  //新增下级
-                            let _begin = res.data.data;
-                            _begin.forEach((x)=>{
-                                if(x.vc_id == this.createNewData.id){
-                                    this.createNewData.up = parseInt(x.vc_id);
-                                }
-                            });
+                            // let _begin = res.data.data;
+                            // _begin.forEach((x)=>{
+                            //     if(x.vc_id == this.createNewData.id){
+                            //         this.createNewData.up = parseInt(x.vc_id);
+                            //     }
+                            // });
                         }
                     }else{
                         this.$notify.error({
@@ -412,8 +412,7 @@ export default {
                 method: 'post',
                 data: {
                     token: getToken(),
-                    pid: 1,
-                    vc_id: obj.up,
+                    pid: obj.id,
                     vc_name: obj.name,
                     vc_sort: obj.sort,
                 }
@@ -426,7 +425,14 @@ export default {
                             type: 'success',
                             duration: 1000,
                             onClose: () => {
-                                this.reloadChildren(this.createNewData.index, this.createNewData.item);
+                                if(this.distinguish){
+                                    this.reloadChildren(this.createNewData.index, this.createNewData.item);
+                                }else{
+                                    this.$emit('RELOADATA');
+                                    setTimeout((x)=>{
+                                        this.Dailog = false;
+                                    },100)
+                                }
                             }
                         });
                     }else{

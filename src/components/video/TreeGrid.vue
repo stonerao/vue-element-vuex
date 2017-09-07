@@ -80,10 +80,10 @@
                                 </el-col>
                             </el-col>
                         </el-row>
-                        <el-row :span="24">
+                        <el-row :span="24" v-if="!this.distinguish">
                             <el-col :span="4" style="text-align-last: auto;text-align: left;line-height: 36px;">上级分类：</el-col>
                             <el-col :span="20">
-                                <el-select v-model="createNewData.up" placeholder="请选择">
+                                <el-select v-model="createNewData.up" placeholder="请选择" clearable>
                                     <el-option v-for="item in UpList" :key="item.vc_id" :label="item.vc_name" :value="item.vc_id"></el-option>
                                 </el-select>
                             </el-col>
