@@ -1,6 +1,6 @@
 <template>
     <div>
-        <!-- 增加组织部门 -->
+        <!-- 增加组织部门按钮 -->
         <div v-if="rTreeGrid">   
             <el-button type="primary" icon="plus" size="small" style="margin-bottom: 10px;" @click="r_add_derpart">添加组织部门</el-button>
         </div>
@@ -105,14 +105,16 @@
                 <div class="dialog_mask" v-if="Dailog" @click="Close_mask"></div>
             </div>
         </div>
+        <!-- 增加组织部门 -->
         <div v-if="addDepart">
-            
+            <ADDDEPART></ADDDEPART>
         </div>
     </div>
 </template>
 <script>
     import info from '@/utils/l_axios'
     import tree from '@/utils/treeGrid'
+    import ADDDEPART from '@/components/architecture/addDepart.vue'
     export default {
         name: 'treeGrid',
         props: {
@@ -150,6 +152,7 @@
                 checkGroupHelp: true,
                 tableShow: true,  
                 addDepart: false,
+                distinguish: false,  //组织部门-区分‘新增下级’&‘添加’
             }
         },
         create(){
@@ -220,9 +223,15 @@
                 })()
             }
         },
+        components: {
+            ADDDEPART
+        },
         methods: {
             r_add_derpart(){  //组织部门添加组织部门
-
+                this.distinguish = true;
+                this.rTreeGrid = false;
+                this.tableShow = false;
+                this.addDepart = true;
             },
             creatSubmit(){  //新增提交！
                 if(this.lTreeGrid){

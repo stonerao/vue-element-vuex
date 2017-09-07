@@ -1,0 +1,87 @@
+<template>
+    <div>
+        <!-- 创建素材 -->
+        <div class="l_create_wrap">
+            <el-row>
+                <el-col :span="3">部门名称：</el-col>
+                <el-col :span="21">
+                    <el-col :span="5" style="margin-right: 20px;">
+                        <el-input v-model="create.name" placeholder="请输入主题"></el-input>
+                    </el-col>
+                    <el-col :span="5" class="someAdd">
+                        <el-input placeholder="备注信息文字" disabled></el-input>
+                    </el-col>   
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="3">特殊部门标记：</el-col>
+                <el-col :span="21">
+                    <el-radio-group v-model="create.tag">
+                        <el-radio :label="1">是</el-radio>
+                        <el-radio :label="2">否</el-radio>
+                    </el-radio-group>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="3">部门介绍：</el-col>
+                <el-col :span="21" class="confContent">
+                    <el-col :span="10">
+                        <textarea v-model="create.intro" style="width: 100%;max-width: 1000px;min-width: 1000px;max-height: 250px;min-height: 200px;max-height: 250px;"></textarea>
+                    </el-col>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="3">状态：</el-col>
+                <el-col :span="21">
+                    <el-radio-group v-model="create.status">
+                        <el-radio :label="1">启用</el-radio>
+                        <el-radio :label="2">禁用</el-radio>
+                    </el-radio-group>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="3" style="color: #f7f7f7;">保存操作</el-col>
+                <el-col :span="21">
+                    <el-button type="primary" @click.native="submit">保存</el-button>
+                    <el-button type="primary" style="background: #e0e0e0;border-color: #e0e0e0;color: #5b5b5b" @click.native="cancelCreate">取消</el-button>
+                </el-col>
+            </el-row>
+        </div>
+    </div>
+</template>
+
+<script>
+import tree from '@/utils/treeGrid'
+
+export default {
+    props: [],
+    data() {
+        return {
+            create: {
+                name: '',
+                tag: '',
+                intro: '',
+                status: 1,
+            },
+        }
+    },
+    created() {
+        
+    },
+    components: {
+        
+    },
+    methods: {
+        submit(){
+            
+        },
+    },
+    watch:{
+        
+    }
+}
+</script>
+ 
+<style scoped>
+
+</style>
