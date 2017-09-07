@@ -41,8 +41,7 @@ export default {
     data() {
         return {
             titleItem: [
-                { name: "直播分类", index: 0 },
-                { name: "直播管理", index: 1 },
+                { name: "直播管理", index: 0 },
             ],
             prompts: [
                 `该页面展示管理员的操作日志，可进行删除。`,
@@ -79,7 +78,7 @@ export default {
         },
       //更新列表
         refreshList(){
-          if(this.state==1){
+          if(this.state==0){
             video.video_list.call(this);
             video.live_add.call(this)
           }
