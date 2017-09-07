@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-button type="primary" icon="plus" size="small" style="margin-bottom: 10px;" @click="r_add_derpart">添加组织部门</el-button>
+        <el-button type="primary" icon="plus" size="small" style="margin-bottom: 10px;" @click="r_add_derpart">添加视频分类</el-button>
         <div :style="{width:tableWidth}" class='autoTbale' v-loading="loading">
             <table class="table table-bordered" id='hl-tree-table'>
                 <thead>
@@ -19,15 +19,15 @@
                     <tr v-for="(item,index) in initItems" v-show="show(item)" :class="{'child-tr':item.parent}">
                         <td v-for="(column,snum) in columns" :style=tdWidth(column.width)>
                             <label v-if="column.type === 'selection'">
-                                <input type="checkbox" :value="item.id" v-model="checkGroup" class="colums1">
+                                <input type="checkbox" :value="item.vc_id" v-model="checkGroup" class="colums1">
                             </label>
                             <div v-if="column.type === 'input'">
                                 <!-- 分类名称 -->
-                                <el-input v-model="item.category_name" placeholder="请输入分类名称" style="width: 200px;" @change="materTypeEdi(item.id,item.category_name,item.sort)"></el-input>
+                                <el-input v-model="item.vc_name" placeholder="请输入分类名称" style="width: 200px;" @change="materTypeEdi(item.vc_id,item.vc_name,item.vc_sort)"></el-input>
                             </div>
                             <div v-if="column.type === 'switch'">
                                 <!-- 切换按钮 -->
-                                <el-switch v-model="item.status" on-color="#13ce66" off-color="#ff4949" @change="whetherShow(item.id,item.status)"></el-switch>
+                                <el-switch v-model="item.vc_show_status" on-color="#13ce66" off-color="#ff4949" @change="whetherShow(item.vc_id,item.vc_show_status)"></el-switch>
                             </div>
                             <div v-if="column.type === 'action'">
                                 <!-- 操作按钮 -->
@@ -39,7 +39,7 @@
                                     <i v-if="item.children" :class="{'el-icon-caret-bottom':!item.expanded,'el-icon-caret-top':item.expanded }"></i>
                                     <i v-else class="ms-tree-space"></i>
                                 </span> 
-                                <el-input v-model="item.sort"  type="number" placeholder="请输入序号" class="orderInput" @change="materTypeEdi(item.id,item.category_name,item.sort)"></el-input>
+                                <el-input v-model="item.vc_sort"  type="number" placeholder="请输入序号" class="orderInput" @change="materTypeEdi(item.vc_id,item.vc_name,item.vc_sort)"></el-input>
                                 <div v-if="column.add" class="addNews" @click="createNewRow(item,index)"> 
                                     <i class="el-icon-plus"></i> <span>新增下级</span>
                                 </div>
@@ -136,6 +136,7 @@
                 },
                 Dailog: false,
                 checkGroupHelp: true,
+                loadNext: false,
                 addDepart: false,
                 distinguish: false,  //组织部门-区分‘新增下级’&‘添加’
                 DerpartID: 0,
@@ -234,10 +235,10 @@
                 tree.materTypeEdit_del.call(this,this.selectString);
             },
             whetherShow(id,status){  //切换按钮
-                info.materTypeEdit_show.call(this,id,status);
+                tree.videoList_show.call(this,id,status);
             },
             materTypeEdi(id,name,sort){  //编辑数据
-                tree.materTypeEdit.call(this,id,name,sort);
+                tree.videoTypeEdit.call(this,id,name,sort);
             },
             createNewRow(item,index){  //新增下级
                 this.createNewData = {
@@ -347,6 +348,7 @@
                 let level = item.level + 1;
                 let spaceHtml = "";
                 this.LoadChild = true;
+                this.loadNext = false;
                 this.childrenData = [];
                 for (var i = 1; i < level; i++) {  //前面的空格间隙！多一级就多一个空隙html
                     spaceHtml += "<i class='ms-tree-space'></i>"
@@ -367,8 +369,9 @@
                         } else {  //没数据进入这里加载;
                             item.load = true;
                             this.loading = true;
+                            this.loadNext = true;
                             //测试加载数据并请求接口
-                            tree.materType.call(this,item.id);
+                            tree.materType.call(this,item.vc_id);
                             setTimeout((x)=> {
                                 // console.log(this.childrenData);
                                 if(this.childrenData.length > 0){
