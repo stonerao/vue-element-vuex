@@ -154,6 +154,7 @@ export default {
                 // console.log(res);
                 if (res.status == 200) {
                     if(res.data.code!=400){
+                        let num = 0;
                         if(this.DIST){  //添加组织
                             this.create.id = res.data.data.root_id;
                         }
@@ -165,6 +166,16 @@ export default {
                             normal: res.data.data.show_normal,
                             teacher: res.data.data.show_head_teacher,
                         };
+                        for(var key in this.whetherShow){
+                            if(!this.whetherShow[key]){
+                                num++;
+                            }
+                        }
+                        if(num == 5){
+                            this.allHidden = false;
+                        }else{
+                            this.allHidden = true;
+                        }
                     }else{
                         this.$notify.error({
                             message: res.data.data.error
@@ -216,7 +227,7 @@ export default {
                     }else{
                         if(this.DIST){  //添加部门标识
                             this.create = {
-                                id: this.DerpartID,
+                                id: 0,
                                 name: '',
                                 tag: 1,
                                 intro: '',

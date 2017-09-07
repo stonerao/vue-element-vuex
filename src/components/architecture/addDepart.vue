@@ -13,7 +13,7 @@
                     </el-col>   
                 </el-col>
             </el-row>
-            <el-row>
+            <el-row v-if="allHidden">
                 <el-col :span="3">特殊部门标记：</el-col>
                 <el-col :span="21">
                     <el-radio-group v-model="create.tag">
@@ -81,7 +81,8 @@ export default {
             },
             Toptions:[],
             teacherID: '',
-            disable: true,   
+            disable: true,
+            allHidden: false,   
         }
     },
     created() {

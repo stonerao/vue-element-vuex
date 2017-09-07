@@ -238,7 +238,6 @@
                 if(val == 1){//添加成功重新加载数据
                     this.$emit("RELOADATA");
                 }else if(val == 2){
-                    console.log('执行了！')
                     this.reloadChildren(this.createNewData.index, this.createNewData.item);
                 }
             },
