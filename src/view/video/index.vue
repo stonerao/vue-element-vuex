@@ -8,8 +8,10 @@
       <div class="kd-box-content">
         <description :prompts="prompts" @PromPts="promptsTem"></description>
         <!--模块开始  -->
-        <div v-if="state==0">
-
+        <div v-if="state==0" class="l_layout_outer">
+            <div class="l_recursion">
+                <TreeGrid :items='materData' :columns='columns' :zTreeGrid="zTreeGrid" @RELOADATA="reloadTreeData"></TreeGrid>
+            </div>
         </div>
         <div v-if="state==1">
           <videoEdit v-if="showUp==0" :firstClassList="firstClassList" :underList="underList" :showList="showList" @underClassList="underClassList" :total="total" @showUp="upShow" @searchList="listSearch" :classList="classList" @videoDelete="deleteVideo"  :videoId="videoId" @videoEdit="videoEdit"></videoEdit>
@@ -37,6 +39,8 @@
   import video from '@/utils/video'
   import videoEdit from '@/components/video/videoEdit'
   import videoNew from '@/components/video/videoNew'
+  import info from '@/utils/treeGrid'
+  import TreeGrid from '@/components/video/TreeGrid.vue'
 
   export default {
     data() {
@@ -49,7 +53,7 @@
           `该页面展示管理员的操作日志，可进行删除。`,
           `侧边栏可以进行高级搜索`
         ],
-        state: 1,
+        state: 0,
         firstClassList:[],//一级分类列表
         underList:{
           secondList:[],//二级分类
@@ -67,15 +71,43 @@
         classId:'',//分类ID
         classList:[],//视频管理列表
         videoId:'',//播放/编辑的视频id
+        zTreeGrid: true,
+        columns: [{
+            type: 'selection'
+        }, {
+            title: '排序',
+            key: 'vc_sort',
+            add: true,
+        }, {
+            title: '分类名称',
+            type: 'input',
+            key: 'vc_name'
+        }, {
+            title: '是否显示',
+            type: 'switch',
+            key: 'vc_show_status'
+        },{
+            title: '操作',
+            type: 'action',
+            actions: [{
+                type: 'default',
+                text: '删除'
+            }]
+        }],
+        materData: [],
+        LoadChild: false,
       }
     },
     created() {
       this.refreshList()
     },
     components: {
-      titleItem, titleActive, description, bottomItem,videoEdit,videoNew
+      titleItem, titleActive, description, bottomItem,videoEdit,videoNew, TreeGrid
     },
     methods: {
+      reloadTreeData(){  //删除tree数据后数据重新加载
+          info.materType.call(this,'');
+      },
       emitTransfer(index) {
         if (this.state == index) {
           return
@@ -90,6 +122,8 @@
         if(this.state==1){
           video.first_class_list.call(this);
           video.video_list.call(this);
+        }else if(this.state==0){
+          info.materType.call(this,'');
         }
       },
       //视频管理视频分类选择框

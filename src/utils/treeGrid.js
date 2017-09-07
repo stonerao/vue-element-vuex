@@ -4,18 +4,53 @@ import {getToken} from '@/utils/auth'
 export default {
         //素材分类
         materType(pid) {
-            // console.log(this.LoadChild)
-            this.$http(api.materType, {
-                params: {
+            let apiUrl = api.materType;
+            let formData = {
+                token: getToken(),
+                pid: pid,
+            };
+            if(this.zTreeGrid){
+                apiUrl = api.videoList;
+                formData = {
                     token: getToken(),
-                    pid: pid,
+                    keywords: '',
+                };
+                if(this.loadNext){
+                    apiUrl = api.videoList_next;
+                    formData = {
+                        token: getToken(),
+                        vc_id: pid,
+                    };
                 }
+            }
+            this.$http(apiUrl, {
+                params: formData
             }).then((res) => { 
                 if (res.status == 200) {
                     if(res.data.code!=400){
-                        if(this.rTreeGrid){  //自己身份证
-                            if(!this.LoadChild){
+                        if(!this.LoadChild){
+                            if(this.zTreeGrid){
+                                this.materData = res.data.data;
+                                this.materData.forEach((x)=>{
+                                    if(x.vc_show_status == 1){
+                                        x.vc_show_status = true;
+                                    }else{
+                                        x.vc_show_status = false;
+                                    }
+                                });
+                            }else{
                                 this.materData = res.data.data.list;
+                            }
+                        }else{
+                            if(this.zTreeGrid){
+                                this.childrenData = res.data.data;
+                                this.childrenData.forEach((x)=>{
+                                    if(x.vc_show_status == 1){
+                                        x.vc_show_status = true;
+                                    }else{
+                                        x.vc_show_status = false;
+                                    }
+                                });
                             }else{
                                 this.childrenData = res.data.data.list;
                             }
@@ -38,24 +73,63 @@ export default {
             if(String(name).length == 0 || String(sort).length == 0){
                 return
             }
-            this.$http(api.materTypeEdit, {
-                params: {
+            let apiURL = api.materTypeEdit;
+            let formData = {
+                token: getToken(),
+                id: id,
+                name: name,
+                sort: sort,
+            };
+            if(this.zTreeGrid){
+                apiURL = api.videoList_edit;
+                formData = {
                     token: getToken(),
-                    id: id,
-                    name: name,
-                    sort: sort,
-                }
+                    vc_id: id,
+                    vc_name: name,
+                    vc_sort: sort,
+                };
+            }
+            this.$http(apiURL, {
+                params: formData
             }).then((res) => {
-                // console.log(res);
                 if (res.status == 200) {
                     if(res.data.code!=400){
-                        // this.$notify({
-                        //     message: res.data.data,
-                        //     type: 'success',
-                        //     duration: 1000,
-                        //     onClose: () => {
-                        //     }
-                        // });
+                        
+                    }else{
+                        this.$notify({
+                            message: res.data.data,
+                            type: 'error',
+                            duration: 1000,
+                        });
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
+        //素材分类-编辑分类
+        videoTypeEdit(id,name,sort) {
+            if(String(name).length == 0 || String(sort).length == 0){
+                return
+            }
+            let apiURL = api.videoList_edit;
+            let formData = {
+                token: getToken(),
+                vc_id: id,
+                vc_name: name,
+                vc_sort: sort,
+            };
+            this.$http({
+                url: api.videoList_edit,
+                method: 'post',
+                data: formData
+            }).then((res) => {
+                if (res.status == 200) {
+                    if(res.data.code!=400){
+                        
                     }else{
                         this.$notify({
                             message: res.data.data,
@@ -105,17 +179,65 @@ export default {
                 }
             })
         },
+
+        //是否显示
+        videoList_show(id,show) {
+            if(show){
+                show = 1;
+            }else{
+                show = 2;
+            }
+            this.$http({
+                url: api.videoList_show,
+                method: 'post',
+                data: {
+                    token: getToken(),
+                    type: 1,
+                    vc_id: id,
+                    show_status: show,
+                    sort: '',
+                }
+            }).then((res) => { 
+                // console.log(res);
+                if (res.status == 200) {
+                    if(res.data.code!=400){
+                        this.$notify({
+                            message: '操作成功！',
+                            type: 'success',
+                            duration: 1000
+                        });
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
         
         //素材分类--删除数据
         materTypeEdit_del(id) {
             if(id instanceof Array){ 
                 id = id.sort().join(",");
             }
-            this.$http(api.materTypeEdit_del, {
-                params: {
+            let apiURL = api.materTypeEdit_del;
+            let formData = {
+                token: getToken(),
+                department_id: id,
+            };
+            if(this.zTreeGrid){
+                apiURL = api.videoList_del;
+                formData = {
                     token: getToken(),
-                    department_id: id,
-                }
+                    del_id: id,
+                };
+            }
+            this.$http(apiURL, {
+                params: formData
             }).then((res) => { 
                 // console.log(res);
                 if (res.status == 200) {
@@ -238,6 +360,85 @@ export default {
                             message: res.data.data,
                             type: 'error',
                             duration: 1000,
+                        });
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
+        //添加初始
+        videoList_addB(id) {
+            let apiURL = api.videoList_addB;
+            let formData = {
+                token: getToken(),
+            };
+            this.$http(apiURL, {
+                params: formData
+            }).then((res) => { 
+                // console.log(res);
+                if (res.status == 200) {
+                    if(res.data.code!=400){
+                        this.Dailog = true;
+                        this.UpList = res.data.data;
+                        if(this.distinguish){  //新增下级
+                            // let _begin = res.data.data;
+                            // _begin.forEach((x)=>{
+                            //     if(x.vc_id == this.createNewData.id){
+                            //         this.createNewData.up = parseInt(x.vc_id);
+                            //     }
+                            // });
+                        }
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
+        //添加分类
+        videoList_add(obj) {
+            this.$http({
+                url: api.videoList_add,
+                method: 'post',
+                data: {
+                    token: getToken(),
+                    pid: obj.id,
+                    vc_name: obj.name,
+                    vc_sort: obj.sort,
+                }
+            }).then((res) => { 
+                // console.log(res);
+                if (res.status == 200) {
+                    if(res.data.code!=400){
+                        this.$notify({
+                            message: res.data.data,
+                            type: 'success',
+                            duration: 1000,
+                            onClose: () => {
+                                if(this.distinguish){
+                                    this.reloadChildren(this.createNewData.index, this.createNewData.item);
+                                }else{
+                                    this.$emit('RELOADATA');
+                                    setTimeout((x)=>{
+                                        this.Dailog = false;
+                                        this.checkBoxRefresh();
+                                    },100)
+                                }
+                            }
+                        });
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
                         });
                     }
                 }else {
