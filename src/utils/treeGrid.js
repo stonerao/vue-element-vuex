@@ -42,7 +42,7 @@ export default {
                 params: {
                     token: getToken(),
                     id: id,
-                    category_name: name,
+                    name: name,
                     sort: sort,
                 }
             }).then((res) => {
