@@ -6,7 +6,7 @@
                 <el-col :span="3">部门名称：</el-col>
                 <el-col :span="21">
                     <el-col :span="5" style="margin-right: 20px;">
-                        <el-input v-model="create.name" placeholder="请输入主题"></el-input>
+                        <el-input v-model="create.name" placeholder="请输入部门名称"></el-input>
                     </el-col>
                     <el-col :span="5" class="someAdd">
                         <el-input placeholder="备注信息文字" disabled></el-input>
@@ -17,8 +17,10 @@
                 <el-col :span="3">特殊部门标记：</el-col>
                 <el-col :span="21">
                     <el-radio-group v-model="create.tag">
-                        <el-radio :label="1">是</el-radio>
-                        <el-radio :label="2">否</el-radio>
+                        <el-radio :label="1">无</el-radio>
+                        <el-radio :label="2">年级</el-radio>
+                        <el-radio :label="3">虚拟班</el-radio>
+                        <el-radio :label="4">实体班</el-radio>
                     </el-radio-group>
                 </el-col>
             </el-row>
@@ -54,12 +56,12 @@
 import tree from '@/utils/treeGrid'
 
 export default {
-    props: [],
+    props: ['DerpartID'],
     data() {
         return {
             create: {
                 name: '',
-                tag: '',
+                tag: 1,
                 intro: '',
                 status: 1,
             },
@@ -75,6 +77,9 @@ export default {
         submit(){
             
         },
+        cancelCreate(){
+            this.$emit('DEPARTCANCEL');
+        }
     },
     watch:{
         

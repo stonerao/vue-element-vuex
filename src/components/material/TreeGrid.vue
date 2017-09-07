@@ -21,7 +21,7 @@
                 <tbody>
                     <tr v-for="(item,index) in initItems" v-show="show(item)" :class="{'child-tr':item.parent}">
                         <td v-for="(column,snum) in columns" :style=tdWidth(column.width)>
-                            <label v-if="column.type === 'selection'">
+                            <label v-if="column.type === 'selection'&&lTreeGrid">
                                 <input type="checkbox" :value="item.id" v-model="checkGroup" class="colums1">
                             </label>
                             <div v-if="column.type === 'input'">
@@ -55,7 +55,7 @@
                     </tr>
                 </tbody>
             </table>
-            <div class="l_mater_footer">
+            <div class="l_mater_footer" v-if="lTreeGrid">
                 <el-row :span="24">
                     <el-col :span="6">
                         <div class="footer_search">
@@ -107,7 +107,7 @@
         </div>
         <!-- 增加组织部门 -->
         <div v-if="addDepart">
-            <ADDDEPART></ADDDEPART>
+            <ADDDEPART :DerpartID="DerpartID" @DEPARTCANCEL="DEPARTCANCEL"></ADDDEPART>
         </div>
     </div>
 </template>
@@ -153,10 +153,11 @@
                 tableShow: true,  
                 addDepart: false,
                 distinguish: false,  //组织部门-区分‘新增下级’&‘添加’
+                DerpartID: 0,
             }
         },
         create(){
-
+            console.log(this.lTreeGrid)
         },
         computed: {
             tableWidth() {
@@ -227,7 +228,15 @@
             ADDDEPART
         },
         methods: {
+            DEPARTCANCEL(){  //组织部门添加组织部门-取消
+                this.DerpartID = 0;
+                this.distinguish = false;
+                this.rTreeGrid = true;
+                this.tableShow = true;
+                this.addDepart = false;
+            },
             r_add_derpart(){  //组织部门添加组织部门
+                this.DerpartID = 0;
                 this.distinguish = true;
                 this.rTreeGrid = false;
                 this.tableShow = false;
@@ -286,8 +295,12 @@
                     this.createNewData.index = index;
                     this.createNewData.item = item;
                     this.Dailog = true;
-                }else{
-
+                }else if(this.rTreeGrid){
+                    this.DerpartID = item.id;
+                    this.distinguish = false;
+                    this.rTreeGrid = false;
+                    this.tableShow = false;
+                    this.addDepart = true;
                 }
             },
             // 设置td宽度
@@ -529,7 +542,7 @@
                 if ('renderHeader' in this.columns[$index]) {
                     return this.columns[$index].renderHeader(column, $index);
                 } else {
-                    return column.title || '#';
+                    return column.title || '';
                 }
             },
 

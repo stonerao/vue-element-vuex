@@ -340,7 +340,7 @@ export default {
                 selectArr:[],//选择存储的数组
             },
             columns: [{
-                type: 'selection'
+                type: 'none'
             }, {
                 title: '排序',
                 key: 'code',
