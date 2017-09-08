@@ -2885,15 +2885,22 @@ export default {
                 // console.log(res)
                 if (res.status == 200) {
                     if(res.data.code!=400){
-                        this.channelID = channelId;
+                        this.channelID = res.data.data.channelId;
                         this.$notify({
                             message: '创建成功！',
                             type: 'success',
                             duration: 1000,
+                            onClose: () => {
+                                this.Dailog = false;
+                                this.dailogDetail={
+                                    name: '',
+                                    code: '',
+                                }
+                            }
                         });
                     }else{
                         this.$notify({
-                            message: res.data.data,
+                            message: res.data.data.error,
                             type: 'error',
                             duration: 1000,
                             onClose: () => {
