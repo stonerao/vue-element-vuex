@@ -6,7 +6,7 @@
                 <titleActive :titles="titleItem" @Transfer="emitTransfer" :state="state"></titleActive>
             </div>
             <div class="kd-box-content">
-                <description :prompts="prompts" @PromPts="promptsTem"></description>
+                <description :prompts="prompts" @PromPts="promptsTem" v-if="!mangSate"></description>
                 <!--模块开始  -->
                 <div v-if="state==0">
                     <!-- 考试试卷 -->
@@ -22,6 +22,9 @@
                 <div v-if="state==3">
                     <createExamination @quit="examQuit" @setExamOk="setExamOk" :set_e_id="set_e_id" :selectObjs="examstateQuestion" @selectExam="selectExam"></createExamination>
                 </div>
+                <div v-if="state==4">
+                    <management @mang_id="mang_id"></management>
+                </div>
                 <div v-if="state==8">
                     <!-- 选择试题 -->
                     <setQuestion stateList='1' @getListData="getListData" :listSelectObj="listSelectObj"></setQuestion>
@@ -30,12 +33,15 @@
                     <!-- 选择试题 -->
                     <addQuestion :newAddQuestion='newAddQuestion' @newAddwQuestOut="newAddwQuestOut"></addQuestion>
                 </div>
+                <div v-if="state==10">
+
+                </div>
 
             </div>
             <bottomItem></bottomItem>
         </div>
     </div>
-</template>
+</template>  
 
 <script>
 import titleItem from '@/components/main/title.vue'
@@ -48,6 +54,7 @@ import setQuestion from '@/components/questions/questionList'
 import addQuestion from '@/components/questions/addQuestion'
 import createExamination from '@/components/examination/createExamination'
 import examinationList from '@/components/examination/examinationList'
+import management from '@/components/examination/management'
 
 import { removeSelectQuestion } from '@/utils/auth'
 import { removeCookie } from '@/utils/auth'
@@ -73,27 +80,29 @@ export default {
             newAddObj: {},
             selectExamstate: false,//true是创建试卷过去
             examstateQuestion: {},//存储考试试卷的选择
-            set_e_id: ''
+            set_e_id: '',
+            mangSate:false
         }
     },
     created() {
         removeSelectQuestion();
         removeCookie('NEWADDQUESTIONOUT');
-       
+
     },
     components: {
         titleItem, titleActive, description, bottomItem,
-        teacherQuestion, createQuestion, setQuestion, addQuestion, createExamination, examinationList
+        teacherQuestion, createQuestion, setQuestion, addQuestion, createExamination, examinationList,
+        management
     },
     methods: {
         emitTransfer(index) {
-            if(index==3){  
-                 removeCookie("CREATEDEXAM")
+            if (index == 3) {
+                removeCookie("CREATEDEXAM")
             }
             if (this.state == index) {
                 return
             }
-            
+
             this.state = index;
         },
         promptsTem(status) {
@@ -154,6 +163,11 @@ export default {
         setExamOk() {
             // 编辑成功
             this.examQuit()
+        },
+        mang_id(val){
+            // 成绩管理
+            this.mangSate=true;
+            this.state=10;
         }
     }
 }

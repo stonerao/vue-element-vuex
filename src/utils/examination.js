@@ -14,6 +14,7 @@ export default {
         }).then((res) => {
             if (res.data.code == 200) {
                 this.t_data = res.data.data;
+                this.all_pagecount = parseInt(res.data.page_total)
             }
         })
     },
@@ -47,30 +48,30 @@ export default {
             }
         })
     },
-    pushAnswer(answer){
+    pushAnswer(answer) {
         // 学生提交答案
         this.$http({
-            method:"post",
-            data:{
-                token:getToken(),
-                e_id:this.e_id,
-                answer_list:encodeUnicode(JSON.stringify(answer))
+            method: "post",
+            data: {
+                token: getToken(),
+                e_id: this.e_id,
+                answer_list: encodeUnicode(JSON.stringify(answer))
             },
-            url:api.pushAnswer
-        }).then((res)=>{
-            if(res.data.code==200){
-                this.answer=[]
+            url: api.pushAnswer
+        }).then((res) => {
+            if (res.data.code == 200) {
+                this.answer = []
                 this.$notify({
                     title: '成功',
                     message: res.data.data,
                     type: 'success'
-                  });
+                });
 
-            }else{
+            } else {
                 this.$notify.error({
                     title: '错误',
                     message: res.data.data.error
-                  });
+                });
             }
         })
     }
