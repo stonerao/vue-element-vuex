@@ -34,7 +34,7 @@
                     <addQuestion :newAddQuestion='newAddQuestion' @newAddwQuestOut="newAddwQuestOut"></addQuestion>
                 </div>
                 <div v-if="state==10">
-
+                    <mang_list></mang_list>
                 </div>
 
             </div>
@@ -55,6 +55,7 @@ import addQuestion from '@/components/questions/addQuestion'
 import createExamination from '@/components/examination/createExamination'
 import examinationList from '@/components/examination/examinationList'
 import management from '@/components/examination/management'
+import mang_list from '@/components/examination/mang_list'
 
 import { removeSelectQuestion } from '@/utils/auth'
 import { removeCookie } from '@/utils/auth'
@@ -81,7 +82,8 @@ export default {
             selectExamstate: false,//true是创建试卷过去
             examstateQuestion: {},//存储考试试卷的选择
             set_e_id: '',
-            mangSate:false
+            mangSate:false,
+            mang_id_state:""
         }
     },
     created() {
@@ -92,7 +94,7 @@ export default {
     components: {
         titleItem, titleActive, description, bottomItem,
         teacherQuestion, createQuestion, setQuestion, addQuestion, createExamination, examinationList,
-        management
+        management,mang_list
     },
     methods: {
         emitTransfer(index) {
@@ -168,6 +170,7 @@ export default {
             // 成绩管理
             this.mangSate=true;
             this.state=10;
+             
         }
     }
 }
