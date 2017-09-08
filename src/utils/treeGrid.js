@@ -407,15 +407,24 @@ export default {
 
         //添加分类
         videoList_add(obj) {
+            let formData = {
+                token: getToken(),
+                pid: obj.id,
+                vc_name: obj.name,
+                vc_sort: obj.sort,
+            };
+            if(!this.distinguish){  //直接添加
+                formData = {
+                    token: getToken(),
+                    pid: obj.up,
+                    vc_name: obj.name,
+                    vc_sort: obj.sort,
+                };
+            }
             this.$http({
                 url: api.videoList_add,
                 method: 'post',
-                data: {
-                    token: getToken(),
-                    pid: obj.id,
-                    vc_name: obj.name,
-                    vc_sort: obj.sort,
-                }
+                data: formData
             }).then((res) => { 
                 // console.log(res);
                 if (res.status == 200) {
