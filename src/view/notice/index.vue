@@ -2,14 +2,14 @@
     <div class="kd-app-main">
         <titleItem :titleText="$route.name.substring(1)"></titleItem>
         <div class="kd-box">
-            <div class="kd-app-box">
+            <div class="kd-app-box" v-if="isClassls==1">
                 <titleActive :titles="titleItem" @Transfer="emitTransfer" :state="state"></titleActive>
             </div>
             <div class="kd-box-content">
                 <description :prompts="prompts" @PromPts="promptsTem"></description>
                 <!--模块开始  -->
                 <div v-if="state==0">
-                    <notice state='1'></notice>
+                    <notice :state='isClassls'></notice>
                 </div>
                 <div  v-if="state==1">
                     <release></release>
@@ -27,6 +27,7 @@ import description from '@/components/main/description.vue'
 import bottomItem from '@/components/bottom/bottom.vue'
 import notice from '@/components/notice/index'
 import release from '@/components/notice/release'
+import { isClassLogin } from '@/utils/auth'
 export default {
     data() {
         return {
@@ -39,9 +40,13 @@ export default {
                 `侧边栏可以进行高级搜索`
             ],
             state: 0,
+            isClassls:''
         }
     },
     created() {
+        // 什么端口登录
+        this.isClassls= parseInt(isClassLogin())
+         
     },
     components: {
         titleItem, titleActive, description, bottomItem, notice,release

@@ -2,19 +2,19 @@
     <div class="kd-app-main">
         <titleItem :titleText="$route.name.substring(1)"></titleItem>
         <div class="kd-box">
-            <div class="kd-app-box">
+            <!-- <div class="kd-app-box">
                 <titleActive :titles="titleItem" @Transfer="emitTransfer" :state="state"></titleActive>
-            </div>
+            </div> -->
             <div class="kd-box-content">
                 <description :prompts="prompts" @PromPts="promptsTem"></description>
                 <!--模块开始  -->
                 <div v-if="state==0">
                     <myPapers></myPapers>
                 </div>
-                <div v-if="state==1">
+                <!-- <div v-if="state==1">
                     <history></history>
                 </div>
-    
+     -->
             </div>
             <bottomItem></bottomItem>
         </div>
@@ -34,7 +34,7 @@ export default {
         return {
             titleItem: [
                 { name: "我的试卷", index: 0 },
-                { name: "历史考试", index: 1 },
+                // { name: "历史考试", index: 1 },
             ],
             prompts: [
                 `该页面展示管理员的操作日志，可进行删除。`,

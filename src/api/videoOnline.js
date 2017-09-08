@@ -7,5 +7,5 @@ export const api={
   deleteLive:'Admin/Live/live_delete',//学校--删除直播
   editLive:'Admin/Live/live_edit_show',//编辑直播--展示页面
   editLiveSubmit:'Admin/Live/live_edit',//编辑直播--表单提交
-  closeLive:'Admin/Live/live_close',//学校--关闭直播
+  closeLive:'Admin/Live/live_close',//学校--关闭直播 
 }

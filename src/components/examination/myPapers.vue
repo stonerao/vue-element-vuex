@@ -22,17 +22,15 @@
             </el-col>
         </el-row>
         <el-table ref="multipleTable" :data="t_data" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
-            <el-table-column type="selection" width="55">
-            </el-table-column>
             <el-table-column label="id" width="80" show-overflow-tooltip>
                 <template scope="scope">{{ scope.row.e_id }}</template>
             </el-table-column>
             <el-table-column prop="e_title" label="试卷名称" show-overflow-tooltip>
-            </el-table-column> 
+            </el-table-column>
             <el-table-column prop="e_allsource" label="卷面总分" show-overflow-tooltip>
-            </el-table-column> 
+            </el-table-column>
             <el-table-column prop="e_whenlong" label="考试时长" show-overflow-tooltip>
-            </el-table-column> 
+            </el-table-column>
             <el-table-column label="创建人" show-overflow-tooltip>
                 <template scope="scope">
                     <p>{{ scope.row.teacher_name }}</p>
@@ -46,18 +44,18 @@
             </el-table-column>
         </el-table>
         <el-row>
-            <el-col :span="24"> 
+            <el-col :span="24">
                 <el-pagination class="float-right" @size-change="SizeChange" @current-change="CurrentChange" :current-page="page" :page-sizes="[curpage]" :page-size="curpage" layout="total, sizes, prev, pager, next, jumper" :total="all_pagecount">
                 </el-pagination>
             </el-col>
         </el-row>
         <alertExam v-if="is_alert" @examgood="examgood" :obj="is_alert_obj" @is_over="is_over"></alertExam>
-       
+
     </div>
 </template>
 
 <script>
-import alertExam from '@/components/examination/alertExam'  
+import alertExam from '@/components/examination/alertExam'
 import store from '@/utils/examination'
 export default {
     data() {
@@ -67,13 +65,13 @@ export default {
                 id: ""
             },
             seach: "",
-            selectVal: '',  
-            page:1,
-                curpage:10,
-                all_pagecount:0,
-            t_data: [ ],
-            is_alert:false,
-            is_alert_obj:{}
+            selectVal: '',
+            page: 1,
+            curpage: 10,
+            all_pagecount: 0,
+            t_data: [],
+            is_alert: false,
+            is_alert_obj: {}
         }
     },
     methods: {
@@ -82,9 +80,9 @@ export default {
         },
         seachClick() {
             // 搜索
-
+            this.ajax();
         },
-         toggleSelection(rows) {
+        toggleSelection(rows) {
             if (rows) {
                 rows.forEach(row => {
                     this.$refs.multipleTable.toggleRowSelection(row);
@@ -96,38 +94,41 @@ export default {
         handleSelectionChange(val) {
             this.multipleSelection = val;
         },
-        goExam(obj){
+        goExam(obj) {
             // 开始考试
-            this.is_alert_obj=obj
-            this.is_alert = true; 
+            this.is_alert_obj = obj
+            this.is_alert = true;
         },
-        ajax(){
+        ajax() {
+            this.t_data = []
             store.Studentexamination_list.call(this)
         },
-        is_over(){
+        is_over() {
             // 关闭模态框
-            this.is_alert = false; 
+            this.is_alert = false;
         },
-        CurrentChange(){
+        CurrentChange(val) {
             // fanye 
+            this.page = val;
+            this.ajax();
         },
-        SizeChange(){
+        SizeChange() {
 
         },
-        examgood(state){
+        examgood(state) {
             // 
-            if(state==true){
+            if (state == true) {
 
             }
         }
-        
+
     },
-    components:{
-        alertExam 
+    components: {
+        alertExam
     },
-    created(){
+    created() {
         this.ajax();
-        
+
     }
 }
 </script>

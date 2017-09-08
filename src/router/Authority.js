@@ -542,9 +542,9 @@ export const ListTeacher = [
             }
         ]
     }, {
-        path: '/set',
+        path: '/notice',
         name: '通知中心',
-        redirect: '/set/index',
+        redirect: '/notice/index',
         icon: pmsd,
         iconActive: pmsd_active,
         component: Layout,
@@ -552,7 +552,7 @@ export const ListTeacher = [
             {
                 path: 'index',
                 name: '-通知中心',
-                component: setVue,
+                component: notice,
             }
         ]
     }, {

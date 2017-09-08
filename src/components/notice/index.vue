@@ -86,7 +86,7 @@ export default {
     },
     created(){
         this.ajax();
-    }
+    },
 }
 </script>
 

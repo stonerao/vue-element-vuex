@@ -43,15 +43,17 @@ export default {
         })
     },
     AdminNotice_list() {
-        const state = isClassLogin();
+        const state = isClassLogin(); 
         let url;
+        console.log(state)
         if (state == 1) {
             url = api.AdminNotice_list;
         } else if (state == 2) {
-            url = api.student_notice_list;
-        } else if (state === 3) {
             url = api.teacher_notice_list;
+        } else if (state == 3) {
+            url = api.student_notice_list;
         }
+        
         this.$http(url, {
             params: {
                 token:getToken(),
