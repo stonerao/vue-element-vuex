@@ -66,7 +66,8 @@ export default {
     	let apiUrl = api.subjectListDel_s;
     	let formData = {
     		token: toke,
-    		del_id: id
+    		del_id: id,
+    		// s_id: id,
     	}
         this.$http({
             url: apiUrl,
@@ -81,7 +82,7 @@ export default {
                         type: 'success',
                         duration: 1000,
                         onClose: () => {
-                            
+                        	window.location.reload(true);
                         }
                     });
                 }else{
