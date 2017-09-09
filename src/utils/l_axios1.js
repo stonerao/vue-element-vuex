@@ -17,10 +17,8 @@ export default {
     		page: obj.curpage,
     		curpage: obj.one_pagenum,
     	}
-        this.$http({
-            url: apiUrl,
-            method: 'post',
-            data: formData
+        this.$http(apiUrl, {
+            params: formData
         }).then((res) => {
             // console.log(res)
             if (res.status == 200) {
@@ -34,7 +32,7 @@ export default {
                 			})
                 		})
 	                	this.materialParams.hasmore = res.data.hasmore;
-	                   	this.materialParams.curpage = parseInt(res.data.page) + 1;
+	                   	this.materialParams.curpage = parseInt(res.data.page);
 	                    this.materialParams.page_count = parseInt(res.data.all_pagecount);
 	                    this.materialParams.total_num = parseInt(res.data.page_total); 
                 }else{
@@ -82,7 +80,7 @@ export default {
                         type: 'success',
                         duration: 1000,
                         onClose: () => {
-                        	window.location.reload(true);
+                        	// window.location.reload(true);
                         }
                     });
                 }else{

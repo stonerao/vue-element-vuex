@@ -270,9 +270,25 @@
             },
             DeleteMater_All(){  //勾选删除
                 if(this.lTreeGrid){
-                    info.materTypeEdit_del.call(this,this.selectString);
+                    this.$confirm('此操作将删除该文件, 是否继续?', '提示', {
+                      confirmButtonText: '确定',
+                      cancelButtonText: '取消',
+                      type: 'warning'
+                    }).then(() => {
+                        info.materTypeEdit_del.call(this,this.selectString);
+                    }).catch(() => {
+                        
+                    });
                 }else if(this.rTreeGrid){
-                    tree.materTypeEdit_del.call(this,this.selectString);
+                    this.$confirm('此操作将删除该文件, 是否继续?', '提示', {
+                      confirmButtonText: '确定',
+                      cancelButtonText: '取消',
+                      type: 'warning'
+                    }).then(() => {
+                        tree.materTypeEdit_del.call(this,this.selectString);
+                    }).catch(() => {
+                        
+                    });
                 }
             },
             whetherShow(id,status){  //切换按钮
@@ -321,9 +337,25 @@
                 this.$emit('on-row-click', result, event, index, text);
                 // console.log(data.id);
                 if(this.lTreeGrid){
-                    info.materTypeEdit_del.call(this,data.id);
+                    this.$confirm('此操作将删除该文件, 是否继续?', '提示', {
+                      confirmButtonText: '确定',
+                      cancelButtonText: '取消',
+                      type: 'warning'
+                    }).then(() => {
+                        info.materTypeEdit_del.call(this,data.id);
+                    }).catch(() => {
+                        
+                    });
                 }else if(this.rTreeGrid){
-                    tree.materTypeEdit_del.call(this,data.id);
+                    this.$confirm('此操作将删除该文件, 是否继续?', '提示', {
+                      confirmButtonText: '确定',
+                      cancelButtonText: '取消',
+                      type: 'warning'
+                    }).then(() => {
+                        tree.materTypeEdit_del.call(this,data.id);
+                    }).catch(() => {
+                        
+                    });
                 }
             },
             // 点击事件 返回数据处理
