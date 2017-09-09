@@ -44,7 +44,6 @@ export default {
                     }
                 }
                 data = null;
-                console.log(this.items)
             }
         })
     },
@@ -72,6 +71,53 @@ export default {
                     title: '错误',
                     message: res.data.data.error
                 });
+            }
+        })
+    },
+    mang_list() {
+        console.log(api.show_studentanswerlist)
+        this.$http(api.show_studentanswerlist, {
+            params: {
+                token: getToken(),
+                e_id: this.id,
+                page: this.page,
+                curpage: this.curpage
+            }
+        }).then((res) => {
+            if (res.data.code == 200) {
+                this.page_total = parseInt(res.data.page_total);
+                this.t_data = res.data.data;
+            } else {
+
+            }
+        })
+    },
+    student_qe_list() {
+        this.$http(api.student_answer_info, {
+            params: {
+                token: getToken(),
+                exam_id: this.id
+            }
+        }).then((res) => {
+            if (res.data.code == 200) {
+                let data = res.data.data; 
+                for(var key in data){
+                    data[key]['answer_numbers']="";
+                    this.t_data.push(data[key]);
+                }
+                data = null;
+            } else {
+
+            }
+        })
+    },
+    student_answer_grade(){
+        this.$http({
+            method:"post",
+            url:api.student_answer_grade,
+            data:{
+                token:getToken(),
+                obj:encodeUnicode(JSON.stringify(this.t_data))
             }
         })
     }

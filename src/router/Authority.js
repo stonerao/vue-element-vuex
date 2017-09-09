@@ -41,6 +41,8 @@ import teaching from '@/view/teaching/index'
 import examination from '@/view/examination/index'
 // 通知中心
 import notice from '@/view/notice/index'
+// 成绩管理
+import setCheng from '@/view/examination/admin'
 // 考试中心
 // 考试管理
 import examinationTeacher from '@/view/examination/teacher'
@@ -152,7 +154,7 @@ export const constList = [
             {
                 path: 'index',
                 name: '-成绩管理',
-                component: setVue,
+                component: setCheng,
             }
         ]
     }, {
@@ -253,7 +255,7 @@ export const constList = [
                 component: materLibrary,
             }
         ]
-    },  {
+    }, {
         path: '/notice',
         name: '通知管理',
         redirect: '/notice/index',
@@ -385,11 +387,11 @@ export const ListStundent = [
         iconActive: sj_active,
         component: Layout,
         children: [
-          {
-            path: 'index',
-            name: '-考勤管理',
-            component: Attendance,
-          }
+            {
+                path: 'index',
+                name: '-考勤管理',
+                component: Attendance,
+            }
         ]
     }, {
         path: '/notice',
@@ -423,8 +425,8 @@ export const ListStundent = [
     {
         path: '/adminIndex',
         redirect: "/one/index"
-    } 
-    
+    }
+
 ]
 // 老师
 import teacherOperation from '@/view/operation/teacher'
@@ -570,19 +572,19 @@ export const ListTeacher = [
             }
         ]
     }, {
-      path: '/order_al',
-      name: '订单管理',
-      redirect: '/order_al/index',
-      icon: pmsd,
-      iconActive: pmsd_active,
-      component: Layout,
-      children: [
-        {
-          path: 'index',
-          name: '-订单管理',
-          component: allOrder,
-        }
-      ]
+        path: '/order_al',
+        name: '订单管理',
+        redirect: '/order_al/index',
+        icon: pmsd,
+        iconActive: pmsd_active,
+        component: Layout,
+        children: [
+            {
+                path: 'index',
+                name: '-订单管理',
+                component: allOrder,
+            }
+        ]
     },
 
     {

@@ -34,9 +34,11 @@
                     <addQuestion :newAddQuestion='newAddQuestion' @newAddwQuestOut="newAddwQuestOut"></addQuestion>
                 </div>
                 <div v-if="state==10">
-                    <mang_list></mang_list>
+                    <mang_list :id="mang_state_id" @toMangList="toMangList"></mang_list>
                 </div>
-
+                <div v-if="state==11"> 
+                    <eqMangListTe :id="e_id"></eqMangListTe>
+                </div>
             </div>
             <bottomItem></bottomItem>
         </div>
@@ -56,6 +58,7 @@ import createExamination from '@/components/examination/createExamination'
 import examinationList from '@/components/examination/examinationList'
 import management from '@/components/examination/management'
 import mang_list from '@/components/examination/mang_list'
+import eqMangListTe from '@/components/examination/eqMangList'
 
 import { removeSelectQuestion } from '@/utils/auth'
 import { removeCookie } from '@/utils/auth'
@@ -83,7 +86,9 @@ export default {
             examstateQuestion: {},//存储考试试卷的选择
             set_e_id: '',
             mangSate:false,
-            mang_id_state:""
+            mang_id_state:"",
+            mang_state_id:"",
+            e_id:""
         }
     },
     created() {
@@ -94,7 +99,7 @@ export default {
     components: {
         titleItem, titleActive, description, bottomItem,
         teacherQuestion, createQuestion, setQuestion, addQuestion, createExamination, examinationList,
-        management,mang_list
+        management,mang_list,eqMangListTe
     },
     methods: {
         emitTransfer(index) {
@@ -170,7 +175,12 @@ export default {
             // 成绩管理
             this.mangSate=true;
             this.state=10;
-             
+            this.mang_state_id=val; 
+        },
+        toMangList(val){
+            // 选中查看某个学生做的题目
+            this.e_id=val;
+            this.state=11;
         }
     }
 }

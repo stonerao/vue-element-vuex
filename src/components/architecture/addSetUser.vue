@@ -118,6 +118,7 @@ export default {
     created() {
         if (this.state == 1) {
             let dataObj = this.dataObj;
+        console.log(dataObj)
             this.department_id = dataObj.department_id;
             this.obj.member_role = dataObj.member_role.split(",")
             this.group_check = this.obj.member_role;
@@ -126,6 +127,7 @@ export default {
             this.obj.user_phone = dataObj.teacher_phone;
             this.obj.user_sex = dataObj.teacher_sex;
             this.obj.user_name = dataObj.username; 
+            this.obj.member_name = dataObj.username; 
         } else {
         }
         store.getPosition.call(this)

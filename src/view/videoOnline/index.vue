@@ -2,14 +2,10 @@
   <div class="kd-app-main">
     <titleItem :titleText="$route.name.substring(1)"></titleItem>
     <div class="kd-box">
-      <div class="kd-app-box">
-        <titleActive :titles="titleItem" @Transfer="emitTransfer" :state="state"></titleActive>
-      </div>
+       
       <div class="kd-box-content">
         <description :prompts="prompts" @PromPts="promptsTem"></description>
-        <div v-if="state==0">
-
-        </div>
+         
         <div v-if="state==1">
           <onlineList v-if="addOnline==0" :total="total" @searchList="searchList" :videoList="videoList" @addShow="addShow" @liveCancel="liveCancel" @detailLive="detailLive" :showDetail="showDetail" :detail="detail" @liveDelete="liveDelete" @liveEdit="liveEdit" @liveClose="liveClose"></onlineList>
           <onlineAdd v-else :addShowList_1="addShowList" @liveSubmit="liveSubmit" @cancelAdd="cancelAdd"></onlineAdd>
@@ -118,14 +114,15 @@ export default {
       this.addOnline = 0;
     },
     //禁用直播
-    liveCancel(id, status) {
+    liveCancel(id, status,row) {
       this.$confirm('确定禁用直播吗?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
         video.live_cancel.call(this, id, status)
-      }).catch(() => {
+      }).catch(() => {  
+        status==1?row.cancel_state=true:row.cancel_state=false;
         this.$message({
           type: 'info',
           message: '已取消'

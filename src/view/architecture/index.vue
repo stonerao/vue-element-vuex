@@ -507,8 +507,7 @@ export default {
             store.organize_member_list.call(this);
         },
         setUserClick(obj) {
-            // 编辑用户
-            console.log(obj)
+            // 编辑用户 
             this.state = 6;
             this.dataObj = obj;
         },

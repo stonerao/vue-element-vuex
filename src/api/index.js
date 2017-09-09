@@ -69,4 +69,9 @@ export const api = {
     AdminNotice_list:"Admin/Notice/notice_list",//学校通知列表
     student_notice_list:"Student/Notice/student_notice_list",//学生通知列表
     teacher_notice_list:"Teacher/Notice/teacher_notice_list",//老师通知列表
+    show_studentanswerlist:"Teacher/Examinationcenter/show_studentanswerlist",//查看某场考试下的老师提交的答案 
+    student_answer_info:"Teacher/Examinationcenter/answer_info",//查看具体某个答题信息详情
+    student_answer_grade:"Teacher/Examinationcenter/grade",//提交阅卷
+    
+ 
 }

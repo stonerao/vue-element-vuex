@@ -43,7 +43,7 @@ export default {
       }
     }).then((res) => {
       if (res.data.code == 200) {
-        this.total = res.data.all_pagecount;
+        this.total = parseInt(res.data.page_total);
         let arr = res.data.data;
         for (let i = 0; i < res.data.data.length; i++) {
           if (arr[i].cancel_state == 1) {

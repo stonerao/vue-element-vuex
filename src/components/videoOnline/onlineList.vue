@@ -19,7 +19,7 @@
       </el-col>
     </el-row>
     <el-table :data="videoList" style="width: 100%">
-      <el-table-column prop="live_id" label="ID" width="50"></el-table-column>
+      <el-table-column prop="live_id" label="ID" width="60"></el-table-column>
       <el-table-column prop="live_title" label="直播名称" show-overflow-tooltip></el-table-column>
       <el-table-column label="直播时间" width="170" show-overflow-tooltip>
         <template scope="scope">
@@ -38,8 +38,8 @@
         </template>
       </el-table-column>
       <el-table-column label="禁播" width="150">
-        <template scope="scope">
-          <el-switch v-model="scope.row.cancel_state" v-if="scope.row.is_show_cancel==2" on-color="#13ce66" off-color="#1998e4" @change="chooseBan(scope.row.live_id,scope.row.cancel_state)"></el-switch>
+        <template scope="scope"> 
+          <el-switch v-model="scope.row.cancel_state" v-if="scope.row.is_show_cancel==2" on-color="#13ce66" off-color="#1998e4" @change="chooseBan(scope.row.live_id,scope.row.cancel_state,scope.row)"></el-switch>
         </template>
       </el-table-column>
       <el-table-column label="操作" width="280">
@@ -110,17 +110,19 @@ export default {
     //选择直播状态
     selectChange(val) {
       this.checkType = val;
+      this.videoList=[];
       this.$emit('searchList', this.checkType, this.searchTxt)
     },
     handleIconClick() {
+      this.videoList=[];
       this.$emit('searchList', this.checkType, this.searchTxt)
     },
     //禁用直播
-    chooseBan(id, state) {
+    chooseBan(id, state,rwo) { 
       if (state) {
-        this.$emit('liveCancel', id, 1)
+        this.$emit('liveCancel', id, 1,rwo)
       } else {
-        this.$emit('liveCancel', id, 2)
+        this.$emit('liveCancel', id, 2,rwo)
       }
     },
     //查看直播详情

@@ -14,8 +14,8 @@
                         </section>
                         <section>
                             <p>您好</p>
-                            <p>学校管理员：
-                                <span v-html="obj.manager_name"></span>
+                            <p>学校{{name}}：
+                                <span v-html="obj.member_name"></span>
                             </p>
                         </section>
 
@@ -68,7 +68,7 @@ export default {
     created() {
         const key = getToken()
         this.$http({
-            url: api.header,
+            url: api.headers,
             method: 'post',
             data: {
                 token: key
