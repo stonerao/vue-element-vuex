@@ -79,4 +79,6 @@ export const api = {
     conferMessage_s:'Admin/Meeting/send_meeting_notice',   //会议管理--会议通知（学校）
     subjectList_s:'Admin/SchoolSubject/subjectlist',   //科目管理--获取列表（学校）
     subjectListDel_s:'Admin/SchoolSubject/subjectdelete',   //科目管理--获取列表（学校）-删除
+    subjectListAdd_s:'Admin/SchoolSubject/subjectadd',   //科目管理--获取列表（学校）- 添加
+    subjectListEdit_s:'Admin/SchoolSubject/subjectedit',   //科目管理-- 编辑
 }
