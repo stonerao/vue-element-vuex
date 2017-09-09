@@ -17,7 +17,7 @@
           <videoEdit v-if="showUp==0" :firstClassList="firstClassList" :underList="underList" :showList="showList" @underClassList="underClassList" :total="total" @showUp="upShow" @searchList="listSearch" :classList="classList" @videoDelete="deleteVideo"  :videoId="videoId" @videoEdit="videoEdit"></videoEdit>
           <videoNew v-if="showUp==1" @hiddenUp="hiddenUp" :videoId="videoId" :upType="upType"></videoNew>
         </div>
-        <div class="kd-page" v-if="showUp==0">
+        <div class="kd-page" v-if="showUp==0&&state!=0">
           <el-row>
             <el-col :span="24">
               <el-pagination class="float-right" :current-page="currentPage" :page-sizes="[10, 15, 20, 25]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total" @size-change="handleSizeChange" @current-change="handleCurrentChange">

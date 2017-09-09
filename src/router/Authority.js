@@ -48,6 +48,8 @@ import setCheng from '@/view/examination/admin'
 import examinationTeacher from '@/view/examination/teacher'
 // 老师 试题库
 import questions from '@/view/questions/index'
+// 学校 科目管理
+import subjectMa from '@/view/subject/index'
 /*
   左侧图标以及点击后的图标
 */
@@ -102,9 +104,9 @@ export const constList = [
             }
         ]
     }, {
-        path: '/class',
+        path: '/subject',
         name: '科目管理',
-        redirect: '/class/index',
+        redirect: '/subject/index',
         icon: fykm,
         iconActive: fykm_active,
         component: Layout,
@@ -112,7 +114,7 @@ export const constList = [
             {
                 path: 'index',
                 name: '-科目管理',
-                component: classVue,
+                component: subjectMa,
             }
         ]
     }, {

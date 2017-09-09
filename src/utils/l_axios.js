@@ -35,7 +35,7 @@ export default {
                     id: objId.c_id
                 }
             }).then((res) => {
-                // console.log(res);
+                console.log(res);
                 if (res.status === 200) {
                     let data = res.data.data.list;
                     if (data.length != 0) {
