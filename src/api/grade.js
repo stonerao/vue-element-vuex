@@ -77,4 +77,6 @@ export const api = {
     conferBegin_s:'Admin/Meeting/meeting_start',   //会议管理--开始会议（学校）
     conferClose_s:'Admin/Meeting/live_house_del',   //会议管理--关闭会议（学校）
     conferMessage_s:'Admin/Meeting/send_meeting_notice',   //会议管理--会议通知（学校）
+    subjectList_s:'Admin/SchoolSubject/subjectlist',   //科目管理--获取列表（学校）
+    subjectListDel_s:'Admin/SchoolSubject/subjectdelete',   //科目管理--获取列表（学校）-删除
 }
