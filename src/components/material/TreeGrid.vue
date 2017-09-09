@@ -336,27 +336,19 @@
                 let result = this.makeData(data)
                 this.$emit('on-row-click', result, event, index, text);
                 // console.log(data.id);
-                if(this.lTreeGrid){
-                    this.$confirm('此操作将删除该文件, 是否继续?', '提示', {
-                      confirmButtonText: '确定',
-                      cancelButtonText: '取消',
-                      type: 'warning'
-                    }).then(() => {
+                this.$confirm('此操作将删除该文件, 是否继续?', '提示', {
+                  confirmButtonText: '确定',
+                  cancelButtonText: '取消',
+                  type: 'warning'
+                }).then(() => {
+                    if(this.lTreeGrid){
                         info.materTypeEdit_del.call(this,data.id);
-                    }).catch(() => {
-                        
-                    });
-                }else if(this.rTreeGrid){
-                    this.$confirm('此操作将删除该文件, 是否继续?', '提示', {
-                      confirmButtonText: '确定',
-                      cancelButtonText: '取消',
-                      type: 'warning'
-                    }).then(() => {
+                    }else if(this.rTreeGrid){
                         tree.materTypeEdit_del.call(this,data.id);
-                    }).catch(() => {
-                        
-                    });
-                }
+                    }
+                }).catch(() => {
+                    
+                });
             },
             // 点击事件 返回数据处理
             makeData(data) {
