@@ -281,7 +281,7 @@ export default {
         })
     },
     pushQuestion(arr) {
-        // 提交试卷 
+        // 提交试卷  
         let qc_id = this.belongClass3 ? this.belongClass3 : (this.belongClass2 ? this.belongClass2 : this.belongClass1);
         this.$http({
             url: api.add_testpaper,
@@ -301,6 +301,7 @@ export default {
             if (res.data.code == 200) {
                 removeSelectQuestion();
                 removeCookie("NEWADDQUESTIONOUT");
+                this.$emit('createQuit', false)
                 this.getNewTile = 0;
                 this.$notify({
                     title: '成功',
@@ -346,9 +347,11 @@ export default {
             }
         }).then((res) => {
             if (res.data.code == 200) {
-                this.$message({
-                    type: res.data.data,
-                    message: '删除成功!'
+                this.ajax();
+                this.$notify({
+                    title: '成功',
+                    message: res.data.data,
+                    type: 'success'
                 });
             } else {
                 this.$message({
@@ -384,10 +387,12 @@ export default {
             }
         }).then((res) => {
             if (res.data.code == 200) {
+                this.$emit("quit", false)
                 this.$message({
                     type: 'info',
                     message: res.data.data
                 });
+
             } else {
                 this.$message({
                     type: 'info',

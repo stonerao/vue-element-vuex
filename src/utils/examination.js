@@ -74,7 +74,7 @@ export default {
             }
         })
     },
-    mang_list() { 
+    mang_list() {
         this.$http(api.show_studentanswerlist, {
             params: {
                 token: getToken(),
@@ -114,7 +114,7 @@ export default {
             }
         })
     },
-    student_answer_grade() {
+    student_answer_grade() { 
         this.$http({
             method: "post",
             url: api.student_answer_grade,
@@ -124,21 +124,22 @@ export default {
                 exam_id: this.id
             }
         }).then((res) => {
-            if (res.data.coed == 200) {
-                if (res.data.code == 200) {
-                    this.$notify({
-                        title: '成功',
-                        message: res.data.data,
-                        type: 'success'
-                    });
+            if (res.data.code == 200) {
 
-                } else {
-                    this.$notify.error({
-                        title: '错误',
-                        message: res.data.data.error
-                    });
-                }
+                this.$emit("greadeQuit", true)
+                this.$notify({
+                    title: '成功',
+                    message: res.data.data,
+                    type: 'success'
+                });
+
+            } else {
+                this.$notify.error({
+                    title: '错误',
+                    message: res.data.data.error
+                });
             }
+
         })
     }
 }

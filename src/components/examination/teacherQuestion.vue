@@ -3,12 +3,11 @@
         <el-row>
             <el-col :span='15'>
                 <span class="line-height-36">
-                    <img src="../../assets/index/shuaxin.png" class="icon-img-xs marginleft5 " @click="resh" />刷新-共1条记录
+                    <img src="../../assets/index/shuaxin.png" class="icon-img-xs marginleft5 " @click="resh" />刷新-共{{all_pagecount}}条记录
                 </span>
             </el-col>
             <el-col :span="9">
                 <div class="float-right">
-
                     <el-input placeholder="请输入试卷名称" icon="search" v-model="seach" :on-icon-click="seachClick" class="width150">
                     </el-input>
                 </div>
@@ -25,18 +24,18 @@
             </el-table-column>
             <el-table-column prop="t_time" label="创建时间" width="180" show-overflow-tooltip>
             </el-table-column>
-            <el-table-column label="操作" width="300" show-overflow-tooltip>
+            <el-table-column label="操作" width="100" show-overflow-tooltip>
                 <template scope="scope">
-                    <div  v-if="!state">
+                    <div v-if="!state">
 
-                    <el-button size="mini">查看</el-button>
-                    <el-button size="mini">编辑</el-button>
-                    <el-button size="mini">配置</el-button>
-                    <el-button size="mini" @click="deleted(scope.row.t_id)">删除</el-button>
-                    <el-button size="mini">导出试卷</el-button>
+                        <!-- <el-button size="mini">查看</el-button> -->
+                        <!-- <el-button size="mini">编辑</el-button> -->
+                        <!-- <el-button size="mini">配置</el-button> -->
+                        <el-button size="mini" @click="deleted(scope.row.t_id)">删除</el-button>
+                        <!-- <el-button size="mini">导出试卷</el-button> -->
                     </div>
                     <div v-else>
-                      <el-button size="mini" @click="seleceQuestion(scope.row)">选择</el-button>
+                        <el-button size="mini" @click="seleceQuestion(scope.row)">选择</el-button>
                     </div>
                 </template>
             </el-table-column>
@@ -55,7 +54,7 @@
 <script>
 import store from '@/utils/questions'
 export default {
-    props:['state'],//如果为真是创建考试过来
+    props: ['state'],//如果为真是创建考试过来
     data() {
         return {
             t_data: [],
@@ -69,16 +68,17 @@ export default {
     methods: {
         resh() {
             // 刷新
+             this.ajax()
         },
         seachClick() {
             // 搜索
-
+             this.ajax()
         },
         handleSelectionChange(val) {
             this.deleteArr = [];
             val.forEach((x) => {
                 this.deleteArr.push(x.t_id)
-            }) 
+            })
         },
         SizeChange() {
 
@@ -109,12 +109,16 @@ export default {
             });
 
         },
-        seleceQuestion(obj){
-            this.$emit("selectNative",obj)
+        seleceQuestion(obj) {
+            this.$emit("selectNative", obj)
+        },
+        ajax() {
+            this.t_data=[]
+            store.TeacherQuestionList.call(this);
         }
     },
     created() {
-        store.TeacherQuestionList.call(this);
+        this.ajax()
     },
     mounted() {
 

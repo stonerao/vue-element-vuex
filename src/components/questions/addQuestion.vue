@@ -22,14 +22,14 @@
                 <el-form-item label="试题题干">
                     <quillEditor v-model="textF"></quillEditor>
                 </el-form-item>
-                <el-form-item label="相关相片附件">
+                <!-- <el-form-item label="相关相片附件">
                     <el-upload action="https://jsonplaceholder.typicode.com/posts/" list-type="picture-card" :on-preview="handlePictureCardPreview" :on-remove="handleRemove">
                         <i class="el-icon-plus"></i>
                     </el-upload>
                     <el-dialog v-model="dialogVisible" size="tiny">
                         <img width="100%" :src="dialogImageUrl" alt="">
                     </el-dialog>
-                </el-form-item>
+                </el-form-item> -->
                 <!-- 单选题 -->
                 <div v-if="questionClass==1">
                     <el-form-item label="选项设置">

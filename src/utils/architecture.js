@@ -19,7 +19,9 @@ export default {
             params: obj
         }).then((res) => {
             this.t_data = res.data.number_list;
-            this.obj.department_id = res.data.department_root.department_id;
+            if (!this.obj.department_id) {
+                this.obj.department_id = res.data.department_root.department_id;
+            }
             this.bm_page_count = res.data.rows;
         })
     },
@@ -220,7 +222,7 @@ export default {
             method: "post",
             url: api.position_delete,
             data: {
-                position_id: id, 
+                position_id: id,
                 token: getToken()
             }
         }).then((res) => {
@@ -237,15 +239,15 @@ export default {
             }
         })
     },
-    position_list(name,page){ 
-        this.$http(api.position_list,{
-            params:{
-                token:getToken(),
-                position_name:name,
-                curpage:this.positionList.curpage,
-                page:this.positionList.page
+    position_list(name, page) {
+        this.$http(api.position_list, {
+            params: {
+                token: getToken(),
+                position_name: name,
+                curpage: this.positionList.curpage,
+                page: this.positionList.page
             }
-        }).then((res)=>{
+        }).then((res) => {
             this.positionList.items = res.data.data
             this.positionList.page_total = parseInt(res.data.page_total);//总数量
             this.positionList.all_pagecount = parseInt(res.data.all_pagecount);//总页数

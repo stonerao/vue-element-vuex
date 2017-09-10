@@ -36,8 +36,8 @@
                 <div v-if="state==10">
                     <mang_list :id="mang_state_id" @toMangList="toMangList"></mang_list>
                 </div>
-                <div v-if="state==11"> 
-                    <eqMangListTe :id="e_id"></eqMangListTe>
+                <div v-if="state==11">
+                    <eqMangListTe :id="e_id" @greadeQuit="greadeQuit"></eqMangListTe>
                 </div>
             </div>
             <bottomItem></bottomItem>
@@ -85,10 +85,10 @@ export default {
             selectExamstate: false,//true是创建试卷过去
             examstateQuestion: {},//存储考试试卷的选择
             set_e_id: '',
-            mangSate:false,
-            mang_id_state:"",
-            mang_state_id:"",
-            e_id:""
+            mangSate: false,
+            mang_id_state: "",
+            mang_state_id: "",
+            e_id: ""
         }
     },
     created() {
@@ -99,7 +99,7 @@ export default {
     components: {
         titleItem, titleActive, description, bottomItem,
         teacherQuestion, createQuestion, setQuestion, addQuestion, createExamination, examinationList,
-        management,mang_list,eqMangListTe
+        management, mang_list, eqMangListTe
     },
     methods: {
         emitTransfer(index) {
@@ -171,16 +171,20 @@ export default {
             // 编辑成功
             this.examQuit()
         },
-        mang_id(val){
+        mang_id(val) {
             // 成绩管理
-            this.mangSate=true;
-            this.state=10;
-            this.mang_state_id=val; 
+            this.mangSate = true;
+            this.state = 10;
+            this.mang_state_id = val;
         },
-        toMangList(val){
+        toMangList(val) {
             // 选中查看某个学生做的题目
-            this.e_id=val;
-            this.state=11;
+            this.e_id = val;
+            this.state = 11;
+        },
+        greadeQuit() {
+            //  判断答案取消
+           this.state = 10;
         }
     }
 }

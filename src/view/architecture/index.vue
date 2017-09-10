@@ -408,8 +408,7 @@ export default {
             this.t_data = []
             this.dataAjax();
         },
-        handleCurrentChange(val) {
-            console.log(val)
+        handleCurrentChange(val) { 
 
         },
         handleSizeChange(val) {
@@ -428,10 +427,10 @@ export default {
             })
         },
         handleNodeClick(obj) {
-            // 左侧关系栏点击
-            console.log(obj)
+            // 左侧关系栏点击 
             if (obj) {
-                this.obj.department_id = obj.department_id; 
+                this.obj.department_id = obj.department_id;
+                this.dataAjax();
             }
         },
         handleIconClick(obj) {
