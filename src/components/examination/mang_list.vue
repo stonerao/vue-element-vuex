@@ -17,8 +17,8 @@
             <el-table-column label="id" width="80" show-overflow-tooltip>
                 <template scope="scope">{{ scope.row.e_id }}</template>
             </el-table-column>
-            <el-table-column prop="student_name" label="姓名" show-overflow-tooltip>
-            </el-table-column>
+            <el-table-column prop="student_name" label="姓名" show-overflow-tooltip></el-table-column>
+            <el-table-column prop="exam_grades" label="总分" width="180" show-overflow-tooltip></el-table-column>
             <el-table-column prop="finished_time" label="时间"  width="220"  show-overflow-tooltip>
             </el-table-column>
             <el-table-column width="180" label="操作" show-overflow-tooltip>

@@ -100,9 +100,13 @@ export default {
             }
         }).then((res) => {
             if (res.data.code == 200) {
-                let data = res.data.data; 
-                for(var key in data){
-                    data[key]['answer_numbers']="";
+                let data = res.data.data;
+                for (var key in data) {
+                    if (data[key].core != '0') {
+                        data[key]['answer_numbers'] = data[key].core;
+                    } else {
+                        data[key]['answer_numbers'] = "";
+                    }
                     this.t_data.push(data[key]);
                 }
                 data = null;
@@ -111,13 +115,30 @@ export default {
             }
         })
     },
-    student_answer_grade(){
+    student_answer_grade() {
         this.$http({
-            method:"post",
-            url:api.student_answer_grade,
-            data:{
-                token:getToken(),
-                obj:encodeUnicode(JSON.stringify(this.t_data))
+            method: "post",
+            url: api.student_answer_grade,
+            data: {
+                token: getToken(),
+                obj: encodeUnicode(JSON.stringify(this.t_data)),
+                exam_id: this.id
+            }
+        }).then((res) => {
+            if (res.data.coed == 200) {
+                if (res.data.code == 200) {
+                    this.$notify({
+                        title: '成功',
+                        message: res.data.data,
+                        type: 'success'
+                    });
+
+                } else {
+                    this.$notify.error({
+                        title: '错误',
+                        message: res.data.data.error
+                    });
+                }
             }
         })
     }

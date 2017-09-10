@@ -6,7 +6,7 @@
       </el-col>
       <el-col :span="7" :offset="8">
         <el-select v-model="typeText1" @change="selectChange" placeholder="请选择直播状态" size="small" class="rt">
-          <el-option v-for="item in checkTypeList" :label="item.name" :value="item.value">
+          <el-option v-for="(item,index) in checkTypeList" :label="item.name" :value="item.value" :key="index">
           </el-option>
         </el-select>
       </el-col>
@@ -15,7 +15,7 @@
       </el-col>
     </el-row>
     <el-table :data="videoList" style="width: 100%">
-      <el-table-column prop="live_id" label="ID" width="50"></el-table-column>
+      <el-table-column prop="live_id" label="ID" width="60"></el-table-column>
       <el-table-column prop="live_title" label="直播名称" show-overflow-tooltip></el-table-column>
       <el-table-column label="直播时间"  width="170" show-overflow-tooltip>
         <template scope="scope">
