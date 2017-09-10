@@ -14,7 +14,7 @@
                     <get_student_operation @quit="taskQuit" :state="toStudentState" v-else-if="status.state==2" ></get_student_operation>
                 </div>
                 <div v-if="state==1">
-                    <release :obj="mangStatus" @quits="quitsss"></release>
+                    <release :obj="mangStatus" @quitsss="quitsss"></release>
                 </div>
 
             </div>
@@ -89,6 +89,7 @@ export default {
             this.state = 1;
         },
         quitsss(){ 
+            console.log(1)
             this.status.state=0;
             this.state=0;
         }

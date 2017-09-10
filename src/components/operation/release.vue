@@ -31,7 +31,7 @@
                                             </el-form-item> -->
         <el-form-item label=" ">
             <el-button type="primary" @click="submit">保存</el-button>
-            <el-button>取消</el-button>
+            <el-button @click="quitsss">取消</el-button>
         </el-form-item>
 
     </el-form>
@@ -67,6 +67,10 @@ export default {
             } else {
                 store.teacher_edit_task.call(this);
             }
+        },
+        quitsss(){
+            console.log(1)
+            this.$emit("quitsss",true)
         }
     },
     created() {
