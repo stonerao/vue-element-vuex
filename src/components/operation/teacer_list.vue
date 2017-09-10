@@ -5,7 +5,7 @@
                 <span class="line-height-36">
                     <img src="../../assets/index/shuaxin.png" class="icon-img-xs marginleft5" @click="resh" />刷新-共{{page_total}} 条记录
                 </span>
-    <span  @click="getQues"></span>
+                <span @click="getQues"></span>
             </el-col>
             <el-col :span="9">
                 <div class="float-right">
@@ -16,21 +16,21 @@
         </el-row>
         <el-table ref="multipleTable" :data="t_data" tooltip-effect="dark" style="width: 100%">
             <!-- <el-table-column type="selection" width="55">
-                </el-table-column> -->
+                                    </el-table-column> -->
             <el-table-column label="id" width="80" show-overflow-tooltip>
                 <template scope="scope">{{ scope.row.task_id }}</template>
             </el-table-column>
             <el-table-column prop="task_title" label="题干" show-overflow-tooltip>
             </el-table-column>
             <!-- <el-table-column label="试题类型" width="120" show-overflow-tooltip>
-                    <template scope="scope">
-                        <span class="index-color">{{scope.row.type_name}}</span>
-                    </template>
-                </el-table-column> -->
+                                        <template scope="scope">
+                                            <span class="index-color">{{scope.row.type_name}}</span>
+                                        </template>
+                                    </el-table-column> -->
             <el-table-column prop="task_time" width="180" label="时间" show-overflow-tooltip>
-                 </el-table-column> 
+            </el-table-column>
             <el-table-column prop="class_name" width="180" label="作业班级" show-overflow-tooltip>
-            </el-table-column> 
+            </el-table-column>
             <el-table-column width="180" label="操作" show-overflow-tooltip>
                 <template scope="scope">
                     <el-button size="mini" @click="getQues(scope.row)">查看</el-button>
@@ -66,8 +66,8 @@ export default {
     },
     methods: {
         seachClick() {
-            this.seach=''
-             this.ajax()
+            this.seach = ''
+            this.ajax()
         },
         resh() {
             this.ajax()
@@ -75,14 +75,15 @@ export default {
         getQues(obj) {
             this.$emit("tablist", obj)
         },
-        setQues() {
-
+        setQues(obj) {
+            console.log(1)
+            this.$emit("mangob",obj)
         },
         deleteData() {
 
         },
         ajax() {
-            this.t_data=[]
+            this.t_data = []
             store.task_list.call(this)
         },
         SizeChange() {

@@ -68,11 +68,11 @@ export default {
     methods: {
         resh() {
             // 刷新
-             this.ajax()
+            this.ajax()
         },
         seachClick() {
             // 搜索
-             this.ajax()
+            this.ajax()
         },
         handleSelectionChange(val) {
             this.deleteArr = [];
@@ -113,7 +113,7 @@ export default {
             this.$emit("selectNative", obj)
         },
         ajax() {
-            this.t_data=[]
+            this.t_data = []
             store.TeacherQuestionList.call(this);
         }
     },

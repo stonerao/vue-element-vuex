@@ -4,7 +4,7 @@
             <el-button type="primary" icon="plus" size="small">增加学生</el-button>
             <el-button type="primary" icon="plus" size="small">批量导入</el-button>
         </div>
-        <section class="add-inp">
+        <section class="add-inp margintop15" >
             <div class="add-inp-items">
                 <div class="add-inp-item">
                     <div class="add-inp-item-name">
@@ -15,7 +15,7 @@
                     </div>
                     <div class="add-inp-item-addname margin-left">填写真实姓名，以便联系称呼</div>
                 </div>
-    
+
                 <div class="add-inp-item">
                     <div class="add-inp-item-name">
                         性别：
@@ -41,7 +41,7 @@
                         出生年月日：
                     </div>
                     <div class="add-inp-item-inp">
-                        <el-date-picker v-model="obj.st_birthday" type="date" placeholder="选择日期">
+                        <el-date-picker v-model="st_birthday" type="date" placeholder="选择日期">
                         </el-date-picker>
                     </div>
                     <div class="add-inp-item-addname margin-left"></div>
@@ -69,7 +69,7 @@
                                 </el-option>
                             </el-select>
                         </div>
-    
+
                     </div>
                     <!-- <div class="add-inp-item-addname margin-left">如：13800000000</div> -->
                 </div>
@@ -113,15 +113,14 @@
                                 <el-input v-model="item.rala" placeholder="关系"></el-input>
                             </el-col>
                             <el-col :span="12">
-                                <el-input v-model="item.mobile" placeholder="电话" ></el-input>
+                                <el-input v-model="item.mobile" placeholder="电话"></el-input>
                             </el-col>
                         </el-row>
-                        
-    
+
                     </div>
                     <!-- <div class="add-inp-item-addname margin-left">如：13800000000</div> -->
                 </div>
-    
+
                 <!--  -->
                 <div class="add-inp-item">
                     <div class="add-inp-item-name">
@@ -184,10 +183,10 @@
                                 </el-select>
                             </el-col>
                         </el-row>
-    
+
                     </div>
                     <!-- <div class="add-inp-item-addname margin-left">如：13800000000</div> -->
-                </div> 
+                </div>
                 <div class="add-inp-item">
                     <div class="add-inp-item-name">
                         账号状态：
@@ -200,7 +199,7 @@
                     </div>
                     <!-- <div class="add-inp-item-addname margin-left">如：13800000000</div> -->
                 </div>
-    
+
                 <div class="add-inp-btn">
                     <div class="add-inp-item-name">
                     </div>
@@ -220,7 +219,7 @@ export default {
         state 1是添加 2是编辑
         goState 进来时的状态值
     */
-    props: ['state', "dataObj", "goState","id"],
+    props: ['state', "dataObj", "goState", "id"],
     data() {
         return {
             t_data: [],
@@ -279,7 +278,8 @@ export default {
             gradeForm: [],//年纪数据
             grade_id: '',//年级id
             classForm: [],//
-            class_id: ''
+            class_id: '',
+            st_birthday:''
         }
     },
     methods: {
@@ -314,26 +314,36 @@ export default {
             // 保存
             // 家长信息  
             this.obj.st_parent = uitlsFun.encodeUnicode(JSON.stringify(this.parents))
-            this.obj.st_birthday = Date.parse(this.obj.st_birthday);
+            this.st_birthday = Date.parse(this.st_birthday);  
             store.addStundet.call(this, this.obj, this.state)
-            
+
         }
     },
-    created() { 
-        
-        if (this.state == 1) {
+    created() {
+        store.grade_list.call(this);
 
+        this.getArea(1)
+        // 年纪
+
+    },
+    mounted() {
+        //加载省份\
+
+        if (this.state == 1) {
+            this.dataObj={}
         } else if (this.state == 2) {
             if (this.dataObj) {
+                console.log(this.dataObj)
                 let obj = this.obj;
-                let dataObj = this.dataObj; 
-                obj.st_id = dataObj.st_id; 
+                let dataObj = this.dataObj;
+                obj.st_id = dataObj.st_id;
                 obj.st_name = dataObj.st_name ? dataObj.st_name : '';//学生名册
                 obj.st_sex = dataObj.st_sex ? dataObj.st_sex : '';//性别
                 obj.st_phone = dataObj.st_phone ? dataObj.st_phone : '';//联系电话 
-                obj.st_birthday = dataObj.st_birthday ? new Date(parseInt(dataObj.st_birthday)*1000) : '';//出生日期 
-                obj.st_provinceid = dataObj.st_provinceid ? dataObj.st_provinceid : '';//籍贯（省级ID）
-                obj.st_cityid = dataObj.st_cityid ? dataObj.st_cityid : '';//籍贯（市级ID）
+                this.st_birthday = dataObj.st_birthday ? new Date(parseInt(dataObj.st_birthday) * 1000) : '';//出生日期 
+                obj.st_provinceid = dataObj.st_provinceid ?  dataObj.st_provinceid   : '';//籍贯（省级ID） 
+                this.province_id = dataObj.st_provinceid;
+                obj.st_cityid = dataObj.st_cityid ? dataObj.st_cityid : '';//籍贯（市级ID） 
                 obj.st_areaid = dataObj.st_areaid ? dataObj.st_areaid : '';//籍贯（地区ID）
                 obj.st_address = dataObj.st_address ? dataObj.st_address : '';//详细地址
                 obj.st_familyname = dataObj.st_familyname ? dataObj.st_familyname : '';//名族
@@ -343,27 +353,18 @@ export default {
                 obj.st_certificates = dataObj.st_certificates ? dataObj.st_certificates : '';//证件类型（0：无，1：身份证，2：学生证）
                 obj.st_certificates_number = dataObj.st_certificates_number ? dataObj.st_certificates_number : '';//证件号码
                 obj.st_grade = dataObj.st_grade ? dataObj.st_grade : '';//年级
+                this.grade_id= dataObj.st_grade
                 obj.st_class = dataObj.st_class ? dataObj.st_class : '';//班级
+                
                 obj.st_status = dataObj.st_status ? dataObj.st_status : '';//就读状态（1：在校，2：毕业，3：休学，4：开除） 
-            console.log(this.parents,1)
+
             }
         }
-        // 年纪
-        store.grade_list.call(this);  
-    },
-    mounted() {
-        //加载省份\
-       
-        this.getArea(1)
-        
     },
     watch: {
         province_id(val) {
-            // 如果选择当前省份
-            if (this.obj.st_provinceid == val) {
-                return;
-            }
-            // 赋值
+            // 如果选择当前省份  
+            // 赋值 
             this.obj.st_provinceid = val;
             // 加载市区 并且清除市区选项
             this.area.city = [];
@@ -371,12 +372,9 @@ export default {
             this.city_id = "";
             this.area_id = "";
             // 加载市 
-            this.getArea(2, val)
+            this.getArea(2, val);
         },
-        city_id(val) {
-            if (this.obj.st_cityid == val) {
-                return;
-            }
+        city_id(val) { 
             this.obj.st_cityid = val
             this.area_id = "";
             this.area.area = [];

@@ -10,25 +10,25 @@
             <el-input v-model="form.title" class="width200"></el-input>
         </el-form-item>
         <!-- <el-form-item label="附件">
-            <input type="file">
-        </el-form-item> -->
+                                                <input type="file">
+                                            </el-form-item> -->
         <el-form-item label="作业相关要求">
             <quillEditor v-model="task_desc" style="background:#fff" :content="content"></quillEditor>
         </el-form-item>
         <!-- <el-form-item label="参考资料">
-            <quillEditor style="background:#fff" :content="content"></quillEditor>
-        </el-form-item>
-        <el-form-item label="相关参考答案">
-            <quillEditor style="background:#fff" :content="content"></quillEditor>
-        </el-form-item>
-        <el-form-item label="学生交作业时间">
-            <el-date-picker :picker-options="pickerOptions0" v-model="content" type="datetime" placeholder="选择日期时间">
-            </el-date-picker>
-        </el-form-item>
-        <el-form-item label="是否提交给学生">
-            <el-radio class="radio" v-model="radio" label="1">立即</el-radio>
-            <el-radio class="radio" v-model="radio" label="2">暂不</el-radio>
-        </el-form-item> -->
+                                                <quillEditor style="background:#fff" :content="content"></quillEditor>
+                                            </el-form-item>
+                                            <el-form-item label="相关参考答案">
+                                                <quillEditor style="background:#fff" :content="content"></quillEditor>
+                                            </el-form-item>
+                                            <el-form-item label="学生交作业时间">
+                                                <el-date-picker :picker-options="pickerOptions0" v-model="content" type="datetime" placeholder="选择日期时间">
+                                                </el-date-picker>
+                                            </el-form-item>
+                                            <el-form-item label="是否提交给学生">
+                                                <el-radio class="radio" v-model="radio" label="1">立即</el-radio>
+                                                <el-radio class="radio" v-model="radio" label="2">暂不</el-radio>
+                                            </el-form-item> -->
         <el-form-item label=" ">
             <el-button type="primary" @click="submit">保存</el-button>
             <el-button>取消</el-button>
@@ -40,6 +40,7 @@
 import { quillEditor } from 'vue-quill-editor'
 import store from '@/utils/operation'
 export default {
+    props: ['obj'],
     data() {
         return {
             form: {
@@ -55,17 +56,27 @@ export default {
             },
             radio: '',
             class_list: [],
-            task_desc:'',//作业内容
+            task_desc: '',//作业内容
         }
     },
     methods: {
-        submit(){
+        submit() {
             // 添加
-            store.add_task.call(this)
+            if (!this.obj.task_id) {
+                store.add_task.call(this);
+            } else {
+                store.teacher_edit_task.call(this);
+            }
         }
     },
     created() {
         store.Teacherclass_list.call(this);
+        if (!this.obj.task_id) {
+        } else {
+            this.form.class_list = this.obj.task_class
+            this.form.title = this.obj.task_title;
+            this.task_desc = this.obj.task_desc;
+        }
     },
     mounted() {
 

@@ -185,7 +185,35 @@ export default {
             }
         }).then((res) => {
             if (res.data.code == 200) {
-                this.obj = res.data.data
+                this.obj = res.data.data;
+            }
+        })
+    },
+    teacher_edit_task() {
+        this.$http({
+            method: "post",
+            url: api.teacher_edit_task,
+            data: {
+                token: getToken(),
+                task_id: this.obj.task_id,
+                task_title: this.form.title,
+                task_desc: this.task_desc,
+                task_class: this.form.class_list
+            }
+        }).then((res) => {
+            if (res.data.code == 200) {
+                this.$emit("quits", true);
+                this.$notify({
+                    title: '成功',
+                    message: res.data.data,
+                    type: 'success'
+                });
+
+            } else {
+                this.$notify.error({
+                    title: '错误',
+                    message: res.data.data.error
+                });
             }
         })
     }

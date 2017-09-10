@@ -158,9 +158,9 @@ export default {
                 })
                 this.t_data = res.data.data;
                 this.stundentCount = {
-                    count:res.data.count,
-                    boycount:res.data.boycount,
-                    girlcount:res.data.girlcount
+                    count: res.data.count,
+                    boycount: res.data.boycount,
+                    girlcount: res.data.girlcount
                 };
                 this.studentList.total_num = parseInt(res.data.page_total);
 
@@ -219,9 +219,9 @@ export default {
 
     },
     grade_list() {
-        this.$http(api.grade_list,{
-            params:{
-                token:getToken()
+        this.$http(api.grade_list, {
+            params: {
+                token: getToken()
             }
         }).then((res) => {
             if (res.data.code == 200) {
@@ -238,6 +238,9 @@ export default {
         }).then((res) => {
             if (res.data.code == 200) {
                 this.classForm = res.data.data;
+                if (this.dataObj.st_class) { 
+                    this.class_id = this.dataObj.st_class
+                }
             } else {
                 this.$alert(res.data.data.error, '', {
                     confirmButtonText: '确定'

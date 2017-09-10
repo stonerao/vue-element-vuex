@@ -17,6 +17,9 @@ export default {
           }
         }).then((res) => {
           this.area.city = res.data.data.area_list;
+          if(this.dataObj.st_cityid){
+            this.city_id =  this.dataObj.st_cityid 
+          }
         })
         break;
       case 3:
@@ -26,6 +29,9 @@ export default {
           }
         }).then((res) => {
           this.area.area = res.data.data.area_list;
+          if(this.dataObj.st_areaid){
+            this.area_id =  this.dataObj.st_areaid 
+          }
         })
         break;
     }

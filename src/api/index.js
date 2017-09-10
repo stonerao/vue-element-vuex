@@ -73,6 +73,7 @@ export const api = {
     student_answer_info:"Teacher/Examinationcenter/answer_info",//查看具体某个答题信息详情
     student_answer_grade:"Teacher/Examinationcenter/grade",//提交阅卷
     show_teacher_review:"Student/SchoolStudent/show_teacher_review",//学生查看老师评阅内容    
+    teacher_edit_task:"Teacher/Examinationcenter/edit_task",//老师编辑作业    
     
  
 }

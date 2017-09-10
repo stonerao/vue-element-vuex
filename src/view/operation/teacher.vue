@@ -9,14 +9,14 @@
                 <description :prompts="prompts" @PromPts="promptsTem"></description>
                 <!--模块开始  -->
                 <div v-if="state==0">
-                    <teacer_list v-if="status.state==0"  @tablist="tab_list"></teacer_list>
+                    <teacer_list v-if="status.state==0" @tablist="tab_list" @mangob="mangob"></teacer_list>
                     <student_list @backList="backList" @toOperation="toOperation" :list_state="list_state" v-else-if="status.state==1"></student_list>
-                    <get_student_operation @quit="taskQuit" :state="toStudentState" v-else-if="status.state==2"></get_student_operation>
+                    <get_student_operation @quit="taskQuit" :state="toStudentState" v-else-if="status.state==2" ></get_student_operation>
                 </div>
                 <div v-if="state==1">
-                    <release></release>
+                    <release :obj="mangStatus" @quits="quitsss"></release>
                 </div>
-    
+
             </div>
             <bottomItem></bottomItem>
         </div>
@@ -43,19 +43,20 @@ export default {
                 `该页面展示管理员的操作日志，可进行删除。`,
                 `侧边栏可以进行高级搜索`
             ],
-            state: 0, 
-            status:{
-                state:0
+            state: 0,
+            status: {
+                state: 0
             },
-            toStudentState:0,
-            list_state:''
+            toStudentState: 0,
+            list_state: '',
+            mangStatus: ""
         }
     },
     created() {
     },
     components: {
         titleItem, titleActive, description, bottomItem,
-        teacer_list,release,student_list,get_student_operation
+        teacer_list, release, student_list, get_student_operation
     },
     methods: {
         emitTransfer(index) {
@@ -67,21 +68,29 @@ export default {
         promptsTem(status) {
             console.log(status)
         },
-        tab_list(obj){ 
+        tab_list(obj) {
             this.list_state = obj;
-            this.status.state=1;
+            this.status.state = 1;
         },
-        backList(val){
+        backList(val) {
             // 列表返回
-             this.status.state=0;
+            this.status.state = 0;
         },
-        toOperation(val){ 
+        toOperation(val) {
             this.toStudentState = val;
-            this.status.state=2;
+            this.status.state = 2;
         },
-        taskQuit(){
+        taskQuit() {
             // 评阅作业是返回
-            this.status.state=1;
+            this.status.state = 1;
+        },
+        mangob(val) {
+            this.mangStatus = val;
+            this.state = 1;
+        },
+        quitsss(){ 
+            this.status.state=0;
+            this.state=0;
         }
     }
 }
