@@ -27,15 +27,17 @@
                         <div class="r-quesq-tittle">
                             试题题干：
                         </div>
-                        <div class="r-quesq-box" v-html="obj.q_title"> 
+                        <div class="r-quesq-box" v-html="obj.q_title">
                         </div>
                     </li>
-                    <li class="r-margin-re">
+                    <li class="r-margin-re" v-if="obj.q_option">
                         <div class="r-quesq-tittle">
                             选项：
                         </div>
                         <div class="r-quesq-box">
-                            {{obj.qc_id}}
+                            <div v-for="(item,index) in obj.q_option" :key="index">
+                                  {{A_Z[index]}} : {{item.title}}
+                            </div>
                         </div>
                     </li>
                     <li class="r-margin-re">
@@ -49,7 +51,7 @@
                             {{obj.answer=='1'?'正确':'错误'}}
                         </div>
                     </li>
-                     
+
                 </ul>
             </div>
         </div>
@@ -58,13 +60,19 @@
 
 <script>
 export default {
-    props: ['obj','status'],
+    props: ['obj', 'status'],
+    data() {
+        return {
+            A_Z: ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "X", "Y", "Z"],
+
+        }
+    },
     methods: {
         over() {
             this.$emit('CLICKOVER', false)
         }
     },
-    mounted(){
+    mounted() {
         console.log(this.obj)
     }
 }

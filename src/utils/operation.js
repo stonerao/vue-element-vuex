@@ -6,7 +6,7 @@ export default {
         this.$http(api.task_list, {
             params: {
                 token: getToken(),
-                task_title: "",
+                task_title: this.seach,
                 task_class: this.task_class,
                 page: this.page,
                 curpage: this.curpage
@@ -57,7 +57,7 @@ export default {
         this.$http(api.studentTask_list, {
             params: {
                 token: getToken(),
-                task_title: "",
+                task_title: this.seach,
                 task_class: this.task_class,
                 page: this.page,
                 curpage: this.curpage

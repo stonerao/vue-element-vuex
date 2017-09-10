@@ -5,7 +5,7 @@
                 <span class="line-height-36">
                     <img src="../../assets/index/shuaxin.png" class="icon-img-xs marginleft5" @click="resh" />刷新-共{{page_total}} 条记录
                 </span>
-    <span  @click="getQues"></span>
+                <span @click="getQues"></span>
             </el-col>
             <el-col :span="9">
                 <div class="float-right">
@@ -15,21 +15,19 @@
             </el-col>
         </el-row>
         <el-table ref="multipleTable" :data="t_data" tooltip-effect="dark" style="width: 100%">
-            <!-- <el-table-column type="selection" width="55">
-                </el-table-column> -->
             <el-table-column label="id" width="80" show-overflow-tooltip>
                 <template scope="scope">{{ scope.row.task_id }}</template>
             </el-table-column>
             <el-table-column prop="task_title" label="题目" show-overflow-tooltip>
-            </el-table-column> 
+            </el-table-column>
             <el-table-column prop="class_name" width="180" label="班级" show-overflow-tooltip>
             </el-table-column>
             <el-table-column prop="teacher_name" width="180" label="老师" show-overflow-tooltip>
-            </el-table-column> 
+            </el-table-column>
             <el-table-column width="180" label="操作" show-overflow-tooltip>
                 <template scope="scope">
                     <el-button size="mini" @click="getQues(scope.row.task_id)">查看</el-button>
-                    <el-button size="mini"　v-if="scope.row.is_review==1" @click="Mangtheater(scope.row.at_id)">老师批语</el-button>
+                    <el-button size="mini" 　v-if="scope.row.is_review==1" @click="Mangtheater(scope.row.at_id)">老师批语</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -61,17 +59,17 @@ export default {
     },
     methods: {
         seachClick() {
-            this.seach=''
-             this.ajax()
+            
+            this.ajax(); 
         },
         resh() {
             this.ajax()
         },
-        getQues(val) { 
-            this.$emit("myOperation",val)
-        }, 
+        getQues(val) {
+            this.$emit("myOperation", val)
+        },
         ajax() {
-            this.t_data=[]
+            this.t_data = []
             store.studentList.call(this)
         },
         SizeChange() {
@@ -81,9 +79,9 @@ export default {
             this.page = val
             this.ajax()
         },
-        Mangtheater(id){
+        Mangtheater(id) {
 
-            this.$emit("Mangtheater",id)
+            this.$emit("Mangtheater", id)
         }
     },
     created() {

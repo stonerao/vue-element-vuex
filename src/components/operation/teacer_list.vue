@@ -65,8 +65,7 @@ export default {
         }
     },
     methods: {
-        seachClick() {
-            this.seach = ''
+        seachClick() { 
             this.ajax()
         },
         resh() {
