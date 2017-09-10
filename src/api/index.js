@@ -72,6 +72,7 @@ export const api = {
     show_studentanswerlist:"Teacher/Examinationcenter/show_studentanswerlist",//查看某场考试下的老师提交的答案 
     student_answer_info:"Teacher/Examinationcenter/answer_info",//查看具体某个答题信息详情
     student_answer_grade:"Teacher/Examinationcenter/grade",//提交阅卷
+    show_teacher_review:"Student/SchoolStudent/show_teacher_review",//学生查看老师评阅内容    
     
  
 }

@@ -17,7 +17,7 @@
         </el-form-item>
         <el-form-item label=" ">
             <el-button type="primary" @click="submit">去完成作业</el-button>
-            <el-button>查看老师审批</el-button>
+            <!-- <el-button @click="mangTeacher">查看老师审批</el-button> -->
         </el-form-item>
 
     </el-form>
@@ -48,7 +48,12 @@ export default {
                 return
             }
             store.addztask.call(this)
-        }
+        },
+        // mangTeacher(){
+        //     //查看老师审批
+        //     console.log(1)
+        //     this.$emit('Mangtheater',true)
+        // }
     },
     created() {
         console.log(this.status)

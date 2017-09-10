@@ -29,6 +29,7 @@
             <el-table-column width="180" label="操作" show-overflow-tooltip>
                 <template scope="scope">
                     <el-button size="mini" @click="getQues(scope.row.task_id)">查看</el-button>
+                    <el-button size="mini"　v-if="scope.row.is_review==1" @click="Mangtheater(scope.row.at_id)">老师批语</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -79,6 +80,10 @@ export default {
         CurrentChange(val) {
             this.page = val
             this.ajax()
+        },
+        Mangtheater(id){
+
+            this.$emit("Mangtheater",id)
         }
     },
     created() {

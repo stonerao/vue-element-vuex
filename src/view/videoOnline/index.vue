@@ -2,10 +2,9 @@
   <div class="kd-app-main">
     <titleItem :titleText="$route.name.substring(1)"></titleItem>
     <div class="kd-box">
-       
+
       <div class="kd-box-content">
         <description :prompts="prompts" @PromPts="promptsTem"></description>
-         
         <div v-if="state==1">
           <onlineList v-if="addOnline==0" :total="total" @searchList="searchList" :videoList="videoList" @addShow="addShow" @liveCancel="liveCancel" @detailLive="detailLive" :showDetail="showDetail" :detail="detail" @liveDelete="liveDelete" @liveEdit="liveEdit" @liveClose="liveClose"></onlineList>
           <onlineAdd v-else :addShowList_1="addShowList" @liveSubmit="liveSubmit" @cancelAdd="cancelAdd"></onlineAdd>
@@ -13,7 +12,7 @@
         <div class="kd-page" v-if="addOnline==0">
           <el-row>
             <el-col :span="24">
-              <el-pagination class="float-right" :current-page="currentPage" :page-sizes="[10, 15, 20, 25]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total" @size-change="handleSizeChange" @current-change="handleCurrentChange">
+              <el-pagination class="float-right" :current-page="currentPage" :page-sizes="[10]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total" @size-change="handleSizeChange" @current-change="handleCurrentChange">
               </el-pagination>
             </el-col>
           </el-row>
@@ -57,7 +56,7 @@ export default {
     }
   },
   created() {
-  
+
     this.refreshList();
   },
   components: {
@@ -114,15 +113,15 @@ export default {
       this.addOnline = 0;
     },
     //禁用直播
-    liveCancel(id, status,row) {
+    liveCancel(id, status, row) {
       this.$confirm('确定禁用直播吗?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
         video.live_cancel.call(this, id, status)
-      }).catch(() => {  
-        status==1?row.cancel_state=true:row.cancel_state=false;
+      }).catch(() => {
+        status == 1 ? row.cancel_state = true : row.cancel_state = false;
         this.$message({
           type: 'info',
           message: '已取消'

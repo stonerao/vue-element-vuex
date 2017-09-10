@@ -7,9 +7,9 @@
                 <description :prompts="prompts" @PromPts="promptsTem"></description>
                 <!--模块开始  -->
 
-                <s_list v-if="state==0" @myOperation="myOperation" @tablist="tab_list"></s_list>
-                <get_operation v-else-if="state==1" :status="status_id"></get_operation>
-
+                <s_list v-if="state==0" @myOperation="myOperation" @tablist="tab_list" @Mangtheater="Mangtheater"></s_list>
+                <get_operation v-else-if="state==1" :status="status_id" ></get_operation>
+                <stundentMangList v-else-if="state==2" :id="at_id" @quit="mangQuit"></stundentMangList>  
             </div>
             <bottomItem></bottomItem>
         </div>
@@ -22,6 +22,7 @@ import description from '@/components/main/description.vue'
 import bottomItem from '@/components/bottom/bottom.vue'
 import s_list from '@/components/operation/s_list'
 import get_operation from '@/components/operation/get_operation'
+import stundentMangList from '@/components/operation/stundentMangList'
 export default {
     data() {
         return {
@@ -33,14 +34,15 @@ export default {
             status: {
                 state: 0
             },
-            status_id:""
+            status_id:"",
+            at_id:''
         }
     },
     created() {
     },
     components: {
         titleItem, description, bottomItem,
-        s_list, get_operation
+        s_list, get_operation,stundentMangList
     },
     methods: {
         emitTransfer(index) {
@@ -49,8 +51,7 @@ export default {
             }
             this.state = index;
         },
-        promptsTem(status) {
-            console.log(status)
+        promptsTem(status) {　
         },
         tab_list() {
             this.status.state = 1;
@@ -58,6 +59,14 @@ export default {
         myOperation(val) {
             this.state = 1;
             this.status_id=val
+        },
+        Mangtheater(id){ 
+            this.at_id=id;
+            this.state=2
+        },
+        mangQuit(){
+            //评阅取消
+            this.state=0
         }
     }
 }

@@ -74,7 +74,7 @@
                                             <el-button type="primary" size="mini" @click="selectStudent">删除</el-button>
                                         </el-col>
                                         <el-col :span="12">
-                                            <el-pagination class="float-right" @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="1" :page-sizes="[10, 15, 20, 25]" :page-size="1" layout="total, sizes, prev, pager, next, jumper" :total="1">
+                                            <el-pagination class="float-right" @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="1" :page-sizes="[userList.curpage]" :page-size="1" layout="total, sizes, prev, pager, next, jumper" :total="parseInt(bm_page_count)">
                                             </el-pagination>
                                         </el-col>
                                     </el-row>
@@ -98,7 +98,7 @@
                     <el-row :gutter="10" class="class-header">
                         <el-col :span="19" class="class-titles">
                             <span>
-                                <img src="../../assets/index/shuaxin.png" class="icon-img-xs marginleft5" @click="studentRefresh" />刷新-共{{userList.page_total}}条记录</span>
+                                <img src="../../assets/index/shuaxin.png" class="icon-img-xs marginleft5" @click="studentRefresh1" />刷新-共{{userList.page_total}}条记录</span>
                             <span>当前总人数：
                                 <a class="red-color">{{userList.page_total}}</a>人
                             </span>
@@ -140,7 +140,7 @@
                                 <el-button type="primary" size="mini" @click="selectStudent">删除</el-button>
                             </el-col>
                             <el-col :span="12">
-                                <el-pagination class="float-right" @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="userList.page" :page-sizes="[10, 15, 20, 25]" :page-size="userList.curpage" layout="total, sizes, prev, pager, next, jumper" :total="userList.page_total">
+                                <el-pagination class="float-right" @size-change="handleSizeChange" @current-change="handleCurrentChange1" :current-page="userList.page" :page-sizes="[userList.curpage]" :page-size="userList.curpage" layout="total, sizes, prev, pager, next, jumper" :total="userList.page_total">
                                 </el-pagination>
                             </el-col>
                         </el-row>
@@ -408,8 +408,18 @@ export default {
             this.t_data = []
             this.dataAjax();
         },
+        studentRefresh1() {
+            // 刷新
+            this.userList.items = []
+            store.organize_member_list.call(this)
+        },
         handleCurrentChange(val) { 
-
+            this.obj.curpage = val;
+            this.dataAjax();
+        },
+        handleCurrentChange1(val) {
+            this.userList.page = val;
+            store.organize_member_list.call(this)
         },
         handleSizeChange(val) {
             this.dataAjax()

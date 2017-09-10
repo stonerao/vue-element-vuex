@@ -113,7 +113,7 @@
                                 <el-input v-model="item.rala" placeholder="关系"></el-input>
                             </el-col>
                             <el-col :span="12">
-                                <el-input v-model="item.mobile" placeholder="电话" type="number"></el-input>
+                                <el-input v-model="item.mobile" placeholder="电话" ></el-input>
                             </el-col>
                         </el-row>
                         

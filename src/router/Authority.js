@@ -74,7 +74,7 @@ import {
 } from '@/assets/icon'
 // admin
 export const constList = [
-    {
+    /* {
         path: '/index',
         name: '系统设置',
         redirect: '/index/index',
@@ -88,7 +88,7 @@ export const constList = [
                 component: setVue,
             }
         ]
-    },
+    }, */
     {
         path: '/grade',
         name: '年/班级管理',
@@ -145,7 +145,8 @@ export const constList = [
                 component: student,
             }
         ]
-    }, {
+    },
+    /*  {
         path: '/set',
         name: '成绩管理',
         redirect: '/set/index',
@@ -159,7 +160,8 @@ export const constList = [
                 component: setCheng,
             }
         ]
-    }, {
+    },  */
+    {
         path: '/attendance',
         name: '考勤管理',
         redirect: '/attendance/index',
@@ -271,7 +273,8 @@ export const constList = [
                 component: notice,
             }
         ]
-    }, {
+    },
+    /*  {
         path: '/set',
         name: '统计信息',
         redirect: '/set/index',
@@ -299,7 +302,7 @@ export const constList = [
                 component: setVue,
             }
         ]
-    },
+    }, */
     {
         path: '/adminIndex',
         redirect: "/one/index"

@@ -2,7 +2,7 @@
   <div>
     <el-row class="class-header">
       <el-col :span="4" class="class-titles">
-        <img src="../../assets/index/shuaxin.png" class="icon-img-xs cursor" />刷新-共{{total}}条记录
+        <img src="../../assets/index/shuaxin.png" class="icon-img-xs cursor"  @click="resh"/>刷新-共{{total}}条记录
       </el-col>
       <el-col :span="8">
         <el-button type="primary" @click="addOnline">
@@ -157,6 +157,12 @@ export default {
     //关闭直播
     closeLive(id) {
       this.$emit('liveClose', id);
+    },
+    resh(){
+      // 刷新
+      
+      this.videoList=[];
+      this.$emit('searchList', this.checkType, this.searchTxt)
     }
   }
 }

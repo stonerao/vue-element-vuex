@@ -175,5 +175,18 @@ export default {
                 });
             }
         })
+    },
+    mang_list() {
+        // 学生查看老师批语列表
+        this.$http(api.show_teacher_review, {
+            params: {
+                token: getToken(),
+                at_id: this.id
+            }
+        }).then((res) => {
+            if (res.data.code == 200) {
+                this.obj = res.data.data
+            }
+        })
     }
 }

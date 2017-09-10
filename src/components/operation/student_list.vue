@@ -72,7 +72,7 @@
                     <template scope="scope">
                         <el-button size="mini" @click="getQues(scope.row.at_id)">查看</el-button>
                         <!-- <el-button size="mini" @click="setQues(scope.row)">编辑</el-button> -->
-                        <el-button size="mini" @click="deleteData(scope.row.q_id,true)">删除</el-button>
+                        <!-- <el-button size="mini" @click="deleteData(scope.row.q_id,true)">删除</el-button> -->
                     </template>
                 </el-table-column>
 
