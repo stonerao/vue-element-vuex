@@ -29,6 +29,7 @@ export default {
                         teach_subject: x.teach_subject,
                         delete_tstatus: x.delete_tstatus,
                         sex: x.teacher_sex,
+                        number_id: x.number_id,
                         teacher_sex: x.teacher_sex == '1' ? '保密' : (x.teacher_sex == '2' ? '男' : '女'),
                     })
                 })
@@ -89,6 +90,7 @@ export default {
             }
         }).then((res) => {
             if (res.data.status == 'true') {
+                this.storeAjax();
                 this.$message({
                     type: 'success',
                     message: res.data.msg
@@ -238,7 +240,7 @@ export default {
         }).then((res) => {
             if (res.data.code == 200) {
                 this.classForm = res.data.data;
-                if (this.dataObj.st_class) { 
+                if (this.dataObj.st_class) {
                     this.class_id = this.dataObj.st_class
                 }
             } else {

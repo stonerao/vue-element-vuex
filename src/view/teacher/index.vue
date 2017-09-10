@@ -48,12 +48,6 @@
                     <div class="kd-page">
                         <el-row>
                             <el-col :span="0">
-                                <!-- style="padding-left:15px"  -->
-                                <!-- <el-checkbox label="全选"></el-checkbox> -->
-                                <!-- <el-select v-model="search" placeholder="请选择" size="small" class="margin-left">
-                                                                                <el-option v-for="item in t_data" :key="item.name" :label="item.name" :value="item.id">
-                                                                                </el-option>
-                                                                            </el-select> -->
                             </el-col>
                             <el-col :span="24">
                                 <el-pagination class="float-right" @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="tracherList.curpage" :page-sizes="[10, 15, 20, 25]" :page-size="tracherList.page_count" layout="total, sizes, prev, pager, next, jumper" :total="tracherList.total_num">
@@ -73,8 +67,7 @@
                     <settracher @TeacherSet="SetTeacherTab" state="2" :kemu="kemu" :obj="teacherObj" @QUIT="quitTeacherSet"></settracher>
                 </div>
             </div>/
-            
-    
+
             <bottomItem></bottomItem>
         </div>
     </div>
@@ -177,7 +170,7 @@ export default {
             this.multipleSelection = val;
         },
         storeAjax() {
-            console.log(1)
+            this.t_data = [];
             store.teacher_list.call(this);
         },
         handleSizeChange(val) {
@@ -201,13 +194,14 @@ export default {
         },
         deleteTeacher(obj) {
             // 删除
+            console.log(obj)
             this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
 
-                store.deleteTeacher.call(this, obj.teacher_id)
+                store.deleteTeacher.call(this, obj.number_id)
             }).catch(() => {
                 this.$message({
                     type: 'info',
