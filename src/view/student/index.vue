@@ -47,7 +47,7 @@
                                 <el-table-column prop="st_name" label="姓名" width="100" show-overflow-tooltip>
                                 </el-table-column>
                                 <el-table-column prop="cer" label="证件类型" width="100" show-overflow-tooltip>
-                                </el-table-column> -->
+                                </el-table-column>  
                                 <el-table-column prop="st_certificates_number" label="证件号" show-overflow-tooltip>
                                 </el-table-column>
                                 <el-table-column prop="st_phone" label="电话" show-overflow-tooltip>
@@ -200,7 +200,7 @@ export default {
         return {
             titleItem: [
                 { name: "在校学生", index: 0 },
-                { name: "虚拟班", index: 1 },
+                // { name: "虚拟班", index: 1 },
                 { name: "离校学生", index: 2 },
                 { name: "档案查询", index: 3 },
             ],

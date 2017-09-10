@@ -15,6 +15,9 @@
                 <div v-if="state==1">
                     <addQuestion :setQuestionObj="setQuestionObj" :isSetQues="isSetQues" @quits="quitSet"></addQuestion>
                 </div>
+                <div v-if="state==2">
+                    <question_class></question_class>
+                </div>
 
             </div>
             <bottomItem></bottomItem>
@@ -29,12 +32,14 @@ import description from '@/components/main/description.vue'
 import bottomItem from '@/components/bottom/bottom.vue'
 import setQuestion from '@/components/questions/questionList'
 import addQuestion from '@/components/questions/addQuestion'
+import question_class from '@/components/questions/question_class'
 export default {
     data() {
         return {
             titleItem: [
                 { name: "试题管理", index: 0 },
                 { name: "增加试题", index: 1 },
+                // { name: "添加分类", index: 2 },
             ],
             prompts: [
                 `该页面展示管理员的操作日志，可进行删除。`,
@@ -48,7 +53,7 @@ export default {
     created() {
     },
     components: {
-        titleItem, titleActive, description, bottomItem, setQuestion, addQuestion
+        titleItem, titleActive, description, bottomItem, setQuestion, addQuestion,question_class
     },
     methods: {
         emitTransfer(index) {
@@ -58,6 +63,7 @@ export default {
             this.titleItem = [
                 { name: "试题管理", index: 0 },
                 { name: "增加试题", index: 1 },
+                { name: "添加分类", index: 2 },
             ]
             this.setQuestionObj=null;
             this.isSetQues = false;

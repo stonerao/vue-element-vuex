@@ -9,7 +9,8 @@ export default {
                 token: getToken(),
                 e_title: this.seach,
                 page: this.page,
-                curpage: this.curpage
+                curpage: this.curpage,
+                type:this.shai_id
             }
         }).then((res) => {
             if (res.data.code == 200) {

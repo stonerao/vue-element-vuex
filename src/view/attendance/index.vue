@@ -296,6 +296,7 @@ export default {
       },
       //获取某老师所处节点及向下所有节点的组织部门ID+老师ID+老师姓名
       teacherChoose(){
+console.log(1)
         this.refreshList();
       },
       //学校中心班级考勤(获取班/年级数据)

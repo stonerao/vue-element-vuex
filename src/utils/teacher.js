@@ -110,7 +110,18 @@ export default {
             method: 'post',
             data: form
         }).then((res) => {
-
+            if (res.data.status == 'true') {
+                this.state=0
+                this.$message({
+                    type: 'success',
+                    message: res.data.msg
+                });
+            } else {
+                this.$message({
+                    type: 'info',
+                    message: res.data.msg
+                });
+            }
         })
     },
     studentlist(id) {
@@ -130,7 +141,7 @@ export default {
                 let data = res.data.data;
                 data.forEach((x) => {
                     x.sex = x.st_sex == '1' ? '保密' : (x.st_sex == '2' ? '男' : '女');
-                    x.cer = x.st_certificates == '0' ? '无' : (x.st_certificates == '2' ? '身份证' : '学生证');
+                    x.cer = x.st_certificates == '0' ? '无' : (x.st_certificates == '1' ? '身份证' : '学生证');
                     switch (x.st_status) {
                         case "1":
                             x.status = '在校'

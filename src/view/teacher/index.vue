@@ -66,7 +66,7 @@
                 <div v-if="state==3">
                     <settracher @TeacherSet="SetTeacherTab" state="2" :kemu="kemu" :obj="teacherObj" @QUIT="quitTeacherSet"></settracher>
                 </div>
-            </div>/
+            </div>
 
             <bottomItem></bottomItem>
         </div>
@@ -220,6 +220,7 @@ export default {
             store.setTeacher.call(this, obj)
         },
         quitTeacherSet(num) {
+            alert(1)
             this.state = num;
         }
     }

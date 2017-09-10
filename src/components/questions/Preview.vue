@@ -36,7 +36,7 @@
                         </div>
                         <div class="r-quesq-box">
                             <div v-for="(item,index) in obj.q_option" :key="index">
-                                  {{A_Z[index]}} : {{item.title}}
+                                {{A_Z[index]}} : {{item.title}}
                             </div>
                         </div>
                     </li>

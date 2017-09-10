@@ -8,7 +8,7 @@
                         <el-option :label="item.type_name" :value="item.type_id" v-for="(item,index) in obj.questionClass" :key="index"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="所属分类">
+                <el-form-item label="所属分类" v-if="false">
                     <el-select v-model="belongClass1" placeholder="题库一级分类" class="width125" style="font-size:14px">
                         <el-option :label="item.qc_name" :value="item.qc_id" v-for="(item,index) in belongClass.items1" :key="index"></el-option>
                     </el-select>
@@ -117,10 +117,10 @@
                     <el-switch v-model="selectVal" on-color="#13ce66" off-color="" on-text="是" off-text="否">
                     </el-switch>
                 </el-form-item>
-                <el-form-item label="是否加入老师个人题库 ">
+                <!-- <el-form-item label="是否加入老师个人题库 ">
                     <el-switch v-model="isTeacherShare" on-color="#13ce66" off-color="" on-text="是" off-text="否">
                     </el-switch>
-                </el-form-item>
+                </el-form-item> -->
                 <el-form-item label=" ">
                     <el-button type="primary" @click="onSubmit">立即创建</el-button>
                     <el-button type="success" @click="onSubmit(1)">预览试题</el-button>

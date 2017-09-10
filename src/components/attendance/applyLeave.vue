@@ -2,13 +2,14 @@
   <div>
     <el-row class="class-header">
       <el-col :span="4" class="class-titles">
-        <img src="../../assets/index/shuaxin.png" class="icon-img-xs cursor"/>刷新-共{{total}}条记录
+        <img src="../../assets/index/shuaxin.png" class="icon-img-xs cursor" />刷新-共{{total}}条记录
       </el-col>
       <el-col v-if="isClassLogin!=1" :span="8">
-        <el-button type="primary" @click="apply"><b>+</b>请假申请</el-button>
+        <el-button type="primary" @click="apply">
+          <b>+</b>请假申请</el-button>
       </el-col>
       <el-col :span="isClassLogin!=1 ? 12:20">
-        <uteacher :underTeacherList="underTeacherList" @teacherChoose="teacher" class="lf"></uteacher>
+        <!-- <uteacher :underTeacherList="underTeacherList" @teacherChoose="teacher" class="lf"></uteacher> -->
         <el-select v-model="typeText1" @change="selectChange" placeholder="请选择审核状态" size="small" class="rt">
           <el-option v-for="item in checkTypeList" :key="item.value" :label="item.name" :value="item.value">
           </el-option>
@@ -21,7 +22,7 @@
         </el-table-column>
         <el-table-column prop="teacher_name" label="申请人" show-overflow-tooltip v-else>
         </el-table-column>
-        <el-table-column prop="leave_desc" label="请假事由"  min-width="100" show-overflow-tooltip >
+        <el-table-column prop="leave_desc" label="请假事由" min-width="100" show-overflow-tooltip>
         </el-table-column>
         <el-table-column prop="start_time" label="请假开始时间" min-width="120" show-overflow-tooltip>
         </el-table-column>
@@ -29,9 +30,9 @@
         </el-table-column>
         <el-table-column prop="duration" label="时长（小时）" width="120">
         </el-table-column>
-        <el-table-column prop="apply_time" label="提交时间"  min-width="100" show-overflow-tooltip>
+        <el-table-column prop="apply_time" label="提交时间" min-width="100" show-overflow-tooltip>
         </el-table-column>
-        <el-table-column  label="审批状态" width="100">
+        <el-table-column label="审批状态" width="100">
           <template scope="scope">
             <span v-if="scope.row.apply_stutas==1" class="blue">待审批</span>
             <span v-else-if="scope.row.apply_stutas==2" class="warning">同意</span>
@@ -53,39 +54,38 @@
   </div>
 </template>
 <script>
-  import uteacher from '@/components/attendance/underTeacher'
-  export default{
-    props:['total','list','checkTypeList','isClassLogin','underTeacherList'],
-    data(){
-      return{
-        typeText1:'',//请假管理审核状态
+import uteacher from '@/components/attendance/underTeacher'
+export default {
+  props: ['total', 'list', 'checkTypeList', 'isClassLogin', 'underTeacherList'],
+  data() {
+    return {
+      typeText1: '',//请假管理审核状态
 
-      }
+    }
+  },
+  components: {
+    uteacher
+  },
+  created() { 
+  },
+  methods: {
+    apply() {
+      this.$emit('apply')
     },
-    components:{
-      uteacher
+    //选择审批状态
+    selectChange(val) {
+      this.$emit('typeChange', val)
     },
-    created(){
-      console.log(this.checkTypeList)
+    //学校中心同意老师请假申请
+    applyLeave(num, id) {
+      this.$emit('leaveApply', num, id)
     },
-    methods:{
-      apply(){
-       this.$emit('apply')
-      },
-      //选择审批状态
-      selectChange(val){
-        this.$emit('typeChange',val)
-      },
-      //学校中心同意老师请假申请
-      applyLeave(num,id){
-        this.$emit('leaveApply',num,id)
-      },
-      //选中节点下的老师
-      teacher(){
-        this.$emit('ChooseTeacher')
-      }
+    //选中节点下的老师
+    teacher(val) {　
+      this.$emit('ChooseTeacher',val)
     }
   }
+}
 </script>
 <style lang="less" type="text/less">
 

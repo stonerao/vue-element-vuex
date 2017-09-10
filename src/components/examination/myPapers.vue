@@ -2,20 +2,19 @@
     <div>
         <el-row>
             <el-col :span='15'>
-                <el-button type="primary" size="small" icon="plus">未开始</el-button>
-                <el-button type="primary" size="small" icon="plus">进行中</el-button>
-                <el-button type="primary" size="small" icon="plus">待阅卷</el-button>
-                <el-button type="primary" size="small" icon="plus">已完成</el-button>
+                <el-button type="primary" size="small" icon="plus" @click="shai(1)">未开始</el-button>
+                <el-button type="primary" size="small" icon="plus" @click="shai(2)">进行中</el-button> 
+                <el-button type="primary" size="small" icon="plus" @click="shai(3)">已结束</el-button>
                 <span>
-                    <img src="../../assets/index/shuaxin.png" class="icon-img-xs marginleft5" @click="resh" />刷新-共1条记录
+                    <img src="../../assets/index/shuaxin.png" class="icon-img-xs marginleft5" @click="resh" />刷新-共{{all_pagecount}}条记录
                 </span>
             </el-col>
             <el-col :span="9">
                 <div class="float-right">
-                    <el-select v-model="selectVal" placeholder="请选择试卷分类" class="width150">
+                    <!-- <el-select v-model="selectVal" placeholder="请选择试卷分类" class="width150">
                         <el-option v-for="item in obj" :key="item.name" :label="item.name" :value="item.id">
                         </el-option>
-                    </el-select>
+                    </el-select> -->
                     <el-input placeholder="请输入试卷名称" icon="search" v-model="seach" :on-icon-click="seachClick" class="width150">
                     </el-input>
                 </div>
@@ -71,12 +70,14 @@ export default {
             all_pagecount: 0,
             t_data: [],
             is_alert: false,
-            is_alert_obj: {}
+            is_alert_obj: {},
+            shai_id: ''
         }
     },
     methods: {
         resh() {
             // 刷新
+            this.ajax();
         },
         seachClick() {
             // 搜索
@@ -120,6 +121,10 @@ export default {
             if (state == true) {
 
             }
+        },
+        shai(val) {
+            this.shai_id=val
+            this.ajax();
         }
 
     },
