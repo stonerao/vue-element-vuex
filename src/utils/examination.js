@@ -74,8 +74,7 @@ export default {
             }
         })
     },
-    mang_list() {
-        console.log(api.show_studentanswerlist)
+    mang_list() { 
         this.$http(api.show_studentanswerlist, {
             params: {
                 token: getToken(),

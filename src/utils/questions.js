@@ -359,7 +359,7 @@ export default {
         })
     },
     createExamQuestion() {
-        if(this.selectObjs.t_id==undefined){
+        if (this.selectObjs.t_id == undefined) {
             this.$message({
                 type: 'info',
                 message: '请选择试卷'
@@ -380,7 +380,7 @@ export default {
                 e_class: str,
                 e_allsource: this.form.tol,
                 e_question_source: this.form.e_question_source,
-                e_whenlong:parseInt(this.form.tiem)
+                e_whenlong: parseInt(this.form.tiem)
             }
         }).then((res) => {
             if (res.data.code == 200) {
@@ -410,7 +410,7 @@ export default {
                 e_allsource: this.form.tol,
                 e_question_source: this.form.e_question_source,
                 e_id: this.form.e_id,
-                e_whenlong:parseInt(this.form.tiem)
+                e_whenlong: parseInt(this.form.tiem)
             }
         }).then((res) => {
             if (res.data.code == 200) {
@@ -418,7 +418,7 @@ export default {
                     type: 'info',
                     message: res.data.data
                 });
-                this.$emit("setExamOk",true)
+                this.$emit("setExamOk", true)
             } else {
                 this.$message({
                     type: 'info',

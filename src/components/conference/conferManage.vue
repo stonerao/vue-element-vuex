@@ -24,9 +24,9 @@
                     </el-row>
                 </div>
                 <div class="l_confer_table l_mater_table">
-                    <el-table ref="multipleTable" :data="conferManaList" border tooltip-effect="dark" style="width: 100%" @selection-change="select_Change">
+                    <el-table ref="multipleTable" :data="conferManaList" tooltip-effect="dark" style="width: 100%" @selection-change="select_Change">
                         <el-table-column type="selection" width="48" v-if="schoolManageCenter"></el-table-column>
-                        <el-table-column label="ID" prop="id"></el-table-column>
+                        <el-table-column label="ID" prop="id"  width="60"></el-table-column>
                         <el-table-column label="会议主题" prop="theme"></el-table-column>
                         <el-table-column label="会议时间">
                              <template scope="scope">

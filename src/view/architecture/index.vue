@@ -14,7 +14,7 @@
                                 <el-button type="primary" icon="plus" size="small" @click="addDladogUser">添加成员</el-button>
                                 <span>
                                     <img src="../../assets/index/shuaxin.png" class="icon-img-xs marginleft5" @click="studentRefresh" />刷新-共{{bm_page_count}}条记录</span>
-    
+
                             </el-col>
                             <el-col :span="5">
                                 <el-input placeholder="输入名称" icon="search" size="small" v-model="obj.search" :on-icon-click="handleIconClick">
@@ -34,7 +34,7 @@
                                             <el-col :span="12">
                                                 <el-button type="primary" size="mini" style="" class=" float-right r-zz-ok" @click="departmentManagement">管理</el-button>
                                             </el-col>
-                                        </el-row> 
+                                        </el-row>
                                     </div>
                                     <div class="kd-children-box">
                                         <el-tree :data="sdata" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
@@ -67,7 +67,7 @@
                                         </template>
                                     </el-table-column>
                                 </el-table>
-    
+
                                 <div class="kd-page">
                                     <el-row>
                                         <el-col :span="12">
@@ -98,17 +98,17 @@
                     <el-row :gutter="10" class="class-header">
                         <el-col :span="19" class="class-titles">
                             <span>
-                                <img src="../../assets/index/shuaxin.png" class="icon-img-xs marginleft5" @click="studentRefresh" />刷新-共1条记录</span>
+                                <img src="../../assets/index/shuaxin.png" class="icon-img-xs marginleft5" @click="studentRefresh" />刷新-共{{userList.page_total}}条记录</span>
                             <span>当前总人数：
-                                <a class="red-color">{{userList.page_total}}</a>人</span>
-    
+                                <a class="red-color">{{userList.page_total}}</a>人
+                            </span>
                         </el-col>
                         <el-col :span="5">
                             <el-input placeholder="输入名称" icon="search" size="small" v-model="userList.search" :on-icon-click="userListIconClick">
                             </el-input>
                         </el-col>
                     </el-row>
-    
+
                     <el-table ref="multipleTable" :data="userList.items" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange" class="z-text-over">
                         <el-table-column type="selection" width="55">
                         </el-table-column>
@@ -134,7 +134,6 @@
                             </template>
                         </el-table-column>
                     </el-table>
-    
                     <div class="kd-page">
                         <el-row>
                             <el-col :span="12">
@@ -143,12 +142,9 @@
                             <el-col :span="12">
                                 <el-pagination class="float-right" @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="userList.page" :page-sizes="[10, 15, 20, 25]" :page-size="userList.curpage" layout="total, sizes, prev, pager, next, jumper" :total="userList.page_total">
                                 </el-pagination>
-    
                             </el-col>
                         </el-row>
-    
                     </div>
-    
                 </div>
                 <div v-if="state==2">
                     <addSetUser></addSetUser>
@@ -158,20 +154,20 @@
                         <el-col :span="19" class="class-titles">
                             <span>
                                 <img src="../../assets/index/shuaxin.png" class="icon-img-xs marginleft5" @click="positionRefresh" />刷新-共{{positionList.page_total}}条记录</span>
-    
+
                         </el-col>
                         <el-col :span="5">
                             <el-input placeholder="输入名称" icon="search" size="small" v-model="positionList.search" :on-icon-click="positionListIconClick">
                             </el-input>
                         </el-col>
                     </el-row>
-    
+
                     <el-table ref="multipleTable" :data="positionList.items" tooltip-effect="dark" style="width: 100%" @selection-change="positionSelectionChange" class="z-text-over">
                         <el-table-column type="selection" width="55">
                         </el-table-column>
-    
+
                         <el-table-column prop="position_name" label="职位" show-overflow-tooltip>
-    
+
                         </el-table-column>
                         <el-table-column label="操作" width="150" show-overflow-tooltip>
                             <template scope="scope">
@@ -180,7 +176,7 @@
                             </template>
                         </el-table-column>
                     </el-table>
-    
+
                     <div class="kd-page">
                         <el-row>
                             <el-col :span="12">
@@ -191,14 +187,14 @@
                                 </el-pagination>
                             </el-col>
                         </el-row>
-    
+
                     </div>
                 </div>
                 <div v-if="state==4">
                     <!--增加职位  -->
                     <section class="add-inp">
                         <div class="add-inp-items">
-    
+
                             <div class="add-inp-item">
                                 <div class="add-inp-item-name">
                                     职位名称：
@@ -207,7 +203,7 @@
                                     <el-input v-model="userPositionVal" placeholder=""></el-input>
                                 </div>
                             </div>
-    
+
                             <div class="add-inp-btn">
                                 <div class="add-inp-item-name">
                                 </div>
@@ -225,7 +221,7 @@
                     <!--编辑职位  -->
                     <section class="add-inp">
                         <div class="add-inp-items">
-    
+
                             <div class="add-inp-item">
                                 <div class="add-inp-item-name">
                                     职位名称：
@@ -234,7 +230,7 @@
                                     <el-input v-model="setUserPositionVal" placeholder=""></el-input>
                                 </div>
                             </div>
-    
+
                             <div class="add-inp-btn">
                                 <div class="add-inp-item-name">
                                 </div>
@@ -307,7 +303,8 @@ export default {
             data2: [],
             value2: [],
             filterMethod(query, item) {
-                // 弹框左右选择列表
+                // 弹框左右选择列表  
+
                 return item.teacher_name.indexOf(query) > -1;
             },
             is_dialog: false,//选择模态框 
@@ -337,7 +334,7 @@ export default {
                 page_total: 0,//总数量
                 items: [],
                 all_pagecount: '',
-                selectArr:[],//选择存储的数组
+                selectArr: [],//选择存储的数组
             },
             columns: [{
                 type: 'none'
@@ -353,7 +350,7 @@ export default {
                 title: '是否显示',
                 type: 'switch',
                 key: 'status'
-            },{
+            }, {
                 title: '操作',
                 type: 'action',
                 actions: [{
@@ -365,6 +362,7 @@ export default {
             materData: [],
             materHandleID: 0,
             LoadChild: false,
+            value_id: []
         }
     },
     created() {
@@ -428,13 +426,12 @@ export default {
                     teacher_id: x.teacher_id
                 })
             })
-            console.log(obj)
         },
         handleNodeClick(obj) {
             // 左侧关系栏点击
+            console.log(obj)
             if (obj) {
-                this.obj.department_id = obj.department_id;
-                this.dataAjax()
+                this.obj.department_id = obj.department_id; 
             }
         },
         handleIconClick(obj) {
@@ -474,16 +471,15 @@ export default {
         dialog_ok() {
             // 提交用户添加
             store.dladogUserPush.call(this, this.obj.department_id);
-
         },
         departmentManagement() {
             // 部门点击管理列表
             this.oneStatus = 2;
             this.stateObj.one = false;
-            info.materType.call(this,this.materHandleID);
+            info.materType.call(this, this.materHandleID);
         },
-        reloadTreeData(){  //删除tree数据后数据重新加载
-            info.materType.call(this,0);
+        reloadTreeData() {  //删除tree数据后数据重新加载
+            info.materType.call(this, 0);
         },
         addClassOne(state) {
             // 部门管理增加分类
@@ -582,35 +578,39 @@ export default {
         },
         positionCurrentChange(num) {
             // 当前职位 跳转变换 
-            this.positionList.page= num;
-            
+            this.positionList.page = num;
+
             store.position_list.call(this, this.positionList.search)
         },
-        positionRefresh(){
+        positionRefresh() {
             // 职位管理刷新
-            this.positionList.items=[];
+            this.positionList.items = [];
             store.position_list.call(this)
         },
-        positionSelectionChange(obj){
+        positionSelectionChange(obj) {
             // 职位管理选择 
             let arr = [];
-            obj.forEach((x)=>{
+            obj.forEach((x) => {
                 arr.push(x.position_id)
             });
             console.log(arr)
-            this.positionList.selectArr=arr;
+            this.positionList.selectArr = arr;
             // this.DeletePositionUser(arr.join(","))
         },
-        PositionSelectStudent(){
+        PositionSelectStudent() {
             //批量删除职位管理
-            if(this.positionList.selectArr){
-                
+            if (this.positionList.selectArr) {
+
                 this.DeletePositionUser(this.positionList.selectArr)
             }
         }
     },
     watch: {
         value2(obj) {
+            this.value_id = [];
+            this.data2.forEach((x, index) => {
+                obj.indexOf(index) != -1 ? this.value_id.push(x.teacher_id) : '';
+            })
         }
     }
 }

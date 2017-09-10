@@ -51,7 +51,7 @@ export default {
             data: {
                 token: getToken(),
                 department_id: id,
-                teacher_ids: this.value2.join(",")
+                teacher_ids: this.value_id.join(",")
             }
         }).then((res) => {
             if (res.status == 200) {

@@ -121,7 +121,6 @@ export default {
       if (res.data.code == 200) {
         this.addShowList = res.data.data
         this.addOnline = 1;
-        console.log(this.addShowList)
       }
     })
   },

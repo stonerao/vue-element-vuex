@@ -8,8 +8,7 @@ export default {
       params:{
         token:getToken()
       }
-    }).then((res)=>{
-      console.log(getToken())
+    }).then((res)=>{ 
       if(res.data.code==200){
         this.firstClassList=res.data.data;
       }
@@ -104,8 +103,7 @@ export default {
       }
     }).then((res)=>{
       if(res.data.code==200){
-        this.videoId=res.data.data.vid;
-        console.log(res)
+        this.videoId=res.data.data.vid; 
       }
     })
   },

@@ -13,7 +13,7 @@
                     <span>打分：</span>
                     <el-input class="width150" size="small" placeholder="打分" v-model="item.answer_numbers">
 
-                    </el-input>
+                    </el-input><span class="marginleft10">分</span>
                 </div>
             </el-collapse-item>
         </el-collapse>
@@ -42,8 +42,7 @@ export default {
 
         },
         submits(){
-            // 提交答案
-            console.log(this.t_data)
+            // 提交答案 
             store.student_answer_grade.call(this)
         }
     },

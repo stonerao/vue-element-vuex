@@ -13,9 +13,7 @@ export default {
         ids:this.ids,
         keywords:this.keywords,
       }
-    }).then((res)=>{
-      console.log(res)
-      console.log(getToken())
+    }).then((res)=>{ 
       if(res.data.code==200){
         this.total=res.data.all_pagecount;
         this.classList=res.data.data;
