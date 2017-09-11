@@ -9,7 +9,6 @@
                 <description :prompts="prompts" @PromPts="promptsTem"></description>
                 <!--模块开始  -->
                 <operation></operation>
-    
             </div>
             <bottomItem></bottomItem>
         </div>

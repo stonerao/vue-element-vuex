@@ -42,13 +42,15 @@
                         </ul>
                     </div>
                     <div v-if="items[index].q_type_id=='4'">
-                        <!-- <ul>
-                                <li v-for="(item,indexs) in items[index].q_option" :key="indexs">
-                                    <el-input v-model="items[index].answer" placeholder="请输入内容"></el-input>
-                                </li>
-                            </ul> -->
-                        <el-input type="textarea" :rows="4" placeholder="请输入答案" v-model="items[index].answer">
-                        </el-input>
+                        <ul>
+                            <li v-for="(item,indexs) in items[index].q_option" :key="indexs">
+                                <label>
+                                    {{item.index+1}} :
+                                    <el-input v-model="items[index].answer[item.index].text" type="text" style="width:300px"> </el-input>
+                                </label>
+                            </li>
+                        </ul>
+
                     </div>
                     <div v-if="items[index].q_type_id=='5'">
                         <el-input type="textarea" :rows="4" placeholder="请输入答案" v-model="items[index].answer">
@@ -87,7 +89,8 @@ export default {
                 { title: "正确", index: '0' },
                 { title: "错误", index: '1' },
             ],
-        answer:[]
+            answer: [],
+            timeM: 0
         }
     },
     methods: {
@@ -112,17 +115,17 @@ export default {
                 }); return
             }
             this.answer = [];
-            this.items.forEach((x,index)=>{
-                if(x.q_type_id=='2'&&typeof x.answer=='object'){
-                    x.answer=x.answer.join(",");
+            this.items.forEach((x, index) => {
+                if (x.q_type_id == '2' && typeof x.answer == 'object') {
+                    x.answer = x.answer.join(",");
                 }
                 this.answer.push({
-                    answer:x.answer,
-                    q_type_id:x.q_type_id, 
-                    q_id:x.q_id
+                    answer: x.answer,
+                    q_type_id: x.q_type_id,
+                    q_id: x.q_id
                 })
             })
-            store.pushAnswer.call(this,this.answer)
+            store.pushAnswer.call(this, this.answer)
         },
         curPage(state) {
             // 翻页
@@ -139,10 +142,19 @@ export default {
     },
     created() {
         store.examination_info.call(this);
-
     },
     mounted() {
-
+        // setInterval(() => {
+        //     this.timeM--;
+        //     console.log(this.timeM)
+        // }, 1000)
+        
+        setTimeout(function () {
+            console.log(this)
+        }, 1000)
+        setTimeout(() => {
+            console.log(this)
+        }, 1000)
     },
     watch: {
         radio(val) {

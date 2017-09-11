@@ -342,7 +342,8 @@ export const ListStundent = [
                 component: examination,
             }
         ]
-    }, {
+    },
+   /*   {
         path: '/set',
         name: '我的成绩',
         redirect: '/set/index',
@@ -356,7 +357,8 @@ export const ListStundent = [
                 component: setVue,
             }
         ]
-    }, {
+    },  */
+    {
         path: '/videoOther',
         name: '视频直播',
         redirect: '/videoOther/index',

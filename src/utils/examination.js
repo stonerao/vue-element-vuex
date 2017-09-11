@@ -10,7 +10,7 @@ export default {
                 e_title: this.seach,
                 page: this.page,
                 curpage: this.curpage,
-                type:this.shai_id
+                type: this.shai_id
             }
         }).then((res) => {
             if (res.data.code == 200) {
@@ -30,17 +30,25 @@ export default {
                 this.items = [];
                 this.obj = res.data.data
                 let data = res.data.data.question_list;
+                this.timeM = parseInt(res.data.data.e_whenlong);
                 for (var key in data) {
                     for (var j in data[key]) {
                         if (data[key][j].q_type_id == '2') {
                             data[key][j].answer = []
                         }
                         else if (data[key][j].q_type_id == '4') {
+                            data[key][j].answer = []
+                            data[key][j].q_option.forEach((x) => {
 
+                                data[key][j].answer.push({
+                                    text: "",
+                                    index: x.index,
+                                    title: x.title
+                                })
+                            })
                         } else {
                             data[key][j].answer = ''
                         }
-
                         this.items.push(data[key][j])
                     }
                 }
@@ -60,7 +68,10 @@ export default {
             url: api.pushAnswer
         }).then((res) => {
             if (res.data.code == 200) {
-                this.answer = []
+                this.answer = [];
+                this.$router.push({
+                    path: "examination/index"
+                })
                 this.$notify({
                     title: '成功',
                     message: res.data.data,
@@ -115,7 +126,8 @@ export default {
             }
         })
     },
-    student_answer_grade() { 
+    student_answer_grade() {
+        
         this.$http({
             method: "post",
             url: api.student_answer_grade,
