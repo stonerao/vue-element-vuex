@@ -41,6 +41,7 @@ import login from '@/view/login/login'
 import adminLogin from '@/view/login/admin'
 
 import good_exam from '@/view/examination/good_exam'
+import pwdset from '@/view/login/setpwd'
 /*
   路由配置
 */
@@ -83,6 +84,11 @@ export const constRouterMap = [
     path: '/good_exam',
     name: '-考试',
     component: good_exam
+  },
+  {
+    path: '/setPwd',
+    name: '-考试',
+    component: pwdset
   }
 ]
 

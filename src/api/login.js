@@ -6,6 +6,10 @@ export const api = {
     quitLogin:"Teacher/Login/logout",//教师 退出登录
     studentLogin:"Student/StudentLogin/student_login",//学生登录
     areaList:"Student/StudentIndex/area_list",//省 列表
+    teacherPwd:"Teacher/index/editpwd",//老师修改密码
+    editpwd:"Admin/Index/editpwd",//admin修改密码
+    editpassword:"Student/StudentLogin/editpassword",//修改学生密码
+    sendsms:"Student/StudentLogin/sendsms",//发送短信验证码
     // areaList:"Student/SchoolStudent/area_list",//市 列表
     // areaList:"Student/SchoolStudent/area_list",//区 列表
 }

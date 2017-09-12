@@ -74,6 +74,7 @@ export const api = {
     student_answer_grade:"Teacher/Examinationcenter/grade",//提交阅卷
     show_teacher_review:"Student/SchoolStudent/show_teacher_review",//学生查看老师评阅内容    
     teacher_edit_task:"Teacher/Examinationcenter/edit_task",//老师编辑作业    
-    
- 
+    question_classadd:"Teacher/Examinationcenter/question_classadd",//添加分类    
+    delete_questionclass:"Teacher/Examinationcenter/delete_questionclass",//删除分类    
+    edit_questionclass:"Teacher/Examinationcenter/edit_questionclass",//编辑分类     
 }

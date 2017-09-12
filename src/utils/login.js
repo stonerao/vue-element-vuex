@@ -17,14 +17,14 @@ export default {
                     message: res.data.msg,
                     type: 'success',
                     duration: 1000,
-                    onClose: () => { 
+                    onClose: () => {
                         this.$router.push({ path: '/' })
                     }
                 });
-            }else{
-              this.$notify.error({
-                message: res.data.msg
-              });
+            } else {
+                this.$notify.error({
+                    message: res.data.msg
+                });
             }
         })
     },
@@ -66,29 +66,99 @@ export default {
             }
         })
     },
-    studentLogin(){
-      this.$http({
-        url:api.studentLogin,
-        method:'post',
-        data:{
-          member_name:this.form.username,
-          password:this.form.password
-        }
-      }).then((res)=>{
-        if(res.data.status == true){
-          isClassLogin(3)
-          utils.setCookieAdmin(res.data.data);
-          this.checked ? utils.setCookie("ISLOGIN", true) : utils.setCookie("ISLOGIN", false)
-          this.$notify({
-            message: '登录成功!',
-            type: 'success',
-            duration: 1000,
-            onClose: () => {
-              this.$router.push({ path: '/' })
+    studentLogin() {
+        this.$http({
+            url: api.studentLogin,
+            method: 'post',
+            data: {
+                member_name: this.form.username,
+                password: this.form.password
             }
-          });
-        }
-      })
+        }).then((res) => {
+            if (res.data.status == true) {
+                isClassLogin(3)
+                utils.setCookieAdmin(res.data.data);
+                this.checked ? utils.setCookie("ISLOGIN", true) : utils.setCookie("ISLOGIN", false)
+                this.$notify({
+                    message: '登录成功!',
+                    type: 'success',
+                    duration: 1000,
+                    onClose: () => {
+                        this.$router.push({ path: '/' })
+                    }
+                });
+            }
+        })
+    },
+    teacherPwd(obj) {
+        this.$http({
+            method: 'post',
+            data: this.obj,
+            url: this.status == 1 ? api.editpwd : api.teacherPwd
+        }).then((res) => {
+            if (res.data.status == 'true') {
+                this.$router.push({ path: "/" })
+                this.$notify({
+                    title: '成功',
+                    message: res.data.msg,
+                    type: 'success'
+                });
+            } else {
+                this.$notify({
+                    title: '警告',
+                    message: res.data.msg,
+                    type: 'warning'
+                });
+            }
+        })
+    },
+    editpassword() {
+        this.$http({
+            method: 'post',
+            data: this.obj,
+            url: {
+                
+            }
+        }).then((res) => {
+            if (res.data.status == 'true') {
+                this.$router.push({ path: "/" })
+                this.$notify({
+                    title: '成功',
+                    message: res.data.data,
+                    type: 'success'
+                });
+            } else {
+                this.$notify({
+                    title: '警告',
+                    message: res.data.data.error,
+                    type: 'warning'
+                });
+            }
+        })
+    },
+    getcode(){
+        this.$http({
+            method: 'post',
+            data: {
+                tel:this.form.phone
+            },
+            url: api.sendsms
+        }).then((res)=>{
+            if (res.data.code == 200) {
+                this.$router.push({ path: "/" })
+                this.$notify({
+                    title: '成功',
+                    message: res.data.data,
+                    type: 'success'
+                });
+            } else {
+                this.$notify({
+                    title: '警告',
+                    message: res.data.data.error,
+                    type: 'warning'
+                });
+            }
+        })
     }
 
 }

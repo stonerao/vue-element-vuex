@@ -8,7 +8,7 @@
                         <el-option :label="item.type_name" :value="item.type_id" v-for="(item,index) in obj.questionClass" :key="index"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="所属分类" v-if="false">
+                <el-form-item label="所属分类" >
                     <el-select v-model="belongClass1" placeholder="题库一级分类" class="width125" style="font-size:14px">
                         <el-option :label="item.qc_name" :value="item.qc_id" v-for="(item,index) in belongClass.items1" :key="index"></el-option>
                     </el-select>

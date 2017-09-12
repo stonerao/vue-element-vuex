@@ -20,18 +20,18 @@
                         </section>
 
                     </router-link>
-                    <!--   <router-link tag="li" to="setMsg" class="kd-header-icon">
-                                        <p class="kd-header-icons">
-                                            <i class="el-icon-message"></i>
-                                        </p>
-                                        <p>系统消息</p>
-                                    </router-link>
-                                    <router-link tag="li" to="setPwd" class="kd-header-icon">
-                                        <p class="kd-header-icons">
-                                            <i class="el-icon-edit"></i>
-                                        </p>
-                                        <p>修改密码</p>
-                                    </router-link> -->
+                       <!--     <router-link tag="li" to="setMsg" class="kd-header-icon">
+                        <p class="kd-header-icons">
+                            <i class="el-icon-message"></i>
+                        </p>
+                        <p>系统消息</p>
+                    </router-link>-->
+                    <router-link tag="li" to="/setPwd" class="kd-header-icon">
+                                                    <p class="kd-header-icons">
+                                                        <i class="el-icon-edit"></i>
+                                                    </p>
+                                                    <p>修改密码</p>
+                                                </router-link> 
                     <li @click="quit" class="kd-header-icon">
                         <p class="kd-header-icons">
                             <i class="el-icon-upload2"></i>

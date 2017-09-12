@@ -16,9 +16,11 @@
                     <addQuestion :setQuestionObj="setQuestionObj" :isSetQues="isSetQues" @quits="quitSet"></addQuestion>
                 </div>
                 <div v-if="state==2">
-                    <question_class></question_class>
+                    <question_class :obj="list_obj"></question_class>
                 </div>
-
+                <div v-if="state==3">
+                    <list_class @setInfo='setInfo'></list_class>
+                </div>
             </div>
             <bottomItem></bottomItem>
         </div>
@@ -33,39 +35,39 @@ import bottomItem from '@/components/bottom/bottom.vue'
 import setQuestion from '@/components/questions/questionList'
 import addQuestion from '@/components/questions/addQuestion'
 import question_class from '@/components/questions/question_class'
+import list_class from '@/components/questions/list_class'
 export default {
     data() {
         return {
             titleItem: [
                 { name: "试题管理", index: 0 },
                 { name: "增加试题", index: 1 },
-                // { name: "添加分类", index: 2 },
+                { name: "添加/编辑分类", index: 2 },
+                { name: "分类列表", index: 3 },
             ],
             prompts: [
                 `该页面展示管理员的操作日志，可进行删除。`,
                 `侧边栏可以进行高级搜索`
             ],
             state: 0,
-            setQuestionObj:{},
-            isSetQues:false
+            setQuestionObj: {},
+            isSetQues: false,
+            list_obj: {}
         }
     },
     created() {
     },
     components: {
-        titleItem, titleActive, description, bottomItem, setQuestion, addQuestion,question_class
+        titleItem, titleActive, description, bottomItem, setQuestion, addQuestion,
+        question_class, list_class
     },
     methods: {
         emitTransfer(index) {
             if (this.state == index) {
                 return
             }
-            this.titleItem = [
-                { name: "试题管理", index: 0 },
-                { name: "增加试题", index: 1 },
-                { name: "添加分类", index: 2 },
-            ]
-            this.setQuestionObj=null;
+
+            this.setQuestionObj = null;
             this.isSetQues = false;
             this.state = index;
         },
@@ -83,14 +85,18 @@ export default {
             })
             this.state = 1;
         },
-        quitSet(val){
+        quitSet(val) {
             //编辑试题取消 
-            this.setQuestionObj=null;
+            this.setQuestionObj = null;
             this.isSetQues = false;
             this.state = 0;
+        },
+        setInfo(obj) {
+            this.state = 2;
+            this.list_obj = obj;
         }
     }
-    
+
 }
 </script>
  

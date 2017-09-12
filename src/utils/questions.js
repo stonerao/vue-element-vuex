@@ -460,5 +460,126 @@ export default {
                 this.page = parseInt(res.data.page);
             }
         })
+    },
+    question_classadd() {
+        this.$http({
+            method: "post",
+            data: {
+                token: getToken(),
+                qc_name: this.form.name,
+                qc_parent_id: this.value_2 ? this.value_2 : this.value_1
+            },
+            url: api.question_classadd
+        }).then((res) => {
+            if (res.data.code == 200) {
+                this.$notify({
+                    title: '成功',
+                    message: res.data.data,
+                    type: 'success'
+                });
+                this.ajax_data();
+                this.value_1 = ""
+            } else {
+                this.$notify({
+                    title: '警告',
+                    message: res.data.data.error,
+                    type: 'warning'
+                });
+            }
+        })
+    },
+    question_classlist_select(id, status) {
+        this.$http({
+            method: "get",
+            url: api.question_classlist,
+            params: {
+                token: getToken(),
+                qc_id: id
+            }
+        }).then((res) => {
+            if (res.data.code == 200) {
+                if (status == 1) {
+                    this.class_1 = res.data.data;
+                } else if (status == 2) {
+                    this.class_2 = res.data.data;
+                } else if (status == 3) {
+                    this.class_3 = res.data.data;
+                }
+            }
+        })
+    },
+    question_classlist_list(id, status) {
+        this.$http({
+            method: "get",
+            url: api.question_classlist,
+            params: {
+                token: getToken(),
+                qc_id: id
+            }
+        }).then((res) => {
+            if (res.data.code == 200) {
+                this.t_data = res.data.data;
+                if (status == 1) {
+                    this.class_1 = res.data.data;
+                } else if (status == 2) {
+                    this.class_2 = res.data.data;
+                } else if (status == 3) {
+                    this.class_3 = res.data.data;
+                }
+            }
+        })
+    },
+    delete_questionclass(id) {
+        this.$http({
+            method: "post",
+            data: {
+                token: getToken(),
+                del_id: id
+            },
+            url: api.delete_questionclass
+        }).then((res) => {
+            if (res.data.code == 200) {
+                this.ajaxdata()
+                this.$notify({
+                    title: '成功',
+                    message: res.data.data,
+                    type: 'success'
+                });
+            } else {
+                this.$notify({
+                    title: '警告',
+                    message: res.data.data.error,
+                    type: 'warning'
+                });
+            }
+        })
+    },
+    edit_questionclass() {
+        this.$http({
+            method: "post",
+            url: api.edit_questionclass,
+            data: {
+                token: getToken(),
+                qc_name: this.form.name,
+                qc_parent_id: this.value_2 ? this.value_2 : this.value_1,
+                qc_id: this.obj.qc_id
+            }
+        }).then((res) => {
+            if (res.data.code == 200) {
+                this.$notify({
+                    title: '成功',
+                    message: res.data.data,
+                    type: 'success'
+                });
+                this.ajax_data();
+                this.value_1 = ""
+            } else {
+                this.$notify({
+                    title: '警告',
+                    message: res.data.data.error,
+                    type: 'warning'
+                });
+            }
+        })
     }
 }

@@ -12,7 +12,7 @@ import '@/style/style.less';//style less
 import '@/style/style_l.less';//style less
 import '@/style/style_z.less';//style less
 import 'babel-polyfill';//babel-polyfill
-import { getToken } from '@/utils/auth'; 
+import { getToken } from '@/utils/auth';
 import { isClassLogin } from '@/utils/auth';
 // 学校管理白名单
 import { constListWhile } from '@/router/Authority'
@@ -23,7 +23,7 @@ import { constRouterMap } from '@/router/Authority'
 import '@/utils/start'
 // axios 配置
 axios.defaults.withCredentials = true;
-axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 axios.defaults.transformRequest = [function (data) {
   let ret = '';
   for (let it in data) {
