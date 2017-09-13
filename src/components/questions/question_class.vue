@@ -58,7 +58,7 @@ export default {
             }
         },
         ajax_data() {
-            store.question_classlist_select.call(this, '', 1)
+            store.question_classlist_select.call(this, '', 1);
         }
     },
     created() {
