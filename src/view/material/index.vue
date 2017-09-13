@@ -65,11 +65,11 @@
                             </div>
                             <div class="l_mater_table">
                                 <el-table ref="multipleTable" :data="materManaList" tooltip-effect="dark" style="width: 100%" @selection-change="select_Change">
-                                    <el-table-column type="selection" width="48"></el-table-column>
-                                    <el-table-column label="ID" prop="id"></el-table-column>
+                                    <el-table-column type="selection" width="60"></el-table-column>
+                                    <el-table-column label="ID" prop="id" width="60"></el-table-column>
                                     <el-table-column label="素材名称" prop="name"></el-table-column>
-                                    <el-table-column label="大小" prop="size" v-if="!teacherManageCenter"></el-table-column>
-                                    <el-table-column label="素材附件" v-if="!teacherManageCenter">
+                                    <el-table-column label="大小" prop="size" width="180" v-if="!teacherManageCenter"></el-table-column>
+                                    <el-table-column label="素材附件" width="180" v-if="!teacherManageCenter">
                                         <template scope="scope">
                                             <div v-if="scope.row.url">
                                                 <!-- <router-link :to="scope.row.url">测试</router-link> -->
@@ -77,15 +77,15 @@
                                             </div>
                                         </template>
                                     </el-table-column>
-                                    <el-table-column label="创建时间" prop="time" v-if="teacherManageCenter"></el-table-column>
-                                    <el-table-column label="发布时间" prop="time" v-else></el-table-column>
-                                    <el-table-column label="创建人" prop="people" v-if="!teacherManageCenter"></el-table-column>
-                                    <el-table-column label="是否共享" prop="share" v-if="teacherManageCenter">
+                                    <el-table-column label="创建时间" prop="time" width="180" v-if="teacherManageCenter"></el-table-column>
+                                    <el-table-column label="发布时间" prop="time" width="180" v-else></el-table-column>
+                                    <el-table-column label="创建人" prop="people" width="180" v-if="!teacherManageCenter"></el-table-column>
+                                    <el-table-column label="是否共享" prop="share" v-if="teacherManageCenter" width="220" show-overflow-tooltip>
                                         <template scope="scope">
                                             <el-switch v-model="scope.row.share" on-color="#13ce66" off-color="#ff4949" @change="whetherShare(scope.row.id,scope.row.share)"></el-switch>
                                         </template>
                                     </el-table-column>
-                                    <el-table-column label="操作">
+                                    <el-table-column label="操作"  width="260" >
                                         <template scope="scope">
                                             <el-button type="primary" size="mini" v-if="teacherManageCenter" icon="view" @click.native="CheckDetail(scope.row.id)">查看</el-button>
                                             <el-button type="primary" size="mini" icon="edit" @click.native="edit(scope.row.id)">编辑</el-button>

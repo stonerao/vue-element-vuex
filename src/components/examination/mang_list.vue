@@ -66,7 +66,7 @@ export default {
 
         },
         resh(){
-
+                
         },
         ajax(){
             store.mang_list.call(this);

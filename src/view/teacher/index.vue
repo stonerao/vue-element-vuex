@@ -50,7 +50,7 @@
                             <el-col :span="0">
                             </el-col>
                             <el-col :span="24">
-                                <el-pagination class="float-right" @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="tracherList.curpage" :page-sizes="[10, 15, 20, 25]" :page-size="tracherList.page_count" layout="total, sizes, prev, pager, next, jumper" :total="tracherList.total_num">
+                                <el-pagination class="float-right" @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="tracherList.curpage" :page-sizes="[10]" :page-size="tracherList.page_count" layout="total, sizes, prev, pager, next, jumper" :total="tracherList.total_num">
                                 </el-pagination>
                             </el-col>
                         </el-row>

@@ -127,7 +127,7 @@ export default {
         })
     },
     student_answer_grade() {
-        
+
         this.$http({
             method: "post",
             url: api.student_answer_grade,
@@ -154,5 +154,128 @@ export default {
             }
 
         })
+    },
+    addline_examination(val,state,id) {
+        let obj = {
+            token: getToken(),
+            lex_name: val,
+        }
+        if(state!=1&&id){
+            obj.lex_id=id
+        }
+        this.$http({
+            method: 'post',
+            url: state==1?api.addline_examination:api.edit_line_examination,
+            data: obj
+        }).then((res) => {
+            if (res.data.code == 200) {
+                this.ajax();
+                this.$notify({
+                    title: '成功',
+                    message: res.data.data,
+                    type: 'success'
+                });
+
+            } else {
+                this.$notify.error({
+                    title: '错误',
+                    message: res.data.data.error
+                });
+            }
+        })
+    },
+    line_examlist() {
+        this.$http(api.line_examlist, {
+            params: {
+                token: getToken(),
+                lex_name: this.search,
+                page: this.page,
+                curpage: this.curpage
+            }
+        }).then((res) => {
+            if (res.data.code == 200) {
+                this.toal = parseInt(res.data.page_total)
+                this.t_data = res.data.data;
+            }
+        })
+    },
+    line_gradeslist() {
+        this.$http(api.line_gradeslist, {
+            params: {
+                token: getToken(),
+                le_student_name: this.search,
+                page: this.page,
+                curpage: this.curpage,
+                lex_id:this.id
+            }
+        }).then((res) => {
+            if (res.data.code == 200) {
+                this.toal = parseInt(res.data.page_total)
+                this.t_data = res.data.data;
+            }
+        })
+    },
+    del_line_examination(id) {
+        this.$http({
+            method: 'post',
+            data: {
+                token: getToken(),
+                del_id: id
+            },
+            url: api.del_line_examination
+        }).then((res) => {
+            if (res.data.code == 200) {
+                this.ajax();
+                this.$notify({
+                    title: '成功',
+                    message: res.data.data,
+                    type: 'success'
+                });
+
+            } else {
+                this.$notify.error({
+                    title: '错误',
+                    message: res.data.data.error
+                });
+            }
+        })
+    },
+    del_line_gradeslist(id) {
+        this.$http({
+            method: 'post',
+            data: {
+                token: getToken(),
+                le_id:id
+            },
+            url: api.del_line_gradeslist
+        }).then((res) => {
+            if (res.data.code == 200) {
+                this.$notify({
+                    title: '成功',
+                    message: res.data.data,
+                    type: 'success'
+                });
+                this.ajax();
+
+            } else {
+                this.$notify.error({
+                    title: '错误',
+                    message: res.data.data.error
+                });
+            }
+        })
+    },
+    line_grades_static(){
+        this.$http(api.line_grades_static, {
+            params: {
+                token: getToken() ,
+                lex_id:this.id
+            }
+        }).then((res) => {
+            if (res.data.code == 200) { 
+                this.t_data = res.data.data;
+            }
+        })
     }
 }
+ 

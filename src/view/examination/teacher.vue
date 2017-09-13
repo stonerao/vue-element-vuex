@@ -25,6 +25,10 @@
                 <div v-if="state==4">
                     <management @mang_id="mang_id"></management>
                 </div>
+                <div v-if="state==6">
+                    <teacherCenterList @TOGO="TOGO" v-if="isListBottom" @results="results" @results_list="resultsa"></teacherCenterList>
+                    <teacherCenter v-else-if="!isListBottom" :id='isListBottomId' @goods='isListBottom=true'></teacherCenter>
+                </div>
                 <div v-if="state==8">
                     <!-- 选择试题 -->
                     <setQuestion stateList='1' @getListData="getListData" :listSelectObj="listSelectObj"></setQuestion>
@@ -38,6 +42,12 @@
                 </div>
                 <div v-if="state==11">
                     <eqMangListTe :id="e_id" @greadeQuit="greadeQuit"></eqMangListTe>
+                </div>
+                <div v-if="state==12">
+                    <results :state="resultsState" :id="isListBottomId" @fanhui="state=6"></results>
+                </div>
+                <div v-if="state==13">
+                    <results_center :id="isListBottomId" @fanhui="state=6"></results_center>
                 </div>
             </div>
             <bottomItem></bottomItem>
@@ -59,6 +69,10 @@ import examinationList from '@/components/examination/examinationList'
 import management from '@/components/examination/management'
 import mang_list from '@/components/examination/mang_list'
 import eqMangListTe from '@/components/examination/eqMangList'
+import teacherCenter from '@/components/center/teacher'
+import teacherCenterList from '@/components/center/teacherCenterList'
+import results from '@/components/center/results'
+import results_center from '@/components/center/results_center'
 
 import { removeSelectQuestion } from '@/utils/auth'
 import { removeCookie } from '@/utils/auth'
@@ -72,6 +86,7 @@ export default {
                 { name: "创建考试", index: 3 },
                 { name: "成绩管理", index: 4 },
                 { name: "成绩上传", index: 5 },
+                { name: "线下成绩", index: 6 },
             ],
             prompts: [
                 `该页面展示管理员的操作日志，可进行删除。`,
@@ -88,7 +103,10 @@ export default {
             mangSate: false,
             mang_id_state: "",
             mang_state_id: "",
-            e_id: ""
+            e_id: "",
+            isListBottom: true,
+            isListBottomId: '',
+            resultsState: 1
         }
     },
     created() {
@@ -99,7 +117,7 @@ export default {
     components: {
         titleItem, titleActive, description, bottomItem,
         teacherQuestion, createQuestion, setQuestion, addQuestion, createExamination, examinationList,
-        management, mang_list, eqMangListTe
+        management, mang_list, eqMangListTe, teacherCenter, teacherCenterList, results, results_center
     },
     methods: {
         emitTransfer(index) {
@@ -184,7 +202,20 @@ export default {
         },
         greadeQuit() {
             //  判断答案取消
-           this.state = 10;
+            this.state = 10;
+        },
+        TOGO(val) {
+            this.isListBottomId = val;
+            this.isListBottom = !this.isListBottom
+
+        },
+        results(val) {
+            this.isListBottomId = val;
+            this.state = 12;
+        },
+        resultsa(val) {
+            this.isListBottomId = val; 
+            this.state = 13;
         }
     }
 }

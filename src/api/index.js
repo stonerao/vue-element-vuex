@@ -77,4 +77,13 @@ export const api = {
     question_classadd:"Teacher/Examinationcenter/question_classadd",//添加分类    
     delete_questionclass:"Teacher/Examinationcenter/delete_questionclass",//删除分类    
     edit_questionclass:"Teacher/Examinationcenter/edit_questionclass",//编辑分类     
+    addline_examination:"Teacher/Examinationcenter/addline_examination",//创建线下考试     
+    del_line_examination:"Teacher/Examinationcenter/del_line_examination",//删除线下考试     
+    edit_line_examination:"Teacher/Examinationcenter/edit_line_examination",//编辑线下考试     
+    line_examlist:"Teacher/Examinationcenter/line_examlist",//线下考试列表       
+    line_gradeslist:"Teacher/Examinationcenter/line_gradeslist",//线下考试成绩列表       
+    del_line_gradeslist:"Teacher/Examinationcenter/del_line_gradeslist",//删除线下考试成绩       
+    line_grades_static:"Teacher/Examinationcenter/line_grades_static",//统计线下考试成绩
+ 
+       
 }
