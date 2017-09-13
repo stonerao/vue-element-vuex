@@ -13,7 +13,8 @@
                                                 <input type="file">
                                             </el-form-item> -->
         <el-form-item label="作业相关要求">
-            <quillEditor v-model="task_desc" style="background:#fff" :content="content"></quillEditor>
+            <!-- <quillEditor v-model="task_desc" style="background:#fff" :content="content"></quillEditor> -->
+            <input type="text" v-model="task_desc">
         </el-form-item>
         <!-- <el-form-item label="参考资料">
                                                 <quillEditor style="background:#fff" :content="content"></quillEditor>
@@ -37,7 +38,7 @@
     </el-form>
 </template>
 <script>
-import { quillEditor } from 'vue-quill-editor'
+// import { quillEditor } from 'vue-quill-editor'
 import store from '@/utils/operation'
 export default {
     props: ['obj'],
@@ -89,11 +90,11 @@ export default {
 
     },
     components: {
-        quillEditor
+        // quillEditor
     }
 }
 </script>
-<<style>
+<style>
 .ql-editor{
     min-height: 100px;
 }
