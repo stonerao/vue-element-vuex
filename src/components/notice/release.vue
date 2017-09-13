@@ -29,7 +29,8 @@
             </el-select>
         </el-form-item>
         <el-form-item label="发布信息">
-            <quillEditor v-model="textF"></quillEditor>
+            <!-- <quillEditor ></quillEditor> -->
+            <input type="text" v-model="textF">
         </el-form-item>
         <el-form-item label=" ">
             <el-button type="primary" @click="submit">确认发布</el-button>
@@ -38,7 +39,7 @@
 </template>
 <script>
 import store from '@/utils/notice'
-import { quillEditor } from 'vue-quill-editor'
+// import { quillEditor } from 'vue-quill-editor'
 export default {
     data() {
         return {
@@ -99,7 +100,7 @@ export default {
         }
     },
     components: {
-        quillEditor
+        // quillEditor
     }
 }
 </script>

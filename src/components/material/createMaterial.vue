@@ -89,8 +89,7 @@ import info from '@/utils/l_axios'
 import titleItem from '@/components/main/title.vue'
 import titleActive from '@/components/main/titleActive.vue'
 import description from '@/components/main/description.vue'
-import bottomItem from '@/components/bottom/bottom.vue'
-import { quillEditor } from 'vue-quill-editor'
+import bottomItem from '@/components/bottom/bottom.vue' 
 
 export default {
     props: ['schoolManageCenter','teacherManageCenter','materialEdit'],
@@ -140,7 +139,7 @@ export default {
         }
     },
     components: {
-        titleItem, titleActive, description, bottomItem, quillEditor
+        titleItem, titleActive, description, bottomItem, 
     },
     methods: {
         emitTransfer(index) {

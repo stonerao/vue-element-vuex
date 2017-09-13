@@ -13,7 +13,8 @@
             <div v-html="obj.teacher_name"></div>
         </el-form-item>
         <el-form-item label="我的作业">
-            <quillEditor style="background:#fff" v-model="val" :content="content"></quillEditor>
+            <!-- <quillEditor style="background:#fff" v-model="val" :content="content"></quillEditor> -->
+            <input type="text"  v-model="val">
         </el-form-item>
         <el-form-item label=" ">
             <el-button type="primary" @click="submit">去完成作业</el-button>
@@ -25,7 +26,7 @@
 <script>
 import store from '@/utils/operation'
 
-import { quillEditor } from 'vue-quill-editor'
+// import { quillEditor } from 'vue-quill-editor'
 export default {
     props: ['status'],
     data() {
@@ -68,7 +69,7 @@ export default {
 
     },
     components: {
-        quillEditor
+        // quillEditor
     }
 }
 </script>

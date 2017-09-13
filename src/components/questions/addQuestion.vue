@@ -20,7 +20,8 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="试题题干">
-                    <quillEditor v-model="textF"></quillEditor>
+                    <!-- <quillEditor v-model="textF"></quillEditor> -->
+                    <input type="text"  v-model="textF">
                 </el-form-item>
                 <!-- <el-form-item label="相关相片附件">
                     <el-upload action="https://jsonplaceholder.typicode.com/posts/" list-type="picture-card" :on-preview="handlePictureCardPreview" :on-remove="handleRemove">
@@ -134,7 +135,7 @@
 <script>
 import store from '@/utils/questions'
 import Preview from '@/components/questions/Preview'
-import { quillEditor } from 'vue-quill-editor'
+// import { quillEditor } from 'vue-quill-editor'
 export default {
     props: ['setQuestionObj', 'isSetQues', 'newAddQuestion'],//newAddQuestion true 考试添加试题过来 
     data() {
@@ -399,11 +400,11 @@ export default {
         }
     },
     components: {
-        quillEditor, Preview
+        /*quillEditor,*/ Preview
     }
 }
 </script>
-<<style>
+<style>
 .ql-container,.ql-editor{
     height:auto;
     min-height:100px;
