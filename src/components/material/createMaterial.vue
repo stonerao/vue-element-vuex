@@ -52,7 +52,7 @@
                 <el-col :span="21">
                     <el-upload class="upload-demo" ref="upload" :auto-upload="true" action="http://oss-base.oss-cn-zhangjiakou.aliyuncs.com" :data='ossData' :on-success="uploadSuccess" :on-remove="uploadRemove" :before-upload="beforeAvatarUpload" :on-change="uploadLoading" :file-list="fileList">
                         <el-button size="small" icon="upload2" type="primary" :disabled="uploadOne">获取文件</el-button>
-                        <div slot="tip" class="el-upload__tip">上传图片格式必须是gif,jpg,jpeg,png;图片大小在200kb以内</div>
+                        <div slot="tip" class="el-upload__tip">上传图片格式必须是gif,jpg,jpeg,png,图片大小在200kb以内;上传视频必须小于50M</div>
                     </el-upload>
                 </el-col>
             </el-row>

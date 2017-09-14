@@ -3352,7 +3352,7 @@ export default {
 
         //素材素材-文件删除
         materFileDel(name) {
-            this.$http(api.fileDel, {
+            this.$http(api.materFileDel, {
                 params: {
                     token: getToken(),
                     name: name,
