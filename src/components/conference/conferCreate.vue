@@ -102,7 +102,8 @@
                 <el-col :span="3" style="color: #f7f7f7;">保存操作</el-col>
                 <el-col :span="21">
                     <el-button type="primary" @click="submit">保存</el-button>
-                    <el-button type="primary" style="background: #e0e0e0;border-color: #e0e0e0;color: #5b5b5b" @click="clearData">清空</el-button>
+                    <el-button type="primary" style="background: #e0e0e0;border-color: #e0e0e0;color: #5b5b5b" @click="clearData" v-if="creatStatus">清空</el-button> 
+                    <el-button type="primary" style="background: #e0e0e0;border-color: #e0e0e0;color: #5b5b5b" @click="clearData" v-else>取消</el-button>
                 </el-col>
             </el-row>
         </div>
