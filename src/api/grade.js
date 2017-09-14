@@ -81,4 +81,7 @@ export const api = {
     subjectListDel_s:'Admin/SchoolSubject/subjectdelete',   //科目管理--获取列表（学校）-删除
     subjectListAdd_s:'Admin/SchoolSubject/subjectadd',   //科目管理--获取列表（学校）- 添加
     subjectListEdit_s:'Admin/SchoolSubject/subjectedit',   //科目管理-- 编辑
+    OSS_ID:'/Home/Oss/response',   //OSS签名
+    materFileDel:'Admin/Material/del_material_file',   //素材--上传文件删除
+    conferFileDel:'Admin/Meeting/del_material_file',   //会议--上传文件删除
 }

@@ -2576,7 +2576,7 @@ export default {
         },
 
         //素材库---素材管理-添加
-        materManadd_s(obj,lid) {
+        materManadd_s(obj,lid,file) {
             let apiUrl = api.materManadd_s;
             if(this.teacherManageCenter){
                 apiUrl = api.materManadd_t;
@@ -2589,10 +2589,12 @@ export default {
                     title: obj.theme,
                     category_id: lid,
                     content: obj.conferContent,
-                    is_share: obj.isShare
+                    is_share: obj.isShare,
+                    file_name: file.name,
+                    file_size: file.size
                 }
             }).then((res) => {
-                // console.log(res)
+                console.log(res)
                 if (res.status == 200) {
                     if(res.data.code!=400){
                         this.$notify({
@@ -2600,7 +2602,7 @@ export default {
                             type: 'success',
                             duration: 1000,
                             onClose: () => {
-                                window.location.reload(true);
+                                // window.location.reload(true);
                             }
                         });
                     }else{
@@ -2773,7 +2775,7 @@ export default {
         },
 
         //会议管理--创建会议
-        conferMeetCreate_s(obj,chanid) {
+        conferMeetCreate_s(obj,chanid,name) {
             if(String(obj.timeStart).length == 0 || String(obj.timeEnd).length == 0){
                 return
             }else{
@@ -2792,6 +2794,18 @@ export default {
                     }
                 }
             }
+            let fileStr = [];
+            let filename = '';
+            if(name.length == 0){
+                name = ''
+            }else if(name.length == 1) {
+                name = name[0]
+            }else if(name.length > 1){
+                name.forEach((x)=>{
+                    fileStr.push(x.name)
+                })
+            }
+            filename = fileStr.join(',');
             let apiURL = api.conferMeetCreate_s;
             let formData = {
                 token: getToken(),
@@ -2802,6 +2816,7 @@ export default {
                 content: obj.conferContent,
                 is_show: obj.isShow,
                 channelId: chanid,
+                files_name: filename,
             }
             if(this.creatStatus){   //创建会议
                 console.log(formData)
@@ -3302,6 +3317,117 @@ export default {
                         });
                     }
                 }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
+        //上传阿里云---OSS的签名
+        OSS_ID() {
+            this.$http(api.OSS_ID, {
+                params: {}
+            }).then((res) => {
+                // console.log(res)
+                if (res.status == 200) {
+                    let _oss= res.data;
+                    this.ossData = {
+                        'name': this.filename,
+                        'key' : _oss.dir,
+                        'policy': _oss.policy,
+                        'OSSAccessKeyId': _oss.accessid, 
+                        'success_action_status' : '200', //让服务端返回200,不然，默认会返回204
+                        'signature': _oss.signature,
+                    };
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
+        //上传文件类型
+        fileType(type){
+            let _type = ['jpg','gif','jpg','jpeg','png','word','pdf','ppt','excel','txt','mp4'],
+                _right = 0;
+            for(let i=0;i<_type.length;i++){
+                if(_type[i] == type.toLocaleLowerCase()){
+                    _right = 1;
+                    break;
+                }else{
+                    _right = 0;
+                }
+            }
+            return _right
+        },
+
+        //素材素材-文件删除
+        materFileDel(name) {
+            this.$http(api.materFileDel, {
+                params: {
+                    token: getToken(),
+                    name: name,
+                }
+            }).then((res) => {
+                console.log(res);
+                if (res.status === 200) {
+                    if(res.data.code!=400){
+                        this.uploadOne = false;
+                        this.$notify({
+                            message: '删除成功！',
+                            type: 'success',
+                            duration: 1000,
+                            onClose: () => {
+                                this.fileInfo = {
+                                    name: '',
+                                    size: 0
+                                }
+                            }
+                        });
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                    }
+                }else{
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
+        //会议创建-文件删除
+        conferFileDel(name) {
+            this.$http(api.conferFileDel, {
+                params: {
+                    token: getToken(),
+                    name: name,
+                }
+            }).then((res) => {
+                console.log(res);
+                if (res.status === 200) {
+                    if(res.data.code!=400){
+                        this.uploadOne = false;
+                        this.$notify({
+                            message: '删除成功！',
+                            type: 'success',
+                            duration: 1000,
+                            onClose: () => {
+                                this.fileInfo = {
+                                    name: '',
+                                    size: 0
+                                }
+                            }
+                        });
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                    }
+                }else{
                     this.$notify.error({
                         message: res.data.data.error
                     });
