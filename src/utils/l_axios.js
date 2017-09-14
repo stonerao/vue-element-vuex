@@ -2775,7 +2775,7 @@ export default {
         },
 
         //会议管理--创建会议
-        conferMeetCreate_s(obj,chanid) {
+        conferMeetCreate_s(obj,chanid,name) {
             if(String(obj.timeStart).length == 0 || String(obj.timeEnd).length == 0){
                 return
             }else{
@@ -2794,6 +2794,18 @@ export default {
                     }
                 }
             }
+            let fileStr = [];
+            let filename = '';
+            if(name.length == 0){
+                name = ''
+            }else if(name.length == 1) {
+                name = name[0]
+            }else if(name.length > 1){
+                name.forEach((x)=>{
+                    fileStr.push(x.name)
+                })
+            }
+            filename = fileStr.join(',');
             let apiURL = api.conferMeetCreate_s;
             let formData = {
                 token: getToken(),
@@ -2804,6 +2816,7 @@ export default {
                 content: obj.conferContent,
                 is_show: obj.isShow,
                 channelId: chanid,
+                files_name: filename,
             }
             if(this.creatStatus){   //创建会议
                 console.log(formData)

@@ -67,14 +67,18 @@
             <el-row>
                 <el-col :span="3">上传附件：</el-col>
                 <el-col :span="21">
-                    <el-col :span="4">
+                    <!-- <el-col :span="4">
                         <el-button type="primary" size="small" icon="upload2">上传文件</el-button>
                         <img src="">
                     </el-col>
                     <el-col :span="10">
                         <el-button type="primary" size="small">删除</el-button>
                         <span>上传图片格式必须是gif,jpg,jpeg,png;图片大小在200kb以内</span>
-                    </el-col>
+                    </el-col> -->
+                    <el-upload class="upload-demo" ref="upload" :auto-upload="true" action="http://oss-base.oss-cn-zhangjiakou.aliyuncs.com" :data='ossData' :on-success="uploadSuccess" :on-remove="uploadRemove" :before-upload="beforeAvatarUpload" :on-change="uploadLoading" :file-list="fileList">
+                        <el-button size="small" icon="upload2" type="primary" :disabled="uploadOne">上传文件</el-button>
+                        <div slot="tip" class="el-upload__tip">上传图片格式必须是gif,jpg,jpeg,png,图片大小在200kb以内;上传视频必须小于50M</div>
+                    </el-upload>
                 </el-col>
             </el-row>
             <el-row v-if="!EDITCARD">
@@ -167,14 +171,22 @@ export default {
             dailogDetail:{
                 name: '',
                 code: '',
-            }
+            },
+            fileList: [], //上传文件列表
+            ossData: {}, //签名
+            oldname: '',
+            rightType: 0,  //文件类型
+            uploadOne: false,  //只能传输一个
+            fileInfo: [],
         }
     },
     created() {
         if(this.schoolManageCenter){  //学校-创建会议
             if(this.creatStatus){   //会议创建
+                info.OSS_ID.call(this);
                 info.conferMeetTeacher_s.call(this);
             }else if(this.EDITCARD){  //会议编辑
+                info.OSS_ID.call(this);
                 info.conferMeetTeacher_s.call(this);
                 info.conferMeetDetail_s.call(this,this.CONFERID);
             }
@@ -189,11 +201,42 @@ export default {
         titleItem, titleActive, description, bottomItem
     },
     methods: {
+        beforeAvatarUpload(file){
+            const _ok = info.fileType.call(this,String(file.name).split('.')[1]);
+            if(Boolean(_ok)){  //格式符合
+                if(this.oldname != file.name){  //不同名
+                    this.oldname = file.name;
+                    this.ossData = Object.assign({}, this.ossData, {
+                        "name": file.name         
+                    });
+                }
+            }else{
+                this.$notify.error({
+                    message: '文件格式不符!'
+                });
+            }
+            return Boolean(_ok);
+        },
+        uploadLoading(file){
+            this.ossData.name = file.name;
+        },
+        uploadSuccess(response, file, fileList){  //文件上传返回数据
+            this.fileInfo = fileList;
+            this.$notify.success({
+                message: '上传成功!',
+                duration: 1000
+            });
+        },
+        uploadRemove(file, fileList){  //已上传文件删除
+            if(file){
+                info.materFileDel.call(this,file.name);
+            }
+        },
         submit(){
             // if(this.creatStatus){ 
             //     info.conferMeetCreate_s.call(this,this.create,this.channelID)
             // }
-            info.conferMeetCreate_s.call(this,this.create,this.channelID)
+            info.conferMeetCreate_s.call(this,this.create,this.channelID,this.fileInfo)
         },
         clearData(){
             if(this.EDITCARD){

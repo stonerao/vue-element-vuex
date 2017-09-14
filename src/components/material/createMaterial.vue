@@ -51,7 +51,7 @@
                 <el-col :span="3">上传素材附件：</el-col>
                 <el-col :span="21">
                     <el-upload class="upload-demo" ref="upload" :auto-upload="true" action="http://oss-base.oss-cn-zhangjiakou.aliyuncs.com" :data='ossData' :on-success="uploadSuccess" :on-remove="uploadRemove" :before-upload="beforeAvatarUpload" :on-change="uploadLoading" :file-list="fileList">
-                        <el-button size="small" icon="upload2" type="primary" :disabled="uploadOne">获取文件</el-button>
+                        <el-button size="small" icon="upload2" type="primary" :disabled="uploadOne">上传文件</el-button>
                         <div slot="tip" class="el-upload__tip">上传图片格式必须是gif,jpg,jpeg,png,图片大小在200kb以内;上传视频必须小于50M</div>
                     </el-upload>
                 </el-col>
@@ -131,7 +131,6 @@ export default {
             fileList: [], //上传文件列表
             ossData: {}, //签名
             oldname: '',
-            upDisable: true,
             rightType: 0,  //文件类型
             uploadOne: false,  //只能传输一个
             fileInfo:{
@@ -142,6 +141,7 @@ export default {
     },
     created() {
         if(this.materialEdit.status){   //素材库-素材管理-编辑
+            info.OSS_ID.call(this);
             info.materManaEdit_b_s.call(this,this.materialEdit.id);   //编辑初始数据获取
         }else{  //创建
             info.OSS_ID.call(this);
@@ -181,6 +181,7 @@ export default {
             console.log(status)
         },
         uploadSuccess(response, file, fileList){  //文件上传返回数据
+            console.log(fileList)
             this.fileInfo = {
                 name: file.name,
                 size: file.size
@@ -192,7 +193,9 @@ export default {
             });
         },
         uploadRemove(file, fileList){  //已上传文件删除
-            info.materFileDel.call(this,file.name);
+            if(file){
+                info.materFileDel.call(this,file.name);
+            }
         },
         cancelCreate(){
             this.$emit("CANCEL");
