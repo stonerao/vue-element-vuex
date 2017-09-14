@@ -1,5 +1,5 @@
 <template>
-    <el-form ref="form" :model="form" label-width="150px" class="margintop20"> 
+    <el-form ref="form" :model="form" label-width="150px" class="margintop20">
         <el-form-item :label="`${!state?'添加名称':'编辑分类'}`">
             <el-input v-model="form.name" class="width200"></el-input>
             <span class="hui-color marginleft15">默认为一级分类</span>
@@ -44,9 +44,9 @@ export default {
     },
     methods: {
         submit() {
-            if(!this.state){
+            if (!this.state) {
                 store.question_classadd.call(this);
-            }else{
+            } else {
 
             }
         },
@@ -62,10 +62,10 @@ export default {
         }
     },
     created() {
-        this.ajax_data(); 
+        this.ajax_data();
         if (this.obj) {
             this.state = true;
-            this.form.name = this.obj.qc_name; 
+            this.form.name = this.obj.qc_name;
         }
     },
     mounted() {

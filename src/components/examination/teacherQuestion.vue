@@ -24,14 +24,15 @@
             </el-table-column>
             <el-table-column prop="t_time" label="创建时间" width="180" show-overflow-tooltip>
             </el-table-column>
-            <el-table-column label="操作" width="100" show-overflow-tooltip>
+            <el-table-column label="操作" width="230" show-overflow-tooltip>
                 <template scope="scope">
                     <div v-if="!state">
-
                         <!-- <el-button size="mini">查看</el-button> -->
                         <!-- <el-button size="mini">编辑</el-button> -->
                         <!-- <el-button size="mini">配置</el-button> -->
                         <el-button size="mini" @click="deleted(scope.row.t_id)">删除</el-button>
+                        <el-button size="mini" @click="setQuestion(scope.row)">查看</el-button>
+                        <el-button size="mini" @click="GOTO(scope.row)">导出</el-button>
                         <!-- <el-button size="mini">导出试卷</el-button> -->
                     </div>
                     <div v-else>
@@ -49,10 +50,12 @@
                 </el-pagination>
             </el-col>
         </el-row>
+        <r-view v-if="isView" v-show="isShowView" :status="viewStatus" :obj="obj" @CLICKOVER='isView=false'></r-view>
     </div>
 </template>
 <script>
 import store from '@/utils/questions'
+import views from '@/components/examination/view'
 export default {
     props: ['state'],//如果为真是创建考试过来
     data() {
@@ -62,7 +65,11 @@ export default {
             all_pagecount: 1,
             page: 1,
             curpage: 10,
-            deleteArr: []
+            deleteArr: [],
+            isView: false,
+            obj: {},
+            isShowView: true,
+            viewStatus: 0
         }
     },
     methods: {
@@ -98,8 +105,7 @@ export default {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'
-            }).then(() => {
-                console.log(this.deleteArr)
+            }).then(() => { 
                 this.testpaper_delete(typeof id == 'string' ? id : this.deleteArr)
             }).catch(() => {
                 this.$message({
@@ -115,6 +121,21 @@ export default {
         ajax() {
             this.t_data = []
             store.TeacherQuestionList.call(this);
+        },
+        GOTO(obj) {
+            // // 导出试卷
+
+            this.obj = obj;
+            this.isView = !this.isView
+            this.isShowView = false;
+            this.viewStatus = 10;
+        },
+        setQuestion(obj) {
+            // 查看试卷
+            this.viewStatus = 0;
+            this.obj = obj;
+            this.isShowView = true;
+            this.isView = !this.isView;
         }
     },
     created() {
@@ -125,6 +146,9 @@ export default {
     },
     watch: {
 
+    },
+    components: {
+        'r-view': views,
     }
 }
 </script>

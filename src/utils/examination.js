@@ -155,17 +155,17 @@ export default {
 
         })
     },
-    addline_examination(val,state,id) {
+    addline_examination(val, state, id) {
         let obj = {
             token: getToken(),
             lex_name: val,
         }
-        if(state!=1&&id){
-            obj.lex_id=id
+        if (state != 1 && id) {
+            obj.lex_id = id
         }
         this.$http({
             method: 'post',
-            url: state==1?api.addline_examination:api.edit_line_examination,
+            url: state == 1 ? api.addline_examination : api.edit_line_examination,
             data: obj
         }).then((res) => {
             if (res.data.code == 200) {
@@ -206,7 +206,7 @@ export default {
                 le_student_name: this.search,
                 page: this.page,
                 curpage: this.curpage,
-                lex_id:this.id
+                lex_id: this.id
             }
         }).then((res) => {
             if (res.data.code == 200) {
@@ -245,7 +245,7 @@ export default {
             method: 'post',
             data: {
                 token: getToken(),
-                le_id:id
+                le_id: id
             },
             url: api.del_line_gradeslist
         }).then((res) => {
@@ -265,17 +265,16 @@ export default {
             }
         })
     },
-    line_grades_static(){
+    line_grades_static() {
         this.$http(api.line_grades_static, {
             params: {
-                token: getToken() ,
-                lex_id:this.id
+                token: getToken(),
+                lex_id: this.id
             }
         }).then((res) => {
-            if (res.data.code == 200) { 
+            if (res.data.code == 200) {
                 this.t_data = res.data.data;
             }
         })
     }
 }
- 

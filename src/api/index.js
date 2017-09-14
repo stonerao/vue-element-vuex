@@ -84,6 +84,8 @@ export const api = {
     line_gradeslist:"Teacher/Examinationcenter/line_gradeslist",//线下考试成绩列表       
     del_line_gradeslist:"Teacher/Examinationcenter/del_line_gradeslist",//删除线下考试成绩       
     line_grades_static:"Teacher/Examinationcenter/line_grades_static",//统计线下考试成绩
- 
-       
+    export_word:"Teacher/Examinationcenter/export_word",//导出试卷 
+    Studentline_examlist:"Student/SchoolStudent/Examinationcenter/line_examlist",//学生线下成绩列表 
+    Studentline_gradeslist:"Student/SchoolStudent/line_gradeslist",//线下考试成绩列表 
+    Studentline_grades_static:"Student/SchoolStudent/line_grades_static",//统计线下考试成绩列表  
 }
