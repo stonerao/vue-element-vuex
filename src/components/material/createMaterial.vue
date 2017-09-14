@@ -192,8 +192,7 @@ export default {
             });
         },
         uploadRemove(file, fileList){  //已上传文件删除
-            console.log(file)
-            info.fileDel.call(this,file.name);
+            info.materFileDel.call(this,file.name);
         },
         cancelCreate(){
             this.$emit("CANCEL");

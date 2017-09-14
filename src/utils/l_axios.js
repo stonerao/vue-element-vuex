@@ -3351,8 +3351,44 @@ export default {
         },
 
         //素材素材-文件删除
-        fileDel(name) {
+        materFileDel(name) {
             this.$http(api.fileDel, {
+                params: {
+                    token: getToken(),
+                    name: name,
+                }
+            }).then((res) => {
+                console.log(res);
+                if (res.status === 200) {
+                    if(res.data.code!=400){
+                        this.uploadOne = false;
+                        this.$notify({
+                            message: '删除成功！',
+                            type: 'success',
+                            duration: 1000,
+                            onClose: () => {
+                                this.fileInfo = {
+                                    name: '',
+                                    size: 0
+                                }
+                            }
+                        });
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                    }
+                }else{
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
+        //会议创建-文件删除
+        conferFileDel(name) {
+            this.$http(api.conferFileDel, {
                 params: {
                     token: getToken(),
                     name: name,
