@@ -188,11 +188,12 @@ export default {
             this.uploadOne = true;
             this.$notify.success({
                 message: '上传成功!',
-                duration: 500
+                duration: 1000
             });
         },
         uploadRemove(file, fileList){  //已上传文件删除
-
+            console.log(file)
+            info.fileDel.call(this,file.name);
         },
         cancelCreate(){
             this.$emit("CANCEL");
