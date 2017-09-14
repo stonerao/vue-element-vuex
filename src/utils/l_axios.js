@@ -2576,7 +2576,7 @@ export default {
         },
 
         //素材库---素材管理-添加
-        materManadd_s(obj,lid) {
+        materManadd_s(obj,lid,file) {
             let apiUrl = api.materManadd_s;
             if(this.teacherManageCenter){
                 apiUrl = api.materManadd_t;
@@ -2589,10 +2589,12 @@ export default {
                     title: obj.theme,
                     category_id: lid,
                     content: obj.conferContent,
-                    is_share: obj.isShare
+                    is_share: obj.isShare,
+                    file_name: file.name,
+                    file_size: file.size
                 }
             }).then((res) => {
-                // console.log(res)
+                console.log(res)
                 if (res.status == 200) {
                     if(res.data.code!=400){
                         this.$notify({
@@ -2600,7 +2602,7 @@ export default {
                             type: 'success',
                             duration: 1000,
                             onClose: () => {
-                                window.location.reload(true);
+                                // window.location.reload(true);
                             }
                         });
                     }else{
@@ -3308,4 +3310,43 @@ export default {
                 }
             })
         },
+
+        //上传阿里云---OSS的签名
+        OSS_ID() {
+            this.$http(api.OSS_ID, {
+                params: {}
+            }).then((res) => {
+                // console.log(res)
+                if (res.status == 200) {
+                    let _oss= res.data;
+                    this.ossData = {
+                        'name': this.filename,
+                        'key' : _oss.dir,
+                        'policy': _oss.policy,
+                        'OSSAccessKeyId': _oss.accessid, 
+                        'success_action_status' : '200', //让服务端返回200,不然，默认会返回204
+                        'signature': _oss.signature,
+                    };
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
+        //上传文件类型
+        fileType(type){
+            let _type = ['jpg','gif','jpg','jpeg','png','word','pdf','ppt','excel','txt','mp4'],
+                _right = 0;
+            for(let i=0;i<_type.length;i++){
+                if(_type[i] == type.toLocaleLowerCase()){
+                    _right = 1;
+                    break;
+                }else{
+                    _right = 0;
+                }
+            }
+            return _right
+        }
 }

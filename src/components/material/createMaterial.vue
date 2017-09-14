@@ -50,8 +50,8 @@
             <el-row>
                 <el-col :span="3">上传素材附件：</el-col>
                 <el-col :span="21">
-                    <el-upload class="upload-demo clearfloat" action="https://jsonplaceholder.typicode.com/posts/" :on-success="uploadSuccess" :on-remove="uploadRemove" :file-list="fileList">
-                        <el-button size="small" icon="upload2" type="primary">点击上传</el-button>
+                    <el-upload class="upload-demo" ref="upload" :auto-upload="true" action="http://oss-base.oss-cn-zhangjiakou.aliyuncs.com" :data='ossData' :on-success="uploadSuccess" :on-remove="uploadRemove" :before-upload="beforeAvatarUpload" :on-change="uploadLoading" :file-list="fileList">
+                        <el-button size="small" icon="upload2" type="primary" :disabled="uploadOne">获取文件</el-button>
                         <div slot="tip" class="el-upload__tip">上传图片格式必须是gif,jpg,jpeg,png;图片大小在200kb以内</div>
                     </el-upload>
                 </el-col>
@@ -129,12 +129,22 @@ export default {
             },
             lastId: 0,
             fileList: [], //上传文件列表
+            ossData: {}, //签名
+            oldname: '',
+            upDisable: true,
+            rightType: 0,  //文件类型
+            uploadOne: false,  //只能传输一个
+            fileInfo:{
+                name: '',
+                size: 0,
+            }
         }
     },
     created() {
         if(this.materialEdit.status){   //素材库-素材管理-编辑
             info.materManaEdit_b_s.call(this,this.materialEdit.id);   //编辑初始数据获取
         }else{  //创建
+            info.OSS_ID.call(this);
             info.materManaType1_s.call(this,this.firstSelect);
         }
     },
@@ -142,6 +152,25 @@ export default {
         titleItem, titleActive, description, bottomItem, 
     },
     methods: {
+        beforeAvatarUpload(file){
+            const _ok = info.fileType.call(this,String(file.name).split('.')[1]);
+            if(Boolean(_ok)){  //格式符合
+                if(this.oldname != file.name){  //不同名
+                    this.oldname = file.name;
+                    this.ossData = Object.assign({}, this.ossData, {
+                        "name": file.name         
+                    });
+                }
+            }else{
+                this.$notify.error({
+                    message: '文件格式不符!'
+                });
+            }
+            return Boolean(_ok);
+        },
+        uploadLoading(file){
+            this.ossData.name = file.name;
+        },
         emitTransfer(index) {
             if (this.state == index) {
                 return
@@ -152,7 +181,15 @@ export default {
             console.log(status)
         },
         uploadSuccess(response, file, fileList){  //文件上传返回数据
-
+            this.fileInfo = {
+                name: file.name,
+                size: file.size
+            }
+            this.uploadOne = true;
+            this.$notify.success({
+                message: '上传成功!',
+                duration: 500
+            });
         },
         uploadRemove(file, fileList){  //已上传文件删除
 
@@ -176,7 +213,7 @@ export default {
                         break;
                     }
                 }
-                info.materManadd_s.call(this,this.create,this.lastId);
+                info.materManadd_s.call(this,this.create,this.lastId,this.fileInfo);
             }
         },
         floorHelp(index){  //编辑初始赋值-层级数据获取
