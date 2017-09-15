@@ -214,10 +214,13 @@ export default {
                 message: '上传成功!',
                 duration: 1000
             });
+            console.log(file);
+            console.log(fileList);
         },
         uploadRemove(file, fileList){  //已上传文件删除
             if(file){
-                info.materFileDel.call(this,this.ossData.key);
+                let _name = this.dirName + file.name;
+                info.materFileDel.call(this,_name);
             }
         },
         cancelCreate(){
@@ -232,7 +235,7 @@ export default {
                         break;
                     }
                 }
-                info.materManaEdit_s.call(this,this.materialEdit.id,this.create,this.lastId); 
+                info.materManaEdit_s.call(this,this.materialEdit.id,this.create,this.lastId,this.fileInfo); 
             }else{  //创建提交
                 for(var i=5;i>=1;i--){
                     if(String(this.searchlist[`Level${i}`]).length != 0){

@@ -266,7 +266,8 @@ export default {
         uploadRemove(file, fileList){  //已上传文件删除
             this.upStatus = false;
             if(file){
-                info.materFileDel.call(this,this.ossData.key);
+                let _name = this.dirName + file.name;
+                info.materFileDel.call(this,_name);
             }
         },
         submit(){

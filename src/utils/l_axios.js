@@ -2414,15 +2414,16 @@ export default {
                                     return;
                                 }
                             });
-                            this.editFileHandle = {  //编辑时显示已经上传的素材
-                                name: _begin.file_name,
-                                kdName: '',
-                                url: _begin.file_url,
-                            };
-                            if(String(_begin.file_name).length != 0){
+                            if(parseInt(_begin.file_size)!= 0){  //先判断是否有素材
                                 this.uploadOne = true;
+                                this.editFileHandle = {  //编辑时显示已经上传的素材
+                                    name: _begin.old_file_name,
+                                    kdName: _begin.file_name,
+                                    diystatus: 1,  //区分编辑时铺的原始数据
+                                    url: _begin.file_url,
+                                };
+                                this.fileList=[{name: this.editFileHandle.name,url: this.editFileHandle.url}];
                             }
-                            this.fileList=[{name: this.editFileHandle.name,url: this.editFileHandle.url}];
                         }else{  //详情
                             this.Dailog = true;
                             let _detail = res.data.data;
@@ -2497,7 +2498,7 @@ export default {
         },
 
         //素材库---素材管理-编辑-保存
-        materManaEdit_s(scid,obj,lid) {
+        materManaEdit_s(scid,obj,lid,file) {
             let apiURL = api.materManaEdit_s;
             if(this.teacherManageCenter){
                 apiURL = api.materManaEdit_t;
@@ -2511,6 +2512,8 @@ export default {
                     title: obj.theme,
                     category_id: lid,
                     content: obj.conferContent,
+                    file_name: file.name,
+                    file_size: file.size
                 }
             }).then((res) => {
                 // console.log(res)
