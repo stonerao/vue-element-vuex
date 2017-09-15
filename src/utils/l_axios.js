@@ -2414,6 +2414,15 @@ export default {
                                     return;
                                 }
                             });
+                            this.editFileHandle = {  //编辑时显示已经上传的素材
+                                name: _begin.file_name,
+                                kdName: '',
+                                url: _begin.file_url,
+                            };
+                            if(String(_begin.file_name).length != 0){
+                                this.uploadOne = true;
+                            }
+                            this.fileList=[{name: this.editFileHandle.name,url: this.editFileHandle.url}];
                         }else{  //详情
                             this.Dailog = true;
                             let _detail = res.data.data;
@@ -2602,7 +2611,7 @@ export default {
                             type: 'success',
                             duration: 1000,
                             onClose: () => {
-                                // window.location.reload(true);
+                                window.location.reload(true);
                             }
                         });
                     }else{

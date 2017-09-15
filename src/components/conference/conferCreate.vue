@@ -183,14 +183,17 @@ export default {
             },
             fileName: '',
             dirName: '',
+            upStatus: false,
         }
     },
     created() {
         if(this.schoolManageCenter){  //学校-创建会议
             if(this.creatStatus){   //会议创建
+                this.upStatus = false;
                 this.getAutograph();
                 info.conferMeetTeacher_s.call(this);
             }else if(this.EDITCARD){  //会议编辑
+                this.upStatus = false;
                 this.getAutograph();
                 info.conferMeetTeacher_s.call(this);
                 info.conferMeetDetail_s.call(this,this.CONFERID);
@@ -207,8 +210,12 @@ export default {
     },
     methods: {
         getAutograph(){  //三秒请求一次签名
-            let _inter = setInterval((x)=>{
-                info.OSS_ID.call(this,this.fileName);
+            setInterval((x)=>{
+                if(this.upStatus){
+                    clearInterval(_inter);
+                }else{
+                    info.OSS_ID.call(this,this.fileName);
+                }
             },3000)
         },
         beforeAvatarUpload(file){
@@ -270,6 +277,7 @@ export default {
         },
         clearData(){
             if(this.EDITCARD){
+               this.upStatus = false;
                this.$emit('EDITBACK');
             }else{  //创建会议取消
                  this.create = {

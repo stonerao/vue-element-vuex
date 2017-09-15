@@ -137,8 +137,14 @@ export default {
                 name: '',
                 size: 0,
             },
-            fileName: '',
-            dirName: '',
+            fileName: '', //上传文件名
+            dirName: '',  //签名的dir路劲
+            upStatus: false,
+            editFileHandle:{
+                name: '',
+                kdName: '',
+                url: '',
+            },
         }
     },
     created() {
@@ -147,6 +153,7 @@ export default {
             info.materManaEdit_b_s.call(this,this.materialEdit.id);   //编辑初始数据获取
         }else{  //创建
             info.materManaType1_s.call(this,this.firstSelect);
+            this.upStatus = false;
             this.getAutograph();
         }
     },
@@ -156,12 +163,11 @@ export default {
     methods: {
         getAutograph(){  //三秒请求一次签名
             let _inter = setInterval((x)=>{
-                // if(this.upStatus){
-                //     clearInterval(_inter);
-                // }else{
-                //     info.OSS_ID.call(this,this.fileName);
-                // }
-                info.OSS_ID.call(this,this.fileName);
+                if(this.upStatus){
+                    clearInterval(_inter);
+                }else{
+                    info.OSS_ID.call(this,this.fileName);
+                }
             },3000)
         },
         beforeAvatarUpload(file){
@@ -200,7 +206,7 @@ export default {
         uploadSuccess(response, file, fileList){  //文件上传返回数据
             this.upStatus = true;
             this.fileInfo = {
-                name: file.name,
+                name: this.ossData.key,
                 size: file.size
             }
             this.uploadOne = true;
@@ -210,12 +216,12 @@ export default {
             });
         },
         uploadRemove(file, fileList){  //已上传文件删除
-            this.upStatus = false;
             if(file){
                 info.materFileDel.call(this,this.ossData.key);
             }
         },
         cancelCreate(){
+            this.upStatus = true;
             this.$emit("CANCEL");
         },
         submit(){
