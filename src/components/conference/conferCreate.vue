@@ -210,16 +210,14 @@ export default {
     },
     methods: {
         getAutograph(){  //三秒请求一次签名
-            setInterval((x)=>{
-                if(this.upStatus){
-                    clearInterval(_inter);
-                }else{
-                    info.OSS_ID.call(this,this.fileName);
-                }
-            },3000)
+            let now = Date.parse(new Date()) / 1000; 
+            if (this.expire < now + 3){
+                info.OSS_ID.call(this,this.fileName);
+            }
         },
         beforeAvatarUpload(file){
             this.upStatus = false;
+            this.getAutograph();
             const _ok = info.fileType.call(this,String(file.name).split('.')[1]);
             if(Boolean(_ok)){  //格式符合
                 if(this.oldname != file.name){  //不同名

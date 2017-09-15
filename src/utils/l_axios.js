@@ -3344,6 +3344,7 @@ export default {
                 // console.log(res)
                 if (res.status == 200) {
                     let _oss= res.data;
+                    this.expire = _oss.expire;
                     this.ossData = {
                         'name': this.filename,
                         'key' : _oss.dir,
