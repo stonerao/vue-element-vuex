@@ -1,17 +1,21 @@
 <template>
     <div>
         <section class="kd-bottom-box">
-            {{bottomMsg}}
+            {{txt}}
         </section>
     </div>
 </template>
 
-<script>
+<script> 
+import store from '@/utils/commos'
 export default {
     data(){
-        return{
-            bottomMsg:'dssssssssssssssss'
+        return{ 
+            txt:""
         }
+    },
+    created(){  
+        store.bottom.call(this);
     }
 }
 </script> 

@@ -582,12 +582,22 @@ export default {
             }
         })
     },
-    export_word(){
+    export_word(html) {
         this.$http({
-            method:"post",
-            data:{
-                
+            method: "post",
+            data: {
+                token: getToken(),
+                html_count: html,
+                doc_name: this.obj.t_title
+            },
+            url: api.export_word
+        }).then((res) => {
+            if (res.data.code == 200) {
+                window.open(res.data.data)
+            } else {
+
             }
         })
-    }
+    },
+
 }

@@ -88,8 +88,7 @@
 <script>
 export default {
     data() {
-        return {
-            bottomMsg: 'dssssssssssssssss',
+        return { 
             options: [{
                 value: '选项1',
                 label: '黄金糕'

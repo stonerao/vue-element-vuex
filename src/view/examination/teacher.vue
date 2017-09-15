@@ -10,7 +10,7 @@
                 <!--模块开始  -->
                 <div v-if="state==0">
                     <!-- 考试试卷 -->
-                    <teacherQuestion @selectNative="selectQuestion" :state="selectExamstate"></teacherQuestion>
+                    <teacherQuestion @statistics='statistics' @selectNative="selectQuestion" :state="selectExamstate"></teacherQuestion>
                 </div>
                 <div v-if="state==1">
                     <createQuestion @list="listSelect" :selectQuestList="selectQuestList" @SELECTQUESTIONLISTEVENT="selectEvent" @newAddQuestion="new_add_question" :newAddObj="newAddObj" @createQuit='createQuit'>
@@ -49,6 +49,10 @@
                 <div v-if="state==13">
                     <results_center :id="isListBottomId" @fanhui="state=6"></results_center>
                 </div>
+                <div v-if="state==14">
+                    <statistics :id="t_id" @fanhui="state=0"></statistics>
+                </div>
+
             </div>
             <bottomItem></bottomItem>
         </div>
@@ -73,6 +77,7 @@ import teacherCenter from '@/components/center/teacher'
 import teacherCenterList from '@/components/center/teacherCenterList'
 import results from '@/components/center/results'
 import results_center from '@/components/center/results_center'
+import statistics from '@/components/examination/statistics'
 
 import { removeSelectQuestion } from '@/utils/auth'
 import { removeCookie } from '@/utils/auth'
@@ -106,7 +111,8 @@ export default {
             e_id: "",
             isListBottom: true,
             isListBottomId: '',
-            resultsState: 1
+            resultsState: 1,
+            t_id: ""
         }
     },
     created() {
@@ -117,7 +123,8 @@ export default {
     components: {
         titleItem, titleActive, description, bottomItem,
         teacherQuestion, createQuestion, setQuestion, addQuestion, createExamination, examinationList,
-        management, mang_list, eqMangListTe, teacherCenter, teacherCenterList, results, results_center
+        management, mang_list, eqMangListTe, teacherCenter, teacherCenterList, results, results_center,
+        statistics
     },
     methods: {
         emitTransfer(index) {
@@ -214,8 +221,12 @@ export default {
             this.state = 12;
         },
         resultsa(val) {
-            this.isListBottomId = val; 
+            this.isListBottomId = val;
             this.state = 13;
+        },
+        statistics(id) {
+            this.t_id = id;
+            this.state = 14; 
         }
     }
 }

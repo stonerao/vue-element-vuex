@@ -313,6 +313,7 @@ export const constList = [
 // 我的作业
 import operation from '@/view/operation/myOperation'
 import studentOperation from '@/view/operation/student'
+import results from '@/view/results/student'
 export const ListStundent = [
     {
         path: '/operation',
@@ -343,7 +344,7 @@ export const ListStundent = [
             }
         ]
     },
-   /*   {
+    {
         path: '/set',
         name: '我的成绩',
         redirect: '/set/index',
@@ -354,10 +355,10 @@ export const ListStundent = [
             {
                 path: 'index',
                 name: '-我的成绩',
-                component: setVue,
+                component: results,
             }
         ]
-    },  */
+    },
     {
         path: '/videoOther',
         name: '视频直播',
