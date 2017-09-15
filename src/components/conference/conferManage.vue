@@ -113,9 +113,7 @@
                                     <el-col :span="3">会议附件：</el-col>
                                     <el-col :span="21">
                                         <ul class="clearfloat">
-                                            <li class="enclosure"><i></i>遵义会议附件1.ppt</li>
-                                            <li class="enclosure"><i></i>遵义会议附件2.ppt</li>
-                                            <li class="enclosure"><i></i>遵义会议附件3.ppt</li>
+                                            <li class="enclosure" v-for="file in fileList"><i></i><a :href="file.url">{{file.name}}</a></li>
                                         </ul>
                                     </el-col>
                                 </el-row>
@@ -193,6 +191,7 @@ export default {
             conferManage_2: false,
             EDITCARD: false,  //编辑身份证
             CONFERID: 0,
+            fileList: [],
         }
     },
     created() {

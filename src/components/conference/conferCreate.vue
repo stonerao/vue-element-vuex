@@ -105,7 +105,7 @@
             <el-row>
                 <el-col :span="3" style="color: #f7f7f7;">保存操作</el-col>
                 <el-col :span="21">
-                    <el-button type="primary" @click="submit">保存</el-button>
+                    <el-button type="primary" @click.native="confSubmit">保存</el-button>
                     <el-button type="primary" style="background: #e0e0e0;border-color: #e0e0e0;color: #5b5b5b" @click="clearData" v-if="creatStatus">清空</el-button> 
                     <el-button type="primary" style="background: #e0e0e0;border-color: #e0e0e0;color: #5b5b5b" @click="clearData" v-else>取消</el-button>
                 </el-col>
@@ -178,15 +178,21 @@ export default {
             rightType: 0,  //文件类型
             uploadOne: false,  //只能传输一个
             fileInfo: [],
+            fileName: '',
+            dirName: '',
+            upStatus: false,
+            expire: 0,
         }
     },
     created() {
         if(this.schoolManageCenter){  //学校-创建会议
             if(this.creatStatus){   //会议创建
-                info.OSS_ID.call(this);
+                this.upStatus = false;
+                this.getAutograph();
                 info.conferMeetTeacher_s.call(this);
             }else if(this.EDITCARD){  //会议编辑
-                info.OSS_ID.call(this);
+                this.upStatus = false;
+                this.getAutograph();
                 info.conferMeetTeacher_s.call(this);
                 info.conferMeetDetail_s.call(this,this.CONFERID);
             }
@@ -201,11 +207,19 @@ export default {
         titleItem, titleActive, description, bottomItem
     },
     methods: {
+        getAutograph(){  //三秒请求一次签名
+            let now = Date.parse(new Date()) / 1000; 
+            if (this.expire < now + 3){
+                info.OSS_ID.call(this,this.fileName);
+            }
+        },
         beforeAvatarUpload(file){
+            this.getAutograph();
             const _ok = info.fileType.call(this,String(file.name).split('.')[1]);
             if(Boolean(_ok)){  //格式符合
                 if(this.oldname != file.name){  //不同名
                     this.oldname = file.name;
+                    this.fileName = file.name;
                     this.ossData = Object.assign({}, this.ossData, {
                         "name": file.name         
                     });
@@ -215,10 +229,12 @@ export default {
                     message: '文件格式不符!'
                 });
             }
+            this.upStatus = Boolean(_ok);
             return Boolean(_ok);
         },
         uploadLoading(file){
             this.ossData.name = file.name;
+            this.ossData.key = this.dirName + file.name;
         },
         uploadSuccess(response, file, fileList){  //文件上传返回数据
             this.fileInfo = fileList;
@@ -229,13 +245,11 @@ export default {
         },
         uploadRemove(file, fileList){  //已上传文件删除
             if(file){
-                info.materFileDel.call(this,file.name);
+                let _name = this.dirName + file.name;
+                info.materFileDel.call(this,_name);
             }
         },
-        submit(){
-            // if(this.creatStatus){ 
-            //     info.conferMeetCreate_s.call(this,this.create,this.channelID)
-            // }
+        confSubmit(){
             info.conferMeetCreate_s.call(this,this.create,this.channelID,this.fileInfo)
         },
         clearData(){

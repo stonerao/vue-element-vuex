@@ -2414,6 +2414,16 @@ export default {
                                     return;
                                 }
                             });
+                            if(parseInt(_begin.file_size)!= 0){  //先判断是否有素材
+                                this.uploadOne = true;
+                                this.editFileHandle = {  //编辑时显示已经上传的素材
+                                    name: _begin.old_file_name,
+                                    kdName: _begin.file_name,
+                                    diystatus: 1,  //区分编辑时铺的原始数据
+                                    url: _begin.file_url,
+                                };
+                                this.fileList=[{name: this.editFileHandle.name,url: this.editFileHandle.url}];
+                            }
                         }else{  //详情
                             this.Dailog = true;
                             let _detail = res.data.data;
@@ -2488,7 +2498,7 @@ export default {
         },
 
         //素材库---素材管理-编辑-保存
-        materManaEdit_s(scid,obj,lid) {
+        materManaEdit_s(scid,obj,lid,file) {
             let apiURL = api.materManaEdit_s;
             if(this.teacherManageCenter){
                 apiURL = api.materManaEdit_t;
@@ -2502,6 +2512,8 @@ export default {
                     title: obj.theme,
                     category_id: lid,
                     content: obj.conferContent,
+                    file_name: file.name,
+                    file_size: file.size
                 }
             }).then((res) => {
                 // console.log(res)
@@ -2602,7 +2614,7 @@ export default {
                             type: 'success',
                             duration: 1000,
                             onClose: () => {
-                                // window.location.reload(true);
+                                window.location.reload(true);
                             }
                         });
                     }else{
@@ -2739,6 +2751,7 @@ export default {
                                 status: '',
                                 eclo: [],   //附件
                             };
+                            this.fileList = _data.file_list;
                             if(_data.status == 1){
                                 this.confDetail.status = '未开始';
                             }else if(_data.status == 2){
@@ -2760,6 +2773,9 @@ export default {
                             };
                             this.channelName = _data.name;
                             this.channelID = _data.channelid;
+                            if(_data.file_list.length !=0 ){
+                                this.fileList = _data.file_list;
+                            }
                         }
                     }else{
                         this.$notify.error({
@@ -2797,15 +2813,16 @@ export default {
             let fileStr = [];
             let filename = '';
             if(name.length == 0){
-                name = ''
+                filename = ''
             }else if(name.length == 1) {
-                name = name[0]
+                filename = this.dirName + name[0].name;
             }else if(name.length > 1){
                 name.forEach((x)=>{
-                    fileStr.push(x.name)
+                    fileStr.push(this.dirName + x.name);
                 })
+                filename = fileStr.join(',');
             }
-            filename = fileStr.join(',');
+            // console.log(filename)
             let apiURL = api.conferMeetCreate_s;
             let formData = {
                 token: getToken(),
@@ -3325,13 +3342,14 @@ export default {
         },
 
         //上传阿里云---OSS的签名
-        OSS_ID() {
+        OSS_ID(file) {
             this.$http(api.OSS_ID, {
                 params: {}
             }).then((res) => {
                 // console.log(res)
                 if (res.status == 200) {
                     let _oss= res.data;
+                    this.expire = _oss.expire;
                     this.ossData = {
                         'name': this.filename,
                         'key' : _oss.dir,
@@ -3340,6 +3358,8 @@ export default {
                         'success_action_status' : '200', //让服务端返回200,不然，默认会返回204
                         'signature': _oss.signature,
                     };
+                    this.dirName = _oss.dir;
+                    this.ossData.key += file;
                 }else {
                     this.$notify.error({
                         message: res.data.data.error

@@ -136,27 +136,53 @@ export default {
             fileInfo:{
                 name: '',
                 size: 0,
-            }
+            },
+            fileName: '', //上传文件名
+            dirName: '',  //签名的dir路劲
+            upStatus: false,
+            editFileHandle:{
+                name: '',
+                kdName: '',
+                url: '',
+            },
+            expire: 0,
         }
     },
     created() {
         if(this.materialEdit.status){   //素材库-素材管理-编辑
-            info.OSS_ID.call(this);
+            this.getAutograph();
             info.materManaEdit_b_s.call(this,this.materialEdit.id);   //编辑初始数据获取
         }else{  //创建
-            info.OSS_ID.call(this);
             info.materManaType1_s.call(this,this.firstSelect);
+            this.upStatus = false;
+            this.getAutograph();
         }
     },
     components: {
         titleItem, titleActive, description, bottomItem, 
     },
     methods: {
+        getAutograph(){  //三秒请求一次签名
+            let now = Date.parse(new Date()) / 1000; 
+            if (this.expire < now + 3){
+                info.OSS_ID.call(this,this.fileName);
+            }
+            // let _inter = setInterval((x)=>{
+            //     if(this.upStatus){
+            //         clearInterval(_inter);
+            //     }else{
+            //         info.OSS_ID.call(this,this.fileName);
+            //     }
+            // },3000)
+        },
         beforeAvatarUpload(file){
+            this.upStatus = false;
+            this.getAutograph();
             const _ok = info.fileType.call(this,String(file.name).split('.')[1]);
             if(Boolean(_ok)){  //格式符合
                 if(this.oldname != file.name){  //不同名
                     this.oldname = file.name;
+                    this.fileName = file.name;
                     this.ossData = Object.assign({}, this.ossData, {
                         "name": file.name         
                     });
@@ -166,10 +192,13 @@ export default {
                     message: '文件格式不符!'
                 });
             }
+            this.upStatus = Boolean(_ok);
             return Boolean(_ok);
         },
         uploadLoading(file){
             this.ossData.name = file.name;
+            this.ossData.key = this.dirName + file.name;
+            // console.log(this.ossData)
         },
         emitTransfer(index) {
             if (this.state == index) {
@@ -181,9 +210,9 @@ export default {
             console.log(status)
         },
         uploadSuccess(response, file, fileList){  //文件上传返回数据
-            console.log(fileList)
+            this.upStatus = true;
             this.fileInfo = {
-                name: file.name,
+                name: this.ossData.key,
                 size: file.size
             }
             this.uploadOne = true;
@@ -191,13 +220,17 @@ export default {
                 message: '上传成功!',
                 duration: 1000
             });
+            console.log(file);
+            console.log(fileList);
         },
         uploadRemove(file, fileList){  //已上传文件删除
             if(file){
-                info.materFileDel.call(this,file.name);
+                let _name = this.dirName + file.name;
+                info.materFileDel.call(this,_name);
             }
         },
         cancelCreate(){
+            this.upStatus = true;
             this.$emit("CANCEL");
         },
         submit(){
@@ -208,7 +241,7 @@ export default {
                         break;
                     }
                 }
-                info.materManaEdit_s.call(this,this.materialEdit.id,this.create,this.lastId); 
+                info.materManaEdit_s.call(this,this.materialEdit.id,this.create,this.lastId,this.fileInfo); 
             }else{  //创建提交
                 for(var i=5;i>=1;i--){
                     if(String(this.searchlist[`Level${i}`]).length != 0){
@@ -305,7 +338,7 @@ export default {
                     cant5: true,
                 }
             }
-        }
+        },
     }
 }
 </script>
