@@ -2751,6 +2751,7 @@ export default {
                                 status: '',
                                 eclo: [],   //附件
                             };
+                            this.fileList = _data.file_list;
                             if(_data.status == 1){
                                 this.confDetail.status = '未开始';
                             }else if(_data.status == 2){
@@ -2772,6 +2773,9 @@ export default {
                             };
                             this.channelName = _data.name;
                             this.channelID = _data.channelid;
+                            if(_data.file_list.length !=0 ){
+                                this.fileList = _data.file_list;
+                            }
                         }
                     }else{
                         this.$notify.error({
@@ -2809,15 +2813,16 @@ export default {
             let fileStr = [];
             let filename = '';
             if(name.length == 0){
-                name = ''
+                filename = ''
             }else if(name.length == 1) {
-                name = name[0]
+                filename = this.dirName + name[0].name;
             }else if(name.length > 1){
                 name.forEach((x)=>{
-                    fileStr.push(x.name)
+                    fileStr.push(this.dirName + x.name);
                 })
+                filename = fileStr.join(',');
             }
-            filename = fileStr.join(',');
+            // console.log(filename)
             let apiURL = api.conferMeetCreate_s;
             let formData = {
                 token: getToken(),
