@@ -581,5 +581,13 @@ export default {
                 });
             }
         })
+    },
+    export_word(){
+        this.$http({
+            method:"post",
+            data:{
+                
+            }
+        })
     }
 }
