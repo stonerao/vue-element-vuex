@@ -177,16 +177,21 @@ export default {
             oldname: '',
             rightType: 0,  //文件类型
             uploadOne: false,  //只能传输一个
-            fileInfo: [],
+            fileInfo:{
+                name: '',
+                size: 0,
+            },
+            fileName: '',
+            dirName: '',
         }
     },
     created() {
         if(this.schoolManageCenter){  //学校-创建会议
             if(this.creatStatus){   //会议创建
-                info.OSS_ID.call(this);
+                this.getAutograph();
                 info.conferMeetTeacher_s.call(this);
             }else if(this.EDITCARD){  //会议编辑
-                info.OSS_ID.call(this);
+                this.getAutograph();
                 info.conferMeetTeacher_s.call(this);
                 info.conferMeetDetail_s.call(this,this.CONFERID);
             }
@@ -201,11 +206,18 @@ export default {
         titleItem, titleActive, description, bottomItem
     },
     methods: {
+        getAutograph(){  //三秒请求一次签名
+            let _inter = setInterval((x)=>{
+                info.OSS_ID.call(this,this.fileName);
+            },3000)
+        },
         beforeAvatarUpload(file){
+            this.upStatus = false;
             const _ok = info.fileType.call(this,String(file.name).split('.')[1]);
             if(Boolean(_ok)){  //格式符合
                 if(this.oldname != file.name){  //不同名
                     this.oldname = file.name;
+                    this.fileName = file.name;
                     this.ossData = Object.assign({}, this.ossData, {
                         "name": file.name         
                     });
@@ -215,21 +227,39 @@ export default {
                     message: '文件格式不符!'
                 });
             }
+            this.upStatus = Boolean(_ok);
             return Boolean(_ok);
         },
         uploadLoading(file){
             this.ossData.name = file.name;
+            this.ossData.key = this.dirName + file.name;
+            // console.log(this.ossData)
+        },
+        emitTransfer(index) {
+            if (this.state == index) {
+                return
+            }
+            this.state = index;
+        },
+        promptsTem(status) {
+            console.log(status)
         },
         uploadSuccess(response, file, fileList){  //文件上传返回数据
-            this.fileInfo = fileList;
+            this.upStatus = true;
+            this.fileInfo = {
+                name: file.name,
+                size: file.size
+            }
+            this.uploadOne = true;
             this.$notify.success({
                 message: '上传成功!',
                 duration: 1000
             });
         },
         uploadRemove(file, fileList){  //已上传文件删除
+            this.upStatus = false;
             if(file){
-                info.materFileDel.call(this,file.name);
+                info.materFileDel.call(this,this.ossData.key);
             }
         },
         submit(){

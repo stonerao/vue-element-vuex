@@ -136,27 +136,41 @@ export default {
             fileInfo:{
                 name: '',
                 size: 0,
-            }
+            },
+            fileName: '',
+            dirName: '',
         }
     },
     created() {
         if(this.materialEdit.status){   //素材库-素材管理-编辑
-            info.OSS_ID.call(this);
+            this.getAutograph();
             info.materManaEdit_b_s.call(this,this.materialEdit.id);   //编辑初始数据获取
         }else{  //创建
-            info.OSS_ID.call(this);
             info.materManaType1_s.call(this,this.firstSelect);
+            this.getAutograph();
         }
     },
     components: {
         titleItem, titleActive, description, bottomItem, 
     },
     methods: {
+        getAutograph(){  //三秒请求一次签名
+            let _inter = setInterval((x)=>{
+                // if(this.upStatus){
+                //     clearInterval(_inter);
+                // }else{
+                //     info.OSS_ID.call(this,this.fileName);
+                // }
+                info.OSS_ID.call(this,this.fileName);
+            },3000)
+        },
         beforeAvatarUpload(file){
+            this.upStatus = false;
             const _ok = info.fileType.call(this,String(file.name).split('.')[1]);
             if(Boolean(_ok)){  //格式符合
                 if(this.oldname != file.name){  //不同名
                     this.oldname = file.name;
+                    this.fileName = file.name;
                     this.ossData = Object.assign({}, this.ossData, {
                         "name": file.name         
                     });
@@ -166,10 +180,13 @@ export default {
                     message: '文件格式不符!'
                 });
             }
+            this.upStatus = Boolean(_ok);
             return Boolean(_ok);
         },
         uploadLoading(file){
             this.ossData.name = file.name;
+            this.ossData.key = this.dirName + file.name;
+            // console.log(this.ossData)
         },
         emitTransfer(index) {
             if (this.state == index) {
@@ -181,7 +198,7 @@ export default {
             console.log(status)
         },
         uploadSuccess(response, file, fileList){  //文件上传返回数据
-            console.log(fileList)
+            this.upStatus = true;
             this.fileInfo = {
                 name: file.name,
                 size: file.size
@@ -193,8 +210,9 @@ export default {
             });
         },
         uploadRemove(file, fileList){  //已上传文件删除
+            this.upStatus = false;
             if(file){
-                info.materFileDel.call(this,file.name);
+                info.materFileDel.call(this,this.ossData.key);
             }
         },
         cancelCreate(){
@@ -305,7 +323,7 @@ export default {
                     cant5: true,
                 }
             }
-        }
+        },
     }
 }
 </script>

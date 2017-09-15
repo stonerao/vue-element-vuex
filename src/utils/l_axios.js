@@ -3325,7 +3325,7 @@ export default {
         },
 
         //上传阿里云---OSS的签名
-        OSS_ID() {
+        OSS_ID(file) {
             this.$http(api.OSS_ID, {
                 params: {}
             }).then((res) => {
@@ -3340,6 +3340,8 @@ export default {
                         'success_action_status' : '200', //让服务端返回200,不然，默认会返回204
                         'signature': _oss.signature,
                     };
+                    this.dirName = _oss.dir;
+                    this.ossData.key += file;
                 }else {
                     this.$notify.error({
                         message: res.data.data.error
