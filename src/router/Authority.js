@@ -74,7 +74,7 @@ import {
 } from '@/assets/icon'
 // admin
 export const constList = [
-    /* {
+    {
         path: '/index',
         name: '系统设置',
         redirect: '/index/index',
@@ -88,7 +88,7 @@ export const constList = [
                 component: setVue,
             }
         ]
-    }, */
+    },
     {
         path: '/grade',
         name: '年/班级管理',

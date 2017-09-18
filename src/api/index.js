@@ -88,4 +88,13 @@ export const api = {
     Studentline_examlist:"Student/SchoolStudent/line_examlist",//学生线下成绩列表 
     Studentline_gradeslist:"Student/SchoolStudent/line_gradeslist",//线下考试成绩列表 
     Studentline_grades_static:"Student/SchoolStudent/line_grades_static",//统计线下考试成绩列表  
+    sign_setting_info:"Admin/System/sign_setting_info",//签到信息配置   
+    sign_setting:"Admin/System/sign_setting",//签到设置   
+    mobile_setting:"Admin/System/mobile_setting",//短信包设置   
+    mobile_setting_info:"Admin/System/mobile_setting_info",//短信宝配置信息   
+    student_sign_1:"Student/SchoolStudent/student_sign",//学生签到   
+    teacher_sign_1:"Teacher/Timetag/teacher_sign",//老师签到   
+    techaerclass_info:"Teacher/index/class_info",//老师中心主页列表   
+    studentclass_info:"Student/SchoolStudent/class_info",//学生中心主页列表  
+    studentIndexHome:"Student/SchoolStudent/index",//学生中心主页数据 
 }

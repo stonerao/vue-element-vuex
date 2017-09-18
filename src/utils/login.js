@@ -18,7 +18,7 @@ export default {
                     type: 'success',
                     duration: 1000,
                     onClose: () => {
-                        this.$router.push({ path: '/' })
+                        this.$router.push({ path: '/teacherindex' })
                     }
                 });
             } else {
@@ -84,8 +84,13 @@ export default {
                     type: 'success',
                     duration: 1000,
                     onClose: () => {
-                        this.$router.push({ path: '/' })
+                        this.$router.push({ path: '/students' })
                     }
+                });
+            }else{
+                this.$notify.error({
+                    title: '错误',
+                    message: res.data.data.error
                 });
             }
         })

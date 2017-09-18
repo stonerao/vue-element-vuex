@@ -39,7 +39,8 @@ export default {
                 token: getToken(),
                 task_title: this.form.title,
                 task_desc: this.task_desc,
-                task_class: this.form.class_list
+                task_class: this.form.class_list,
+                task_search: this.keys.join(',')
             }
         }).then((res) => {
             if (res.data.code == 200) {
@@ -49,7 +50,10 @@ export default {
                     type: 'success'
                 });
             } else {
-
+                this.$notify.error({
+                    title: '错误',
+                    message: res.data.data.error
+                });
             }
         })
     },
@@ -198,7 +202,8 @@ export default {
                 task_id: this.obj.task_id,
                 task_title: this.form.title,
                 task_desc: this.task_desc,
-                task_class: this.form.class_list
+                task_class: this.form.class_list,
+                task_search: this.keys.join(",")
             }
         }).then((res) => {
             if (res.data.code == 200) {

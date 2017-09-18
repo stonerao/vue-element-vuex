@@ -8,30 +8,29 @@
             </el-col>
             <el-col :span="19">
                 <ul class="kd-header-list">
-                    <router-link tag="li" to="/one/index" class="kd-header-user active">
+                    <router-link tag="li" :to="`${isClassLogin=='1'?'/one/index':isClassLogin=='2'?'/teacherindex':'/students'}`" class="kd-header-user active">
                         <section class="kd-header-tou float-left">
                             <img :src="obj.manager_avatar" />
                         </section>
                         <section>
-                            <p>您好</p>
+                            <p>您好 </p>
                             <p>学校{{name}}：
                                 <span v-html="obj.member_name"></span>
                             </p>
-                        </section>
-
+                        </section> 
                     </router-link>
-                       <!--     <router-link tag="li" to="setMsg" class="kd-header-icon">
-                        <p class="kd-header-icons">
-                            <i class="el-icon-message"></i>
-                        </p>
-                        <p>系统消息</p>
-                    </router-link>-->
+                    <!--     <router-link tag="li" to="setMsg" class="kd-header-icon">
+                                <p class="kd-header-icons">
+                                    <i class="el-icon-message"></i>
+                                </p>
+                                <p>系统消息</p>
+                            </router-link>-->
                     <router-link tag="li" to="/setPwd" class="kd-header-icon">
-                                                    <p class="kd-header-icons">
-                                                        <i class="el-icon-edit"></i>
-                                                    </p>
-                                                    <p>修改密码</p>
-                                                </router-link> 
+                        <p class="kd-header-icons">
+                            <i class="el-icon-edit"></i>
+                        </p>
+                        <p>修改密码</p>
+                    </router-link>
                     <li @click="quit" class="kd-header-icon">
                         <p class="kd-header-icons">
                             <i class="el-icon-upload2"></i>
@@ -62,7 +61,8 @@ export default {
                 manager_avatar: '',
                 manager_name: ''
             },
-            name: ""
+            name: "",
+            isClassLogin:isClassLogin()
         }
     },
     created() {

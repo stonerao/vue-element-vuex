@@ -49,14 +49,15 @@ router.beforeEach((to, from, next) => {
       判断是什么端口登录
       如果进入的页面的路径在当前权限的白名单没有就进入默认页面
     */
-    let isClassState = isClassLogin();
+    let isClassState = isClassLogin(); 
     if (isClassState == 1) {
       if (constListWhile().indexOf(to.path) == -1) {
         router.push({ path: '/' })
       }
-    } else if (isClassState == 1) {
+    } else if (isClassState == 2) { 
       if (constTeacherWhile().indexOf(to.path) == -1) {
         // router.push({ path: '/' })
+        
       }
     } else if (isClassState == 3) {
       if (consStundenWhilet().indexOf(to.path) == -1) {

@@ -10,26 +10,34 @@
             <el-input v-model="form.title" class="width200"></el-input>
         </el-form-item>
         <!-- <el-form-item label="附件">
-                                                <input type="file">
-                                            </el-form-item> -->
-        <el-form-item label="作业相关要求">
+                                                        <input type="file">
+                                                    </el-form-item> -->
+        <el-form-item label="作业内容">
             <!-- <quillEditor v-model="task_desc" style="background:#fff" :content="content"></quillEditor> -->
             <input type="text" v-model="task_desc">
         </el-form-item>
+        <el-form-item label="关键字">
+            <div>
+                <el-input v-for="(item,index) in keywords" :key="index" v-model="item.input" class="width125 marginright10 marginbottom10"></el-input>
+                <el-tooltip class="item" effect="dark" content="为空视为取消关键字" placement="top-start">
+                    <el-button @click="addKey">添加</el-button>
+                </el-tooltip>　
+            </div>
+        </el-form-item>
         <!-- <el-form-item label="参考资料">
-                                                <quillEditor style="background:#fff" :content="content"></quillEditor>
-                                            </el-form-item>
-                                            <el-form-item label="相关参考答案">
-                                                <quillEditor style="background:#fff" :content="content"></quillEditor>
-                                            </el-form-item>
-                                            <el-form-item label="学生交作业时间">
-                                                <el-date-picker :picker-options="pickerOptions0" v-model="content" type="datetime" placeholder="选择日期时间">
-                                                </el-date-picker>
-                                            </el-form-item>
-                                            <el-form-item label="是否提交给学生">
-                                                <el-radio class="radio" v-model="radio" label="1">立即</el-radio>
-                                                <el-radio class="radio" v-model="radio" label="2">暂不</el-radio>
-                                            </el-form-item> -->
+                                                        <quillEditor style="background:#fff" :content="content"></quillEditor>
+                                                    </el-form-item>
+                                                    <el-form-item label="相关参考答案">
+                                                        <quillEditor style="background:#fff" :content="content"></quillEditor>
+                                                    </el-form-item>
+                                                    <el-form-item label="学生交作业时间">
+                                                        <el-date-picker :picker-options="pickerOptions0" v-model="content" type="datetime" placeholder="选择日期时间">
+                                                        </el-date-picker>
+                                                    </el-form-item>
+                                                    <el-form-item label="是否提交给学生">
+                                                        <el-radio class="radio" v-model="radio" label="1">立即</el-radio>
+                                                        <el-radio class="radio" v-model="radio" label="2">暂不</el-radio>
+                                                    </el-form-item> -->
         <el-form-item label=" ">
             <el-button type="primary" @click="submit">保存</el-button>
             <el-button @click="quitsss">取消</el-button>
@@ -58,20 +66,32 @@ export default {
             radio: '',
             class_list: [],
             task_desc: '',//作业内容
+            keywords: [
+                { input: "" }
+            ],
+            keys:[]
         }
     },
     methods: {
         submit() {
-            // 添加
+            // 添加  
+            this.keywords.forEach((x)=>{
+                if(x.input!=''){ 
+                    this.keys.push(x.input)
+                }
+            }) 
             if (!this.obj.task_id) {
                 store.add_task.call(this);
             } else {
                 store.teacher_edit_task.call(this);
             }
         },
-        quitsss(){
+        quitsss() {
             console.log(1)
-            this.$emit("quitsss",true)
+            this.$emit("quitsss", true)
+        },
+        addKey() {
+            this.keywords.push({ input: "" })
         }
     },
     created() {
@@ -95,7 +115,7 @@ export default {
 }
 </script>
 <style>
-.ql-editor{
+.ql-editor {
     min-height: 100px;
 }
 </style>

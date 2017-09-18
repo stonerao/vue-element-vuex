@@ -2,8 +2,13 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import index from '@/view/index'
 import Layout from '@/view/layout/Layout'
-// 首页
+//admin 首页
 import Index from '@/view/index/index'
+//teacher index
+import studentIndex from '@/view/index/student'
+//student index 
+import teacherIndex from '@/view/index/teacher'
+
 // 学生 
 import Authority from '@/view/authority/index'
 import shopingVal from '@/view/teaching/shoping'
@@ -58,6 +63,36 @@ export const constRouterMap = [
         path: 'index',
         name: '-管理中心',
         component: index,
+      }
+    ]
+  },
+  {
+    path: '/students',
+    name: '管理中心',
+    redirect: '/students/index',
+    icon: pmsd,
+    iconActive: pmsd_active,
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: '-学生管理中心',
+        component: studentIndex,
+      }
+    ]
+  },
+  {
+    path: '/teacherindex',
+    name: '管理中心',
+    redirect: '/teacherindex/index',
+    icon: pmsd,
+    iconActive: pmsd_active,
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: '-老师管理',
+        component: teacherIndex,
       }
     ]
   },
