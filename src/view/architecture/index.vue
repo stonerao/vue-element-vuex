@@ -63,7 +63,7 @@
                                     <el-table-column label="操作" width="150" show-overflow-tooltip>
                                         <template scope="scope">
                                             <el-button size="mini" @click="setStu(scope.row)">编辑</el-button>
-                                            <el-button size="mini" @click="delectTearcher(scope.row.teacher_id)">删除</el-button>
+                                            <el-button size="mini" @click="selectStudent(scope.row,1)">删除</el-button>
                                         </template>
                                     </el-table-column>
                                 </el-table>
@@ -89,7 +89,7 @@
                         <div v-if="oneStatus==2" class="l_layout_outer">
                             <!-- <architectureSet :objData="sdata"></architectureSet> -->
                             <div class="l_recursion rTreeHelp">
-                                <TreeGrid :items='materData' :columns='columns' :rTreeGrid="rTreeGrid" @RELOADATA="reloadTreeData"></TreeGrid>
+                                <TreeGrid :items='materData' :columns='columns' :rTreeGrid="rTreeGrid" @RELOADATA="reloadTreeData" @fanhui="treefan"></TreeGrid>
                             </div>
                         </div>
                     </div>
@@ -109,7 +109,7 @@
                         </el-col>
                     </el-row>
 
-                    <el-table ref="multipleTable" :data="userList.items" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange" class="z-text-over">
+                    <el-table ref="multipleTable" :data="userList.items" tooltip-effect="dark" style="width: 100%" @selection-change="userSelectEvent" class="z-text-over">
                         <el-table-column type="selection" width="55">
                         </el-table-column>
                         <el-table-column prop="teacher_name" label="姓名" width="100" show-overflow-tooltip>
@@ -130,14 +130,14 @@
                         <el-table-column label="操作" width="150" show-overflow-tooltip>
                             <template scope="scope">
                                 <el-button size="mini" @click="setUserClick(scope.row)">编辑</el-button>
-                                <el-button size="mini" @click="delectTearcher(scope.row.number_id)">删除</el-button>
+                                <el-button size="mini" @click="userDelect(scope.row.number_id,1)">删除</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
                     <div class="kd-page">
                         <el-row>
                             <el-col :span="12">
-                                <el-button type="primary" size="mini" @click="selectStudent">删除</el-button>
+                                <el-button type="primary" size="mini" @click="userDelect">删除</el-button>
                             </el-col>
                             <el-col :span="12">
                                 <el-pagination class="float-right" @size-change="handleSizeChange" @current-change="handleCurrentChange1" :current-page="userList.page" :page-sizes="[userList.curpage]" :page-size="userList.curpage" layout="total, sizes, prev, pager, next, jumper" :total="userList.page_total">
@@ -362,19 +362,24 @@ export default {
             materData: [],
             materHandleID: 0,
             LoadChild: false,
-            value_id: []
+            value_id: [],
+            userArr: []
         }
     },
     created() {
-        // 组织架构管理
-        store.department_list.call(this, this.sdata);
-        this.dataAjax();
-        this.Visible = true;
+
+        this.newAjax()
     },
     components: {
         titleItem, titleActive, description, bottomItem, architectureSet, addSetUser, TreeGrid
     },
     methods: {
+        newAjax() {
+            // 组织架构管理
+            store.department_list.call(this, this.sdata);
+            this.dataAjax();
+            this.Visible = true;
+        },
         emitTransfer(index) {
             if (this.state == index) {
                 return
@@ -386,6 +391,8 @@ export default {
                 store.organize_member_list.call(this)
             } else if (index == 3) {
                 store.position_list.call(this, '', 1)
+            } else if (index == 0) {
+                this.studentRefresh();
             }
 
         },
@@ -413,7 +420,7 @@ export default {
             this.userList.items = []
             store.organize_member_list.call(this)
         },
-        handleCurrentChange(val) { 
+        handleCurrentChange(val) {
             this.obj.curpage = val;
             this.dataAjax();
         },
@@ -452,18 +459,28 @@ export default {
             this.stateObj.one = false;
             this.dataObj = obj;
         },
-        selectStudent(id) {
+        selectStudent(id, state) {
             // 删除 
-            let obj = {
-                ids: JSON.stringify(this.delecetArr)
+            var obj;
+            if (state == 1) {
+                obj = {
+                    ids: JSON.stringify([{
+                        department_id: id.department_id,
+                        teacher_id: id.teacher_id
+                    }])
+                }
+            } else {
+                obj = {
+                    ids: JSON.stringify(this.delecetArr)
+                }
             }
             this.$confirm('此操作为删除, 是否继续?', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
+                console.log(obj)
                 store.department_teacher_delete.call(this, obj)
-
             }).catch(() => {
                 this.$message({
                     type: 'info',
@@ -497,10 +514,6 @@ export default {
                 this.stateObj.one = false;
             }
         },
-        deleteUser(id) {
-            // 部门管理删除
-            store.deleteUser.call(this, id)
-        },
         QUITQROUP(val) {
             // 取消 
             this.state = 1;
@@ -516,12 +529,11 @@ export default {
             this.state = 6;
             this.dataObj = obj;
         },
-        delectTearcher(id) {
+        delectTearcher(id, state) {
             // 删除 老师 职位
-            let obj = {
-                ids: id
-            }
+            if (state != 1) {
 
+            }
             this.$confirm('此操作为删除, 是否继续?', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
@@ -536,6 +548,37 @@ export default {
                 });
             });
 
+        },
+        userSelectEvent(obj) {
+            this.userArr = [];
+            obj.forEach((x) => {
+                this.userArr.push(x.number_id)
+            })
+            console.log(this.userArr)
+        },
+        userDelect(id, state) {
+            let obj;
+            if (state == 1) {
+                obj = {
+                    number_id: id
+                }
+            } else {
+                obj = {
+                    number_id: this.userArr.join(",")
+                }
+            }
+            this.$confirm('此操作为删除, 是否继续?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                store.deleteUser.call(this, obj)
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '已取消删除'
+                });
+            });
         },
         addUserPosition() {
             //添加职位
@@ -609,9 +652,15 @@ export default {
         PositionSelectStudent() {
             //批量删除职位管理
             if (this.positionList.selectArr) {
-
                 this.DeletePositionUser(this.positionList.selectArr)
             }
+        },
+        userAjax() {
+            store.organize_member_list.call(this)
+        },
+        treefan() {
+            this.stateObj.one = true;
+            this.newAjax()
         }
     },
     watch: {

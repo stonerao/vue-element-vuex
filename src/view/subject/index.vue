@@ -12,15 +12,14 @@
                         <div v-if="subject_1">
                             <div class="l_mater_header">
                                 <el-row :gutter="15">
-                                    <el-col :span="6">
+                                    <el-col :span="6" class="class-titles">
                                         <img src="../../assets/index/shuaxin.png" class="icon-img-xs" />刷新-共{{materialParams.total_num}}条记录
                                     </el-col>
-                                    <el-col :span="18" class="mater_search clearfloat" style="margin-bottom: 10px;">
-                                        <el-col :span="5" style="float: right;">
-                                            <el-input placeholder="输入科目名称" v-model="subjectName">
+                                    <el-col :span="18" class="mater_search clearfloat" style="margin-bottom: 10px;"> 
+                                            <el-input placeholder="输入科目名称" v-model="subjectName" class="width200 float-right" style="margin-right:10px">
                                                 <el-button slot="append" icon="search" @click.native="subjectSearch"></el-button>
                                             </el-input>
-                                        </el-col>
+                            
                                     </el-col>
                                 </el-row>
                             </div>
@@ -48,7 +47,7 @@
                                         <div class="kd-page">
                                             <el-row>
                                                 <el-col :span="24">
-                                                    <el-pagination class="float-right" :current-page="materialParams.curpage" :page-sizes="[15, 20, 25, 30]" :page-size="materialParams.page_count" layout="total, sizes, prev, pager, next, jumper" :total="materialParams.total_num" @size-change="handleSizeChange" @current-change="handleCurrentChange">
+                                                    <el-pagination class="float-right" :current-page="materialParams.curpage" :page-sizes="[10]" :page-size="materialParams.page_count" layout="total, sizes, prev, pager, next, jumper" :total="materialParams.total_num" @size-change="handleSizeChange" @current-change="handleCurrentChange">
                                                     </el-pagination>
                                                 </el-col>
                                             </el-row>

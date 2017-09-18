@@ -12,7 +12,7 @@ export default {
     	}
     	let apiUrl = api.subjectList_s;
     	let formData = {
-    		token: toke,
+    		token:  getToken(),
     		s_name: sname,
     		page: obj.curpage,
     		curpage: obj.one_pagenum,
@@ -63,7 +63,7 @@ export default {
     	}
     	let apiUrl = api.subjectListDel_s;
     	let formData = {
-    		token: toke,
+    		token:  getToken(),
     		del_id: id,
     		// s_id: id,
     	}
@@ -100,13 +100,13 @@ export default {
     subjectListAdd_s(obj) {
     	let apiUrl = api.subjectListAdd_s;
     	let formData = {
-    		token: toke,
+    		token:  getToken(),
     		s_name: obj.name
     	}
     	if(this.whetherEdit){ //编辑
     		apiUrl = api.subjectListEdit_s;
 	    	formData = {
-	    		token: toke,
+	    		token:  getToken(),
 	    		s_id: obj.id,
 	    		s_name: obj.name
 	    	}

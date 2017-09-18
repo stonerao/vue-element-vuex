@@ -53,7 +53,7 @@
               <el-col :span="15">
                 <div class="authority_checkbox">
                   <el-checkbox-group v-model="groupCtrList">
-                    <el-checkbox v-for="item in ctrList" :label="item.controller">{{item.name}}</el-checkbox>
+                    <el-checkbox v-for="(item,index) in ctrList" :label="item.controller" :key="index">{{item.name}}</el-checkbox>
                   </el-checkbox-group>
                 </div>
               </el-col>
@@ -83,6 +83,7 @@
         titleItem: [
           { name: "权限组", index: 0 },
           { name: "添加权限组", index: 1 },
+          { name: "权限管理", index: 2 },
         ],
         prompts: [
           `该页面展示管理员的操作日志，可进行删除。`,

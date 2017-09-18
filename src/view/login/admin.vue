@@ -25,7 +25,7 @@
                     <li>
                         <el-checkbox v-model="checked">自动登录</el-checkbox>
                         <span class="float-right">你还没有账号，
-                            <router-link to="" style="color:red">立即入住</router-link>
+                            <a style="color:red" href="http://kdjy.test.kh888.cn/index.php?m=shop&c=school_enter">立即入住</a>
                         </span>
                     </li>
                     <li>
@@ -35,9 +35,7 @@
             </div>
     
         </div>
-         <div class="admin-login-copy">
-            dsadasdasdasdsadas
-        </div> 
+        <l-bottom class="login-r-bottom"></l-bottom>
          
     </div>
 </template>

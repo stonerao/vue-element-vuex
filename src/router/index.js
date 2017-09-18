@@ -102,4 +102,5 @@ export default new Router({
     ...ListTeacher,
   ],
   linkActiveClass: 'active',
+  // mode: 'history',
 })

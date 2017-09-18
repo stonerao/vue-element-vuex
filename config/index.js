@@ -32,6 +32,7 @@ module.exports = {
       '/Admin': 'http://kdxx.test.kh888.cn/',
       '/Student': 'http://kdxx.test.kh888.cn/',
       '/Home': 'http://kdxx.test.kh888.cn/',
+      '/s': 'http://www.baidu.com.cn/',
     },
     // CSS Sourcemaps off by default because relative paths are "buggy"
     // with this option, according to the CSS-Loader README

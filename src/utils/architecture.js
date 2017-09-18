@@ -75,16 +75,29 @@ export default {
             }
         })
     },
-    deleteUser(id) {
+    deleteUser(obj) {
         this.$http({
             method: "post",
             url: api.organize_number_delete,
             data: {
-                number_id: id,
+                number_id: obj.number_id,
                 token: getToken()
             }
         }).then((res) => {
+            if (res.data.code == 'status') {
+                this.$notify({
+                    title: '成功',
+                    message: res.data.data,
+                    type: 'success',
 
+                });
+                this.userAjax();
+            } else {
+                this.$notify({
+                    title: '失败',
+                    message: res.data.data.error,
+                });
+            }
         })
     },
     getPosition() {

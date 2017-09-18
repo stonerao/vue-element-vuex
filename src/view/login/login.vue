@@ -103,17 +103,7 @@ export default {
             color: #20a0ff;
         }
     }
-}
-
-.login-r-bottom {
-    position: absolute;
-    bottom: 20px;
-    text-align: center;
-    color: #666;
-    left: 50%;
-    transform: translteX(-50%)
-}
-
+} 
 .r-login-switch {
     overflow: hidden;
 }

@@ -219,8 +219,7 @@ export default {
             obj.number_id = id;
             store.setTeacher.call(this, obj)
         },
-        quitTeacherSet(num) {
-            alert(1)
+        quitTeacherSet(num) { 
             this.state = num;
         }
     }

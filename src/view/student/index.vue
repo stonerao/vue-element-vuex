@@ -200,7 +200,7 @@ export default {
         return {
             titleItem: [
                 { name: "在校学生", index: 0 },
-                // { name: "虚拟班", index: 1 },
+                { name: "虚拟班", index: 1 },
                 { name: "离校学生", index: 2 },
                 { name: "档案查询", index: 3 },
             ],
