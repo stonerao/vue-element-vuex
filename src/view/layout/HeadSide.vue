@@ -94,7 +94,7 @@ export default {
     methods: {
         quit() {
             //推出登陆
-            store.quitLogin.call(this)
+            store.quitLogin.call(this,this.isClassLogin)
         }
     }
 }

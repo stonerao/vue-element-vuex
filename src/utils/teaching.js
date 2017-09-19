@@ -122,5 +122,15 @@ export default {
             }
         })
     },
-    
+    teaching_interface(){
+        this.$http(api.teaching_interface,{
+            params:{
+                token:getToken(), 
+                page:'',
+                curpage:'',
+                tc_id:'',
+                paper_name:'',
+            }
+        })
+    }
 }

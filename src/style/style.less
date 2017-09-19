@@ -1083,6 +1083,18 @@ body,
             }
         }
     }
+    .WordSection1{
+        background:#fff; 
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);position: absolute;
+        width: 1200px;
+        height:90%;
+        min-height:500px;
+        overflow:auto;
+        padding:20px;
+        border-radius:10px;
+    }
     .r-alert-content {
         width: 1200px;
         position: absolute;
@@ -1427,6 +1439,7 @@ body,
             line-height: 43px;
             height: 43px;
             color: #fff;
+            border-right: 1px solid #ededed;
         }
     }
     tbody {
@@ -1442,6 +1455,23 @@ body,
                     top: 12px;
                 }
             }
+        }
+    }
+    .r-index-ke-title {
+        position: relative;
+        overflow: hidden;
+        >span {
+            position: absolute;
+            height: 20px;
+            line-height: 20px
+        }
+        .r-index-ke-time {
+            left: 10px;
+            bottom: 5px;
+        }
+        .r-index-ke-day {
+            right: 10px;
+            top: 5px;
         }
     }
 }

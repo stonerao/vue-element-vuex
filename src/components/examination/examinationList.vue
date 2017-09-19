@@ -34,8 +34,8 @@
         </el-table>
         <el-row style="margin-top:10px">
             <el-col :span="12">
-                <el-button size="mini" type="primary" @click="deleteData">删除</el-button>
-
+                <!-- <el-button size="mini" type="primary" @click="deleteData">删除</el-button> -->
+                &nbsp;
             </el-col>
             <el-col :span="12">
                 <el-pagination class="float-right" @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="page" :page-sizes="[curpage]" :page-size="curpage" layout="total, sizes, prev, pager, next, jumper" :total="page_total">
@@ -58,7 +58,7 @@ export default {
             },
             t_data: [],
             page_total: 0,
-            selectArr:[]
+            selectArr: []
         }
     },
     methods: {
@@ -70,29 +70,41 @@ export default {
             this.ajax()
         },
         ajax() {
-            this.t_data=[]
+            this.t_data = []
             store.examList.call(this);
         },
         selectOption(obj) {
             // 选择tab 
-            console.log(obj)
-            obj.forEach((x)=>{
+            this.selectArr = [];
+            obj.forEach((x) => {
                 this.selectArr.push(x.e_id);
             })
         },
-        deleteData(id) {
+        // deleteData(id) {
+        //     console.log(this.selectArr)
+        //     this.$confirm('此操作将永久删除, 是否继续?', '提示', {
+        //         confirmButtonText: '确定',
+        //         cancelButtonText: '取消',
+        //         type: 'warning'
+        //     }).then(() => {
 
-        },
+        //     }).catch(() => {
+        //         this.$message({
+        //             type: 'info',
+        //             message: '已取消删除'
+        //         });
+        //     });
+        // },
         setQues(obj) {
             // 编辑
-            this.$emit("setQuestion",obj)
+            this.$emit("setQuestion", obj)
         },
         handleSizeChange() {
 
         },
         handleCurrentChange(val) {
-            this.page=val;
-             this.ajax()
+            this.page = val;
+            this.ajax()
         }
     },
     created() {

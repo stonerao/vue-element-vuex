@@ -97,4 +97,11 @@ export const api = {
     techaerclass_info:"Teacher/index/class_info",//老师中心主页列表   
     studentclass_info:"Student/SchoolStudent/class_info",//学生中心主页列表  
     studentIndexHome:"Student/SchoolStudent/index",//学生中心主页数据 
+    lock_setting:"Admin/Lock/lock_setting",//锁屏设置 
+    school_questionlist:"Teacher/Examinationcenter/school_questionlist",//共享题库列表
+    school_deletequestion:"Teacher/Examinationcenter/school_deletequestion",//删除题库列表
+    school_download:"Teacher/Examinationcenter/school_download",//下载学校
+    send_znotice:"Teacher/Examinationcenter/send_znotice",//老师发布通知接口
+    student_teaching_list:"Student/SchoolStudent/student_teaching_list",//学生-个人书架列表
+    teaching_interface:"Student/SchoolStudent/teaching_interface",//教材列表
 }

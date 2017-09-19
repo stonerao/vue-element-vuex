@@ -1,6 +1,7 @@
 <template>
-    <div class="r-alert" id="question">
-        <div class=WordSection1>
+    <div class="r-alert" id="question" @click="allOVer">
+        <div class='WordSection1'>
+            <i class="float-right r-over" @click="over"></i>
             <p class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;line-height:19.5pt;border:none;mso-border-bottom-alt:solid #EDEDED 1.5pt; padding:0cm;mso-padding-alt:0cm 0cm 11.0pt 0cm'>
                 <span style='font-size:16.5pt;color:#019CFF'>试卷名称：{{this.obj.t_title}}
                     <span lang=EN-US>
@@ -54,60 +55,60 @@
         </div>
 
         <!-- <div class="r-alert-quesbox">
-                        <div class="r-alert-title">
-                            试题预览
-                            <a download="htmlText" id="down" v-show="false">下载</a>
-                            <i class="float-right r-over" @click="over"></i>
-                        </div>
-                        <div class="r-alert-quesCent">
-                            <ul v-for="(item,index) in t_data" :key="index" style="margin-top:20px;border-bottom:2px solid #ededed;padding-bottom: 15px;list-style: none; ">
-                                <li>
-                                    <div class="r-quesq-tittle">
-                                        试题类型：
-                                    </div>
-                                    <div class="r-quesq-box">
-                                        {{item.q_type_id=='1'?'单选题':item.q_type_id=='2'?'多选题':item.q_type_id=='3'?'判断题':item.q_type_id=='4'?'填空':item.q_type_id=='5'?'问题':item.q_type_id=='6'?'计算题':''}}
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="r-quesq-tittle">
-                                        试题答案：
-                                    </div>
-                                    <div class="r-quesq-box">
-                                        {{item.answer}}
-                                    </div>
-                                </li>
-                                <li class="back-hui r-margin-re">
-                                    <div class="r-quesq-tittle">
-                                        试题题干：
-                                    </div>
-                                    <div class="r-quesq-box" v-html="item.q_title">
-                                    </div>
-                                </li>
-                                <li class="r-margin-re" v-if="item.q_option">
-                                    <div class="r-quesq-tittle">
-                                        选项：
-                                    </div>
-                                    <div class="r-quesq-box">
-                                        <div v-for="(i,x) in item.q_option" :key="x">
-                                            {{A_Z[x]}} : {{i.title}}
+                            <div class="r-alert-title">
+                                试题预览
+                                <a download="htmlText" id="down" v-show="false">下载</a>
+                                <i class="float-right r-over" @click="over"></i>
+                            </div>
+                            <div class="r-alert-quesCent">
+                                <ul v-for="(item,index) in t_data" :key="index" style="margin-top:20px;border-bottom:2px solid #ededed;padding-bottom: 15px;list-style: none; ">
+                                    <li>
+                                        <div class="r-quesq-tittle">
+                                            试题类型：
                                         </div>
-                                    </div>
-                                </li>
-                                <li class="r-margin-re">
-                                    <div class="r-quesq-tittle">
-                                        试题答案：
-                                    </div>
-                                    <div class="r-quesq-box" v-if="item.q_type_id!=3">
-                                        {{item.answer}}
-                                    </div>
-                                    <div class="r-quesq-box" v-else>
-                                        {{item.answer=='1'?'正确':'错误'}}
-                                    </div>
-                                </li>
+                                        <div class="r-quesq-box">
+                                            {{item.q_type_id=='1'?'单选题':item.q_type_id=='2'?'多选题':item.q_type_id=='3'?'判断题':item.q_type_id=='4'?'填空':item.q_type_id=='5'?'问题':item.q_type_id=='6'?'计算题':''}}
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="r-quesq-tittle">
+                                            试题答案：
+                                        </div>
+                                        <div class="r-quesq-box">
+                                            {{item.answer}}
+                                        </div>
+                                    </li>
+                                    <li class="back-hui r-margin-re">
+                                        <div class="r-quesq-tittle">
+                                            试题题干：
+                                        </div>
+                                        <div class="r-quesq-box" v-html="item.q_title">
+                                        </div>
+                                    </li>
+                                    <li class="r-margin-re" v-if="item.q_option">
+                                        <div class="r-quesq-tittle">
+                                            选项：
+                                        </div>
+                                        <div class="r-quesq-box">
+                                            <div v-for="(i,x) in item.q_option" :key="x">
+                                                {{A_Z[x]}} : {{i.title}}
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="r-margin-re">
+                                        <div class="r-quesq-tittle">
+                                            试题答案：
+                                        </div>
+                                        <div class="r-quesq-box" v-if="item.q_type_id!=3">
+                                            {{item.answer}}
+                                        </div>
+                                        <div class="r-quesq-box" v-else>
+                                            {{item.answer=='1'?'正确':'错误'}}
+                                        </div>
+                                    </li>
 
-                            </ul>
-                        </div> -->
+                                </ul>
+                            </div> -->
     </div>
     </div>
 </template>
@@ -125,8 +126,13 @@ export default {
         }
     },
     methods: {
-        over() {
-            this.$emit('CLICKOVER', false)
+        over(val) {
+            this.$emit('CLICKOVER', false) 
+        },
+        allOVer(val) {
+            if (val.target.id == 'question') {
+                this.$emit('CLICKOVER', false)
+            }
         },
         yl() {
 

@@ -1,32 +1,35 @@
 import { api } from '@/api/login'
 import { getToken } from '@/utils/auth'
-import { removeToken } from '@/utils/auth'
+import { quitRemoveAll } from '@/utils/auth'
 const key = getToken()
 export default {
-    quitLogin() {
+    quitLogin(state) { 
         this.$http(api.quitLogin, {
             params: {
                 token: getToken()
             }
         }).then((res) => {
-            removeToken();
-
+            quitRemoveAll()
             if (res.data.status == 'true') {
-                this.$router.push({ path: "/login" })
+                if (state == '1') { 
+                    this.$router.push({ path: "/admin" })
+                } else {
+                    this.$router.push({ path: "/login" })
+                }
             }
         })
     },
-    bottom() { 
+    bottom() {
         this.$http({
             method: "get",
             url: 'Admin/Footer/footer_index',
-            params:{
+            params: {
                 token: getToken()
             }
         }).then((res) => {
-           
-                this.txt = res.data.datas;
-          
+
+            this.txt = res.data.datas;
+
         })
     }
 }

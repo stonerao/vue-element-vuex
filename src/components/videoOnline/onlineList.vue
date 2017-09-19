@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-row class="class-header">
-      <el-col :span="4" class="class-titles">
+      <el-col :span="3" class="class-titles">
         <img src="../../assets/index/shuaxin.png" class="icon-img-xs cursor"  @click="resh"/>刷新-共{{total}}条记录
       </el-col>
       <el-col :span="8">
@@ -27,7 +27,7 @@
           <p>{{scope.row.live_etime}}</p>
         </template>
       </el-table-column>
-      <el-table-column prop="channelId" label="房间" width="80" show-overflow-tooltip></el-table-column>
+      <el-table-column prop="channelid" label="房间" width="80" show-overflow-tooltip></el-table-column>
       <el-table-column prop="creater_name" label="创建人" width="80" show-overflow-tooltip></el-table-column>
       <el-table-column label="状态" width="100">
         <template scope="scope">

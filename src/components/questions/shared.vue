@@ -1,0 +1,134 @@
+<template>
+    <div class="r-notice">
+        <el-row>
+            <el-col :span='15'>
+                <span class="line-height-36">
+                    <img src="../../assets/index/shuaxin.png" class="icon-img-xs marginleft5" @click="dataAjax" />刷新-共{{page_total}}条记录
+                </span>
+            </el-col>
+            <el-col :span="9">
+                <div class="float-right">
+                    <el-input placeholder="请输入试卷名称" icon="search" v-model="seach" :on-icon-click="dataAjax" class="width150">
+                    </el-input>
+                </div>
+            </el-col>
+        </el-row>
+        <el-table ref="multipleTable" :data="t_data" tooltip-effect="dark" style="width: 100%" @selection-change="selectOption">
+            <el-table-column type="selection" width="55">
+            </el-table-column>
+            <el-table-column label="id" width="80" show-overflow-tooltip>
+                <template scope="scope">{{ scope.row.q_id }}</template>
+            </el-table-column>
+            <el-table-column prop="q_title" label="题干" show-overflow-tooltip>
+            </el-table-column>
+            <el-table-column label="试题类型" width="120" show-overflow-tooltip>
+                <template scope="scope">
+                    <span class="index-color">{{scope.row.type_name}}</span>
+                </template>
+            </el-table-column>
+            <el-table-column prop="q_add_time" width="180" label="创建时间" show-overflow-tooltip>
+            </el-table-column>
+            <el-table-column width="120" label="是否共享" show-overflow-tooltip>
+                <template scope="scope">
+                </template>
+            </el-table-column>
+            <el-table-column width="180" label="操作" show-overflow-tooltip v-if="stateList!=1">
+                <template scope="scope">
+                    <el-button size="mini">删除</el-button>
+                    <el-button size="mini">下载</el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+        <el-row style="margin-top:10px">
+            <el-col :span="12">
+                <el-button size="mini" type="primary" @click="deleteData">删除</el-button>
+                <el-button size="mini" type="primary" @click="download" class="marginleft20">下载</el-button>
+            </el-col>
+            <el-col :span="12">
+                <el-pagination class="float-right" @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="page" :page-sizes="[curpage]" :page-size="curpage" layout="total, sizes, prev, pager, next, jumper" :total="page_total">
+                </el-pagination>
+            </el-col>
+        </el-row>
+    </div>
+</template>
+
+<script> 
+import store from '@/utils/questions'
+export default {
+    props: ['stateList', 'listSelectObj'],
+    data() {
+        return {
+            t_data: [],
+            seach: '',
+            page: 1,//当前页数
+            curpage: 10,//每页条数 
+            page_total: 20,//总个数
+            deletArr: [],//删除id 
+        }
+    },
+    methods: {
+        selectOption(obj) {
+            this.deletArr = [];
+            obj.forEach((x) => {
+                this.deletArr.push(x.q_id)
+            })
+        },
+        seachClick() {
+
+        },
+        handleSizeChange(val) {
+
+        },
+        handleCurrentChange(val) {
+            this.page = val;
+            this.dataAjax()
+        },
+        dataAjax() {
+            this.t_data= [];
+            store.school_questionlist.call(this);
+        },
+        deleteData(id, status) {
+            // 删除
+            this.$confirm('此操作将永久删除, 是否继续?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                store.school_deletequestion.call(this)
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '已取消删除'
+                });
+            });
+
+        },
+        download( ) {
+            // 删除
+            this.$confirm('是否批量下载题库?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                store.school_download.call(this)
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '已取消删除'
+                });
+            });
+
+        },
+
+    },
+    created() {
+        this.dataAjax()
+    },
+    components: {
+    }
+}
+</script>
+
+<style>
+
+</style>

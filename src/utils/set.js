@@ -74,5 +74,28 @@ export default {
             }
         })
     },
+    lock_setting() {　
+        this.$http({
+            method: 'post',
+            data: {
+                token: getToken(), 
+                lock_status:this.locak?'1':'2'
+            },
+            url: api.lock_setting
+        }).then((res) => {
+            if (res.data.code == 200) {
+                this.$notify({
+                    title: '成功',
+                    message: res.data.data,
+                    type: 'success'
+                });
+            } else {
+                this.$notify.error({
+                    title: '错误',
+                    message: res.data.data.error
+                });
+            }
+        })
+    },
 
 }

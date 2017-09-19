@@ -8,6 +8,7 @@
             <div class="kd-box-content">　
                 <check  v-if="state==0"></check>
                 <mobile  v-if="state==1"></mobile>
+                <l-screen  v-if="state==2"></l-screen>
                 <bottomItem></bottomItem>
             </div>
         </div>
@@ -21,6 +22,7 @@ import description from '@/components/main/description.vue'
 import bottomItem from '@/components/bottom/bottom.vue'
 import check from '@/components/set/check'
 import mobile from '@/components/set/mobile'
+import screen from '@/components/set/screen'
 import '@/utils/start'
 export default {
     data() {
@@ -28,6 +30,7 @@ export default {
             titleItem: [
                 { name: "签到设置", index: 0 },
                 { name: "短信设置", index: 1 },
+                { name: "锁屏设置", index: 2 },
             ],
             prompts: [
                 `该页面展示管理员的操作日志，可进行删除。`,
@@ -40,7 +43,7 @@ export default {
     created() {
     },
     components: {
-        titleItem, titleActive, description,bottomItem,check,mobile
+        titleItem, titleActive, description,bottomItem,check,mobile,'l-screen':screen
     },
     methods: {
         emitTransfer(index) {

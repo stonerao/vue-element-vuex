@@ -43,7 +43,7 @@ export default {
         })
     },
     AdminNotice_list() {
-        const state = isClassLogin(); 
+        const state = isClassLogin();
         let url;
         console.log(state)
         if (state == 1) {
@@ -53,13 +53,13 @@ export default {
         } else if (state == 3) {
             url = api.student_notice_list;
         }
-        
+
         this.$http(url, {
             params: {
-                token:getToken(),
-                curpage:this.curpage,
-                keywords:this.seach,
-                page:this.page
+                token: getToken(),
+                curpage: this.curpage,
+                keywords: this.seach,
+                page: this.page
             }
         }).then((res) => {
             if (res.data.code == 200) {
@@ -67,6 +67,47 @@ export default {
                 this.page_total = parseInt(res.data.page_total);
             } else {
 
+            }
+        })
+    },
+    Teacherclass_list() {
+        this.$http({
+            method: "post",
+            data: {
+                token: getToken(), 
+            },
+            url:api.Teacherclass_list
+        }).then((res)=>{
+            if(res.data.code==200){
+                this.t_data = res.data.data
+            }
+        }) 
+    },
+    send_znotice(){
+        this.$http({
+            method:"post",
+            data:{
+                token:getToken(),
+                zn_title:this.form.title,
+                zn_desc:this.textF,
+                zn_receive:this.ids.join(",")
+            },
+            url:api.send_znotice
+        }).then((res)=>{
+            if (res.data.code == 200) {
+                this.$notify({
+                    title: '成功',
+                    message: res.data.data,
+                    type: 'success'
+                });
+                this.form.title = '';
+                this.textF = '';
+                this.ids = [];
+            } else {
+                this.$notify.error({
+                    title: '错误',
+                    message: res.data.data.error
+                });
             }
         })
     }

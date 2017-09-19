@@ -40,7 +40,7 @@
                             </router-link>
                         </el-col>
                         <el-col :span="8">
-                            <router-link to="" class="kd-index-item kd-xt-sp">
+                            <router-link to=" " class="kd-index-item kd-xt-sp">
                                 <div class="kd-index-item-title">
                                     <div>
                                         <span class="font-lg">50</span>个</div>
@@ -87,9 +87,9 @@
                 <table style="width:100%" class="r-index-ke">
                     <thead>
                         <tr>
-                            <th>
-                                <span>时间</span>
-                                <span>日期</span>
+                            <th class="r-index-ke-title">
+                                <span class="r-index-ke-time">时间</span>
+                                <span class="r-index-ke-day">日期</span>
                             </th>
                             <th style="width:12.5%" v-for="index in 7" :key="index">
                                 {{days[index-1]}}

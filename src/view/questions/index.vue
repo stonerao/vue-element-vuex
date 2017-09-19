@@ -21,6 +21,10 @@
                 <div v-if="state==3">
                     <list_class @setInfo='setInfo'></list_class>
                 </div>
+                <div v-if="state==4">
+                    <shared></shared>
+                </div>
+                
             </div>
             <bottomItem></bottomItem>
         </div>
@@ -36,6 +40,7 @@ import setQuestion from '@/components/questions/questionList'
 import addQuestion from '@/components/questions/addQuestion'
 import question_class from '@/components/questions/question_class'
 import list_class from '@/components/questions/list_class'
+import shared from '@/components/questions/shared'
 export default {
     data() {
         return {
@@ -44,6 +49,7 @@ export default {
                 { name: "增加试题", index: 1 },
                 { name: "添加/编辑分类", index: 2 },
                 { name: "分类列表", index: 3 },
+                { name: "学校共享题库", index: 4 },
             ],
             prompts: [
                 `该页面展示管理员的操作日志，可进行删除。`,
@@ -52,24 +58,24 @@ export default {
             state: 0,
             setQuestionObj: {},
             isSetQues: false,
-            list_obj: {}
+            list_obj: {},
         }
     },
     created() {
     },
     components: {
         titleItem, titleActive, description, bottomItem, setQuestion, addQuestion,
-        question_class, list_class
+        question_class, list_class,shared
     },
     methods: {
         emitTransfer(index) {
             if (this.state == index) {
                 return
-            }
-
+            } 
             this.setQuestionObj = null;
             this.isSetQues = false;
             this.state = index;
+            this.titleItem[1].name="增加试题";
         },
         promptsTem(status) {
             console.log(status)

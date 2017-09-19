@@ -27,18 +27,18 @@
                     <el-table ref="multipleTable" :data="conferManaList" tooltip-effect="dark" style="width: 100%" @selection-change="select_Change">
                         <el-table-column type="selection" width="48" v-if="schoolManageCenter"></el-table-column>
                         <el-table-column label="ID" prop="id"  width="60"></el-table-column>
-                        <el-table-column label="会议主题" prop="theme"></el-table-column>
-                        <el-table-column label="会议时间">
+                        <el-table-column label="会议主题" prop="theme" width="160" show-overflow-tooltip></el-table-column>
+                        <el-table-column label="会议时间" width="160" show-overflow-tooltip>
                              <template scope="scope">
                                  <div>{{scope.row.time_s}}</div>
                                  <div>{{scope.row.time_e}}</div>
                              </template>
                         </el-table-column>
-                        <el-table-column label="创建时间" prop="creTime"></el-table-column>
-                        <el-table-column label="创始人" prop="people"></el-table-column>
-                        <el-table-column label="操作">
+                        <el-table-column label="创建时间" prop="creTime"  width="160" show-overflow-tooltip></el-table-column>
+                        <el-table-column label="创始人" prop="people"  width="160" show-overflow-tooltip></el-table-column>
+                        <el-table-column label="操作" >
                             <template scope="scope">
-                                <el-button type="primary" size="mini" icon="view" @click.native="look_over(scope.row.id)" style="margin-left: 0px;margin: 3px 0px">查看</el-button>
+                                <el-button type="primary" size="mini" icon="view" @click.native="look_over(scope.row.id,scope.row.channelid)" style="margin-left: 0px;margin: 3px 0px">查看</el-button>
                                 <el-button type="primary" size="mini" icon="edit" @click.native="editConfer(scope.row.id)" style="margin-left: 0px;margin: 3px 0px" v-if="schoolManageCenter">编辑</el-button>
                                 <el-button type="primary" size="mini" icon="edit" @click.native="beginConfer(scope.row.id)" style="margin-left: 0px;margin: 3px 0px" v-if="scope.row.status == 1 && schoolManageCenter">开始</el-button>
                                 <el-button type="primary" size="mini" icon="edit" @click.native="endConfer(scope.row.channelId)" style="margin-left: 0px;margin: 3px 0px" v-if="scope.row.status == 2 && schoolManageCenter">结束</el-button>
@@ -234,7 +234,7 @@ export default {
         select_Change(val){  //表格选择事件
             this.multiple = val;
         },
-        look_over(id){
+        look_over(id,c_id){
             this.confDetail = {
                 name: '',
                 time_s: '',

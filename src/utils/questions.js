@@ -599,5 +599,70 @@ export default {
             }
         })
     },
+    school_questionlist() {
+        this.$http(api.school_questionlist, {
+            params: {
+                token: getToken(),
+                curpage: this.curpage,
+                page: this.page,
+                q_title: this.seach
+            }
+        }).then((res) => {
+            if (res.data.code == 200) {
+                this.t_data = res.data.data;
+                this.page_total = parseInt(res.data.page_total);
+            }
+        })
+    },
+    school_deletequestion() {
+        this.$http({
+            method: 'post',
+            data: {
+                token: getToken(),
+                del_id: this.deletArr.join(",")
+            },
+            url: api.school_deletequestion
+        }).then((res) => {
+            if (res.data.code == 200) {
+                this.$notify({
+                    title: '成功',
+                    message: res.data.data,
+                    type: 'success'
+                });
+                this.dataAjax();
+            } else {
+                this.$notify({
+                    title: '警告',
+                    message: res.data.data.error,
+                    type: 'warning'
+                });
+            }
+        })
+    },
+    school_download() {
+        this.$http({
+            method: "post",
+            data: {
+                token: getToken(),
+                q_id: this.deletArr.join(",")
+            },
+            url: api.school_download
+        }).then((res) => {
+            if (res.data.code == 200) {
+                this.$notify({
+                    title: '成功',
+                    message: res.data.data,
+                    type: 'success'
+                });
+                this.dataAjax();
+            } else {
+                this.$notify({
+                    title: '警告',
+                    message: res.data.data.error,
+                    type: 'warning'
+                });
+            }
+        })
+    }
 
 }

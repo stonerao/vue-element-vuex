@@ -2,7 +2,7 @@
     <div class="kd-app-main">
         <titleItem :titleText="$route.name.substring(1)"></titleItem>
         <div class="kd-box">
-            <div class="kd-app-box" v-if="isClassls==1">
+            <div class="kd-app-box" v-if="isClassls==1||isClassls==2">
                 <titleActive :titles="titleItem" @Transfer="emitTransfer" :state="state"></titleActive>
             </div>
             <div class="kd-box-content">
@@ -12,7 +12,8 @@
                     <notice :state='isClassls'></notice>
                 </div>
                 <div  v-if="state==1">
-                    <release></release>
+                    <release v-if="isClassls==1"></release>
+                    <release1 v-if="isClassls==2"></release1>
                 </div>
             </div>
             <bottomItem></bottomItem>
@@ -27,6 +28,7 @@ import description from '@/components/main/description.vue'
 import bottomItem from '@/components/bottom/bottom.vue'
 import notice from '@/components/notice/index'
 import release from '@/components/notice/release'
+import release1 from '@/components/notice/release1'
 import { isClassLogin } from '@/utils/auth'
 export default {
     data() {
@@ -49,7 +51,7 @@ export default {
          
     },
     components: {
-        titleItem, titleActive, description, bottomItem, notice,release
+        titleItem, titleActive, description, bottomItem, notice,release,release1
     },
     methods: {
         emitTransfer(index) {

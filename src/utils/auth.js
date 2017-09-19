@@ -38,19 +38,31 @@ export function isClassLogin(state) {
 export function getClass() {
   return Cookies.get(classLogin)
 }
+export function removeClass() {
+  return Cookies.remove(classLogin)
+}
+export function removeIslogin() {
+  return Cookies.remove('ISLOGIN')
+}
+export function quitRemoveAll() {
+  Cookies.remove('ISLOGIN');
+  Cookies.remove(classLogin);
+  Cookies.remove(TokenKey); 
+  return true;
+}
 export function selectedQuestionList(obj) {
   if (typeof obj != 'object') { return }
-  let data = []; 
+  let data = [];
   if (getSelectedQuestionList()) {
     data = getSelectedQuestionList().split(",");
-    obj.forEach((x,index)=>{ 
-      if(data.indexOf(x)==-1){ 
-        data.push(x); 
-      } 
+    obj.forEach((x, index) => {
+      if (data.indexOf(x) == -1) {
+        data.push(x);
+      }
     })
   } else {
     data = [...obj]
-  } 
+  }
   Cookies.set('selectedQuestionList', data.join(","))
 }
 export function getSelectedQuestionList(obj) {
@@ -59,12 +71,12 @@ export function getSelectedQuestionList(obj) {
 export function removeSelectQuestion() {
   return Cookies.remove('selectedQuestionList')
 }
-export function setCookie(name,data){
+export function setCookie(name, data) {
   return Cookies.set(name, data)
 }
-export function getCookie(name){
+export function getCookie(name) {
   return Cookies.get(name)
 }
-export function removeCookie(name){
+export function removeCookie(name) {
   return Cookies.remove(name)
 }
