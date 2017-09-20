@@ -279,6 +279,7 @@ export default {
             materHandleID: 0,
             LoadChild: false,
             Typelist: [],
+            school_teacher: false,
 	    }
 	},
     created() {
@@ -296,6 +297,7 @@ export default {
         }else if(this.isClassLogin == 1){
             if(this.state == 0){  //素材分类---学校中心
                 this.MATERIALCLASSIFY = true;
+                this.school_teacher = true;
                 info.materType.call(this,this.materHandleID);
             }
         }
@@ -325,8 +327,9 @@ export default {
             this.state = index;
             if(this.isClassLogin == 1){
                 if(this.state == 1){  //素材管理
-                    info.materManaList_s.call(this,this.materialParams,this.lastId,this.searchlist.inputData);
+                    info.materManaList_s.call(this,this.materialParams,this.lastId,this.searchlist.inputData,this.searchlist.materType);
                     info.materManaType1_s.call(this,this.firstSelect);
+                    info.Teacher_type.call(this);
                 }
             }
         },

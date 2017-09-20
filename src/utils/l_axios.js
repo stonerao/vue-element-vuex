@@ -3163,7 +3163,11 @@ export default {
 
         //老师中心---素材TYPE
         Teacher_type() {
-            this.$http(api.teacher_type, {
+            let apiUrl = api.teacher_type;
+            if(this.school_teacher){
+                apiUrl = api.school_type;
+            }
+            this.$http(apiUrl, {
                 params: {
                     token: getToken(),
                 }

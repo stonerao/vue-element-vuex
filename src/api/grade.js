@@ -66,6 +66,7 @@ export const api = {
     materTypeEdit_del:'Admin/Material/material_category_del',   //素材库-素材分类---删除
     materTypeEdit_show:'Admin/Material/material_category_update_status',   //素材库-素材分类---编辑是否显示
     teacher_type:'Teacher/Material/get_material_type',   //老师中心type类型
+    school_type:'Admin/Material/get_material_type',   //学校中心type类型
     conferMeetList_s:'Admin/Meeting/meeting_list',   //会议管理列表（学校）
     conferMeetList_t:'Teacher/Meeting/meeting_list',   //会议管理列表（老师）
     conferMeetdel_s:'Admin/Meeting/meeting_del',   //会议管理--删除（学校）
