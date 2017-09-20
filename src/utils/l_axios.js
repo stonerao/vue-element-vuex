@@ -2431,6 +2431,7 @@ export default {
                                 name: _detail.title,
                                 time: _detail.add_time,
                                 detail: _detail.content,
+                                url: _detail.file_url
                             };
                             if(_detail.is_share == 1){
                                 this.merDetail.share = '是';
@@ -3107,6 +3108,7 @@ export default {
                             name: _detail.title,
                             time: _detail.add_time,
                             detail: _detail.content,
+                            url: _detail.file_url
                         };
                         if(_detail.is_share == 1){
                             this.merDetail.share = '是';

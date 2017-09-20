@@ -71,8 +71,8 @@
             </el-row>
         </div>
         <div class="myDialog" v-if="Dailog">
-            <div class="ownDailog" @click="Close_mask">
-                <div class="close_btn">
+            <div class="ownDailog">
+                <div class="close_btn" style="cursor: pointer" @click="Close_mask">
                     <i class="el-icon-close"></i>
                 </div>
                 <div class="content">
@@ -92,6 +92,10 @@
                         <el-row>
                             <el-col :span="4" style="text-align: left;text-align-last: auto">素材描述：</el-col>
                             <el-col :span="20" style="line-height: 23px;">{{merDetail.detail}}</el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="4" style="text-align: left;text-align-last: auto">素材下载：</el-col>
+                            <el-col :span="20" style="line-height: 23px;"><a :href="merDetail.url" :download="merDetail.name" style="color:rgb(19, 206, 102);cursor: pointer" @click="downloadB">点击下载</a></el-col>
                         </el-row>
                     </div>
                 </div>
@@ -155,6 +159,7 @@ export default {
                 time: '',
                 share: '',
                 detail: '',
+                url: '',
             },
             mertailDetail: false,
             commonMaterial: true,
@@ -173,6 +178,11 @@ export default {
         
     },
     methods: {
+        downloadB(){ //点击后关闭下载
+            setTimeout((x)=> {
+                this.Close_mask();
+            },1000)
+        },
         handleSizeChange(val) {
             this.materialParams.one_pagenum = val;
             info.materManaList_s.call(this,this.materialParams,this.lastId,this.searchlist.inputData);
@@ -203,6 +213,7 @@ export default {
                 time: '',
                 share: '',
                 detail: '',
+                url: '',
             }
         }
     },

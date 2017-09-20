@@ -117,8 +117,8 @@
                                 </el-row>
                             </div>
                             <div class="myDialog" v-if="Dailog">
-                                <div class="ownDailog" @click="Close_mask">
-                                    <div class="close_btn">
+                                <div class="ownDailog">
+                                    <div class="close_btn" style="cursor: pointer" @click="Close_mask">
                                         <i class="el-icon-close"></i>
                                     </div>
                                     <div class="content">
@@ -138,6 +138,10 @@
                                             <el-row>
                                                 <el-col :span="4" style="text-align: left;text-align-last: auto">素材描述：</el-col>
                                                 <el-col :span="20" style="line-height: 23px;">{{merDetail.detail}}</el-col>
+                                            </el-row>
+                                            <el-row>
+                                                <el-col :span="4" style="text-align: left;text-align-last: auto">素材下载：</el-col>
+                                                <el-col :span="20" style="line-height: 23px;"><a :href="merDetail.url" :download="merDetail.name" style="color:rgb(19, 206, 102);cursor: pointer" @click="downloadA">点击下载</a></el-col>
                                             </el-row>
                                         </div>
                                     </div>
@@ -240,6 +244,7 @@ export default {
                 time: '',
                 share: '',
                 detail: '',
+                url: '',
             },
             mertailDetail: false,
             MATERIALCLASSIFY: false,  //素材分类身份证
@@ -293,6 +298,11 @@ export default {
         titleItem, titleActive, description, bottomItem, createMaterial, commonMaterial, classifyMaterial, TreeGrid
     },
     methods: {
+        downloadA(){ //点击后关闭下载
+            setTimeout((x)=> {
+                this.Close_mask();
+            },1000)
+        },
     	reloadTreeData(){  //删除tree数据后数据重新加载
     		info.materType.call(this,0);
     	},
@@ -373,6 +383,7 @@ export default {
                 time: '',
                 share: '',
                 detail: '',
+                url: '',
             }
         },
         rowClick(data, index, event) {   //素材分类操作开始！
