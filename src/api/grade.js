@@ -87,4 +87,6 @@ export const api = {
     OSS_ID:'/Home/Oss/response',   //OSS签名
     materFileDel:'Home/Oss/del_upload_file',   //素材--上传文件删除
     conferFileDel:'Home/Oss/del_upload_file',   //会议--上传文件删除
+    T_upload_save:'Teacher/Meeting/update_meeting',   //会议--上传文件
+    S_download_list:'Admin/Meeting/get_meeting_file',   //会议--下载附件（学校）
 }

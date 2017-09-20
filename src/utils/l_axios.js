@@ -3432,7 +3432,7 @@ export default {
 
         //上传文件类型
         fileType(type){
-            let _type = ['jpg','bmp','gif','jpg','jpeg','png','word','pdf','ppt','excel','txt','mp4','avi','rmvb','rm','asf','wmv'],
+            let _type = ['jpg','bmp','gif','jpg','jpeg','docx','doc','xlsx','png','word','pdf','ppt','excel','txt','mp4','avi','rmvb','rm','asf','wmv'],
                 _right = 0;
             for(let i=0;i<_type.length;i++){
                 if(_type[i] == type.toLocaleLowerCase()){
@@ -3510,6 +3510,69 @@ export default {
                         });
                     }
                 }else{
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
+        //会议管理-上传（老师中心）
+        T_upload_save(id,bname) {
+            let name = [];
+            if(bname.length == 0){
+                return
+            }
+            bname.forEach((x)=>{
+                name.push(this.dirName + x.name);
+            })
+            this.$http(api.T_upload_save, {
+                params: {
+                    token: getToken(),
+                    id: id,
+                    files_name: name.join(','),
+                }
+            }).then((res) => {
+                if (res.status == 200) {
+                    if(res.data.code!=400){
+                        this.$notify({
+                            message: '上传成功！',
+                            type: 'success',
+                            duration: 1000,
+                            onClose: () => {
+                                this.$emit('Tupback');
+                            }
+                        });
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
+        //会议管理-下载（学校中心）
+        S_download_list(id) {
+            this.$http(api.S_download_list, {
+                params: {
+                    token: getToken(),
+                    id: id,
+                }
+            }).then((res) => {
+                if (res.status == 200) {
+                    if(res.data.code!=400){
+                        this.encloList = res.data.data;
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                    }
+                }else {
                     this.$notify.error({
                         message: res.data.data.error
                     });
