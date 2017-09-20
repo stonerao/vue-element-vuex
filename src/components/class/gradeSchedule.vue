@@ -15,9 +15,9 @@
                     </el-col>
                     <el-col :span="12" class="check_handle">
                         <el-button-group>
-                          <el-button type="primary" icon="plus" size="small" @click="takeover">代课</el-button>
-                          <el-button type="primary" icon="plus" size="small" @click="takestop">停课</el-button>
-                          <el-button type="primary" icon="plus" size="small" @click="adjust">调课</el-button>
+                          <el-button type="primary" icon="plus" size="small" @click="takeover" v-if="!WhetherShowDel">代课</el-button>
+                          <el-button type="primary" icon="plus" size="small" @click="takestop" v-if="!WhetherShowDel">停课</el-button>
+                          <el-button type="primary" icon="plus" size="small" @click="adjust" v-if="!WhetherShowDel">调课</el-button>
                           <el-button type="primary" icon="plus" size="small" @click="delet" v-if="WhetherShowDel">删除</el-button>
                           <el-button type="primary" icon="plus" size="small" @click="edit">编辑</el-button>
                           <el-button type="primary" icon="plus" size="small" @click="back">返回</el-button>
