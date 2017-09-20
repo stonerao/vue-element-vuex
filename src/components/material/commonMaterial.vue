@@ -13,7 +13,7 @@
                     </el-col>
                     <el-col :span="3">
                         <el-select v-model="searchlist.materType" clearable placeholder="素材类型">
-                            <el-option v-for="item in Levelist.materlist" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                            <el-option v-for="item in Typelist" :key="item.type" :label="item.name" :value="item.type"></el-option>
                         </el-select>
                     </el-col>
                     <el-col :span="3">
@@ -167,6 +167,7 @@ export default {
             },
             mertailDetail: false,
             commonMaterial: true,
+            Typelist: [],
         }
     },
     created() {
@@ -175,8 +176,9 @@ export default {
             this.schoolManageCenter = false;
             this.teacherManageCenter = true;
         }
-        info.materManaList_s.call(this,this.materialParams,this.lastId,this.searchlist.inputData);
+        info.materManaList_s.call(this,this.materialParams,this.lastId,this.searchlist.inputData,this.searchlist.materType);
         info.materManaType1_s.call(this,this.firstSelect);
+        info.Teacher_type.call(this);
     },
     components: {
         
@@ -210,7 +212,7 @@ export default {
             }else{
                 this.lastId = this.firstSelect.pid;
             }
-            info.materManaList_s.call(this,this.materialParams,this.lastId,this.searchlist.inputData);
+            info.materManaList_s.call(this,this.materialParams,this.lastId,this.searchlist.inputData,this.searchlist.materType);
         },
         CheckDetail(id){   //查看详情
             this.mertailDetail = true;

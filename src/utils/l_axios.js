@@ -2231,13 +2231,14 @@ export default {
 
 
         //素材库---素材管理-列表
-        materManaList_s(obj, cid, content) {
+        materManaList_s(obj, cid, content, type) {
             let apiUrl = api.materManaList_s;
             let formData = {
                     token: getToken(),
                     page: obj.curpage,
                     pagesize: obj.one_pagenum,
                     cid: cid,
+                    type: type,
                     search: content
                 };
             if(this.isClassLogin == 2){
@@ -3115,6 +3116,29 @@ export default {
                         }else{
                             this.merDetail.share = '否';
                         }
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
+        //老师中心---素材TYPE
+        Teacher_type() {
+            this.$http(api.teacher_type, {
+                params: {
+                    token: getToken(),
+                }
+            }).then((res) => {
+                if (res.status == 200) {
+                    if(res.data.code!=400){
+                        this.Typelist = res.data.data;
                     }else{
                         this.$notify.error({
                             message: res.data.data.error
