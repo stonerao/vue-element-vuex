@@ -3428,7 +3428,7 @@ export default {
 
         //上传文件类型
         fileType(type){
-            let _type = ['jpg','gif','jpg','jpeg','png','word','pdf','ppt','excel','txt','mp4'],
+            let _type = ['jpg','bmp','gif','jpg','jpeg','png','word','pdf','ppt','excel','txt','mp4','avi','rmvb','rm','asf','wmv'],
                 _right = 0;
             for(let i=0;i<_type.length;i++){
                 if(_type[i] == type.toLocaleLowerCase()){
