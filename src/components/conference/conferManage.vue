@@ -146,7 +146,7 @@
                                         <el-col :span="3">附件名称：</el-col>
                                         <el-col :span="21">
                                             <ul class="clearfloat">
-                                                <li class="enclosure" v-for="file in encloList"><i></i><a :href="file.url" :download="file.name">{{file.name}}</a></li>
+                                                <li class="enclosure" v-for="file in encloList"><i></i><a :href="file.url" :download="file.name" style="cursor: pointer;">{{file.name}}</a></li>
                                             </ul>
                                         </el-col>
                                     </el-row>

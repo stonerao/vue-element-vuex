@@ -3526,8 +3526,10 @@ export default {
             bname.forEach((x)=>{
                 name.push(this.dirName + x.name);
             })
-            this.$http(api.T_upload_save, {
-                params: {
+            this.$http({
+                url: api.T_upload_save,
+                method: 'post',
+                data: {
                     token: getToken(),
                     id: id,
                     files_name: name.join(','),
