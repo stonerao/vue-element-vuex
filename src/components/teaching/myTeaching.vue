@@ -37,7 +37,7 @@
             <ul class="r-my-teaching">
                 <router-link tag="li" :to="{path:'../shoping',query:{id:item.paper_id}}" v-for="item in items" :key="item.paper_id">
                     <div class="text-center">
-                        <img src="../../assets/index/fenm.jpg" />
+                        <img :src="item.paper_img" />
                     </div>
                     <div class="text-center r-my-teaching-title">{{item.paper_name}}</div>
                 </router-link>

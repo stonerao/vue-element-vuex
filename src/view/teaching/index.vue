@@ -16,6 +16,10 @@
                     <!--我的书架  -->
                     <spaceBuy></spaceBuy>
                 </div>
+                <div v-if="state==2">
+                    <!--我的教材列表  -->
+                    <teachingList :state="isLoginState"></teachingList>
+                </div>
     
             </div>
             <bottomItem></bottomItem>
@@ -30,17 +34,18 @@ import description from '@/components/main/description.vue'
 import bottomItem from '@/components/bottom/bottom.vue'
 import myTeaching from '@/components/teaching/myTeaching.vue'
 import spaceBuy from '@/components/teaching/spaceBuy.vue'
+import teachingList from '@/components/teaching/teachingList.vue'
 import { isClassLogin } from '@/utils/auth'
 export default {
     data() {
         return {
             titleItem: [
-                { name: "我的书架", index: 0 },
+                { name: "教材列表", index: 0 },
                 { name: "空间购买", index: 1 },
+                { name: "我的书架", index: 2 },
             ],
             prompts: [
-                `历史考试`,
-                `xxxxxxxx`
+                `教材列表`, 
             ],
             state: 0,
             isLoginState:isClassLogin()
@@ -49,7 +54,7 @@ export default {
     created() { 
     },
     components: {
-        titleItem, titleActive, description, bottomItem, myTeaching,spaceBuy
+        titleItem, titleActive, description, bottomItem, myTeaching,spaceBuy,teachingList
     },
     methods: {
         emitTransfer(index) {

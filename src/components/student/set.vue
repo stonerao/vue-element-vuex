@@ -330,10 +330,9 @@ export default {
         //加载省份\
 
         if (this.state == 1) {
-            this.dataObj={}
-        } else if (this.state == 2) {
-            if (this.dataObj) {
-                console.log(this.dataObj)
+            // this.dataObj = {}
+        } else if (this.state == 2) { 
+            if (this.dataObj.st_id) {　
                 let obj = this.obj;
                 let dataObj = this.dataObj;
                 obj.st_id = dataObj.st_id;
