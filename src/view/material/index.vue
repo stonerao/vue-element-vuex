@@ -73,7 +73,7 @@
                                         <template scope="scope">
                                             <div v-if="scope.row.url">
                                                 <!-- <router-link :to="scope.row.url">测试</router-link> -->
-                                                <a :href="scope.row.url" class="encloImg"></a>
+                                                <a :href="scope.row.url" :download='scope.row.name' class="encloImg"></a>
                                             </div>
                                         </template>
                                     </el-table-column>
