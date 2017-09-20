@@ -12,12 +12,12 @@
                         <el-col :span="24" class="class-searchs">
                             <el-form :inline="true" :model="searchInlin" id="search_form1">
                                 <el-form-item label="学期名称：">
-                                    <el-input v-model="searchInlin.name" placeholder="2017-2018学年第一学期"></el-input>
+                                    <el-input v-model="searchInlin.name" placeholder="2017-2018学年第一学期" disabled></el-input>
                                 </el-form-item>
                                 <el-form-item label="课表有效期：">
-                                    <el-date-picker v-model="searchInlin.startTime" type="date" format="yyyy-MM-dd" placeholder="年月日"></el-date-picker>
+                                    <el-date-picker v-model="searchInlin.startTime" type="date" format="yyyy-MM-dd" placeholder="年月日" disabled></el-date-picker>
                                     <span class="middle-pad0">至</span>
-                                    <el-date-picker v-model="searchInlin.endTime" format="yyyy-MM-dd" placeholder="年月日"></el-date-picker>
+                                    <el-date-picker v-model="searchInlin.endTime" format="yyyy-MM-dd" placeholder="年月日" disabled></el-date-picker>
                                 </el-form-item>
                             </el-form>
                         </el-col>
