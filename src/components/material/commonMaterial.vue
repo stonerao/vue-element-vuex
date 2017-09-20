@@ -94,6 +94,10 @@
                             <el-col :span="20" style="line-height: 23px;">{{merDetail.detail}}</el-col>
                         </el-row>
                         <el-row>
+                            <el-col :span="4" style="text-align: left;text-align-last: auto">查看素材：</el-col>
+                            <el-col :span="20" style="line-height: 23px;"><span style="color:rgb(19, 206, 102);cursor: pointer" @click="openB(merDetail.name,merDetail.url,600,400)">点击预览</span></el-col>
+                        </el-row>
+                        <el-row>
                             <el-col :span="4" style="text-align: left;text-align-last: auto">素材下载：</el-col>
                             <el-col :span="20" style="line-height: 23px;"><a :href="merDetail.url" :download="merDetail.name" style="color:rgb(19, 206, 102);cursor: pointer" @click="downloadB">点击下载</a></el-col>
                         </el-row>
@@ -178,6 +182,12 @@ export default {
         
     },
     methods: {
+        openB(name,url,iWidth,iHeight){
+            let iTop = (window.screen.availHeight - 30 - iHeight) / 2, 
+                iLeft = (window.screen.availWidth - 10 - iWidth) / 2; 
+            window.open(url, name, 'height=' + iHeight + ',innerHeight=' + iHeight + ',width=' + iWidth + ',innerWidth=' + iWidth + ',top=' + iTop + ',left=' + iLeft + ',status=no,toolbar=no,menubar=no,location=no,resizable=no,scrollbars=0,titlebar=no'); 
+            this.downloadB();
+        },
         downloadB(){ //点击后关闭下载
             setTimeout((x)=> {
                 this.Close_mask();
