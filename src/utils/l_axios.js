@@ -2665,7 +2665,7 @@ export default {
                                 creTime: x.add_time,
                                 people: x.user_name,
                                 status: parseInt(x.status),
-                                channelId: x.channelId,
+                                channelId: x.channelid,
                             })
                         })
                         this.materialParams.curpage = res.data.data.page;    //当前第几页
@@ -2986,6 +2986,38 @@ export default {
             })
         },
 
+        //会议管理-关闭播间,结束会议
+        confer_gameover(cid) {
+            this.$http(api.confer_gameover, {
+                params: {
+                    token: getToken(),
+                    channelId: cid,
+                }
+            }).then((res) => {
+                // console.log(res)
+                if (res.status == 200) {
+                    if(res.data.code!=400){
+                        this.$notify({
+                            message: res.data.data,
+                            type: 'success',
+                            duration: 1000,
+                            onClose: () => {
+                                // window.location.reload(true);
+                            }
+                        });
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
         //会议管理-通知
         conferMessage_s(id) {
             this.$http(api.conferMessage_s, {
@@ -3002,7 +3034,7 @@ export default {
                             type: 'success',
                             duration: 1000,
                             onClose: () => {
-                                window.location.reload(true);
+                                // window.location.reload(true);
                             }
                         });
                     }else{

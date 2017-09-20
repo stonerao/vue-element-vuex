@@ -43,6 +43,7 @@
                                 <el-button type="primary" size="mini" icon="edit" @click.native="beginConfer(scope.row.id)" style="margin-left: 0px;margin: 3px 0px" v-if="scope.row.status == 1 && schoolManageCenter">开始</el-button>
                                 <el-button type="primary" size="mini" icon="edit" @click.native="endConfer(scope.row.channelId)" style="margin-left: 0px;margin: 3px 0px" v-if="scope.row.status == 2 && schoolManageCenter">结束</el-button>
                                 <el-button type="primary" size="mini" icon="edit" @click.native="messageConfer(scope.row.id)" style="margin-left: 0px;margin: 3px 0px" v-if="scope.row.status == 1 && schoolManageCenter">通知</el-button>
+                                <el-button type="primary" size="mini" icon="edit" @click.native="messageClose(scope.row.channelId)" style="margin-left: 0px;margin: 3px 0px" v-if="scope.row.status == 3 && schoolManageCenter">关闭</el-button>
                                 <el-button type="primary" size="mini" icon="delete"  v-if="schoolManageCenter" @click.native="deleteOne(scope.row.id)" style="margin-left: 0px;margin: 3px 0px">删除</el-button>
                             </template>
                         </el-table-column>
@@ -270,6 +271,9 @@ export default {
         },
         conferSearch(){  //搜索显示
             info.conferMeetList_s.call(this,this.materialParams,this.conferStatus,this.conferTheme);
+        }, 
+        messageClose(cid){
+            info.confer_gameover.call(this,cid);
         }
     },
     watch: {
