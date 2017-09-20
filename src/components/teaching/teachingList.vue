@@ -3,7 +3,7 @@
         <el-row :gutter="10" class="class-header">
             <el-col :span="4" class="class-titles">
                 <span>
-                    <img src="../../assets/index/shuaxin.png" class="icon-img-xs marginleft5" @click="ajaxData" />刷新-共{{all_pagecount}}条记录
+                    <img src="../../assets/index/shuaxin.png" class="icon-img-xs marginleft5" @click="ajaxData" />刷新-共{{page_total}}条记录
                 </span>
             </el-col>
             <el-col :span="20">
@@ -20,7 +20,7 @@
             <ul class="r-my-teaching">
                 <router-link tag="li" :to="{path:'../shoping',query:{id:item.paper_id}}" v-for="item in items" :key="item.paper_id">
                     <div class="text-center">
-                        <img src="../../assets/index/fenm.jpg" />
+                        <img :src="item.paper_img" />
                     </div>
                     <div class="text-center r-my-teaching-title">{{item.paper_name}}</div>
                 </router-link>
@@ -32,7 +32,7 @@
                     <!-- <el-button type="primary" size="mini">删除</el-button> -->
                 </el-col>
                 <el-col :span="24">
-                    <el-pagination class="float-right" @current-change="CurrentChange" :current-page="page" :page-sizes="[curpage]" :page-size="page" layout="total, sizes, prev, pager, next, jumper" :total="all_pagecount">
+                    <el-pagination class="float-right" @current-change="CurrentChange" :current-page="page" :page-sizes="[curpage]" :page-size="page" layout="total, sizes, prev, pager, next, jumper" :total="page_total">
                     </el-pagination>
                 </el-col>
             </el-row>
@@ -44,13 +44,14 @@
 
 import store from '@/utils/teaching'
 export default {
+    props: ['state'],
     data() {
         return {
             page: 1,
             curpage: 10,
             seach: "",
             items: [],
-            all_pagecount: 0,
+            page_total: 0,
             time1: '',
             time2: '',
         }
@@ -60,12 +61,37 @@ export default {
     },
     methods: {
         ajaxData() {
-            store.teaching_interface.call(this);
+            store.teaching_list.call(this, this.state);
         },
         CurrentChange(val) {
             this.page = val;
             this.ajaxData()
+        },
+        ver() {
+            function time(time) {
+                return time ? Date.parse(time) : ''
+            }
+            let time1 = time(this.time1);
+            let time2 = time(this.time2); 
+            if (time1 > time2) {
+                this.$notify({
+                    title: '警告',
+                    message: '起始时间不能大于结束时间',
+                    type: 'warning'
+                });
+                return
+            }
 
+        }
+    },
+    watch: {
+        time1() {
+            this.ver();
+            this.ajaxData();
+        },
+        time2(val) {
+            this.ver();
+            this.ajaxData();
         }
     }
 }

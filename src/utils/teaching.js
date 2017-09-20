@@ -3,7 +3,7 @@ import { getToken } from '@/utils/auth'
 
 export default {
     teachingList(id, state) {
-        state = this.state;
+        state = this.state; 
         this.$http(state == '2' ? api.Teacher_teaching_interface : api.teaching_interface, {
             params: {
                 page: this.currentPage,//当前页数
@@ -83,17 +83,17 @@ export default {
             }
         })
     },
-    space_list(){
+    space_list() {
         // 空间购买列表 
-        this.$http(this.listUrl,{
-            params:{
-                token:getToken(),
-                page:this.page,
-                curpage:this.curpage,
-                search:this.seach
+        this.$http(this.listUrl, {
+            params: {
+                token: getToken(),
+                page: this.page,
+                curpage: this.curpage,
+                search: this.seach
             }
-        }).then((res)=>{
-            if(res.data.code==200){
+        }).then((res) => {
+            if (res.data.code == 200) {
                 this.page_total = parseInt(res.data.page_total);
                 this.t_data = res.data.datas;
                 this.used = res.data.used_flow;
@@ -101,20 +101,20 @@ export default {
             }
         })
     },
-    space_pay(id){
+    space_pay(id) {
         // 空间购买列表 
-        this.$http(this.space_pay,{
-            params:{
-                token:getToken(),
-                id:id
+        this.$http(this.space_pay, {
+            params: {
+                token: getToken(),
+                id: id
             }
-        }).then((res)=>{
-            if(res.data.code==200){
+        }).then((res) => {
+            if (res.data.code == 200) {
                 this.$message({
                     type: 'success',
                     message: res.data.datas
                 });
-            }else{
+            } else {
                 this.$message({
                     type: 'success',
                     message: res.data.datas.error
@@ -122,15 +122,37 @@ export default {
             }
         })
     },
-    teaching_interface(){
-        this.$http(api.teaching_interface,{
-            params:{
-                token:getToken(), 
-                page:'',
-                curpage:'',
-                tc_id:'',
-                paper_name:'',
+    teaching_interface() {
+        this.$http(api.teaching_interface, {
+            params: {
+                token: getToken(),
+                page: '',
+                curpage: '',
+                tc_id: '',
+                paper_name: '',
             }
         })
+    },
+    teaching_list(state) { 
+        if (!state && state != '1') { return }
+        let url = (state == '2') ? api.teaching_interface_Teacher : api.student_teaching_list;//判断接口 
+        function time(time) {
+            return time ? Date.parse(time)/1000 : ''
+        }
+        this.$http.get(url, {
+            params: {
+                token: getToken(),
+                page: this.page,
+                curpage: this.curpage,
+                query_start_time: time(this.time1),
+                query_end_time: time(this.time2)
+            }
+        }).then((res)=>{
+            if(res.data.code==200){
+                this.items = res.data.datas;
+                this.page_total = parseInt(res.data.page_total?res.data.page_total:0)
+            }
+        })
+
     }
 }

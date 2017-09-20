@@ -9,7 +9,8 @@ export const api = {
     teacherPwd:"Teacher/index/editpwd",//老师修改密码
     editpwd:"Admin/Index/editpwd",//admin修改密码
     editpassword:"Student/StudentLogin/editpassword",//修改学生密码
-    sendsms:"Student/StudentLogin/sendsms",//发送短信验证码
+    sendsms:"Student/StudentLogin/sendsms",//发送短信验证码 
+    is_file_certification:"Student/File/is_file_certification",//校验是否档案认证 
     // areaList:"Student/SchoolStudent/area_list",//市 列表
     // areaList:"Student/SchoolStudent/area_list",//区 列表
 }

@@ -1,5 +1,6 @@
 import { api } from '@/api/login'
 import { setToken } from '@/utils/auth'
+import { getToken } from '@/utils/auth'
 import { isClassLogin } from '@/utils/auth'
 import utils from '@/utils'
 export default {
@@ -87,12 +88,37 @@ export default {
                         this.$router.push({ path: '/students' })
                     }
                 });
-            }else{
+            } else {
                 this.$notify.error({
                     title: '错误',
                     message: res.data.data.error
                 });
             }
+        }).then(() => {
+            setTimeout((x) => {
+                this.$http(api.is_file_certification, {
+                    params: {
+                        token: getToken()
+                    }
+                }).then((ret) => {
+                    if (ret.data.code == 200) {
+
+                    } else {
+                        this.$confirm(ret.data.data.error, '提示', {
+                            confirmButtonText: '立即缴纳',
+                            cancelButtonText: '取消',
+                            type: 'warning'
+                        }).then(() => {
+
+                        }).catch(() => {
+                            this.$message({
+                                type: 'info',
+                                message: '取消输入'
+                            });
+                        });
+                    }
+                })
+            }, 1000)
         })
     },
     teacherPwd(obj) {
@@ -122,7 +148,7 @@ export default {
             method: 'post',
             data: this.obj,
             url: {
-                
+
             }
         }).then((res) => {
             if (res.data.status == 'true') {
@@ -141,14 +167,14 @@ export default {
             }
         })
     },
-    getcode(){
+    getcode() {
         this.$http({
             method: 'post',
             data: {
-                tel:this.form.phone
+                tel: this.form.phone
             },
             url: api.sendsms
-        }).then((res)=>{
+        }).then((res) => {
             if (res.data.code == 200) {
                 this.$router.push({ path: "/" })
                 this.$notify({

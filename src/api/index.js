@@ -103,5 +103,5 @@ export const api = {
     school_download:"Teacher/Examinationcenter/school_download",//下载学校
     send_znotice:"Teacher/Examinationcenter/send_znotice",//老师发布通知接口
     student_teaching_list:"Student/SchoolStudent/student_teaching_list",//学生-个人书架列表
-    teaching_interface:"Student/SchoolStudent/teaching_interface",//教材列表
+    teaching_interface_Teacher:"Teacher/Teaching/teacher_teaching_list",//教材列表 
 }
