@@ -39,7 +39,7 @@
                 			</div>
                 			<!-- 查看详情 -->
                 			<div v-if="T_DETAIL">
-                				
+                				<el-button type="primary" size="small" icon="arrow-left" @click.native="T_SkinBack">返回</el-button>
                 			</div>
                 		</div>
                 		<!-- 学生中心 -->
@@ -74,8 +74,8 @@ export default {
             ],
             state: 0,
             DISTINGUISH: getClass(),   //区分老师和学生
-            SearchVal: '',   //搜索值
-            SearchType: 1,  //搜索类型
+            SearchVal: '',   // 搜索值
+            SearchType: 1,  // 搜索类型
             DataTotal: 0,  // 数据总条数
             StypeList: [{  //搜索引擎，站内站外搜索
             	value: 1,
@@ -89,7 +89,7 @@ export default {
     },
     created() {
         if(this.DISTINGUISH == 2){ //激活老师管理系统身份
-
+        	
         }else if(this.DISTINGUISH == 3){ //学生
 
         }
@@ -113,6 +113,12 @@ export default {
         	}else{
 
         	}
+        },
+        T_SinDetail(){ //老师详情查看
+        	this.T_DETAIL = true;
+        },
+        T_SkinBack(){ //老师详情返回
+        	this.T_DETAIL = false;
         }
     }
 }
