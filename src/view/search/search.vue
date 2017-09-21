@@ -8,7 +8,7 @@
             <div class="kd-box-content">
                 <description :prompts="prompts" @PromPts="promptsTem"></description>
                 <div v-if="state==0">
-                	<div class="searchStation">
+                	<div class="l_SearchStation">
                 		<!-- 老师中心 -->
                 		<div v-if="DISTINGUISH == 2">
                 			<div class="Station_header">
