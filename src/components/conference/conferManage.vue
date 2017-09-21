@@ -146,7 +146,7 @@
                                         <el-col :span="3">附件名称：</el-col>
                                         <el-col :span="21">
                                             <ul class="clearfloat">
-                                                <li class="enclosure" v-for="file in encloList"><i></i><a :href="file.url" :download="file.name" style="cursor: pointer;">{{file.name}}</a></li>
+                                                <li class="enclosure" v-for="file in encloList"><i></i><a :href="file.url" :download="file.name" style="cursor: pointer;" @click="downloadC">{{file.name}}</a></li>
                                             </ul>
                                         </el-col>
                                     </el-row>
@@ -255,6 +255,11 @@ export default {
         handleCurrentChange(val) {
             this.materialParams.curpage = val;
             info.conferMeetList_s.call(this,this.materialParams,this.conferStatus,this.conferTheme);
+        },
+        downloadC(){
+            setTimeout((x)=>{
+                this.DailogB = false;
+            },1000)
         },
         T_upload(id){  //老师中心上传会议结束文件
             this.confer_T_upload = false;
