@@ -105,7 +105,7 @@
             <el-row>
                 <el-col :span="3" style="color: #f7f7f7;">保存操作</el-col>
                 <el-col :span="21">
-                    <el-button type="primary" @click.native="confSubmit">保存</el-button>
+                    <el-button type="primary" @click.native="confSubmit" :disabled="forbiden">保存</el-button>
                     <el-button type="primary" style="background: #e0e0e0;border-color: #e0e0e0;color: #5b5b5b" @click="clearData" v-if="creatStatus">清空</el-button> 
                     <el-button type="primary" style="background: #e0e0e0;border-color: #e0e0e0;color: #5b5b5b" @click="clearData" v-else>取消</el-button>
                 </el-col>
@@ -182,6 +182,7 @@ export default {
             dirName: '',
             upStatus: false,
             expire: 0,
+            forbiden: false,
         }
     },
     created() {
@@ -214,6 +215,7 @@ export default {
             }
         },
         beforeAvatarUpload(file){
+            this.forbiden = true;
             this.getAutograph();
             const _ok = info.fileType.call(this,String(file.name).split('.')[1]);
             if(Boolean(_ok)){  //格式符合
@@ -237,6 +239,7 @@ export default {
             this.ossData.key = this.dirName + file.name;
         },
         uploadSuccess(response, file, fileList){  //文件上传返回数据
+            this.forbiden = false;
             this.fileInfo = fileList;
             this.$notify.success({
                 message: '上传成功!',

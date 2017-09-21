@@ -76,7 +76,7 @@
             <el-row>
                 <el-col :span="3" style="color: #f7f7f7;">保存操作</el-col>
                 <el-col :span="21">
-                    <el-button type="primary" @click.native="submit">上传素材</el-button>
+                    <el-button type="primary" @click.native="submit" :disabled="forbiden">上传素材</el-button>
                     <el-button type="primary" style="background: #e0e0e0;border-color: #e0e0e0;color: #5b5b5b" @click.native="cancelCreate">取消</el-button>
                 </el-col>
             </el-row>
@@ -146,6 +146,7 @@ export default {
                 url: '',
             },
             expire: 0,
+            forbiden: false,
         }
     },
     created() {
@@ -177,6 +178,7 @@ export default {
         },
         beforeAvatarUpload(file){
             this.upStatus = false;
+            this.forbiden = true;
             this.getAutograph();
             const _ok = info.fileType.call(this,String(file.name).split('.')[1]);
             if(Boolean(_ok)){  //格式符合
@@ -211,6 +213,7 @@ export default {
         },
         uploadSuccess(response, file, fileList){  //文件上传返回数据
             this.upStatus = true;
+            this.forbiden = false;
             this.fileInfo = {
                 name: this.ossData.key,
                 size: file.size

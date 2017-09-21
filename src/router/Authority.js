@@ -50,6 +50,8 @@ import examinationTeacher from '@/view/examination/teacher'
 import questions from '@/view/questions/index'
 // 学校 科目管理
 import subjectMa from '@/view/subject/index'
+// 学生，老师----大数据搜索
+import searchStation from '@/view/search/search'
 /*
   左侧图标以及点击后的图标
 */
@@ -429,8 +431,21 @@ export const ListStundent = [
                 component: allOrder,
             }
         ]
-    },
-    {
+    }, {
+        path: '/search',
+        name: '信息筛选',
+        redirect: '/search/search',
+        icon: pmsd,
+        iconActive: pmsd_active,
+        component: Layout,
+        children: [
+            {
+                path: 'search',
+                name: '-信息筛选',
+                component: searchStation,
+            }
+        ]
+    }, {
         path: '/adminIndex',
         redirect: "/one/index"
     }
@@ -591,6 +606,20 @@ export const ListTeacher = [
                 path: 'index',
                 name: '-订单管理',
                 component: allOrder,
+            }
+        ]
+    }, {
+        path: '/search',
+        name: '信息筛选',
+        redirect: '/search/search',
+        icon: pmsd,
+        iconActive: pmsd_active,
+        component: Layout,
+        children: [
+            {
+                path: 'search',
+                name: '-信息筛选',
+                component: searchStation,
             }
         ]
     },

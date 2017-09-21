@@ -40,13 +40,13 @@
                             <el-table-column label="操作" >
                                 <template scope="scope">
                                     <el-button type="primary" size="mini" icon="view" @click.native="look_over(scope.row.id,scope.row.channelid)" style="margin-left: 0px;margin: 3px 0px">查看</el-button>
-                                    <el-button type="primary" size="mini" icon="view" @click.native="T_upload(scope.row.id)" style="margin-left: 0px;margin: 3px 0px" v-if="teacherManageCenter && scope.row.status == 3">会议记录</el-button>
-                                    <el-button type="primary" size="mini" icon="view" @click.native="S_download(scope.row.id)" style="margin-left: 0px;margin: 3px 0px" v-if="schoolManageCenter && scope.row.status == 3">会议记录</el-button>
+                                    <el-button type="primary" size="mini" icon="upload2" @click.native="T_upload(scope.row.id)" style="margin-left: 0px;margin: 3px 0px" v-if="teacherManageCenter && scope.row.status == 3">会议记录</el-button>
+                                    <el-button type="primary" size="mini" icon="time" @click.native="S_download(scope.row.id)" style="margin-left: 0px;margin: 3px 0px" v-if="schoolManageCenter && scope.row.status == 3">会议记录</el-button>
                                     <el-button type="primary" size="mini" icon="edit" @click.native="editConfer(scope.row.id)" style="margin-left: 0px;margin: 3px 0px" v-if="schoolManageCenter">编辑</el-button>
-                                    <el-button type="primary" size="mini" icon="edit" @click.native="beginConfer(scope.row.id)" style="margin-left: 0px;margin: 3px 0px" v-if="scope.row.status == 1 && schoolManageCenter">开始</el-button>
-                                    <el-button type="primary" size="mini" icon="edit" @click.native="endConfer(scope.row.channelId)" style="margin-left: 0px;margin: 3px 0px" v-if="scope.row.status == 2 && schoolManageCenter">结束</el-button>
-                                    <el-button type="primary" size="mini" icon="edit" @click.native="messageConfer(scope.row.id)" style="margin-left: 0px;margin: 3px 0px" v-if="scope.row.status == 1 && schoolManageCenter">通知</el-button>
-                                    <el-button type="primary" size="mini" icon="edit" @click.native="messageClose(scope.row.channelId)" style="margin-left: 0px;margin: 3px 0px" v-if="scope.row.status == 3 && schoolManageCenter">关闭</el-button>
+                                    <el-button type="primary" size="mini" icon="circle-check" @click.native="beginConfer(scope.row.id)" style="margin-left: 0px;margin: 3px 0px" v-if="scope.row.status == 1 && schoolManageCenter">开始</el-button>
+                                    <el-button type="primary" size="mini" icon="circle-close" @click.native="endConfer(scope.row.channelId)" style="margin-left: 0px;margin: 3px 0px" v-if="scope.row.status == 2 && schoolManageCenter">结束</el-button>
+                                    <el-button type="primary" size="mini" icon="message" @click.native="messageConfer(scope.row.id)" style="margin-left: 0px;margin: 3px 0px" v-if="scope.row.status == 1 && schoolManageCenter">通知</el-button>
+                                    <el-button type="primary" size="mini" icon="close" @click.native="messageClose(scope.row.channelId)" style="margin-left: 0px;margin: 3px 0px" v-if="scope.row.status == 3 && schoolManageCenter">关闭</el-button>
                                     <el-button type="primary" size="mini" icon="delete"  v-if="schoolManageCenter" @click.native="deleteOne(scope.row.id)" style="margin-left: 0px;margin: 3px 0px">删除</el-button>
                                 </template>
                             </el-table-column>
@@ -146,7 +146,7 @@
                                         <el-col :span="3">附件名称：</el-col>
                                         <el-col :span="21">
                                             <ul class="clearfloat">
-                                                <li class="enclosure" v-for="file in encloList"><i></i><a :href="file.url" :download="file.name" style="cursor: pointer;">{{file.name}}</a></li>
+                                                <li class="enclosure" v-for="file in encloList"><i></i><a :href="file.url" :download="file.name" style="cursor: pointer;" @click="downloadC">{{file.name}}</a></li>
                                             </ul>
                                         </el-col>
                                     </el-row>
@@ -255,6 +255,11 @@ export default {
         handleCurrentChange(val) {
             this.materialParams.curpage = val;
             info.conferMeetList_s.call(this,this.materialParams,this.conferStatus,this.conferTheme);
+        },
+        downloadC(){
+            setTimeout((x)=>{
+                this.DailogB = false;
+            },1000)
         },
         T_upload(id){  //老师中心上传会议结束文件
             this.confer_T_upload = false;
