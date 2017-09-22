@@ -13,23 +13,23 @@
                 		<div v-if="DISTINGUISH == 2">
                             <div v-if="L_DETAIL">
                                 <div class="Station_header">
-                                    <el-row style="padding-top: 5px;">
-                                        <el-col :span="6">
+                                    <el-row :gutter="15">
+                                        <el-col :span="6" style="padding-top: 10px;">
                                             <img src="../../assets/index/shuaxin.png" class="icon-img-xs" @click="SearchStation"/>刷新-共{{materialParams.total_num}}条记录
                                         </el-col>
+                                        <el-col :span="18" class="clearfloat">
+                                            <el-col :span="5" style="float: right">
+                                                <el-input placeholder="输入搜索关键词" v-model="SearchVal">
+                                                    <el-button slot="append" icon="search" @click.native="SearchStation"></el-button>
+                                                </el-input>
+                                            </el-col>
+                                            <el-col :span="2" style="float: right">
+                                                <el-select v-model="SearchType" placeholder="请选择" disabled>
+                                                    <el-option v-for="item in StypeList" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                                                </el-select>
+                                            </el-col>
+                                        </el-col>
                                     </el-row>
-                                    <el-row class="clearfloat">
-                                        <el-col :span="5" style="float: right">
-                                            <el-input placeholder="输入搜索关键词" v-model="SearchVal">
-                                                <el-button slot="append" icon="search" @click.native="SearchStation"></el-button>
-                                            </el-input>
-                                        </el-col>
-                                        <el-col :span="2" style="float: right">
-                                            <el-select v-model="SearchType" placeholder="请选择" disabled>
-                                                <el-option v-for="item in StypeList" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                                            </el-select>
-                                        </el-col>
-                                    </el-row>   
                                 </div>
                                 <div class="Station_body">
                                     <el-table :data="S_SData" border style="width: 100%">
@@ -317,6 +317,7 @@ export default {
                 page_count: 1,//总页数
                 total_num: 0
             };
+            this.S_SData = [];
         	if(this.SearchType == 1){  //站内搜索
                 Info.S_Search_List.call(this,this.materialParams,this.SearchVal);
         	}else{
