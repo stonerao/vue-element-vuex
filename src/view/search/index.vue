@@ -325,7 +325,6 @@ export default {
         	}
         },
         L_SinDetail(did,type){ //老师详情查看
-            this.S_Type = type;
             if(this.DISTINGUISH == 3){
                 if(type ==1){  //直播
                     Info.S_Search_Detail.call(this,did,type);

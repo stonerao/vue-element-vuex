@@ -212,6 +212,7 @@ export default {
             // console.log(res)
             if (res.status == 200) {
                 if(res.data.code!=400){
+                    this.S_Type = type;
                     if(type == 1){ //直播
                         this.S_Detail.ZhiBo = res.data.data;
                     }
