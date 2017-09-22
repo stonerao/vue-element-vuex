@@ -8,7 +8,7 @@
                         <el-option :label="item.type_name" :value="item.type_id" v-for="(item,index) in obj.questionClass" :key="index"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="所属分类" >
+                <el-form-item label="所属分类">
                     <el-select v-model="belongClass1" placeholder="题库一级分类" class="width125" style="font-size:14px">
                         <el-option :label="item.qc_name" :value="item.qc_id" v-for="(item,index) in belongClass.items1" :key="index"></el-option>
                     </el-select>
@@ -25,13 +25,13 @@
                     <vue-html5-editor :content="content" :height="300" @change="editor"></vue-html5-editor>
                 </el-form-item>
                 <!-- <el-form-item label="相关相片附件">
-                    <el-upload action="https://jsonplaceholder.typicode.com/posts/" list-type="picture-card" :on-preview="handlePictureCardPreview" :on-remove="handleRemove">
-                        <i class="el-icon-plus"></i>
-                    </el-upload>
-                    <el-dialog v-model="dialogVisible" size="tiny">
-                        <img width="100%" :src="dialogImageUrl" alt="">
-                    </el-dialog>
-                </el-form-item> -->
+                                        <el-upload action="https://jsonplaceholder.typicode.com/posts/" list-type="picture-card" :on-preview="handlePictureCardPreview" :on-remove="handleRemove">
+                                            <i class="el-icon-plus"></i>
+                                        </el-upload>
+                                        <el-dialog v-model="dialogVisible" size="tiny">
+                                            <img width="100%" :src="dialogImageUrl" alt="">
+                                        </el-dialog>
+                                    </el-form-item> -->
                 <!-- 单选题 -->
                 <div v-if="questionClass==1">
                     <el-form-item label="选项设置">
@@ -120,9 +120,9 @@
                     </el-switch>
                 </el-form-item>
                 <!-- <el-form-item label="是否加入老师个人题库 ">
-                    <el-switch v-model="isTeacherShare" on-color="#13ce66" off-color="" on-text="是" off-text="否">
-                    </el-switch>
-                </el-form-item> -->
+                                        <el-switch v-model="isTeacherShare" on-color="#13ce66" off-color="" on-text="是" off-text="否">
+                                        </el-switch>
+                                    </el-form-item> -->
                 <el-form-item label=" ">
                     <el-button type="primary" @click="onSubmit">立即创建</el-button>
                     <el-button type="success" @click="onSubmit(1)">预览试题</el-button>
@@ -184,7 +184,7 @@ export default {
             previewBox: {},//试题预览
             isPrev: false,
             isTeacherShare: true,//是否加入老师个人题库
-            content:''
+            content: ''
         }
     },
     methods: {
@@ -300,7 +300,7 @@ export default {
                 console.log(this.newAddQuestion)
                 if (this.newAddQuestion) {
                     // 是否是添加试卷过来的
-                    store.questions_add.call(this, title, answer ? answer : '',1)
+                    store.questions_add.call(this, title, answer ? answer : '', 1)
                 } else {
                     store.questions_add.call(this, title, answer ? answer : '');
                 }
@@ -327,11 +327,13 @@ export default {
                     type: 'warning'
                 });
                 return
-            }
+            } 
             if (this.questionClass == '1') {
                 this.radioItems.push(obj)
             } else if (this.questionClass == '2') {
                 this.checkboxItems.push(obj)
+            } else if (this.questionClass == '4') {
+                this.fileBlankItems.push(obj)
             }
         },
         delectRadio(index) {
@@ -362,8 +364,8 @@ export default {
                 this.$emit("quits", true);
             }
         },
-         editor(val){
-             this.textF = val;
+        editor(val) {
+            this.textF = val;
         }
 
     },
@@ -403,8 +405,8 @@ export default {
         checkbox(val) {
 
         },
-         editor(val){
-             this.textF = val;
+        editor(val) {
+            this.textF = val;
         }
     },
     components: {
@@ -413,13 +415,19 @@ export default {
 }
 </script>
 <style>
-.ql-container,.ql-editor{
-    height:auto;
-    min-height:100px;
+.ql-container,
+.ql-editor {
+    height: auto;
+    min-height: 100px;
 }
+
+
+
+
+
+
 /* .el-upload--picture-card{
         width: 100px;
     height: 100px;line-height: 100px;
 } */
-
 </style>
