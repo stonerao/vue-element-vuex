@@ -334,14 +334,10 @@ export default {
                     this.$router.push({ path: '../shoping', query: { id: did } });
                 }
             }else if(this.DISTINGUISH == 2){
-                if(type ==1){  //直播
-                    Info.S_Search_Detail.call(this,did,type);
-                }else if(type == 2){  //会议
-                    Info.S_Search_Detail.call(this,did,type);
-                }else if(type == 3){  //素材
-                    Info.S_Search_Detail.call(this,did,type);
-                }else if(type == 4){  //书籍
+                if(type == 4){  //书籍
                     this.$router.push({ path: '../shoping', query: { id: did } });
+                }else{
+                    Info.S_Search_Detail.call(this,did,type);
                 }
             }
         },
