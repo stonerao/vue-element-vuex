@@ -92,4 +92,5 @@ export const api = {
     S_Search:'Student/Studentsearch/search',   //学生中心-大数据搜索
     S_Search_Detail:'Student/Video/student_live_info',   //学生中心-大数据搜索-直播-详情
     T_Search:'Teacher/Teachersearch/teacher_search',   //老师中心-大数据搜索
+    T_Search_Detail:'Teacher/Live/teacher_live_info',   //老师中心-大数据搜索-直播-详情
 }

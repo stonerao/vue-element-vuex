@@ -2434,6 +2434,7 @@ export default {
                                 detail: _detail.content,
                                 url: _detail.file_url
                             };
+                            this.merDetail.time = this.Materailformat(parseInt(_detail.add_time)*1000);
                             if(_detail.is_share == 1){
                                 this.merDetail.share = '是';
                             }else{
