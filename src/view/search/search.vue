@@ -44,8 +44,37 @@
                 		</div>
                 		<!-- 学生中心 -->
                 		<div v-if="DISTINGUISH == 3">
-                			
-                		</div>
+                			<div v-if="!T_DETAIL">
+                                <div class="Station_header">
+                                    <el-row>
+                                        <el-col :span="6">
+                                            <img src="../../assets/index/shuaxin.png" class="icon-img-xs" />刷新-共{{DataTotal}}条记录
+                                        </el-col>
+                                    </el-row>
+                                    <el-row class="clearfloat">
+                                        <el-col :span="5" style="float: right">
+                                            <el-input placeholder="输入搜索关键词" v-model="SearchVal">
+                                                <el-button slot="append" icon="search" @click.native="SearchStation"></el-button>
+                                            </el-input>
+                                        </el-col>
+                                        <el-col :span="2" style="float: right">
+                                            <el-select v-model="SearchType" placeholder="请选择" disabled>
+                                                <el-option v-for="item in StypeList" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                                            </el-select>
+                                        </el-col>
+                                    </el-row>   
+                                </div>
+                                <div class="Station_body">
+                                    <ul>
+                                        <li>啊实打实大飒飒</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- 查看详情 -->
+                            <div v-if="T_DETAIL">
+                                <el-button type="primary" size="small" icon="arrow-left" @click.native="T_SkinBack">返回</el-button>
+                            </div>
+        		        </div>
                 	</div>
                 </div>
             </div>
