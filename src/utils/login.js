@@ -2,6 +2,7 @@ import { api } from '@/api/login'
 import { setToken } from '@/utils/auth'
 import { getToken } from '@/utils/auth'
 import { isClassLogin } from '@/utils/auth'
+import { setCookie } from '@/utils/auth' 
 import utils from '@/utils'
 export default {
     login(form) {
@@ -105,12 +106,12 @@ export default {
 
                     } else {
                         this.$confirm(ret.data.data.error, '提示', {
-                            confirmButtonText: '立即缴纳',
+                            confirmButtonText: '立即去缴纳',
                             cancelButtonText: '取消',
                             type: 'warning'
                         }).then(() => {
-
-                        }).catch(() => {
+                            setCookie("filepay",'0')
+                        }).catch(() => { 
                             this.$message({
                                 type: 'info',
                                 message: '取消输入'

@@ -22,27 +22,25 @@
           <el-option v-for="item in classList" :label="item.department_name" :value="item.department_id"></el-option>
         </el-select>
       </el-col>
-      <el-col :span="5" :offset="typeVal==1? 4:7">
-        <el-date-picker v-model="value6" @change="timeChange" :disabled="className===''" type="date" placeholder="选择日期" class="rt" size="small"></el-date-picker>
-      </el-col>
-      <el-col :span="7">
-        <el-select  @change="lessonChoose" v-model="lessonName" :disabled="value6===''" placeholder="请选择节次" size="small" class="lf" style="margin-left: 15px">
+      <!-- <el-col :span="3" :offset="typeVal==1? 4:7">
+      </el-col> -->
+      <el-col :span="10">
+        <el-date-picker v-model="value6" @change="timeChange" :disabled="className===''" type="date" placeholder="选择日期" class="rt marginleft10" size="small"></el-date-picker>
+        <el-select  @change="lessonChoose" v-model="lessonName" :disabled="value6===''" placeholder="请选择节次" size="small" class="lf " style="margin-left: 25px">
           <el-option v-for="item in lessonList" :label="item.lesson" :value="item.num"></el-option>
         </el-select>
         <el-button @click="searchList" type="primary" size="small" :disabled="lessonName===''" class="rt">查询</el-button>
       </el-col>
     </el-row>
     <!--学生老师考勤-->
-    <el-row v-else>
-      <el-col :span="4" :offset="13">
-        <el-input v-model="personName" placeholder="请输入姓名" size="small"></el-input>
-      </el-col>
-      <el-col :span="5" >
-        <el-date-picker v-model="value6" @change="timeChange" :disabled="personName===''" type="daterange" placeholder="选择日期范围" size="small" style="margin-left: 15px"></el-date-picker>
-      </el-col>
-      <el-col :span="2">
-        <el-button @click="searchList" :disabled="value6===''" type="primary" size="small" class="rt">查询</el-button>
-      </el-col>
+    <el-row v-else> 
+      <el-col :span="11" class="float-right"> 
+        <div style="display:inline-block" class="float-right">
+        <el-input v-model="personName" placeholder="请输入姓名" size="small" class="width200"></el-input>
+        <el-date-picker v-model="value6" @change="timeChange" :disabled="personName===''" type="daterange" class="width200" placeholder="选择日期范围" size="small" style="margin-left: 15px"></el-date-picker>
+        <el-button @click="searchList"  type="primary" size="small" class="marginleft15">查询</el-button>
+          </div>
+      </el-col> 
     </el-row>
     <el-table  v-if="state==7" :data="list" style="width: 100%">
       <el-table-column prop="class_name" label="班级"  show-overflow-tooltip></el-table-column>

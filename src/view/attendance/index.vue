@@ -50,7 +50,7 @@
                 <div class="kd-page" v-else>
                 <el-row>
                   <el-col :span="24">
-                    <el-pagination class="float-right" :current-page="currentPage" :page-sizes="[10, 15, 20, 25]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total" @size-change="handleSizeChange" @current-change="handleCurrentChange">
+                    <el-pagination class="float-right" :current-page="currentPage" :page-sizes="[10]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total" @size-change="handleSizeChange" @current-change="handleCurrentChange">
                     </el-pagination>
                   </el-col>
                 </el-row>
