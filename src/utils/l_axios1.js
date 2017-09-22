@@ -181,4 +181,34 @@ export default {
             }
         })
     },
+
+    //学生数据搜索-详情
+    S_Search_Detail(id,type) {
+        // 初始-直播
+        let apiUrl = api.S_Search_Detail,
+            formData = {
+                token:  getToken(),
+                live_id: id,
+            }
+        this.$http(apiUrl, {
+            params: formData
+        }).then((res) => {
+            // console.log(res)
+            if (res.status == 200) {
+                if(res.data.code!=400){
+                    if(type == 1){ //直播
+                        this.S_Detail.ZhiBo = res.data.data;
+                    }
+                }else{
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            }else {
+                this.$notify.error({
+                    message: res.data.data.error
+                });
+            }
+        })
+    },
 }

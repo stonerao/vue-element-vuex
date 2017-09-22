@@ -8,7 +8,7 @@
             <div class="kd-box-content">
                 <description :prompts="prompts" @PromPts="promptsTem"></description>
                 <div v-if="state==0">
-                	<div class="l_SearchStation">
+                	<div class="l_SearchStation l_layout_outer">
                 		<!-- 老师中心 -->
                 		<div v-if="DISTINGUISH == 2">
                 			<div v-if="L_DETAIL">
@@ -86,39 +86,29 @@
                             <div class="myPopup" v-if="S_Type == 1">
                                 <div class="Popup" style="width: 30%;">
                                     <ul class="popHeader clearfloat">
-                                        <li>会议文件下载</li>
+                                        <li>直播详情展示</li>
                                         <li @click="L_SkinBack"><i class="el-icon-circle-close"></i></li>
                                     </ul>
-                                    <div class="popContent" style="height: auto">
+                                    <div class="popContent" style="height: auto;padding: 35px;">
                                         <div style="width: 100%;height: 100%;">
                                             <el-row>
                                                 <el-col :span="3">直播名称：</el-col>
-                                                <el-col :span="21">
-
-                                                </el-col>
+                                                <el-col :span="21">{{S_Detail.ZhiBo.live_title}}</el-col>
                                             </el-row>
                                             <el-row>
                                                 <el-col :span="3">开始时间：</el-col>
-                                                <el-col :span="21">
-
-                                                </el-col>
+                                                <el-col :span="21">{{S_Detail.ZhiBo.live_stime}}</el-col>
                                             </el-row>
                                             <el-row>
                                                 <el-col :span="3">结束时间：</el-col>
-                                                <el-col :span="21">
-
-                                                </el-col>
+                                                <el-col :span="21">{{S_Detail.ZhiBo.live_etime}}</el-col>
                                             </el-row>
                                             <el-row>
                                                 <el-col :span="3">状态：</el-col>
-                                                <el-col :span="21">
-
-                                                </el-col>
+                                                <el-col :span="21">{{S_Detail.ZhiBo.state}}</el-col>
                                             </el-row><el-row>
                                                 <el-col :span="3">详情：</el-col>
-                                                <el-col :span="21">
-
-                                                </el-col>
+                                                <el-col :span="21">{{S_Detail.ZhiBo.live_desc}}</el-col>
                                             </el-row>
                                         </div>
                                     </div>
@@ -168,7 +158,7 @@
                                 </div>
                                 <div class="dialog_mask" @click="L_SkinBack"></div>
                             </div>
-                            <!-- 查看详情-教材 -->
+                            <!-- 查看详情-书籍 -->
                             <div class="myPopup" v-if="S_Type == 3">
                                 <div class="Popup" style="width: 30%;">
                                     <ul class="popHeader clearfloat">
@@ -259,6 +249,17 @@ export default {
                 page_count: 1,//总页数
                 total_num: 0
             },
+            S_Detail: {
+                ZhiBo: {
+
+                },
+                ShiPing: {
+
+                },
+                JiaoCai: {
+
+                }
+            },
         }
     },
     created() {
@@ -294,6 +295,11 @@ export default {
         },
         L_SinDetail(id,type){ //老师详情查看
             this.S_Type = type;
+            if(this.DISTINGUISH == 3){
+                Info.S_Search_Detail.call(this,id,type);
+            }else if(this.DISTINGUISH == 2){
+
+            }
         },
         L_SkinBack(){ //老师详情返回
         	this.S_Type = 0;
