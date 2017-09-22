@@ -14,7 +14,8 @@
                                                     </el-form-item> -->
         <el-form-item label="作业内容">
             <!-- <quillEditor v-model="task_desc" style="background:#fff" :content="content"></quillEditor> -->
-            <input type="text" v-model="task_desc">
+            <!-- <input type="text" v-model="task_desc"> -->
+            <vue-html5-editor :content="content" :height="200" @change="editor"></vue-html5-editor>
         </el-form-item>
         <el-form-item label="关键字">
             <div>
@@ -69,7 +70,8 @@ export default {
             keywords: [
                 { input: "" }
             ],
-            keys:[]
+            keys:[],
+            content:''
         }
     },
     methods: {
@@ -92,6 +94,9 @@ export default {
         },
         addKey() {
             this.keywords.push({ input: "" })
+        },
+        editor(val){
+             this.task_desc = val;
         }
     },
     created() {

@@ -19,8 +19,11 @@ import { constListWhile } from '@/router/Authority'
 import { constTeacherWhile } from '@/router/Authority'
 import { consStundenWhilet } from '@/router/Authority'
 import { constRouterMap } from '@/router/Authority'
+import { editor } from '@/utils/editor'
 // 公共js
 import '@/utils/start'
+import VueHtml5Editor from 'vue-html5-editor'
+Vue.use(VueHtml5Editor,editor);
 // axios 配置
 axios.defaults.withCredentials = true;
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';

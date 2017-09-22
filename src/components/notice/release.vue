@@ -30,7 +30,8 @@
         </el-form-item>
         <el-form-item label="发布信息">
             <!-- <quillEditor ></quillEditor> -->
-            <input type="text" v-model="textF">
+            <vue-html5-editor :content="content" :height="300" @change="editor"></vue-html5-editor>
+            <!-- <input type="text" v-model="textF"> -->
         </el-form-item>
         <el-form-item label=" ">
             <el-button type="primary" @click="submit">确认发布</el-button>
@@ -50,12 +51,13 @@ export default {
             },
             textF: "",
             options: [],
-            is_type: ""
+            is_type: "",
+            content:''
         }
     },
     methods: {
         submit() {
-            // 发布
+            // 发布 
             if (this.form.zn_receive_type == '') {
                 this.$notify({
                     title: '警告',
@@ -84,6 +86,9 @@ export default {
         },
         receive_list() {
             store.receive_list.call(this)
+        },
+        editor(val){
+             this.textF = val;
         }
     },
     created() {
@@ -97,7 +102,7 @@ export default {
             console.log(val)
             this.form.zn_receive = []
             this.receive_list();
-        }
+        } 
     },
     components: {
         // quillEditor

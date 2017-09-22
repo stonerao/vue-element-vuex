@@ -14,7 +14,8 @@
         </el-form-item>
         <el-form-item label="我的作业">
             <!-- <quillEditor style="background:#fff" v-model="val" :content="content"></quillEditor> -->
-            <input type="text"  v-model="val">
+            <vue-html5-editor :content="content" :height="300" @change="editor"></vue-html5-editor>
+            <input type="text" v-model="val">
         </el-form-item>
         <el-form-item label=" ">
             <el-button type="primary" @click="submit">去完成作业</el-button>
@@ -36,7 +37,8 @@ export default {
             },
             obj: {},
             content: " ",
-            val: ''
+            val: '',
+            content: ''
         }
     },
     methods: {
@@ -54,7 +56,10 @@ export default {
         //     //查看老师审批
         //     console.log(1)
         //     this.$emit('Mangtheater',true)
-        // }
+        // },
+        editor(val) {
+            this.val = val;
+        }
     },
     created() {
         console.log(this.status)

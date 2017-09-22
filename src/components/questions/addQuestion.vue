@@ -21,7 +21,8 @@
                 </el-form-item>
                 <el-form-item label="试题题干">
                     <!-- <quillEditor v-model="textF"></quillEditor> -->
-                    <input type="text"  v-model="textF">
+                    <!-- <input type="text"  v-model="textF"> -->
+                    <vue-html5-editor :content="content" :height="300" @change="editor"></vue-html5-editor>
                 </el-form-item>
                 <!-- <el-form-item label="相关相片附件">
                     <el-upload action="https://jsonplaceholder.typicode.com/posts/" list-type="picture-card" :on-preview="handlePictureCardPreview" :on-remove="handleRemove">
@@ -183,6 +184,7 @@ export default {
             previewBox: {},//试题预览
             isPrev: false,
             isTeacherShare: true,//是否加入老师个人题库
+            content:''
         }
     },
     methods: {
@@ -359,6 +361,9 @@ export default {
             if (this.isSetQues) {
                 this.$emit("quits", true);
             }
+        },
+         editor(val){
+             this.textF = val;
         }
 
     },
@@ -397,6 +402,9 @@ export default {
         },
         checkbox(val) {
 
+        },
+         editor(val){
+             this.textF = val;
         }
     },
     components: {
