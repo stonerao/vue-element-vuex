@@ -340,6 +340,8 @@ export default {
                     Info.S_Search_Detail.call(this,did,type);
                 }else if(type == 3){  //素材
                     Info.S_Search_Detail.call(this,did,type);
+                }else if(type == 4){  //书籍
+                    this.$router.push({ path: '../shoping', query: { id: did } });
                 }
             }
         },
