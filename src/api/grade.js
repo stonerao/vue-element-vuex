@@ -89,4 +89,8 @@ export const api = {
     conferFileDel:'Home/Oss/del_upload_file',   //会议--上传文件删除
     T_upload_save:'Teacher/Meeting/update_meeting',   //会议--上传文件
     S_download_list:'Admin/Meeting/get_meeting_file',   //会议--下载附件（学校）
+    S_Search:'Student/Studentsearch/search',   //学生中心-大数据搜索
+    S_Search_Detail:'Student/Video/student_live_info',   //学生中心-大数据搜索-直播-详情
+    T_Search:'Teacher/Teachersearch/teacher_search',   //老师中心-大数据搜索
+    T_Search_Detail:'Teacher/Live/teacher_live_info',   //老师中心-大数据搜索-直播-详情
 }

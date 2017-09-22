@@ -140,4 +140,113 @@ export default {
         })
     },
 
+    //学生数据搜索
+    S_Search_List(obj,keyword) {
+        if(!obj.hasmore){
+            return
+        }
+        let apiUrl = api.S_Search,
+            formData = {
+                token:  getToken(),
+                keywords: keyword,
+                page: obj.curpage,
+                curpage: obj.one_pagenum,
+            }
+        if(this.DISTINGUISH == 2){  //老师
+            apiUrl = api.T_Search
+        }
+        this.$http(apiUrl, {
+            params: formData
+        }).then((res) => {
+            // console.log(res)
+            if (res.status == 200) {
+                if(res.data.code!=400){
+                    let _begin = res.data.data;
+                    this.S_SData = [];
+                    this.S_SData = _begin;
+                    this.materialParams.hasmore = res.data.hasmore;
+                    this.materialParams.curpage = parseInt(res.data.page);
+                    this.materialParams.page_count = parseInt(res.data.all_pagecount);
+                    this.materialParams.total_num = parseInt(res.data.page_total); 
+                }else{
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            }else {
+                this.$notify.error({
+                    message: res.data.data.error
+                });
+            }
+        })
+    },
+
+    //学生数据搜索-详情
+    S_Search_Detail(id,type) {
+        // 初始-直播
+        let apiUrl = api.S_Search_Detail,
+            formData = {
+                token:  getToken(),
+                live_id: id,
+            }
+        if(this.DISTINGUISH == 2){  //老师
+            if(type == 1){  //直播
+                apiUrl = api.T_Search_Detail;
+            }else if(type == 2){  //会议
+                apiUrl = api.conferMeetDetail_t;
+                formData = {
+                    token:  getToken(),
+                    id: id,
+                };
+            }else if(type == 3){
+                apiUrl = api.materManaEdit_b_t;
+                formData = {
+                    token:  getToken(),
+                    id: id,
+                };
+            }
+        }
+        this.$http(apiUrl, {
+            params: formData
+        }).then((res) => {
+            // console.log(res)
+            if (res.status == 200) {
+                if(res.data.code!=400){
+                    this.S_Type = type;
+                    if(type == 1){ //直播
+                        this.S_Detail.ZhiBo = res.data.data;
+                    }
+                    if(this.DISTINGUISH == 2){
+                         let  _data = res.data.data;
+                         if(type == 2){
+                            this.T_Detail.HuiYi = _data;
+                            if(_data.status == 1){
+                                this.T_Detail.HuiYi.status = '未开始';
+                            }else if(_data.status == 2){
+                                this.T_Detail.HuiYi.status = '进行中';
+                            }else if(_data.status == 3){
+                                this.T_Detail.HuiYi.status = '已结束';
+                            }
+                         }else if(type == 3){
+                            this.T_Detail.ShuCai = _data;
+                            this.T_Detail.ShuCai.add_time = this.Searchformat(parseInt(_data.add_time)*1000);
+                            if(_data.is_share == 1){
+                                this.T_Detail.is_share = '是';
+                            }else{
+                                this.T_Detail.is_share = '否';
+                            }
+                         }
+                    }
+                }else{
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            }else {
+                this.$notify.error({
+                    message: res.data.data.error
+                });
+            }
+        })
+    },
 }

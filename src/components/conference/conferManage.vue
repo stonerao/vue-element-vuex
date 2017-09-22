@@ -7,7 +7,7 @@
                     <div class="l_mater_header">
                         <el-row :gutter="15">
                             <el-col :span="6">
-                                <img src="../../assets/index/shuaxin.png" class="icon-img-xs" />刷新-共{{materialParams.total_num}}条记录
+                                <img src="../../assets/index/shuaxin.png" class="icon-img-xs" @click="L_refresh5"/>刷新-共{{materialParams.total_num}}条记录
                             </el-col>
                             <el-col :span="18" class="mater_search clearfloat">
                                 <el-col :span="5">
@@ -239,6 +239,21 @@ export default {
         titleItem, titleActive, description, bottomItem, conferEdit, ConferRecordUpload
     },
     methods: {
+        L_refresh5(){
+            this.materialParams = {   //翻页
+                hasmore: true,
+                curpage: 1,//当前页数
+                one_pagenum: 10,
+                page_count: 1,//总页数
+                total_num: 0
+            };
+            this.conferManaList = [];  
+            if(this.schoolManageCenter){  //学校-会议管理
+                info.conferMeetList_s.call(this,this.materialParams,this.conferStatus,this.conferTheme);
+            }else if(this.teacherManageCenter){  //老师-会议管理
+                info.conferMeetList_s.call(this,this.materialParams,this.conferStatus,this.conferTheme);
+            }
+        },
         emitTransfer(index) {
             if (this.state == index) {
                 return

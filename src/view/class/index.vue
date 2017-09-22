@@ -13,7 +13,7 @@
                         <div v-if="tab_0" v-loading="loading">
                             <el-row :gutter="20" class="l_search_header0 class-header">
                                 <el-col :span="6" class="class-titles">
-                                    <img src="../../assets/index/shuaxin.png" class="icon-img-xs" />刷新-共{{gradeListParams.total_num}}条记录
+                                    <img src="../../assets/index/shuaxin.png" class="icon-img-xs" @click="L_refresh1"/>刷新-共{{gradeListParams.total_num}}条记录
                                 </el-col>
                                 <el-col :span="18" class="class-searchs">
                                     <el-form :inline="true" id="search_form0">
@@ -315,6 +315,20 @@ export default {
         titleItem, titleActive, description, bottomItem, checkGradeSchedule, gradeList, virtualclass, allSuspend, ShowAllLog
     },
     methods: {
+        L_refresh1(){
+            if(this.state == 0){
+                this.gradeListParams = {  
+                    hasmore: true,
+                    curpage: 1,//当前页数
+                    one_pagenum: 10,
+                    page_count: 1,//总页数
+                    total_num: 0
+                };
+                this.gradeList = [];
+                info.gradeSearch.call(this,this.graClaId);   //搜索框
+                info.timeTable.call(this,this.gradeListParams,this.graClaId)   //总课表
+            }
+        },
         emitTransfer(index) {
             if (this.state == index) {
                 return

@@ -772,6 +772,9 @@
   opacity: 0;
   display: none;
 }
+.l_SearchStation .Station_header {
+  margin-bottom: 10px;
+}
 @media screen and (max-width: 1618px) {
   .l_layout_outer .l_graCla_list .li_list {
     width: 17.9%;

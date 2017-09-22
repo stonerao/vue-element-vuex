@@ -51,7 +51,7 @@ import questions from '@/view/questions/index'
 // 学校 科目管理
 import subjectMa from '@/view/subject/index'
 // 学生，老师----大数据搜索
-import searchStation from '@/view/search/search'
+import searchStation from '@/view/search/index'
 /*
   左侧图标以及点击后的图标
 */
@@ -434,13 +434,13 @@ export const ListStundent = [
     }, {
         path: '/search',
         name: '信息筛选',
-        redirect: '/search/search',
+        redirect: '/search/index',
         icon: pmsd,
         iconActive: pmsd_active,
         component: Layout,
         children: [
             {
-                path: 'search',
+                path: 'index',
                 name: '-信息筛选',
                 component: searchStation,
             }
@@ -611,13 +611,13 @@ export const ListTeacher = [
     }, {
         path: '/search',
         name: '信息筛选',
-        redirect: '/search/search',
+        redirect: '/search/index',
         icon: pmsd,
         iconActive: pmsd_active,
         component: Layout,
         children: [
             {
-                path: 'search',
+                path: 'index',
                 name: '-信息筛选',
                 component: searchStation,
             }

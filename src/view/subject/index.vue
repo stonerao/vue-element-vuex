@@ -13,7 +13,7 @@
                             <div class="l_mater_header">
                                 <el-row :gutter="15">
                                     <el-col :span="6" class="class-titles">
-                                        <img src="../../assets/index/shuaxin.png" class="icon-img-xs" />刷新-共{{materialParams.total_num}}条记录
+                                        <img src="../../assets/index/shuaxin.png" class="icon-img-xs" @click="L_refresh3"/>刷新-共{{materialParams.total_num}}条记录
                                     </el-col>
                                     <el-col :span="18" class="mater_search clearfloat" style="margin-bottom: 10px;"> 
                                             <el-input placeholder="输入科目名称" v-model="subjectName" class="width200 float-right" style="margin-right:10px">
@@ -116,6 +116,17 @@ export default {
         titleItem, titleActive, description, bottomItem, createSubject
     },
     methods: {
+        L_refresh3(){
+            this.materialParams = {   //翻页
+                hasmore: true,
+                curpage: 1,//当前页数
+                one_pagenum: 10,
+                page_count: 1,//总页数
+                total_num: 0
+            };
+            this.subjectManaList = [];
+            rec.subjectList_s.call(this,this.materialParams,this.subjectName);
+        },
         emitTransfer(index) {
             if (this.state == index) {
                 return
