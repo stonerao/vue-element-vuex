@@ -443,15 +443,14 @@ export default {
             return m<10?'0'+m:m 
         },
         Materailformat(needTime) {  
-            //needTime是整数，否则要parseInt转换  
-            var time = new Date(needTime);  
-            var y = time.getFullYear();  
-            var m = time.getMonth()+1;  
-            var d = time.getDate();  
-            var h = time.getHours();  
-            var mm = time.getMinutes();  
-            var s = time.getSeconds();  
-            return y+'-'+this.add1(m)+'-'+this.add1(d)+' '+this.add1(h)+':'+this.add1(mm)+':'+this.add1(s);  
+            let time = new Date(needTime),  
+                 y = time.getFullYear(),  
+                 m = time.getMonth()+1, 
+                 d = time.getDate(),
+                 h = time.getHours(), 
+                 mm = time.getMinutes(),  
+                 s = time.getSeconds();  
+            return y+'-'+this.add1(m)+'-'+this.add1(d)+' '+this.add1(h)+':'+this.add1(mm)+':'+this.add1(s);
         }  
     },
     watch: {
