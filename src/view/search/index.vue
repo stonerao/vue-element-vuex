@@ -48,7 +48,7 @@
                                 <div class="Station_header">
                                     <el-row style="padding-top: 5px;">
                                         <el-col :span="6">
-                                            <img src="../../assets/index/shuaxin.png" class="icon-img-xs"/>刷新-共{{materialParams.total_num}}条记录
+                                            <img src="../../assets/index/shuaxin.png" class="icon-img-xs" @click="SearchStation"/>刷新-共{{materialParams.total_num}}条记录
                                         </el-col>
                                     </el-row>
                                     <el-row class="clearfloat">
@@ -117,90 +117,10 @@
                             </div>
                             <!-- 查看详情-视频 -->
                             <div class="myPopup" v-if="S_Type == 2">
-                                <div class="Popup" style="width: 30%;">
-                                    <ul class="popHeader clearfloat">
-                                        <li>会议文件下载</li>
-                                        <li @click="L_SkinBack"><i class="el-icon-circle-close"></i></li>
-                                    </ul>
-                                    <div class="popContent" style="height: auto">
-                                        <div style="width: 100%;height: 100%;">
-                                            <el-row>
-                                                <el-col :span="3">直播名称：</el-col>
-                                                <el-col :span="21">
-
-                                                </el-col>
-                                            </el-row>
-                                            <el-row>
-                                                <el-col :span="3">开始时间：</el-col>
-                                                <el-col :span="21">
-
-                                                </el-col>
-                                            </el-row>
-                                            <el-row>
-                                                <el-col :span="3">结束时间：</el-col>
-                                                <el-col :span="21">
-
-                                                </el-col>
-                                            </el-row>
-                                            <el-row>
-                                                <el-col :span="3">状态：</el-col>
-                                                <el-col :span="21">
-
-                                                </el-col>
-                                            </el-row><el-row>
-                                                <el-col :span="3">详情：</el-col>
-                                                <el-col :span="21">
-
-                                                </el-col>
-                                            </el-row>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="dialog_mask" @click="L_SkinBack"></div>
+                                <videoPlay @closePlay="L_SkinBack" :videoId="SvideoId"></videoPlay>
                             </div>
                             <!-- 查看详情-书籍 -->
-                            <div class="myPopup" v-if="S_Type == 3">
-                                <div class="Popup" style="width: 30%;">
-                                    <ul class="popHeader clearfloat">
-                                        <li>会议文件下载</li>
-                                        <li @click="L_SkinBack"><i class="el-icon-circle-close"></i></li>
-                                    </ul>
-                                    <div class="popContent" style="height: auto">
-                                        <div style="width: 100%;height: 100%;">
-                                            <el-row>
-                                                <el-col :span="3">直播名称：</el-col>
-                                                <el-col :span="21">
 
-                                                </el-col>
-                                            </el-row>
-                                            <el-row>
-                                                <el-col :span="3">开始时间：</el-col>
-                                                <el-col :span="21">
-
-                                                </el-col>
-                                            </el-row>
-                                            <el-row>
-                                                <el-col :span="3">结束时间：</el-col>
-                                                <el-col :span="21">
-
-                                                </el-col>
-                                            </el-row>
-                                            <el-row>
-                                                <el-col :span="3">状态：</el-col>
-                                                <el-col :span="21">
-
-                                                </el-col>
-                                            </el-row><el-row>
-                                                <el-col :span="3">详情：</el-col>
-                                                <el-col :span="21">
-
-                                                </el-col>
-                                            </el-row>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="dialog_mask" @click="L_SkinBack"></div>
-                            </div>
         		        </div>
                 	</div>
                 </div>
@@ -215,6 +135,7 @@ import titleItem from '@/components/main/title.vue'
 import titleActive from '@/components/main/titleActive.vue'
 import description from '@/components/main/description.vue'
 import bottomItem from '@/components/bottom/bottom.vue'
+import videoPlay from '@/components/video/videoPlay'
 import { getClass } from '@/utils/auth'
 import Info from '@/utils/l_axios1'
 
@@ -250,16 +171,11 @@ export default {
                 total_num: 0
             },
             S_Detail: {
-                ZhiBo: {
-
-                },
-                ShiPing: {
-
-                },
-                JiaoCai: {
-
-                }
+                ZhiBo: {},
+                ShiPing: {},
+                JiaoCai: {},
             },
+            SvideoId: 0,  // 学生直播ID
         }
     },
     created() {
@@ -270,7 +186,7 @@ export default {
         }
     },
     components: {
-        titleItem, titleActive, description, bottomItem
+        titleItem, titleActive, description, bottomItem, videoPlay
     },
     methods: {
         emitTransfer(index) {
@@ -283,6 +199,13 @@ export default {
             console.log(status)
         },
         SearchStation(){   //搜索请求接口
+            this.materialParams = {   //翻页
+                hasmore: true,
+                curpage: 1,//当前页数
+                one_pagenum: 10,
+                page_count: 1,//总页数
+                total_num: 0
+            };
         	if(this.SearchType == 1){  //站内搜索
                 if(this.DISTINGUISH == 3){
                     Info.S_Search_List.call(this,this.materialParams,this.SearchVal);
@@ -293,10 +216,16 @@ export default {
 
         	}
         },
-        L_SinDetail(id,type){ //老师详情查看
+        L_SinDetail(did,type){ //老师详情查看
             this.S_Type = type;
             if(this.DISTINGUISH == 3){
-                Info.S_Search_Detail.call(this,id,type);
+                if(type ==1){  //直播
+                    Info.S_Search_Detail.call(this,did,type);
+                }else if(type == 2){  //视屏
+                    this.SvideoId = did;
+                }else if(type == 3){  //书籍
+                    this.$router.push({ path: '../shoping', query: { id: did } });
+                }
             }else if(this.DISTINGUISH == 2){
 
             }
