@@ -5,7 +5,7 @@
 			<div v-if="switch_0">
 		        <el-row :gutter="20" class="l_search_header0 class-header">
 		            <el-col :span="24" class="class-titles">
-		                <img src="../../assets/index/shuaxin.png" class="icon-img-xs"/>刷新-共{{gradeParams.total_num}}条记录
+		                <img src="../../assets/index/shuaxin.png" class="icon-img-xs" @click="L_refresh2"/>刷新-共{{gradeParams.total_num}}条记录
 		            </el-col>
 		        </el-row>
 		        <div class="l_graCla_list clearfloat">
@@ -97,6 +97,17 @@ export default {
         buildModel,checkModel,ShowAllLog
     },
     methods: {
+        L_refresh2(){
+            this.gradeParams = {
+                hasmore: true,
+                curpage: 1,//当前页数
+                one_pagenum: 10,
+                page_count: 1,//总页数
+                total_num: 0
+            };
+            this.gradList = [];
+            info.gradeAllList.call(this,this.gradeParams);
+        },
         checkModel(modelId){  //查看模版
         	// console.log(modelId);
         	this.ModuleID = modelId;

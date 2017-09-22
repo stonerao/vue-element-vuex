@@ -22,7 +22,7 @@
                                 <el-row :gutter="15">
                                     <el-col :span="6">
                                         <el-button type="primary" icon="plus" size="small" style="margin-right: 12px;" @click.native="createMaterial">上传素材</el-button>
-                                        <img src="../../assets/index/shuaxin.png" class="icon-img-xs" />刷新-共{{materialParams.total_num}}条记录
+                                        <img src="../../assets/index/shuaxin.png" class="icon-img-xs" @click="L_refresh4"/>刷新-共{{materialParams.total_num}}条记录
                                     </el-col>
                                     <el-col :span="18" class="mater_search clearfloat">
                                         <el-col :span="6">
@@ -306,6 +306,36 @@ export default {
         titleItem, titleActive, description, bottomItem, createMaterial, commonMaterial, classifyMaterial, TreeGrid
     },
     methods: {
+        L_refresh4(){
+            this.materManaList = [];  
+            if(this.isClassLogin == 2){ //激活老师管理系统身份
+                if(this.state == 1){
+                    this.materialParams = {   //翻页
+                        hasmore: true,
+                        curpage: 1,//当前页数
+                        one_pagenum: 10,
+                        page_count: 1,//总页数
+                        total_num: 0
+                    };
+                    info.materManaList_s.call(this,this.materialParams,this.lastId,this.searchlist.inputData,this.searchlist.materType);
+                    info.materManaType1_s.call(this,this.firstSelect);
+                    info.Teacher_type.call(this);
+                }
+            }else if(this.isClassLogin == 1){
+                if(this.state == 1){  //素材管理
+                    this.materialParams = {   //翻页
+                        hasmore: true,
+                        curpage: 1,//当前页数
+                        one_pagenum: 10,
+                        page_count: 1,//总页数
+                        total_num: 0
+                    };
+                    info.materManaList_s.call(this,this.materialParams,this.lastId,this.searchlist.inputData,this.searchlist.materType);
+                    info.materManaType1_s.call(this,this.firstSelect);
+                    info.Teacher_type.call(this);
+                }
+            }
+        },
         openA(name,url,iWidth,iHeight){
             let iTop = (window.screen.availHeight - 30 - iHeight) / 2, 
                 iLeft = (window.screen.availWidth - 10 - iWidth) / 2; 

@@ -225,7 +225,7 @@
                                 <videoPlay @closePlay="L_SkinBack" :videoId="SvideoId"></videoPlay>
                             </div>
                             <!-- 查看详情-书籍 -->
-
+                            
         		        </div>
                 	</div>
                 </div>
