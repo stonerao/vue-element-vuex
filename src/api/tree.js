@@ -12,4 +12,6 @@ export const api = {
     videoList_del:'Admin/Video/class_delete',   //视频管理-列表-删除分类
     videoList_addB:'Admin/Video/class_add_show',   //视频管理-列表-添加分类初始
     videoList_add:'Admin/Video/class_add',   //视频管理-列表-添加分类
+    departEditInit:'Admin/Department/show_class_edit',   //组织部门-管理-编辑初始数据
+    departEdit:'Admin/Department/class_edit',   //组织部门-管理-编辑-提交
 }

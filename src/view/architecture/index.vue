@@ -347,6 +347,10 @@ export default {
                 type: 'input',
                 key: 'name'
             }, {
+                title: '部门标识',
+                type: 'show',
+                key: 'tag'
+            }, {
                 title: '是否显示',
                 type: 'switch',
                 key: 'status'
@@ -356,6 +360,9 @@ export default {
                 actions: [{
                     type: 'default',
                     text: '删除'
+                },{
+                    type: 'default',
+                    text: '编辑'
                 }]
             }],
             rTreeGrid: true,   //自己的身份证
