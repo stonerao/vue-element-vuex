@@ -4,6 +4,16 @@
 @gray1: #999999;
 @gray2: #5b5b5b;
 
+.clearfloat:after{ 
+    content: '';
+    display: block;
+    clear: both;
+    height: 0;
+    visibility: hidden;
+}
+.clearfloat{
+    zoom: 1;
+}
 .l_layout_outer{
 	.clearfloat:after{ 
 	    content: '';
@@ -849,6 +859,99 @@
 .l_SearchStation{  //大数据搜索
 	.Station_header{
 		margin-bottom: 10px;
+	}
+}
+.l_archives_container{
+	.l_query_wrap{
+		padding: 43px 82px 366px 82px;
+		.item_l{
+			text-align: right;
+			line-height: 36px;
+			padding-right: 10px;
+			&.display{
+				opacity: 0;
+			}
+		}
+	}
+	.record_tree{
+		background: url(../assets/icon/pointA.png) repeat-y 150px 0;
+    	overflow: hidden;
+    	position: relative;
+    	padding: 35px 0px;
+    	.record{
+    		overflow: hidden;
+    	}
+    	.blue_line{
+    		width: 176px;
+    		height: 30px;
+    		border-right: 1px solid #1998e4;
+    	}
+    	.clock{
+    		background: url(../assets/icon/clock.png) no-repeat 150px 0;
+		    height: 60px;
+    	}
+    	.record_date{
+    		position: relative;
+    		li{
+    			vertical-align: middle;
+    		}
+    		.date{
+    			display: inline-block;
+    			width: 177px;
+    			border-right: 1px solid #1998e4;
+    			height: 100px;
+    			box-sizing: border-box;
+    			padding: 30px 0px;
+    			padding-left: 50px;
+    			position: relative;
+    			float: left;
+    			&:after{
+    				content: '';
+    				background: url(../assets/icon/radio.png) 0 0 no-repeat;
+    				width: 16px;
+    				height: 16px;
+    				position: absolute;
+    				right: -9px;
+    				top: 41px;
+    				z-index: 2;
+    			}
+    			h3{
+    				line-height: 23px;
+    			}
+    		}
+    		.info{
+    			display: block;
+    			margin-left: 220px;
+    			padding-right: 300px;
+    			box-sizing: border-box;
+    			height: 72px;
+    			border-radius: 10px;
+    			background: #eee;
+    			position: relative;
+				top: 17px;
+    			&:hover{
+    				background: #1998e4;
+    				.info_wrapper{
+    					color: #fff;
+    				}
+    			}
+    		}
+    		.info_wrapper{
+    			line-height: 72px;
+    			font-size: 20px;
+    			box-sizing: border-box;
+    			padding: 0px 13px;
+    			overflow: hidden;
+    			text-overflow: ellipsis;
+    			white-space: nowrap;
+    			position: relative;
+    		}
+    		.handleBtn{
+    			position: absolute;
+    			right: 13px;
+    			top: 17px;
+    		}
+    	}
 	}
 }
 
