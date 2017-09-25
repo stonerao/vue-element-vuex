@@ -12,7 +12,7 @@
                     <div class="l_archives_container">
                             <!-- 查询 -->
                         <div class="l_query_wrap" v-if="l_query">
-                            <el-row>
+                            <el-row style="margin-bottom: 20px;">
                                 <el-col :span="2" class="item_l">身份证号：</el-col>
                                 <el-col :span="18">
                                     <el-col :span="6">
@@ -29,37 +29,27 @@
                         </div>
                             <!-- 查询结果 -->
                         <div v-if="!l_query">
+                            <el-row style="margin-bottom: 0px;">
+                                <el-col :span="3" class="item_l" style="padding: 10px 0px 10px 49px;">姓名：<span style="color: #1998e4">{{recordList[0].st_name}}</span></el-col>
+                                <el-col :span="17" style="padding: 10px 0px">身份证号：{{recordList[0].st_certificates_number}}</el-col>
+                                <el-col :span="4" class="item_l" style="text-align: right;"><el-button type="primary" @click.native="recordBack">返回</el-button></el-col>
+                            </el-row>
                             <div class="record_tree">
                                 <div class="record">
                                     <h2 class="clock"></h2>
                                     <div class="blue_line"></div>
-                                    <ul class="record_date clearfloat">
+                                    <ul class="record_date clearfloat" v-for="item in recordList">
                                         <li class="date">
-                                            <h3>2015年9月1日</h3>
-                                            <h3>2015年9月1日</h3>
+                                            <h3>{{item.start_school_time}}</h3>
+                                            <h3>{{item.finish_school_time}}</h3>
                                         </li>
                                         <li class="info" :style="{width:`${InfoWidth}`}">
                                             <div class="info_wrapper">
-                                                阿萨德撒大
+                                                {{item.finish_school_time}}: {{item.school_name}}
                                             </div>
                                             <div class="handleBtn">
-                                                <el-button>查看成绩</el-button>
-                                                <el-button>查看书架</el-button>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                    <ul class="record_date clearfloat">
-                                        <li class="date">
-                                            <h3>2015年9月1日</h3>
-                                            <h3>2015年9月1日</h3>
-                                        </li>
-                                        <li class="info" :style="{width:`${InfoWidth}`}">
-                                            <div class="info_wrapper">
-                                                侧飒飒所所
-                                            </div>
-                                            <div class="handleBtn">
-                                                <el-button>查看成绩</el-button>
-                                                <el-button>查看书架</el-button>
+                                                <el-button v-if="item.show_cores_status" @click.native="CheckScore(recordList.st_id,recordList.school_identify)">查看成绩</el-button>
+                                                <el-button v-if="item.show_paper_status" @click.native="CheckBookshelf(recordList.st_id,recordList.school_identify)">查看书架</el-button>
                                             </div>
                                         </li>
                                     </ul>
@@ -92,12 +82,13 @@ export default {
                 `侧边栏可以进行高级搜索`
             ],
             state: 0, 
-            l_query: false,
+            l_query: true,
             query:{
                 name: '',
                 card: '',
             },
             InfoWidth: '',
+            recordList: [],
         }
     },
     created() {
@@ -117,6 +108,18 @@ export default {
         },
         queryNow(){
             info.recordCheck.call(this,this.query.card);
+        },
+        achivesAjax(code){
+            info.recordResult.call(this,code);
+        },
+        recordBack(){
+            this.l_query = true;
+        },
+        CheckScore(s_id,sc_iden){  //查看分数
+
+        },
+        CheckBookshelf(s_id,sc_iden){  //查看书架
+
         },
     }
 }

@@ -20,8 +20,32 @@ export default {
                         duration: 1000,
                         onClose: () => {
                            this.l_query = false;
+                           this.achivesAjax(code);
                         }
                     });
+                }else{
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            }else{
+                this.$notify.error({
+                    message: res.data.data.error
+                });
+            }
+        })
+    },
+    //查询结果
+    recordResult(code) {
+        this.$http(api.recordResult, {
+            params: {
+                token: getToken(),
+                st_certificates_number: code
+            }
+        }).then((res) => {
+            if (res.status === 200) {
+                if(res.data.code!=400){
+                   this.recordList = res.data.data;
                 }else{
                     this.$notify.error({
                         message: res.data.data.error
