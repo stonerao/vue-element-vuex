@@ -52,6 +52,8 @@ import questions from '@/view/questions/index'
 import subjectMa from '@/view/subject/index'
 // 学生，老师----大数据搜索
 import searchStation from '@/view/search/index'
+// 档案查询
+import archives from '@/view/archives/index'
 /*
   左侧图标以及点击后的图标
 */
@@ -273,6 +275,20 @@ export const constList = [
                 path: 'index',
                 name: '-通知管理',
                 component: notice,
+            }
+        ]
+    }, {
+        path: '/archives',
+        name: '档案查询',
+        redirect: '/archives/index',
+        icon: xx,
+        iconActive: xx_active,
+        component: Layout,
+        children: [
+            {
+                path: 'index',
+                name: '-档案查询',
+                component: archives,
             }
         ]
     },
