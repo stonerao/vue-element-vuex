@@ -458,5 +458,86 @@ export default {
             })
         },
 
+        //组织部门-管理-编辑初始数据获取
+        departEditInit(id) {
+            this.$http(api.departEditInit, {
+                params: {
+                    token: getToken(),
+                    department_id: id,
+                }
+            }).then((res) => {
+                if (res.status == 200) {
+                    if(res.data.code!=400){
+                        let _data = res.data.data,
+                            _show = res.data.data.department_info.special_tag;
+                        this.className = _data.department_info.department_name;
+                        this.teacherList = _data.teacher_list;
+                        this.selectVal={
+                            teacher: _data.department_info.head_teacher_id,
+                        }
+                        if(parseInt(_show) == 3){
+                            this.whetherShow = false;
+                        }else{
+                            this.whetherShow = true;
+                            this.gradeList = _data.grades_list;
+                            this.selectVal.grade = _data.department_info.grades_id;
+                        }
+                    }else{
+                        this.$notify({
+                            message: res.data.data.error,
+                            type: 'error',
+                            duration: 1000,
+                            onClose: () => {
+                                this.departCancel();
+                            }
+                        });
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
+
+        //组织部门-管理-编辑提交
+        departEdit(cname,obj) {
+            if(!this.whetherShow){
+                obj.grade = 0;
+            }
+            this.$http({
+                url: api.departEdit,
+                method: 'post',
+                data: {
+                    token: getToken(),
+                    department_id: this.DepartID,
+                    department_name: cname,
+                    head_teacher_id: obj.teacher,
+                    pid: obj.grade
+                }
+            }).then((res) => { 
+                // console.log(res);
+                if (res.status == 200) {
+                    if(res.data.code!=400){
+                        this.$notify({
+                            message: res.data.data,
+                            type: 'success',
+                            duration: 1000,
+                            onClose: () => {
+                                this.departCancel(1);
+                            }
+                        });
+                    }else{
+                        this.$notify.error({
+                            message: res.data.data.error
+                        });
+                    }
+                }else {
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            })
+        },
 }
 
