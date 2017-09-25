@@ -504,7 +504,7 @@ export default {
                             });
                             this.loading = false;
                             this.checkBoxRefresh();   //刷新checkbox个数
-                        }, 300);
+                        }, 400);
                     }
                 }
             }
