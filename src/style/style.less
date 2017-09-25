@@ -848,9 +848,9 @@ body,
             line-height: 50px;
             color: #444;
         }
-        img{
-            width:120px;
-            height:150px; 
+        img {
+            width: 120px;
+            height: 150px;
         }
     }
 }
@@ -1087,17 +1087,18 @@ body,
             }
         }
     }
-    .WordSection1{
-        background:#fff; 
+    .WordSection1 {
+        background: #fff;
         top: 50%;
         left: 50%;
-        transform: translate(-50%, -50%);position: absolute;
+        transform: translate(-50%, -50%);
+        position: absolute;
         width: 1200px;
-        height:90%;
-        min-height:500px;
-        overflow:auto;
-        padding:20px;
-        border-radius:10px;
+        height: 90%;
+        min-height: 500px;
+        overflow: auto;
+        padding: 20px;
+        border-radius: 10px;
     }
     .r-alert-content {
         width: 1200px;
@@ -1480,7 +1481,25 @@ body,
     }
 }
 
+.displaynone {
+    display: none !important
+}
 
-.displaynone{
-    display:none !important
+.r-viser-list {
+    background: #fff;
+    @color: rgb(25, 152, 228);
+    li {
+        cursor: pointer;
+        padding: 5px 10px;
+        transition: all .2s;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    li:hover {
+        color: @color;
+    }
+    li.active {
+        color: @color;
+    }
 }

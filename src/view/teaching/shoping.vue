@@ -23,16 +23,16 @@
       <div class="r-shoping-info">
         <div class="r-shoping-left">
           <div class="r-shoping-img">
-            <img src='../../assets/login/back.jpg' />
+            <img :src='datas.paper_img' />
           </div>
-          <div class="r-shoping-shar">
+          <!-- <div class="r-shoping-shar">
             <span class="r-shoping-shou">
               <img src="../../assets/icon/shou.png" />收藏</span>
             <span class="r-shoping-fen">
               <img src="../../assets/icon/shar.png" />分享</span>
             <span class="float-right">
               <img src="../../assets/icon/icon_good.png" />67943</span>
-          </div>
+          </div> -->
         </div>
         <div class="r-shoping-right">
           <div class="r-shoping--info">

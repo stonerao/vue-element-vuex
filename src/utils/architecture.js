@@ -83,11 +83,12 @@ export default {
                 number_id: obj.number_id,
                 token: getToken()
             }
-        }).then((res) => {
-            if (res.data.code == 'status') {
+        }).then((res) => { 
+            if (res.data.status == 'true') {
+
                 this.$notify({
                     title: '成功',
-                    message: res.data.data,
+                    message: res.data.msg,
                     type: 'success',
 
                 });
@@ -95,7 +96,7 @@ export default {
             } else {
                 this.$notify({
                     title: '失败',
-                    message: res.data.data.error,
+                    message: res.data.msg,
                 });
             }
         })

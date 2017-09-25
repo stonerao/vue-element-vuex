@@ -111,7 +111,7 @@ export default {
             data: form
         }).then((res) => {
             if (res.data.status == 'true') {
-                this.state=0
+                this.state = 0
                 this.$message({
                     type: 'success',
                     message: res.data.msg
@@ -128,8 +128,10 @@ export default {
         this.$http(api.studentlist, {
             params: {
                 token: getToken(),
-                st_name: this.studentList.st_name,
-                st_sex: this.studentList.st_sex,
+                st_name: this.st_name,
+                st_sex: this.st_sex,
+                st_certificates_number: this.st_certificates_number,
+                st_phone: this.st_phone,
                 st_status: this.state != 2 ? this.studentList.st_status : 20,
                 page: this.studentList.curpage,
                 curpage: this.studentList.one_pagenum,
@@ -259,6 +261,62 @@ export default {
                     confirmButtonText: '确定'
                 });
             }
+        })
+    },
+    virtual_class_list() {
+        this.$http(api.virtual_class_list, {
+            params: {
+                token: getToken()
+            }
+        }).then((res) => {
+            this.virtual_list = res.data.department_list;
+        })
+    },
+    thawstudent() {
+        // 解冻
+        this.$http(api.thawstudent, {
+            params: {
+                token: getToken(),
+                st_id: this.studentArr.join(',')
+            }
+        }).then((res) => {
+            if (res.data.code == 200) {
+                this.$notify({
+                    title: '成功',
+                    message: res.data.data,
+                    type: 'success',
+                });
+            }
+            else {
+                this.$notify.error({
+                    message: res.data.data.error
+                });
+
+            }
+        })
+    },
+    virtual_class_studentlist(state) {
+        this.$http(api.virtual_class_studentlist, {
+            params: {
+                token: getToken(),
+                st_name: this.st_name,
+                st_sex: this.st_sex,
+                st_certificates_number: this.st_certificates_number,
+                st_phone: this.st_phone,
+                page: this.page,
+                curpage: this.curpage,
+                department_id: this.department_id,
+            }
+        }).then((res) => {
+            this.t_data = res.data.data.studentlist;
+            this.stundentCount = res.data.data.data_array;
+            this.total = parseInt(res.data.page_total);
+            // if (state === 2) {
+            //     this.st_name = '';
+            //     this.st_sex = '';
+            //     this.st_certificates_number = '';
+            //     this.st_phone = '';
+            // }
         })
     }
 

@@ -154,5 +154,13 @@ export default {
             }
         })
 
+    },
+    teaching_pay_shop(){
+        this.$http({
+            method:'get',
+            params:{
+                token:getToken(),
+            }
+        })
     }
 }

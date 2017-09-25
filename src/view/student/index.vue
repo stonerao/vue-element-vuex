@@ -9,8 +9,8 @@
                 <description :prompts="prompts" @PromPts="promptsTem"></description>
                 <!--在校学生  -->
                 <div v-if="state==0">
-                    <el-row :gutter="10" class="class-header">
-                        <el-col :span="19" class="class-titles">
+                    <el-row :gutter="7" class="class-header">
+                        <el-col :span="12" class="class-titles">
                             <el-button type="primary" icon="plus" size="small" @click="addStudent">增加学生</el-button>
                             <el-button type="primary" icon="plus" size="small">批量导入</el-button>
                             <span>
@@ -22,9 +22,21 @@
                             <span>女生：
                                 <a class="cheng-color">{{stundentCount.girlcount}}</a>人</span>
                         </el-col>
-                        <el-col :span="5">
-                            <el-input placeholder="输入名称" icon="search" size="small" v-model="studentList.st_name" :on-icon-click="handleIconClick">
-                            </el-input>
+                        <el-col :span="12">
+                            <div class="float-right"> 
+                           
+                            <el-select v-model="st_sex" placeholder="性别" class="width100">
+                                <el-option value="1" label="保密">保密</el-option>
+                                <el-option value="2" label="男">男</el-option>
+                                <el-option value="3" label="女">女</el-option>
+                            </el-select>
+                            <el-input v-model="st_certificates_number" placeholder="护照/身份证号" class="width150"></el-input>
+                            <el-input v-model="st_phone" placeholder="联系电话" class="width150"></el-input>
+                            <el-input v-model="st_name" placeholder="学生姓名" class="width100"></el-input>
+                            <el-button @click="handleIconClick" type="primary">搜索</el-button>
+                             </div>
+                            <!-- <el-input placeholder="输入名称" icon="search" size="small" v-model="studentList.st_name" :on-icon-click="handleIconClick">
+                                    </el-input> -->
                         </el-col>
                     </el-row>
                     <el-row :gutter="20">
@@ -47,7 +59,7 @@
                                 <el-table-column prop="st_name" label="姓名" width="100" show-overflow-tooltip>
                                 </el-table-column>
                                 <el-table-column prop="cer" label="证件类型" width="100" show-overflow-tooltip>
-                                </el-table-column>  
+                                </el-table-column>
                                 <el-table-column prop="st_certificates_number" label="证件号" show-overflow-tooltip>
                                 </el-table-column>
                                 <el-table-column prop="st_phone" label="电话" show-overflow-tooltip>
@@ -63,20 +75,21 @@
                             <div class="kd-page">
                                 <el-row>
                                     <el-col :span="12" style="padding-left:15px">
-                                        <el-button type="primary" size="mini">激活</el-button>
+                                        <el-button type="primary" size="mini" @click="thawstudent">激活</el-button>
                                         <el-button type="primary" size="mini">毕业</el-button>
                                     </el-col>
                                     <el-col :span="12">
                                         <el-pagination class="float-right" @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="studentList.curpage" :page-sizes="[10, 15, 20, 25]" :page-size="studentList.page_count" layout="total, sizes, prev, pager, next, jumper" :total="parseInt(stundentCount.count)">
-                                        </el-pagination> 
+                                        </el-pagination>
                                     </el-col>
-                                </el-row> 
+                                </el-row>
                             </div>
-                        </el-col> 
-                    </el-row> 
+                        </el-col>
+                    </el-row>
                 </div>
                 <div v-if="state==1">
-    
+                    <!-- 虚拟班列表 -->
+                    <r-list @setStu="setStu"></r-list>
                 </div>
                 <div v-if="state==2">
                     <!--离校学生  -->
@@ -85,7 +98,7 @@
                             <span>
                                 <img src="../../assets/index/shuaxin.png" class="icon-img-xs" @click="studentRefresh" />刷新</span>
                             <span>当前总人数：
-                                
+
                                 <a class="red-color">{{stundentCount.count}}</a>人</span>
                             <span>男生：
                                 <a class="cheng-color">{{stundentCount.boycount}}</a>人</span>
@@ -143,14 +156,14 @@
                             </el-input>
                         </el-col>
                     </el-row>
-    
+
                     <el-table ref="multipleTable" :data="t_data" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange" class="z-text-over">
                         <el-table-column type="selection" width="55">
                         </el-table-column>
                         <el-table-column prop="st_name" label="姓名" width="100" show-overflow-tooltip>
                         </el-table-column>
                         <el-table-column prop="cer" label="证件类型" width="100" show-overflow-tooltip>
-                        </el-table-column> -->
+                        </el-table-column>
                         <el-table-column prop="st_certificates_number" label="证件号" show-overflow-tooltip>
                         </el-table-column>
                         <el-table-column prop="st_phone" label="电话" show-overflow-tooltip>
@@ -165,21 +178,20 @@
                         </el-table-column>
                     </el-table>
                     <div class="kd-page">
-                        <el-row>　
+                        <el-row>
                             <el-col :span="24">
                                 <el-pagination class="float-right" @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="studentList.curpage" :page-sizes="[10]" :page-size="studentList.page_count" layout="total, sizes, prev, pager, next, jumper" :total="studentList.total_num">
-                                </el-pagination> 
+                                </el-pagination>
                             </el-col>
                         </el-row>
-    
                     </div>
-    
+
                 </div>
                 <div v-if="state==5">
                     <!-- 编辑学生  -->
                     <studentSetVue :state="setState" :dataObj="setObj" :goState="0" @SetQuti="SetQuti"></studentSetVue>
                 </div>
-    
+
             </div>
             <bottomItem></bottomItem>
         </div>
@@ -192,6 +204,7 @@ import titleActive from '@/components/main/titleActive.vue'
 import description from '@/components/main/description.vue'
 import bottomItem from '@/components/bottom/bottom.vue'
 import studentSetVue from '@/components/student/set'
+import list from '@/components/student/list'
 import store from '@/utils/teacher'
 export default {
     data() {
@@ -240,6 +253,10 @@ export default {
             stundentCount: [],//学生人数
             outStundentList: [],//离校学生列表  
             outStundentObj: {},//离校学生数据
+            st_name: '',
+            st_sex: '',
+            st_certificates_number: '',
+            st_phone: '',
         }
     },
     created() {
@@ -250,7 +267,7 @@ export default {
 
     },
     components: {
-        titleItem, titleActive, description, bottomItem, studentSetVue
+        titleItem, titleActive, description, bottomItem, studentSetVue, 'r-list': list
     },
     mounted() {
 
@@ -262,9 +279,9 @@ export default {
             }
             this.state = index;
             this.t_data = [];
-            this.search=''
+            this.search = ''
             this.studentAjax();
-            
+
         },
         promptsTem(status) {
             console.log(status)
@@ -333,6 +350,21 @@ export default {
             // 刷新列表数据
             this.t_data = []
             this.studentAjax();
+        },
+        thawstudent(id) {
+            this.$confirm('是否激活学生?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                store.thawstudent.call(this)
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '已取消删除'
+                });
+            });
+
         }
     },
     watch: {
@@ -346,8 +378,8 @@ export default {
                 this.$refs.multipleTable.clearSelection();
             }
         },
-        state(val){
-            if(val==0){
+        state(val) {
+            if (val == 0) {
                 this.studentAjax();
             }
         }

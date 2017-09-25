@@ -104,4 +104,8 @@ export const api = {
     send_znotice:"Teacher/Examinationcenter/send_znotice",//老师发布通知接口
     student_teaching_list:"Student/SchoolStudent/student_teaching_list",//学生-个人书架列表
     teaching_interface_Teacher:"Teacher/Teaching/teacher_teaching_list",//教材列表 
+    teaching_pay_shop:"Student/SchoolStudent/teaching_pay",//教材购买 
+    virtual_class_list:"Admin/teacher/virtual_class_list",//admin 学生 虚拟班列表 
+    virtual_class_studentlist:"Admin/teacher/virtual_class_studentlist",//admin 学生 虚拟班列表 
+    thawstudent:"Admin/teacher/thawstudent",//admin激活学生
 }

@@ -33,6 +33,7 @@
                         <el-button type="primary" class="t-submit" @click="sub">登录</el-button>
                     </li>
                     <li class="r-login-switch">
+                        <router-link to="" >忘记密码</router-link>
                         <span class="float-right ">选择登录方式：
                             <el-switch v-model="typestate" off-text="学生" on-text="老师 " on-color="#13ce66" off-color="#ff4949">
                             </el-switch>
