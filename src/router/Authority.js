@@ -48,6 +48,7 @@ import setCheng from '@/view/examination/admin'
 import examinationTeacher from '@/view/examination/teacher'
 // 老师 试题库
 import questions from '@/view/questions/index'
+import questionsAdmin from '@/view/questions/admin'
 // 学校 科目管理
 import subjectMa from '@/view/subject/index'
 // 学生，老师----大数据搜索
@@ -306,9 +307,10 @@ export const constList = [
                 component: setVue,
             }
         ]
-    }, {
+    },*/
+    {
         path: '/set',
-        name: '锁频设置',
+        name: '试题库',
         redirect: '/set/index',
         icon: pmsd,
         iconActive: pmsd_active,
@@ -316,11 +318,12 @@ export const constList = [
         children: [
             {
                 path: 'index',
-                name: '-锁频设置',
-                component: setVue,
+                name: '-试题库',
+                component: questionsAdmin,
             }
         ]
-    }, */
+    },
+
     {
         path: '/adminIndex',
         redirect: "/one/index"
