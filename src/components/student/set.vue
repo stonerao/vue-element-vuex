@@ -4,7 +4,7 @@
             <el-button type="primary" icon="plus" size="small">增加学生</el-button>
             <el-button type="primary" icon="plus" size="small">批量导入</el-button>
         </div>
-        <section class="add-inp margintop15" >
+        <section class="add-inp margintop15">
             <div class="add-inp-items">
                 <div class="add-inp-item">
                     <div class="add-inp-item-name">
@@ -185,7 +185,22 @@
                         </el-row>
 
                     </div>
-                    <!-- <div class="add-inp-item-addname margin-left">如：13800000000</div> -->
+                </div>
+                <div class="add-inp-item ">
+                    <div class="add-inp-item-name">
+                        虚拟班:
+                    </div>
+                    <div class="add-inp-item-inp  ">
+                        <el-row :gutter="6">
+                            <el-col :span="24">
+                                <el-select v-model="virtual" placeholder="请选择虚拟班级班级" multiple class="float:left" style="width:100%">
+                                    <el-option v-for="item in virtual_list" :key="item.department_name" :label="item.department_name" :value="item.department_id">
+                                    </el-option>
+                                </el-select>
+                            </el-col>
+                        </el-row>
+                    </div>
+                        <div class="add-inp-item-addname margin-left">支持多选</div>
                 </div>
                 <div class="add-inp-item">
                     <div class="add-inp-item-name">
@@ -251,6 +266,7 @@ export default {
                 st_status: "",//就读状态（1：在校，2：毕业，3：休学，4：开除）
                 member_name: "",//user
                 password: "",//password
+                virtual:[],//虚拟版数据
             },//当前所有页面数据
             area: {
                 province: [],//省
@@ -279,7 +295,9 @@ export default {
             grade_id: '',//年级id
             classForm: [],//
             class_id: '',
-            st_birthday:''
+            st_birthday: '',
+            virtual: [],
+            virtual_list: []
         }
     },
     methods: {
@@ -313,15 +331,17 @@ export default {
         submit() {
             // 保存
             // 家长信息  
-            this.obj.st_parent = uitlsFun.encodeUnicode(JSON.stringify(this.parents))
-            this.st_birthday = Date.parse(this.st_birthday);  
+            this.obj.st_parent = uitlsFun.encodeUnicode(JSON.stringify(this.parents));
+            this.obj.virtual_class_ids = this.virtual.join(",");
+            this.st_birthday = Date.parse(this.st_birthday);
             store.addStundet.call(this, this.obj, this.state)
 
         }
     },
     created() {
         store.grade_list.call(this);
-
+        // 虚拟班列表
+        store.virtual_class_list.call(this)
         this.getArea(1)
         // 年纪
 
@@ -331,8 +351,9 @@ export default {
 
         if (this.state == 1) {
             // this.dataObj = {}
-        } else if (this.state == 2) { 
-            if (this.dataObj.st_id) {　
+        } else if (this.state == 2) {
+            if (this.dataObj.st_id) {
+                console.log(this.obj)
                 let obj = this.obj;
                 let dataObj = this.dataObj;
                 obj.st_id = dataObj.st_id;
@@ -340,7 +361,7 @@ export default {
                 obj.st_sex = dataObj.st_sex ? dataObj.st_sex : '';//性别
                 obj.st_phone = dataObj.st_phone ? dataObj.st_phone : '';//联系电话 
                 this.st_birthday = dataObj.st_birthday ? new Date(parseInt(dataObj.st_birthday) * 1000) : '';//出生日期 
-                obj.st_provinceid = dataObj.st_provinceid ?  dataObj.st_provinceid   : '';//籍贯（省级ID） 
+                obj.st_provinceid = dataObj.st_provinceid ? dataObj.st_provinceid : '';//籍贯（省级ID） 
                 this.province_id = dataObj.st_provinceid;
                 obj.st_cityid = dataObj.st_cityid ? dataObj.st_cityid : '';//籍贯（市级ID） 
                 obj.st_areaid = dataObj.st_areaid ? dataObj.st_areaid : '';//籍贯（地区ID）
@@ -352,10 +373,10 @@ export default {
                 obj.st_certificates = dataObj.st_certificates ? dataObj.st_certificates : '';//证件类型（0：无，1：身份证，2：学生证）
                 obj.st_certificates_number = dataObj.st_certificates_number ? dataObj.st_certificates_number : '';//证件号码
                 obj.st_grade = dataObj.st_grade ? dataObj.st_grade : '';//年级
-                this.grade_id= dataObj.st_grade
-                obj.st_class = dataObj.st_class ? dataObj.st_class : '';//班级
-                
-                obj.st_status = dataObj.st_status ? dataObj.st_status : '';//就读状态（1：在校，2：毕业，3：休学，4：开除） 
+                this.grade_id = dataObj.st_grade
+                obj.st_class = dataObj.st_class ? dataObj.st_class : '';//班级 
+                obj.st_status = dataObj.st_status ? dataObj.st_status : '';//就读状态（1：在校，2：毕业，3：休学，4：开除） 　
+                this.virtual = dataObj.virtual?dataObj.virtual_class_ids.split(","):[];
 
             }
         }
@@ -373,7 +394,7 @@ export default {
             // 加载市 
             this.getArea(2, val);
         },
-        city_id(val) { 
+        city_id(val) {
             this.obj.st_cityid = val
             this.area_id = "";
             this.area.area = [];
@@ -396,3 +417,8 @@ export default {
 
 }
 </script>
+<style>
+.add-inp-item-name{
+    padding-right:10px;
+}
+</style>
