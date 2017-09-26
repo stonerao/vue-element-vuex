@@ -30,9 +30,9 @@
                             <!-- 查询结果 -->
                         <div v-if="!l_query">
                             <div v-if="l_query_result">
-                                <el-row style="margin-bottom: 0px;">
+                                <el-row style="margin-bottom: 0px; border-bottom: 1px solid #1998e4;padding-bottom: 5px;">
                                     <el-col :span="3" class="item_l" style="padding: 10px 0px 10px 49px;">姓名：<span style="color: #1998e4">{{recordList[0].st_name}}</span></el-col>
-                                    <el-col :span="17" style="padding: 10px 0px">身份证号：{{recordList[0].st_certificates_number}}</el-col>
+                                    <el-col :span="17" style="padding: 10px 0px">身份证号：<span style="color: #1998e4">{{recordList[0].st_certificates_number}}</span></el-col>
                                     <el-col :span="4" class="item_l" style="text-align: right;"><el-button type="primary" @click.native="recordBack">返回</el-button></el-col>
                                 </el-row>
                                 <div class="record_tree">
@@ -51,8 +51,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="handleBtn">
-                                                    <el-button v-if="item.show_cores_status" @click.native="CheckScore(recordList.st_id,recordList.school_identify)">查看成绩</el-button>
-                                                    <el-button v-if="item.show_paper_status" @click.native="CheckBookshelf(recordList.st_id,recordList.school_identify)">查看书架</el-button>
+                                                    <el-button v-if="item.show_cores_status" @click.native="CheckScore(item.st_id,item.school_identify,item.st_name,item.st_certificates_number,item.school_name)">查看成绩</el-button>
+                                                    <el-button v-if="item.show_paper_status" @click.native="CheckBookshelf(item.st_id,item.school_identify)">查看书架</el-button>
                                                 </div>
                                             </li>
                                         </ul>
@@ -61,10 +61,11 @@
                             </div>
                             <div v-if="query_result_score">
                                 <!-- 分数查询 -->
-                                <scoreTable></scoreTable>
+                                <scoreTable :SCOREDATA="scoredata" :PERSONINFO="personinfo" @scoreORshelfBack="scoreORshelfBack"></scoreTable>
                             </div>
                             <div v-if="query_result_shelf">
                                 <!-- 书架查询 -->
+                                <shelfTable :SHELFDATA="shelfdata"></shelfTable>
                             </div>
                         </div>
                     </div>
@@ -81,6 +82,7 @@ import titleActive from '@/components/main/titleActive.vue'
 import description from '@/components/main/description.vue'
 import bottomItem from '@/components/bottom/bottom.vue'
 import scoreTable from '@/components/archives/Queryscore.vue'
+import shelfTable from '@/components/archives/Queryshelf.vue'
 import info from '@/utils/archives'
 
 export default {
@@ -104,12 +106,15 @@ export default {
             l_query_result: true,
             query_result_score: false,
             query_result_shelf: false,
+            scoredata: {},
+            shelfdata: {},
+            personinfo: {},  //个人信息（姓名，身份证，学校）
         }
     },
     created() {
     },
     components: {
-        titleItem, titleActive, description, bottomItem, scoreTable
+        titleItem, titleActive, description, bottomItem, scoreTable, shelfTable
     },
     methods: {
         emitTransfer(index) {
@@ -130,14 +135,35 @@ export default {
         recordBack(){
             this.l_query = true;
         },
-        CheckScore(s_id,sc_ident){  //查看分数
+        CheckScore(s_id,sc_ident,s_name,s_idcard,s_school){  //查看分数
+            this.scoredata = {
+                id: s_id,
+                card: sc_ident
+            };
+            this.personinfo = {
+                name: s_name,
+                idcard: s_idcard,
+                schoolname: s_school
+            };
             this.l_query_result = false;
             this.query_result_score = true;
         },
         CheckBookshelf(s_id,sc_ident){  //查看书架
+            this.shelfdata = {
+                id: s_id,
+                card: sc_ident
+            };
             this.l_query_result = false;
             this.query_result_shelf = true;
         },
+        scoreORshelfBack(val){  //查看成绩及书架返回
+            this.l_query_result = true;
+            if(val == 1){  //成绩返回
+                this.query_result_score = false;
+            }else{
+                this.query_result_shelf = false;
+            }
+        }
     }
 }
 </script>
