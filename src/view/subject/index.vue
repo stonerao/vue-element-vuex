@@ -65,7 +65,7 @@
                     </div>
 
                     <div class="myPopup" v-if="Dailog">
-                        <div class="Popup" style="width:30%">
+                        <div class="Popup" style="width:720px">
                             <ul class="popHeader clearfloat">
                                 <li>科目信息一览</li>
                                 <li @click="CloseMask"><i class="el-icon-circle-close"></i></li>
@@ -84,7 +84,7 @@
                                         <el-col :span="3">科目老师：</el-col>
                                         <el-col :span="21">
                                             <ul class="clearfloat">
-                                                <li style="float: left;margin-right: 5px;" v-for="teacher in subjectInfo.tlist">{{teacher}}</li>
+                                                <li style="float: left;width: 30%;" v-for="teacher in subjectInfo.tlist">{{teacher.teacher_name}}-{{teacher.teacher_phone}}</li>
                                             </ul>
                                         </el-col>
                                     </el-row>
