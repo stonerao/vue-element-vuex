@@ -108,4 +108,10 @@ export const api = {
     virtual_class_list:"Admin/teacher/virtual_class_list",//admin 学生 虚拟班列表 
     virtual_class_studentlist:"Admin/teacher/virtual_class_studentlist",//admin 学生 虚拟班列表 
     thawstudent:"Admin/teacher/thawstudent",//admin激活学生
+    testpaper_info:"Teacher/Examinationcenter/testpaper_info",//考试试卷详情
+    edit_testpaper:"Teacher/Examinationcenter/edit_testpaper",//编辑试卷
+    teacher_testpaper:"Teacher/Examinationcenter/teacher_testpaper",//老师分享题库
+    edit_sharetestpaper:"Teacher/Examinationcenter/edit_sharetestpaper",//分享试题库成为自己的
+    online_grades_static:"Teacher/Examinationcenter/online_grades_static",//统计成绩
+    
 }

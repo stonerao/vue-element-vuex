@@ -26,6 +26,8 @@ import titleItem from '@/components/main/title.vue'
 import titleActive from '@/components/main/titleActive.vue'
 import description from '@/components/main/description.vue'
 import bottomItem from '@/components/bottom/bottom.vue'
+import question_class from '@/components/questions/question_class'
+import list_class from '@/components/questions/list_class'
 export default {
     data() {
         return {
@@ -42,7 +44,8 @@ export default {
     created() {
     },
     components: {
-        titleItem, titleActive, description, bottomItem
+        titleItem, titleActive, description, bottomItem,
+        question_class, list_class
     },
     methods: {
         emitTransfer(index) {

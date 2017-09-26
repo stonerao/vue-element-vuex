@@ -17,13 +17,16 @@
                     </createQuestion>
                 </div>
                 <div v-if="state==2">
-                    <examinationList @setQuestion="setQuestionList"></examinationList>
+                    <examinationList @setQuestion="setQuestionList" @grade="gradeList"></examinationList>
                 </div>
                 <div v-if="state==3">
                     <createExamination @quit="examQuit" @setExamOk="setExamOk" :set_e_id="set_e_id" :selectObjs="examstateQuestion" @selectExam="selectExam"></createExamination>
                 </div>
                 <div v-if="state==4">
                     <management @mang_id="mang_id"></management>
+                </div>
+                <div v-if="state==5">
+                    <testpaper></testpaper>
                 </div>
                 <div v-if="state==6">
                     <teacherCenterList @TOGO="TOGO" v-if="isListBottom" @results="results" @results_list="resultsa"></teacherCenterList>
@@ -52,6 +55,9 @@
                 <div v-if="state==14">
                     <statistics :id="t_id" @fanhui="state=0"></statistics>
                 </div>
+                <div v-if="state==15">
+                    <gradeList :id="e_id" @fanhui="state=2"></gradeList>
+                </div>
 
             </div>
             <bottomItem></bottomItem>
@@ -78,6 +84,8 @@ import teacherCenterList from '@/components/center/teacherCenterList'
 import results from '@/components/center/results'
 import results_center from '@/components/center/results_center'
 import statistics from '@/components/examination/statistics'
+import gradeList from '@/components/examination/gradeList'
+import testpaper from '@/components/examination/testpaper'
 
 import { removeSelectQuestion } from '@/utils/auth'
 import { removeCookie } from '@/utils/auth'
@@ -90,8 +98,8 @@ export default {
                 { name: "考试管理", index: 2 },
                 { name: "创建考试", index: 3 },
                 { name: "成绩管理", index: 4 },
-                { name: "成绩上传", index: 5 },
-                { name: "线下成绩", index: 6 },
+                { name: "共享考试列表", index: 5 },
+                { name: "线下成绩", index: 6 }, 
             ],
             prompts: [
                 `该页面展示管理员的操作日志，可进行删除。`,
@@ -112,7 +120,8 @@ export default {
             isListBottom: true,
             isListBottomId: '',
             resultsState: 1,
-            t_id: ""
+            t_id: "",
+            tQuestion: {}
         }
     },
     created() {
@@ -124,7 +133,7 @@ export default {
         titleItem, titleActive, description, bottomItem,
         teacherQuestion, createQuestion, setQuestion, addQuestion, createExamination, examinationList,
         management, mang_list, eqMangListTe, teacherCenter, teacherCenterList, results, results_center,
-        statistics
+        statistics,testpaper,gradeList
     },
     methods: {
         emitTransfer(index) {
@@ -135,6 +144,7 @@ export default {
                 return
             }
             this.titleItem[1].name = '创建试卷';
+            this.t_id=null;
             this.state = index;
         },
         promptsTem(status) {
@@ -230,9 +240,15 @@ export default {
         },
         setQuesTeacher(id) {
             // 编辑试卷
+            this.fullscreenLoading = true;
             this.state = 1;
             this.t_id = id;
-            this.titleItem[1].name = '编辑试卷';
+            this.titleItem[1].name = '编辑试卷';  
+        },
+        gradeList(id){
+            // 现在成绩统计
+            this.state = 15,
+            this.e_id = id;
         }
     }
 }

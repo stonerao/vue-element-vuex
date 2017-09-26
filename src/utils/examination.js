@@ -276,5 +276,5 @@ export default {
                 this.t_data = res.data.data;
             }
         })
-    }
+    },
 }
