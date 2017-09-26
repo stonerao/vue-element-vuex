@@ -263,6 +263,7 @@ export default {
             // console.log(res)
             if (res.status == 200) {
                 if(res.data.code!=400){
+                    this.Dailog = !this.Dailog;
                     let _data = res.data.data;
                     this.subjectInfo = {
                         sname: _data.subject.s_name,

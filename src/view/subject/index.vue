@@ -154,7 +154,6 @@ export default {
             this.Dailog = !this.Dailog;
         },
         checkSubject(id){  //查看信息
-            this.Dailog = !this.Dailog;
             rec.subject_Detail.call(this,id);
         },
         L_refresh3(){
