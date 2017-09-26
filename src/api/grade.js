@@ -93,4 +93,5 @@ export const api = {
     S_Search_Detail:'Student/Video/student_live_info',   //学生中心-大数据搜索-直播-详情
     T_Search:'Teacher/Teachersearch/teacher_search',   //老师中心-大数据搜索
     T_Search_Detail:'Teacher/Live/teacher_live_info',   //老师中心-大数据搜索-直播-详情
+    subject_Detail:'Admin/SchoolSubject/show_subject_detail',   //学校中心-查看科目详情
 }

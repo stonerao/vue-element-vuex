@@ -51,7 +51,7 @@
                             </div>
                             <!-- 查看详情-直播 -->
                             <div class="myPopup" v-if="S_Type == 1">
-                                <div class="Popup" style="width: 30%;">
+                                <div class="Popup" style="width: 720px;">
                                     <ul class="popHeader clearfloat">
                                         <li>直播详情展示</li>
                                         <li @click="L_SkinBack"><i class="el-icon-circle-close"></i></li>
@@ -84,7 +84,7 @@
                             </div>
                             <!-- 查看详情-会议 -->
                             <div class="myPopup" v-if="S_Type == 2">
-                                <div class="Popup" style="width: 30%;">
+                                <div class="Popup" style="width: 720px;">
                                     <ul class="popHeader clearfloat">
                                         <li>会议详情展示</li>
                                         <li @click="L_SkinBack"><i class="el-icon-circle-close"></i></li>
@@ -118,7 +118,7 @@
                             </div>
                             <!-- 查看详情-素材 -->
                             <div class="myPopup" v-if="S_Type == 3">
-                                <div class="Popup" style="width: 30%;">
+                                <div class="Popup" style="width: 720px;">
                                     <ul class="popHeader clearfloat">
                                         <li>素材详情展示</li>
                                         <li @click="L_SkinBack"><i class="el-icon-circle-close"></i></li>
@@ -189,7 +189,7 @@
                             </div>
                             <!-- 查看详情-直播 -->
                             <div class="myPopup" v-if="S_Type == 1">
-                                <div class="Popup" style="width: 30%;">
+                                <div class="Popup" style="width: 720px;">
                                     <ul class="popHeader clearfloat">
                                         <li>直播详情展示</li>
                                         <li @click="L_SkinBack"><i class="el-icon-circle-close"></i></li>

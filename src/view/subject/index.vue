@@ -19,7 +19,6 @@
                                             <el-input placeholder="输入科目名称" v-model="subjectName" class="width200 float-right" style="margin-right:10px">
                                                 <el-button slot="append" icon="search" @click.native="subjectSearch"></el-button>
                                             </el-input>
-                            
                                     </el-col>
                                 </el-row>
                             </div>
@@ -30,6 +29,7 @@
                                     <el-table-column label="科目名称" prop="name"></el-table-column>
                                     <el-table-column label="操作">
                                         <template scope="scope">
+                                            <el-button type="primary" size="mini" icon="view" @click.native="checkSubject(scope.row.id)">查看</el-button>
                                             <el-button type="primary" size="mini" icon="edit" @click.native="editSubject(scope.row.id,scope.row.name)">编辑</el-button>
                                             <el-button type="primary" size="mini" icon="delete" @click.native="deleteRow(scope.row.id)">删除</el-button>
                                         </template>
@@ -63,6 +63,37 @@
                     <div v-if="state==1">
                         <createSubject :whetherEdit="whetherEdit"></createSubject>
                     </div>
+
+                    <div class="myPopup" v-if="Dailog">
+                        <div class="Popup" style="width:720px">
+                            <ul class="popHeader clearfloat">
+                                <li>科目信息一览</li>
+                                <li @click="CloseMask"><i class="el-icon-circle-close"></i></li>
+                            </ul>
+                            <div class="popContent" style="height: auto;padding: 35px;">
+                                <div style="width: 100%;height: 100%;">
+                                    <el-row>
+                                        <el-col :span="3">科目名称：</el-col>
+                                        <el-col :span="21">{{subjectInfo.sname}}</el-col>
+                                    </el-row>
+                                    <el-row>
+                                        <el-col :span="3">老师人数：</el-col>
+                                        <el-col :span="21"><span style="color: #1997e4">{{subjectInfo.tnum}}</span>人</el-col>
+                                    </el-row>
+                                    <el-row>
+                                        <el-col :span="3">科目老师：</el-col>
+                                        <el-col :span="21">
+                                            <ul class="clearfloat">
+                                                <li style="float: left;width: 30%;" v-for="teacher in subjectInfo.tlist">{{teacher.teacher_name}}-{{teacher.teacher_phone}}</li>
+                                            </ul>
+                                        </el-col>
+                                    </el-row>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dialog_mask" @click="CloseMask"></div>
+                    </div>
+
                 </div>
             </div>
             <bottomItem></bottomItem>
@@ -105,6 +136,8 @@ export default {
             deleteID: [],  //删除数据的ID
             whetherEdit: false,  //区分编辑及创建科目
             rowData: {},
+            Dailog: false,
+            subjectInfo: {},
         }
     },
     created() {
@@ -116,6 +149,13 @@ export default {
         titleItem, titleActive, description, bottomItem, createSubject
     },
     methods: {
+        CloseMask(){
+            this.subjectInfo = {};
+            this.Dailog = !this.Dailog;
+        },
+        checkSubject(id){  //查看信息
+            rec.subject_Detail.call(this,id);
+        },
         L_refresh3(){
             this.materialParams = {   //翻页
                 hasmore: true,

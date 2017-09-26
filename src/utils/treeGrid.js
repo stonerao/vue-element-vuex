@@ -472,9 +472,7 @@ export default {
                             _show = res.data.data.department_info.special_tag;
                         this.className = _data.department_info.department_name;
                         this.teacherList = _data.teacher_list;
-                        this.selectVal={
-                            teacher: _data.department_info.head_teacher_id,
-                        }
+                        this.selectVal.teacher = _data.department_info.head_teacher_id;
                         if(parseInt(_show) == 3){
                             this.whetherShow = false;
                         }else{
@@ -488,7 +486,7 @@ export default {
                             type: 'error',
                             duration: 1000,
                             onClose: () => {
-                                this.departCancel();
+                                this.departCancel(0);
                             }
                         });
                     }

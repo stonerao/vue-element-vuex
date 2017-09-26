@@ -249,4 +249,37 @@ export default {
             }
         })
     },
+
+    //查看科目详情
+    subject_Detail(sid) {
+        let apiUrl = api.subject_Detail,
+            formData = {
+                token:  getToken(),
+                s_id: sid,
+            }
+        this.$http(apiUrl, {
+            params: formData
+        }).then((res) => {
+            // console.log(res)
+            if (res.status == 200) {
+                if(res.data.code!=400){
+                    this.Dailog = !this.Dailog;
+                    let _data = res.data.data;
+                    this.subjectInfo = {
+                        sname: _data.subject.s_name,
+                        tnum: _data.teacher_count,
+                        tlist: _data.teacher_list,
+                    }
+                }else{
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            }else {
+                this.$notify.error({
+                    message: res.data.data.error
+                });
+            }
+        })
+    },
 }
