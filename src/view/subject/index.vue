@@ -81,7 +81,7 @@
                                         <el-col :span="21"><span style="color: #1997e4">{{subjectInfo.tnum}}</span>人</el-col>
                                     </el-row>
                                     <el-row>
-                                        <el-col :span="3">老师列表：</el-col>
+                                        <el-col :span="3">科目老师：</el-col>
                                         <el-col :span="21">
                                             <ul class="clearfloat">
                                                 <li style="float: left;margin-right: 5px;" v-for="teacher in subjectInfo.tlist">{{teacher}}</li>
