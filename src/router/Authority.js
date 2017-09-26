@@ -278,7 +278,7 @@ export const constList = [
                 component: notice,
             }
         ]
-    }, {
+    }, /*{
         path: '/archives',
         name: '档案查询',
         redirect: '/archives/index',
@@ -292,7 +292,7 @@ export const constList = [
                 component: archives,
             }
         ]
-    },
+    },*/
     /*  {
         path: '/set',
         name: '统计信息',
