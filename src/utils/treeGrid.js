@@ -486,7 +486,7 @@ export default {
                             type: 'error',
                             duration: 1000,
                             onClose: () => {
-                                this.departCancel();
+                                this.departCancel(0);
                             }
                         });
                     }
