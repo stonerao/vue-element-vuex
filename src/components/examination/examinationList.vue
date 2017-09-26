@@ -28,7 +28,7 @@
             <el-table-column width="180" label="操作" show-overflow-tooltip>
                 <template scope="scope">
                     <el-button size="mini" @click="setQues(scope.row)">编辑</el-button>
-                    <el-button size="mini" @click="deleteData(scope.row.e_id,true)">删除</el-button>
+                    <!-- <el-button size="mini" @click="deleteData(scope.row.e_id,true)">删除</el-button> -->
                 </template>
             </el-table-column>
         </el-table>
@@ -80,21 +80,20 @@ export default {
                 this.selectArr.push(x.e_id);
             })
         },
-        // deleteData(id) {
-        //     console.log(this.selectArr)
-        //     this.$confirm('此操作将永久删除, 是否继续?', '提示', {
-        //         confirmButtonText: '确定',
-        //         cancelButtonText: '取消',
-        //         type: 'warning'
-        //     }).then(() => {
-
-        //     }).catch(() => {
-        //         this.$message({
-        //             type: 'info',
-        //             message: '已取消删除'
-        //         });
-        //     });
-        // },
+        deleteData(id) {
+            /* console.log(this.selectArr)
+            this.$confirm('此操作将永久删除, 是否继续?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => { 
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '已取消删除'
+                });
+            }); */
+        },
         setQues(obj) {
             // 编辑
             this.$emit("setQuestion", obj)

@@ -10,10 +10,10 @@
                 <!--模块开始  -->
                 <div v-if="state==0">
                     <!-- 考试试卷 -->
-                    <teacherQuestion @statistics='statistics' @selectNative="selectQuestion" :state="selectExamstate"></teacherQuestion>
+                    <teacherQuestion @statistics='statistics' @selectNative="selectQuestion" :state="selectExamstate" @setQues="setQuesTeacher"></teacherQuestion>
                 </div>
                 <div v-if="state==1">
-                    <createQuestion @list="listSelect" :selectQuestList="selectQuestList" @SELECTQUESTIONLISTEVENT="selectEvent" @newAddQuestion="new_add_question" :newAddObj="newAddObj" @createQuit='createQuit'>
+                    <createQuestion :t_id="t_id" @list="listSelect" :selectQuestList="selectQuestList" @SELECTQUESTIONLISTEVENT="selectEvent" @newAddQuestion="new_add_question" :newAddObj="newAddObj" @createQuit='createQuit'>
                     </createQuestion>
                 </div>
                 <div v-if="state==2">
@@ -134,7 +134,7 @@ export default {
             if (this.state == index) {
                 return
             }
-
+            this.titleItem[1].name = '创建试卷';
             this.state = index;
         },
         promptsTem(status) {
@@ -226,7 +226,13 @@ export default {
         },
         statistics(id) {
             this.t_id = id;
-            this.state = 14; 
+            this.state = 14;
+        },
+        setQuesTeacher(id) {
+            // 编辑试卷
+            this.state = 1;
+            this.t_id = id;
+            this.titleItem[1].name = '编辑试卷';
         }
     }
 }

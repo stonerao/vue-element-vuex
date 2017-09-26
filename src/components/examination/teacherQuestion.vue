@@ -24,12 +24,13 @@
             </el-table-column>
             <el-table-column prop="t_time" label="创建时间" width="180" show-overflow-tooltip>
             </el-table-column>
-            <el-table-column label="操作" width="230" show-overflow-tooltip>
+            <el-table-column label="操作" width="280" show-overflow-tooltip>
                 <template scope="scope">
                     <div v-if="!state">
                         <!-- <el-button size="mini">查看</el-button> -->
                         <!-- <el-button size="mini">编辑</el-button> -->
                         <!-- <el-button size="mini">配置</el-button> -->
+                        <el-button size="mini" @click="setQues(scope.row.t_id)">编辑</el-button>
                         <el-button size="mini" @click="deleted(scope.row.t_id)">删除</el-button>
                         <el-button size="mini" @click="setQuestion(scope.row)">查看</el-button>
                         <el-button size="mini" @click="GOTO(scope.row)">导出</el-button>
@@ -124,8 +125,7 @@ export default {
             store.TeacherQuestionList.call(this);
         },
         GOTO(obj) {
-            // // 导出试卷
-
+            // // 导出试卷 
             this.obj = obj;
             this.isView = !this.isView
             this.isShowView = false;
@@ -140,6 +140,10 @@ export default {
         },
         statistics(id){
             this.$emit('statistics',id)
+        },
+        setQues(id){
+            // 编辑试卷
+            this.$emit('setQues',id)
         }
     },
     created() {
