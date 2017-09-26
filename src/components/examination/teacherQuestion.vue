@@ -33,7 +33,7 @@
                         <el-button size="mini" @click="setQuestion(scope.row)">查看</el-button>
                         <el-button size="mini" @click="GOTO(scope.row)">导出</el-button>
                         <el-button size="mini" @click="statistics(scope.row.t_id)">统计</el-button>
-                        <el-button size="mini" @click="deleted(scope.row.t_id)" v-if="scope.row.is_delete=='1'">删除</el-button>
+                        <el-button size="mini" @click="deleted(scope.row.t_id)" v-if="scope.row.isdelete=='1'">删除</el-button>
                         <el-button size="mini" @click="setQues(scope.row.t_id)" v-if="scope.row.is_edit=='1'">编辑</el-button>
                         <!-- <el-button size="mini">导出试卷</el-button> -->
                     </div>
