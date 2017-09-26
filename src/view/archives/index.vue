@@ -45,8 +45,10 @@
                                                 <h3>{{item.finish_school_time}}</h3>
                                             </li>
                                             <li class="info" :style="{width:`${InfoWidth}`}">
-                                                <div class="info_wrapper">
-                                                    {{item.finish_school_time}}: {{item.school_name}}
+                                                <div class="info_triangle">
+                                                    <div class="info_wrapper">
+                                                        就读于: {{item.school_name}}
+                                                    </div>
                                                 </div>
                                                 <div class="handleBtn">
                                                     <el-button v-if="item.show_cores_status" @click.native="CheckScore(recordList.st_id,recordList.school_identify)">查看成绩</el-button>
@@ -58,10 +60,11 @@
                                 </div>
                             </div>
                             <div v-if="query_result_score">
-                                
+                                <!-- 分数查询 -->
+                                <scoreTable></scoreTable>
                             </div>
                             <div v-if="query_result_shelf">
-                                
+                                <!-- 书架查询 -->
                             </div>
                         </div>
                     </div>
@@ -77,6 +80,7 @@ import titleItem from '@/components/main/title.vue'
 import titleActive from '@/components/main/titleActive.vue'
 import description from '@/components/main/description.vue'
 import bottomItem from '@/components/bottom/bottom.vue'
+import scoreTable from '@/components/archives/Queryscore.vue'
 import info from '@/utils/archives'
 
 export default {
@@ -93,7 +97,7 @@ export default {
             l_query: true,
             query:{
                 name: '',
-                card: '',
+                card: 123123123123123,
             },
             InfoWidth: '',
             recordList: [],
@@ -105,7 +109,7 @@ export default {
     created() {
     },
     components: {
-        titleItem, titleActive, description, bottomItem
+        titleItem, titleActive, description, bottomItem, scoreTable
     },
     methods: {
         emitTransfer(index) {

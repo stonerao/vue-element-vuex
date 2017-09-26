@@ -862,6 +862,7 @@
 	}
 }
 .l_archives_container{
+	padding: 25px 0px;
 	.l_query_wrap{
 		padding: 43px 82px 366px 82px;
 		.item_l{
@@ -934,6 +935,26 @@
     				.info_wrapper{
     					color: #fff;
     				}
+    				.info_triangle{
+    					&:before{
+    						border-right: 12px solid #1998e4;
+    					}
+    				}
+    			}
+    		}
+    		.info_triangle{
+    			position: relative;
+    			&:before{
+    				content: '';
+    				width: 0;
+    				height: 0;
+    				border-left: 12px solid transparent;
+    				border-right: 12px solid #eee;
+    				border-bottom: 12px solid transparent;
+    				border-top: 12px solid transparent;
+    				position: absolute;
+    				left: -23px;
+    				top: 24px;
     			}
     		}
     		.info_wrapper{

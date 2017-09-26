@@ -785,6 +785,9 @@
 .l_SearchStation .Station_header {
   margin-bottom: 10px;
 }
+.l_archives_container {
+  padding: 25px 0px;
+}
 .l_archives_container .l_query_wrap {
   padding: 43px 82px 366px 82px;
 }
@@ -860,6 +863,24 @@
 }
 .l_archives_container .record_tree .record_date .info:hover .info_wrapper {
   color: #fff;
+}
+.l_archives_container .record_tree .record_date .info:hover .info_triangle:before {
+  border-right: 12px solid #1998e4;
+}
+.l_archives_container .record_tree .record_date .info_triangle {
+  position: relative;
+}
+.l_archives_container .record_tree .record_date .info_triangle:before {
+  content: '';
+  width: 0;
+  height: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid #eee;
+  border-bottom: 12px solid transparent;
+  border-top: 12px solid transparent;
+  position: absolute;
+  left: -23px;
+  top: 24px;
 }
 .l_archives_container .record_tree .record_date .info_wrapper {
   line-height: 72px;
