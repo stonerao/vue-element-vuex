@@ -34,10 +34,10 @@ export const api = {
     Teacher_teaching_interface:"Teacher/Teaching/teaching_interface",//老师 教材详情
     teaching_collect:"Teacher/Teaching/teaching_collect",//教材领取老师 
     question_type:"Teacher/Examinationcenter/question_type",//题干类型 
-    question_classlist:"Teacher/Examinationcenter/question_classlist",//题库分类列表 
-    questions_add:"Teacher/Examinationcenter/questions_add",//添加试题 
-    question_list:"Teacher/Examinationcenter/question_list",//试题列表 
-    question_delete:"Teacher/Examinationcenter/question_delete",//删除题库 
+    question_classlist:"Admin/Examinationcenter/question_classlist",//题库分类列表 
+    questions_add:"Admin/Examinationcenter/questions_add",//添加试题 
+    question_list:"Admin/Examinationcenter/question_list",//试题列表 
+    question_delete:"Admin/Examinationcenter/question_delete",//删除题库 
     question_info:"Teacher/Examinationcenter/question_info",//试题详情 
     question_edit:"Teacher/Examinationcenter/question_edit",//试题编辑 
     space_list:"Teacher/Teacherspace/space_list",//空间购买列表 
@@ -74,8 +74,8 @@ export const api = {
     student_answer_grade:"Teacher/Examinationcenter/grade",//提交阅卷
     show_teacher_review:"Student/SchoolStudent/show_teacher_review",//学生查看老师评阅内容    
     teacher_edit_task:"Teacher/Examinationcenter/edit_task",//老师编辑作业    
-    question_classadd:"Teacher/Examinationcenter/question_classadd",//添加分类    
-    delete_questionclass:"Teacher/Examinationcenter/delete_questionclass",//删除分类    
+    question_classadd:"Admin/Examinationcenter/question_classadd",//添加分类    
+    delete_questionclass:"Admin/Examinationcenter/delete_questionclass",//删除分类    
     edit_questionclass:"Teacher/Examinationcenter/edit_questionclass",//编辑分类     
     addline_examination:"Teacher/Examinationcenter/addline_examination",//创建线下考试     
     del_line_examination:"Teacher/Examinationcenter/del_line_examination",//删除线下考试     
