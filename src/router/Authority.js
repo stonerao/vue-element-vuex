@@ -282,8 +282,8 @@ export const constList = [
         path: '/archives',
         name: '档案查询',
         redirect: '/archives/index',
-        icon: xx,
-        iconActive: xx_active,
+        icon: st,
+        iconActive: st_active,
         component: Layout,
         children: [
             {
