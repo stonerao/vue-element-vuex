@@ -146,7 +146,7 @@ export default {
             restList: typeOptions,
             week_checkList: [],   //周一到周日可点模板区域
             week_checkList_string: "",   //周一到周日可点模板区域
-            rest_checkList: [0],  //作息方式
+            rest_checkList: 0,  //作息方式
             teachingsDay: '',
             allYeartime:'',
             summerYearTime: '',
@@ -237,7 +237,7 @@ export default {
         goNext(){  //下一步
         	if(this.creatGrade){
         		this.studyNum_str = this.studyNum.morbefore+","+this.studyNum.morning+","+this.studyNum.afternoon+","+this.studyNum.night;
-        		info.creatGradeModelA.call(this,this.departID,this.week_checkList,this.studyNum_str,(parseInt(this.rest_checkList[0])+1),this.time);
+        		info.creatGradeModelA.call(this,this.departID,this.week_checkList,this.studyNum_str,(parseInt(this.rest_checkList)+1),this.time);
         	}
         },
         creatStep_b(mid){ //第二步初始展示
@@ -263,7 +263,7 @@ export default {
         	this.gradeModel_2 = false;
             this.gradeModel_1 = true;
             this.week_checkList = [];
-            this.rest_checkList = [0];
+            // this.rest_checkList = [0];
             this.canNot = true;
         },
         adjust(){  //调课

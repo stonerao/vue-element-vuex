@@ -1156,8 +1156,8 @@ export default {
                             afternoon: study_cache[2],
                             night: study_cache[3]
                         }
-                        this.rest_checkList.push(parseInt(res.data.data.hours_type)-1);
-                        if(this.rest_checkList[0] == 1){  //分季节
+                        this.rest_checkList = parseInt(res.data.data.hours_type)-1;
+                        if(this.rest_checkList == 1){  //分季节
                             this.startTimeVal = this.formatMd(res.data.data.summer_hours_start_time);
                             this.endTimeVal = this.formatMd(res.data.data.summer_hours_end_time);
                             this.startTimeVal_W = this.formatMd(res.data.data.winter_hours_start_time);
