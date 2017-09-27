@@ -29,7 +29,7 @@
                 <el-table :data="suspendData" style="width: 100%">
                     <el-table-column prop="start" label="开始时间"></el-table-column>
                     <el-table-column prop="end" label="结束时间"></el-table-column>
-                    <el-table-column prop="why" label="停课原因"></el-table-column>
+                    <el-table-column prop="why" width="200" show-overflow-tooltip label="停课原因"></el-table-column>
                     <el-table-column prop="who" label="操作人"></el-table-column>
                     <el-table-column prop="when" label="操作日期"></el-table-column>
                     <el-table-column label="操作">

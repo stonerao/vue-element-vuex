@@ -29,7 +29,7 @@
                                         </el-form-item>
                                         <el-form-item>
                                             <el-button type="primary" icon="plus" size="small" @click="handleSure">确定</el-button>
-                                            <el-button type="primary" icon="plus" size="small" class="cancel" @click="handleCancel">取消</el-button>
+                                            <el-button type="primary" icon="delete2" size="small" class="cancel" @click="handleCancel">清空</el-button>
                                         </el-form-item>
                                     </el-form>
                                 </el-col>

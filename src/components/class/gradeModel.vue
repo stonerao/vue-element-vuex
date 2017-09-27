@@ -53,9 +53,10 @@
 						<ul class="clearfloat">
 							<li class="header">*作息方式：</li>
 							<li>
-								<el-checkbox-group v-model="rest_checkList" :max="1">
+								<!-- <el-checkbox-group v-model="rest_checkList" :max="1">
 								    <el-checkbox v-for="(rest,index) in restList" :label="index" :key="rest">{{rest}}</el-checkbox>
-							  	</el-checkbox-group>
+							  	</el-checkbox-group> -->
+							  	<el-radio class="radio" v-model="rest_checkList" v-for="(rest,index) in restList" :label="index">{{rest}}</el-radio>
 							</li>
 						</ul>
 					</div>
@@ -220,7 +221,7 @@ export default {
             restList: typeOptions,
             week_checkList: [],   //周一到周日可点模板区域
             week_checkList_string: "",   //周一到周日可点模板区域
-            rest_checkList: [0],  //作息方式
+            rest_checkList: 0,  //作息方式
             teachingsDay: '',
             allYeartime:'',
             summerYearTime: '',
@@ -287,7 +288,7 @@ export default {
     			info.creatGradeModela.call(this,this.departID);
     		}
     	}else if(this.editDrade){  //编辑模板身份证
-    		this.rest_checkList = [];
+    		// this.rest_checkList = [];
     		info.creatGradeModela.call(this);
     	}
     },
@@ -304,7 +305,7 @@ export default {
         },
         goNext(){  //下一步
     		this.studyNum_str = this.studyNum.morbefore+","+this.studyNum.morning+","+this.studyNum.afternoon+","+this.studyNum.night;
-    		info.creatGradeModelA.call(this,this.departID,this.week_checkList,this.studyNum_str,(parseInt(this.rest_checkList[0])+1),this.time);
+    		info.creatGradeModelA.call(this,this.departID,this.week_checkList,this.studyNum_str,(parseInt(this.rest_checkList)+1),this.time);
         },
         creatStep_b(mid){ //第二步初始展示
         	info.creatGradeModelb.call(this,mid);
@@ -334,7 +335,7 @@ export default {
         	this.gradeModel_2 = false;
             this.gradeModel_1 = true;
             this.week_checkList = [];
-            this.rest_checkList = [];
+            // this.rest_checkList = [];
             this.studyNum = {   //虚拟班初始初始科目数
                 morbefore: 1,
                 morning: 1,
