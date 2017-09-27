@@ -2,18 +2,18 @@
     <div class="add-inp">
         <!-- create questions -->
         <div class="r-add-created">
-            <el-form ref="form" :model="form" label-width="120px">
+            <el-form ref="form" :model="form" label-width="120px" v-loading.fullscreen.lock="fullscreenLoading">
                 <el-form-item label="试卷标题">
                     <el-input v-model="form.title" class="width200"></el-input>
                 </el-form-item>
                 <el-form-item label="所属分类">
-                    <el-select v-model="belongClass1" placeholder="题库一级分类" class="width125" style="font-size:14px">
+                    <el-select v-model="belongClass1" placeholder="题库一级分类" class="width150" style="font-size:14px">
                         <el-option :label="item.qc_name" :value="item.qc_id" v-for="(item,index) in belongClass.items1" :key="index"></el-option>
                     </el-select>
-                    <el-select v-model="belongClass2" placeholder="题库二级分类" class="width125" style="font-size:14px" v-if="belongClass1&&belongClass.items2.length!=0">
+                    <el-select v-model="belongClass2" placeholder="题库二级分类" class="width150" style="font-size:14px" v-if="belongClass1&&belongClass.items2.length!=0">
                         <el-option :label="item.qc_name" :value="item.qc_id" v-for="(item,index) in belongClass.items2" :key="index"></el-option>
                     </el-select>
-                    <el-select v-model="belongClass3" placeholder="题库三级分类" class="width125" style="font-size:14px" v-if="belongClass2&&belongClass.items3.length!=0">
+                    <el-select v-model="belongClass3" placeholder="题库三级分类" class="width150" style="font-size:14px" v-if="belongClass2&&belongClass.items3.length!=0">
                         <el-option :label="item.qc_name" :value="item.qc_id" v-for="(item,index) in belongClass.items3" :key="index"></el-option>
                     </el-select>
                 </el-form-item>
@@ -65,7 +65,7 @@
                     </el-switch>
                 </el-form-item>
                 <el-form-item label=" ">
-                    <el-button type="primary" @click="onSubmit">立即创建</el-button>
+                    <el-button type="primary" @click="onSubmit">{{submitText}}</el-button>
                     <el-button @click="quits">取消</el-button>
                 </el-form-item>
             </el-form>
@@ -76,12 +76,11 @@
 <script>
 import store from '@/utils/questions'
 import { removeSelectQuestion } from '@/utils/auth'
-
 import { selectedQuestionList } from '@/utils/auth'
 import { getSelectedQuestionList } from '@/utils/auth'
 import { getCookie } from '@/utils/auth'
 export default {
-    props: ['selectQuestList', 'newAddObj'],//newAddObj加入老师传入过来的数据
+    props: ['selectQuestList', 'newAddObj', 't_id'],//newAddObj加入老师传入过来的数据
     data() {
         return {
             form: {
@@ -107,7 +106,9 @@ export default {
             isBelongSelect: false,
             strSelect: '',//已选择的提
             shared: true,
-            getNewTile: 0
+            getNewTile: 0,
+            fullscreenLoading: false,
+            submitText: !this.t_id ? '立即创建' : '确认编辑'
         }
     },
     methods: {
@@ -126,6 +127,7 @@ export default {
             if (this.isQuestion) {
                 let isAllSelect = false;
                 // 是否自动生成试卷 
+                console.log(this.questionItems)
                 this.questionItems.forEach((x, index) => {
                     if ((x.total == '' && x.every != '') || (x.total != '' && x.every == '')) {
                         this.notify(`请检查${x.type_name}`)
@@ -159,6 +161,9 @@ export default {
                 type: 'warning'
             });
         },
+        setCookie(ids) {
+            selectedQuestionList(ids)
+        },
         addList() {
             // 跳转添加试题列表 
             if (typeof this.selectQuestList == 'string') {
@@ -174,42 +179,45 @@ export default {
         newAddQuestion() {
             //新添加题目。去题库添题目
             this.$emit("newAddQuestion", true);
+        },
+        getQuestions() {
+            let arr = getSelectedQuestionList();
+            if (typeof arr == 'string') {
+                this.strSelect = arr.split(",").sort().join(" / ");
+                this.isQuestion = false;
+            } else {
+                this.strSelect = '';
+            }
+            if (getCookie('NEWADDQUESTIONOUT')) {
+                this.getNewTile = JSON.parse(getCookie('NEWADDQUESTIONOUT')).length;
+                this.isQuestion = false;
+            }
         }
     },
     created() {
         this.question_classlist("", 1);
         store.create_question_type.call(this);
         // 是否是添加题目过来
-        if (typeof this.newAddObj == 'object') {
-            if (this.newAddObj.state == 1) {
-                // 老师加入 
-                this.isQuestion = false;
-                var arr = getSelectedQuestionList();
-                console.log(arr)
-                if (typeof arr == 'string') {
-                    let a = [...arr.split(','), ...[this.newAddObj.items]]
-                    console.log(a)
-                    selectedQuestionList(a)
-                } else {
-                    selectedQuestionList([this.newAddObj.items])
-                }
+
+        if (this.newAddObj.state == 1) {
+            // 老师加入 
+            this.isQuestion = false;
+            var arr = getSelectedQuestionList();
+            console.log(arr)
+            if (typeof arr == 'string') {
+                let a = [...arr.split(','), ...[this.newAddObj.items]];
+                selectedQuestionList(a);
             } else {
-                // 不加入
+                selectedQuestionList([this.newAddObj.items]);
             }
+        } else if (this.t_id) {
+            this.fullscreenLoading = true;
+            store.testpaper_info.call(this, this.t_id);
+            console.log(getSelectedQuestionList())
         }
     },
     mounted() {
-        let arr = getSelectedQuestionList();
-        if (typeof arr == 'string') {
-            this.strSelect = arr.split(",").sort().join(" / ");
-            this.isQuestion = false;
-        } else {
-            this.strSelect = '';
-        }
-        if (getCookie('NEWADDQUESTIONOUT')) {
-            this.getNewTile = JSON.parse(getCookie('NEWADDQUESTIONOUT')).length;
-            this.isQuestion = false;
-        }
+        this.getQuestions();
     },
     watch: {
         belongClass1(val) {
@@ -227,6 +235,11 @@ export default {
             this.question_classlist(val, 3);
         },
         selectQuestList(val) {
+        },
+        isQuestion(val) {
+            if (this.t_id) {
+                this.isQuestion = false;
+            }
         }
     }
 }

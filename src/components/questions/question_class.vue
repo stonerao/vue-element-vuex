@@ -44,11 +44,10 @@ export default {
     },
     methods: {
         submit() {
-            if (!this.state) {
-                store.question_classadd.call(this);
-            } else {
+            console.log(this.state)
 
-            }
+            store.question_classadd.call(this);
+
         },
         deletes(status) {
             if (status == 1) {
@@ -63,10 +62,11 @@ export default {
     },
     created() {
         this.ajax_data();
-        if (this.obj) {
+        console.log(this.obj)
+        if (this.obj.qc_id) {
             this.state = true;
             this.form.name = this.obj.qc_name;
-        }
+        } 
     },
     mounted() {
 

@@ -322,8 +322,7 @@ export const constList = [
                 component: questionsAdmin,
             }
         ]
-    },
-
+    }, 
     {
         path: '/adminIndex',
         redirect: "/one/index"

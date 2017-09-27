@@ -283,10 +283,10 @@ export default {
     pushQuestion(arr) {
         // 提交试卷  
         let qc_id = this.belongClass3 ? this.belongClass3 : (this.belongClass2 ? this.belongClass2 : this.belongClass1);
-        this.$http({
-            url: api.add_testpaper,
-            method: 'post',
-            data: {
+        var [url, obj] = ['', {}];
+        if (!this.t_id) {
+            url = api.add_testpaper;
+            obj = {
                 token: getToken(),
                 t_title: this.form.title,
                 t_desc: this.form.t_desc,
@@ -297,6 +297,24 @@ export default {
                 q_add_question: getCookie('NEWADDQUESTIONOUT') ? encodeUnicode(getCookie('NEWADDQUESTIONOUT')) : '',
                 qc_id: qc_id,
             }
+        } else {
+            url = api.edit_testpaper;
+            obj = {
+                token: getToken(),
+                t_title: this.form.title,
+                t_desc: this.form.t_desc,
+                q_id: this.selectQuestList,
+                is_share: this.shared ? '1' : '2',
+                question_list: this.isQuestion ? encodeUnicode(JSON.stringify(arr)) : '',
+                q_add_question: getCookie('NEWADDQUESTIONOUT') ? encodeUnicode(getCookie('NEWADDQUESTIONOUT')) : '',
+                qc_id: qc_id,
+                t_id: this.t_id
+            }
+        }
+        this.$http({
+            url: url,
+            method: 'post',
+            data: obj
         }).then((res) => {
             if (res.data.code == 200) {
                 removeSelectQuestion();
@@ -661,6 +679,78 @@ export default {
                     message: res.data.data.error,
                     type: 'warning'
                 });
+            }
+        })
+    },
+    testpaper_info(id) {
+        this.$http(api.testpaper_info, {
+            params: {
+                token: getToken(),
+                t_id: id
+            }
+        }).then((res) => {
+            // 不能自动生成 
+            this.isQuestion = false;
+            this.fullscreenLoading = false;
+            let arr = [];
+            let data = res.data.data.question_list;
+            for (var key in data) {
+                if (!data[key]) { return }
+                data[key].forEach((x) => {
+                    arr.push(x.q_id)
+                })
+            }
+            this.setCookie(arr);
+            this.form.title = res.data.data.t_title;
+            this.form.t_desc = res.data.data.t_desc;
+            data = null;
+        }).then((req) => {
+            this.getQuestions();
+
+        })
+    },
+
+    teacher_testpaper() {
+        this.$http(api.teacher_testpaper, {
+            params: {
+                token: getToken(),
+                t_title: this.title,
+                page: this.page,
+                curpage: this.curpage
+            }
+        }).then((res) => {
+            this.page_total = parseInt(res.data.page_total);
+            this.t_data= res.data.data;
+        })
+    },
+    edit_sharetestpaper(id){
+        this.$http(api.edit_sharetestpaper,{
+            params:{
+                token:getToken(),
+                t_id:id
+            }
+        }).then((res)=>{
+            if (res.data.code == 200) {
+                this.$notify({
+                    title: '成功',
+                    message: res.data.data,
+                    type: 'success'
+                });
+                this.dataAjax();
+            } else {
+                this.$notify({
+                    title: '警告',
+                    message: res.data.data.error,
+                    type: 'warning'
+                });
+            }
+        })
+    },
+    online_grades_static(id){
+        this.$http(api.online_grades_static,{
+            params:{
+                token:getToken(),
+                e_id:id
             }
         })
     }
