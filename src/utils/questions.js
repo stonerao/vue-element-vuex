@@ -720,16 +720,16 @@ export default {
             }
         }).then((res) => {
             this.page_total = parseInt(res.data.page_total);
-            this.t_data= res.data.data;
+            this.t_data = res.data.data;
         })
     },
-    edit_sharetestpaper(id){
-        this.$http(api.edit_sharetestpaper,{
-            params:{
-                token:getToken(),
-                t_id:id
+    edit_sharetestpaper(id) {
+        this.$http(api.edit_sharetestpaper, {
+            params: {
+                token: getToken(),
+                t_id: id
             }
-        }).then((res)=>{
+        }).then((res) => {
             if (res.data.code == 200) {
                 this.$notify({
                     title: '成功',
@@ -746,12 +746,58 @@ export default {
             }
         })
     },
-    online_grades_static(id){
-        this.$http(api.online_grades_static,{
-            params:{
-                token:getToken(),
-                e_id:id
+    online_grades_static(id) {
+        this.$http(api.online_grades_static, {
+            params: {
+                token: getToken(),
+                e_id: id
             }
+        }).then((res) => {
+            if (res.data.code == 200) {
+                this.t_data = res.data.data;
+            }
+        })
+    },
+    AdminSchool_questionlist() {
+        this.$http(api.AdminSchool_questionlist, {
+            params: {
+                token: getToken(),
+                page: this.page,
+                curpage: this.curpage
+            }
+        }).then((res) => {
+            this.t_data = res.data.data;
+            this.page_total = parseInt(res.data.page_total)
+        })
+    },
+    AdminSchool_deletequestion(id) {
+        this.$http.post(api.AdminSchool_deletequestion, {
+            token: getToken(),
+            del_id: id
+        }).then((res) => {
+            if (res.data.code == 200) {
+                this.$notify({
+                    title: '成功',
+                    message: res.data.data,
+                    type: 'success'
+                });
+                this.dataAjax();
+            } else {
+                this.$notify({
+                    title: '警告',
+                    message: res.data.data.error,
+                    type: 'warning'
+                });
+            }
+        })
+    },
+    question_statice(){
+        this.$http(api.question_statice,{
+            params:{
+                token:getToken()
+            }
+        }).then((res)=>{
+            this.t_data= res.data.data;
         })
     }
 

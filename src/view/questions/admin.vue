@@ -9,7 +9,7 @@
                 <description :prompts="prompts" @PromPts="promptsTem"></description>
                 <!--模块开始  -->
                 <div v-if="state==0">
-
+                    <adminQuestion></adminQuestion>
                 </div>
                 <div v-if="state==1">
                     <question_class :obj="list_obj"></question_class>
@@ -31,6 +31,7 @@ import description from '@/components/main/description.vue'
 import bottomItem from '@/components/bottom/bottom.vue'
 import question_class from '@/components/questions/question_class'
 import list_class from '@/components/questions/list_class'
+import adminQuestion from '@/components/questions/adminQuestion'
 export default {
     data() {
         return {
@@ -51,7 +52,7 @@ export default {
     },
     components: {
         titleItem, titleActive, description, bottomItem,
-        question_class, list_class
+        question_class, list_class,adminQuestion
     },
     methods: {
         emitTransfer(index) {

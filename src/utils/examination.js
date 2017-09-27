@@ -277,4 +277,21 @@ export default {
             }
         })
     },
+    testpaper_statice(){
+        this.$http(api.testpaper_statice,{
+            params:{
+                token:getToken(),
+                t_id:this.id
+            }
+        }).then((res)=>{
+            if(res.data.code==200){
+                this.t_data=res.data.data;
+            }else{
+                this.$notify.error({
+                    title: '错误',
+                    message: res.data.data.error
+                });
+            }
+        })
+    }
 }

@@ -45,8 +45,11 @@ export default {
     methods: {
         submit() {
             console.log(this.state)
+            if (!this.state) {
 
-            store.question_classadd.call(this);
+            } else {
+                store.question_classadd.call(this);
+            }
 
         },
         deletes(status) {
@@ -66,7 +69,7 @@ export default {
         if (this.obj.qc_id) {
             this.state = true;
             this.form.name = this.obj.qc_name;
-        } 
+        }
     },
     mounted() {
 

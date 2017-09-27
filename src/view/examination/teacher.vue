@@ -10,7 +10,7 @@
                 <!--模块开始  -->
                 <div v-if="state==0">
                     <!-- 考试试卷 -->
-                    <teacherQuestion @statistics='statistics' @selectNative="selectQuestion" :state="selectExamstate" @setQues="setQuesTeacher"></teacherQuestion>
+                    <teacherQuestion @statistics='statistics' @selectNative="selectQuestion" :state="selectExamstate" @setQues="setQuesTeacher" @questionf="questionf"></teacherQuestion>
                 </div>
                 <div v-if="state==1">
                     <createQuestion :t_id="t_id" @list="listSelect" :selectQuestList="selectQuestList" @SELECTQUESTIONLISTEVENT="selectEvent" @newAddQuestion="new_add_question" :newAddObj="newAddObj" @createQuit='createQuit'>
@@ -58,6 +58,9 @@
                 <div v-if="state==15">
                     <gradeList :id="e_id" @fanhui="state=2"></gradeList>
                 </div>
+                <div v-if="state==16">
+                    <analysis :id="t_id" @fanhui="state=0"></analysis>
+                </div>
 
             </div>
             <bottomItem></bottomItem>
@@ -86,6 +89,7 @@ import results_center from '@/components/center/results_center'
 import statistics from '@/components/examination/statistics'
 import gradeList from '@/components/examination/gradeList'
 import testpaper from '@/components/examination/testpaper'
+import analysis from '@/components/examination/analysis'
 
 import { removeSelectQuestion } from '@/utils/auth'
 import { removeCookie } from '@/utils/auth'
@@ -99,7 +103,7 @@ export default {
                 { name: "创建考试", index: 3 },
                 { name: "成绩管理", index: 4 },
                 { name: "共享考试列表", index: 5 },
-                { name: "线下成绩", index: 6 }, 
+                { name: "线下成绩", index: 6 },
             ],
             prompts: [
                 `该页面展示管理员的操作日志，可进行删除。`,
@@ -133,7 +137,7 @@ export default {
         titleItem, titleActive, description, bottomItem,
         teacherQuestion, createQuestion, setQuestion, addQuestion, createExamination, examinationList,
         management, mang_list, eqMangListTe, teacherCenter, teacherCenterList, results, results_center,
-        statistics,testpaper,gradeList
+        statistics, testpaper, gradeList, analysis
     },
     methods: {
         emitTransfer(index) {
@@ -144,7 +148,7 @@ export default {
                 return
             }
             this.titleItem[1].name = '创建试卷';
-            this.t_id=null;
+            this.t_id = null;
             this.state = index;
         },
         promptsTem(status) {
@@ -243,12 +247,16 @@ export default {
             this.fullscreenLoading = true;
             this.state = 1;
             this.t_id = id;
-            this.titleItem[1].name = '编辑试卷';  
+            this.titleItem[1].name = '编辑试卷';
         },
-        gradeList(id){
+        gradeList(id) {
             // 现在成绩统计
             this.state = 15,
-            this.e_id = id;
+                this.e_id = id;
+        },
+        questionf(id) {
+            this.t_id = id;
+            this.state = 16;
         }
     }
 }

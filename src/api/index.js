@@ -36,8 +36,8 @@ export const api = {
     question_type:"Teacher/Examinationcenter/question_type",//题干类型 
     question_classlist:"Admin/Examinationcenter/question_classlist",//题库分类列表 
     questions_add:"Admin/Examinationcenter/questions_add",//添加试题 
-    question_list:"Admin/Examinationcenter/question_list",//试题列表 
-    question_delete:"Admin/Examinationcenter/question_delete",//删除题库 
+    question_list:"Teacher/Examinationcenter/question_list",//试题列表 
+    question_delete:"Teacher/Examinationcenter/question_delete",//删除题库 
     question_info:"Teacher/Examinationcenter/question_info",//试题详情 
     question_edit:"Teacher/Examinationcenter/question_edit",//试题编辑 
     space_list:"Teacher/Teacherspace/space_list",//空间购买列表 
@@ -113,5 +113,9 @@ export const api = {
     teacher_testpaper:"Teacher/Examinationcenter/teacher_testpaper",//老师分享题库
     edit_sharetestpaper:"Teacher/Examinationcenter/edit_sharetestpaper",//分享试题库成为自己的
     online_grades_static:"Teacher/Examinationcenter/online_grades_static",//统计成绩
+    AdminSchool_questionlist:"Admin/teacher/school_questionlist",//学校中心共享题库
+    AdminSchool_deletequestion:"Admin/teacher/school_deletequestion",//删除学校中心共享题
+    testpaper_statice:"Teacher/Examinationcenter/testpaper_statice",//试卷统计
+    question_statice:"Teacher/Examinationcenter/question_statice",//试题统计
     
 }

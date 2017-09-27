@@ -15,14 +15,12 @@
                 <div v-if="state==1">
                     <addQuestion :setQuestionObj="setQuestionObj" :isSetQues="isSetQues" @quits="quitSet"></addQuestion>
                 </div>
-                <div v-if="state==2">
-                    <question_class :obj="list_obj"></question_class>
-                </div>
-                <div v-if="state==3">
-                    <list_class @setInfo='setInfo'></list_class>
-                </div>
+                
                 <div v-if="state==4">
                     <shared></shared>
+                </div>
+                <div v-if="state==5">
+                    <analysis></analysis>
                 </div>
                 
             </div>
@@ -37,19 +35,17 @@ import titleActive from '@/components/main/titleActive.vue'
 import description from '@/components/main/description.vue'
 import bottomItem from '@/components/bottom/bottom.vue'
 import setQuestion from '@/components/questions/questionList'
-import addQuestion from '@/components/questions/addQuestion'
-import question_class from '@/components/questions/question_class'
-import list_class from '@/components/questions/list_class'
+import addQuestion from '@/components/questions/addQuestion' 
 import shared from '@/components/questions/shared'
+import analysis from '@/components/questions/analysis'
 export default {
     data() {
         return {
             titleItem: [
                 { name: "试题管理", index: 0 },
-                { name: "增加试题", index: 1 },
-                { name: "添加/编辑分类", index: 2 },
-                { name: "分类列表", index: 3 },
+                { name: "增加试题", index: 1 }, 
                 { name: "学校共享题库", index: 4 },
+                { name: "试题分析", index: 5 },
             ],
             prompts: [
                 `该页面展示管理员的操作日志，可进行删除。`,
@@ -65,7 +61,7 @@ export default {
     },
     components: {
         titleItem, titleActive, description, bottomItem, setQuestion, addQuestion,
-        question_class, list_class,shared
+        shared,analysis
     },
     methods: {
         emitTransfer(index) {
