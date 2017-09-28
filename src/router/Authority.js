@@ -55,8 +55,6 @@ import subjectMa from '@/view/subject/index'
 import searchStation from '@/view/search/index'
 // 档案查询
 import archives from '@/view/archives/index'
-// 老师学校共享教材
-import commaterial from '@/view/commaterial/index'
 /*
   左侧图标以及点击后的图标
 */
@@ -466,20 +464,6 @@ export const ListStundent = [
             }
         ]
     }, {
-        path: '/commaterial',
-        name: '共享教材',
-        redirect: '/commaterial/index',
-        icon: pmsd,
-        iconActive: pmsd_active,
-        component: Layout,
-        children: [
-            {
-                path: 'index',
-                name: '-共享教材',
-                component: commaterial,
-            }
-        ]
-    }, {
         path: '/adminIndex',
         redirect: "/one/index"
     }
@@ -654,20 +638,6 @@ export const ListTeacher = [
                 path: 'index',
                 name: '-信息筛选',
                 component: searchStation,
-            }
-        ]
-    }, {
-        path: '/commaterial',
-        name: '共享教材',
-        redirect: '/commaterial/index',
-        icon: pmsd,
-        iconActive: pmsd_active,
-        component: Layout,
-        children: [
-            {
-                path: 'index',
-                name: '-共享教材',
-                component: commaterial,
             }
         ]
     }, {
