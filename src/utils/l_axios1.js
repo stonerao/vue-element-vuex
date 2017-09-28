@@ -282,27 +282,77 @@ export default {
             }
         })
     },
-    
-    //查看科目详情
-    ShareMaterial(sid) {
-        let apiUrl = api.ShareMaterial,
+
+    //学校 - 列表
+    ShareMaterial_s(obj,pid) {
+        if(!obj.hasmore){
+            return
+        }
+        let apiUrl = api.ShareMaterial_s,  //学生中心
             formData = {
                 token:  getToken(),
-                s_id: sid,
-            }
+                paper_id: pid,
+                page: obj.curpage,
+                curpage: obj.one_pagenum
+            };
+        if(this.thisState == 2){  //老师中心
+            apiUrl = api.ShareMaterial_t;
+        };
         this.$http(apiUrl, {
             params: formData
         }).then((res) => {
             // console.log(res)
             if (res.status == 200) {
                 if(res.data.code!=400){
-                    this.Dailog = !this.Dailog;
                     let _data = res.data.data;
-                    this.subjectInfo = {
-                        sname: _data.subject.s_name,
-                        tnum: _data.teacher_count,
-                        tlist: _data.teacher_list,
-                    }
+                    this.datas = [];
+                    _data.forEach((x)=>{
+                        if(String(x.annex_file_name).length == 0){
+                            x.pdf = false;
+                        }else{
+                            x.pdf = true;
+                        };
+                        if(String(x.file_video_name).length == 0){
+                            x.video = false;
+                        }else{
+                            x.video = true;
+                        };
+                    });
+                    this.datas = _data;
+                    this.materialParams.hasmore = res.data.hasmore;
+                    this.materialParams.curpage = parseInt(res.data.page);
+                    this.materialParams.page_count = parseInt(res.data.all_pagecount);
+                    this.materialParams.total_num = parseInt(res.data.page_total); 
+                }else{
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            }else {
+                this.$notify.error({
+                    message: res.data.data.error
+                });
+            }
+        })
+    },
+    //查看详情
+    ShareDatadetail_s(id) {
+        let apiUrl = api.ShareDatadetail_s,  //学生中心
+            formData = {
+                token:  getToken(),
+                id: id,
+            };
+        if(this.thisState == 2){  //老师中心
+            apiUrl = api.ShareMaterial_t;
+        };
+        this.$http(apiUrl, {
+            params: formData
+        }).then((res) => {
+            if (res.status == 200) {
+                if(res.data.code!=400){
+                    let _data = res.data.data;
+                    this.deData = [];
+
                 }else{
                     this.$notify.error({
                         message: res.data.data.error
