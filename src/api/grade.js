@@ -94,5 +94,8 @@ export const api = {
     T_Search:'Teacher/Teachersearch/teacher_search',   //老师中心-大数据搜索
     T_Search_Detail:'Teacher/Live/teacher_live_info',   //老师中心-大数据搜索-直播-详情
     subject_Detail:'Admin/SchoolSubject/show_subject_detail',   //学校中心-查看科目详情
-    ShareMaterial:'Student/SchoolStudent/student_annex_list',   //学生中心-共享资料详情
+    ShareMaterial_s:'Student/SchoolStudent/student_annex_list',   //学生中心-共享资料
+    ShareMaterial_t:'Teacher/Teaching/annex_list',   //老师中心-共享资料
+    ShareDatadetail_s:'Student/SchoolStudent/student_show_annex',   //学生中心-共享资料详情
+    ShareDatadetail_t:'Teacher/Teaching/annex_info',   //老师中心-共享资料详情
 }

@@ -23,7 +23,7 @@
       <div class="r-shoping-info">
         <div class="r-shoping-left">
           <div class="r-shoping-img">
-            <img :src='datas.paper_img' />
+            <img :src='datas.paper_img'/>
           </div>
           <!-- <div class="r-shoping-shar">
             <span class="r-shoping-shou">
@@ -74,7 +74,7 @@
             <button @click="eventInfos">教材介绍</button>
             <button @click="goodShoping(thisState)">{{thisState=='2'?'立即领取':'立即购买'}}</button>
             <button @click='testHtml'>试读</button>
-            <button style="background-color:rgb(234, 102, 102)">相关资料</button>
+            <button style="background-color:rgb(234, 102, 102)" @click="relatData">相关资料</button>
           </div>
         </div>
       </div>
@@ -122,6 +122,10 @@ export default {
     this.dataAjax();
   },
   methods: {
+    relatData(){  //共享教材相关资料(学生)
+      // this.$router.push({path: '../teachingData',query: {pid: this.$route.query.id}});
+      this.$router.push({path: '../teachingData',query: {pid: 4}});
+    },
     onSlideChangeStart(currentPage) {
       console.log('onSlideChangeStart', currentPage);
     },
