@@ -17,14 +17,14 @@
                             <p>学校{{name}}：
                                 <span v-html="obj.member_name"></span>
                             </p>
-                        </section> 
+                        </section>
                     </router-link>
                     <!--     <router-link tag="li" to="setMsg" class="kd-header-icon">
-                                <p class="kd-header-icons">
-                                    <i class="el-icon-message"></i>
-                                </p>
-                                <p>系统消息</p>
-                            </router-link>-->
+                                                                                <p class="kd-header-icons">
+                                                                                    <i class="el-icon-message"></i>
+                                                                                </p>
+                                                                                <p>系统消息</p>
+                                                                            </router-link>-->
                     <router-link tag="li" to="/setPwd" class="kd-header-icon">
                         <p class="kd-header-icons">
                             <i class="el-icon-edit"></i>
@@ -54,6 +54,7 @@ import store from '@/utils/commos'
 import { api } from '@/api/layout'
 import { getToken } from '@/utils/auth'
 import { isClassLogin } from '@/utils/auth'
+import { removeToken } from '@/utils/auth'
 export default {
     data() {
         return {
@@ -62,7 +63,7 @@ export default {
                 manager_name: ''
             },
             name: "",
-            isClassLogin:isClassLogin()
+            isClassLogin: isClassLogin()
         }
     },
     created() {
@@ -88,13 +89,30 @@ export default {
                 break;
             case 3:
                 this.name = '学生'
+                this.$http('Student/SchoolStudent/is_login', {
+                    params: {
+                        token: getToken()
+                    }
+                }).then((res) => {
+                    if (parseInt(res.data.code) !== 200) {
+                        this.$alert(res.data.data.error, {
+                            confirmButtonText: '确定',
+                            callback: action => {
+                                removeToken()
+                                this.$router.push("/login")
+                            }
+                        });
+                    }
+                })
                 break;
         }
+
+
     },
     methods: {
         quit() {
             //推出登陆
-            store.quitLogin.call(this,this.isClassLogin)
+            store.quitLogin.call(this, this.isClassLogin)
         }
     }
 }

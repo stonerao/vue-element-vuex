@@ -143,7 +143,7 @@
                     <el-row :gutter="10" class="class-header">
                         <el-col :span="19" class="class-titles">
                             <span>
-                                <img src="../../assets/index/shuaxin.png" class="icon-img-xs" @click="studentRefresh" />刷新-共{{studentList.total_num}}条记录</span>
+                                <img src="../../assets/index/shuaxin.png" class="icon-img-xs" @click="studentRefresh" />刷新-共{{stundentCount.count}}条记录</span>
                             <span>当前总人数：
                                 <a class="red-color">{{stundentCount.count}}</a>人</span>
                             <span>男生：
@@ -180,7 +180,7 @@
                     <div class="kd-page">
                         <el-row>
                             <el-col :span="24">
-                                <el-pagination class="float-right" @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="studentList.curpage" :page-sizes="[10]" :page-size="studentList.page_count" layout="total, sizes, prev, pager, next, jumper" :total="studentList.total_num">
+                                <el-pagination class="float-right" @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="studentList.curpage" :page-sizes="[10]" :page-size="studentList.page_count" layout="total, sizes, prev, pager, next, jumper" :total="parseInt(stundentCount.count)">
                                 </el-pagination>
                             </el-col>
                         </el-row>
@@ -191,7 +191,7 @@
                     <!-- 编辑学生  -->
                     <studentSetVue :state="setState" :dataObj="setObj" :goState="0" @SetQuti="SetQuti"></studentSetVue>
                 </div>
-
+                <excelImport v-if="state==4" state='2'></excelImport>
             </div>
             <bottomItem></bottomItem>
         </div>
@@ -206,6 +206,8 @@ import bottomItem from '@/components/bottom/bottom.vue'
 import studentSetVue from '@/components/student/set'
 import list from '@/components/student/list'
 import store from '@/utils/teacher'
+
+import excelImport from '@/components/center/excelImport.vue'
 export default {
     data() {
         return {
@@ -214,6 +216,7 @@ export default {
                 { name: "虚拟班", index: 1 },
                 { name: "离校学生", index: 2 },
                 { name: "档案查询", index: 3 },
+                { name: "批量导入学生", index: 4 },
             ],
             prompts: [
                 `该页面展示管理员的操作日志，可进行删除。`,
@@ -267,7 +270,7 @@ export default {
 
     },
     components: {
-        titleItem, titleActive, description, bottomItem, studentSetVue, 'r-list': list
+        titleItem, titleActive, description, bottomItem, studentSetVue, 'r-list': list,excelImport
     },
     mounted() {
 

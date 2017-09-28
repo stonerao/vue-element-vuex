@@ -103,12 +103,36 @@
                     <tbody>
                         <tr v-for="(item,index) in t_data" :key="index">
                             <td style="width:12.5%">
-                                <span v-html="item.schedule_time"></span>
+                                <span v-html="item.school_time"></span>
                             </td>
-                            <td v-for="(box,i) in item.content" :key="i" style="width:12.5%;text-align:center">
-                                <p>{{ box.s_name }}</p>
-                                <p>{{ box.teacher_name }}</p>
-                            </td>
+                            <td class="r_td_sc">
+                                <p>{{item.class.day1.class_name}} </p> 
+                                <p>{{item.class.day1.s_name}}</p>
+                            </td> 
+                            <td class="r_td_sc">
+                                <p>{{item.class.day2.class_name}} </p> 
+                                 <p>{{item.class.day2.s_name}}</p>
+                            </td>  
+                            <td class="r_td_sc">
+                                <p>{{item.class.day3.class_name}} </p> 
+                                 <p>{{item.class.day3.s_name}}</p>
+                            </td>  
+                            <td class="r_td_sc">
+                                <p>{{item.class.day4.class_name}} </p> 
+                                <p>{{item.class.day4.s_name}}</p>
+                            </td>  
+                            <td class="r_td_sc">
+                                <p>{{item.class.day5.class_name}} </p> 
+                                 <p>{{item.class.day5.s_name}}</p>
+                            </td>  
+                            <td class="r_td_sc">
+                                <p>{{item.class.day6.class_name}} </p> 
+                                <p>{{item.class.day6.s_name}}</p>
+                            </td>  
+                            <td class="r_td_sc">
+                                <p>{{item.class.day7.class_name}} </p> 
+                                  <p>{{item.class.day7.s_name}}</p>
+                            </td>  
                         </tr>
                     </tbody>
                 </table>
@@ -178,5 +202,7 @@ export default {
 </script>
  
 <style scoped>
-
+.r_td_sc{
+width:12.5%;text-align:center
+}
 </style>

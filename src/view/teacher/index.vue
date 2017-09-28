@@ -61,10 +61,10 @@
                     <settracher @TeacherInfos="addTeacherTab" :kemu="kemu" state="1"></settracher>
                 </div>
                 <div v-if="state==2">
-                    <excelImport></excelImport>
+                    <excelImport state='1'></excelImport>
                 </div>
                 <div v-if="state==3">
-                    <settracher @TeacherSet="SetTeacherTab" state="2" :kemu="kemu" :obj="teacherObj" @QUIT="quitTeacherSet"></settracher>
+                    <settracher @TeacherSet="SetTeacherTab" state="2" :kemu="kemu" :obj="teacherObj" @QUIT="quitTeacherSet"  ></settracher>
                 </div>
             </div>
 

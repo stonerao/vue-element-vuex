@@ -1,20 +1,20 @@
 <template>
     <div class="t-impot">
         <section class="t-impot-head">
-            <el-button type="primary" icon="plus" size="small">增加学生</el-button>
+            <el-button type="primary" icon="plus" size="small">增加{{title}}</el-button>
             <el-button type="primary" icon="plus" size="small">批量导入</el-button>
         </section>
         <div class="t-impot-box">
             <section class="t-impot-item">
                 <div class="impot-item-title">
-                    用TXT方式导入
+                    用csv方式导入
                 </div>
                 <ul class="impot-item-list">
                     <li>
-                        使用TXT文本作为模板文件，请注意格式要求，并且文件编码必须为UTF8
+                        使用csv文本作为模板文件，请注意格式要求，并且文件编码必须为UTF8
                     </li>
                     <li>
-                        <a>下载使用Txt格式模板 </a> 请下载模板，并按照格式填写，填写完成后，上传文件即可完成导入
+                        <a>下载使用csv格式模板 </a> 请下载模板，并按照格式填写，填写完成后，上传文件即可完成导入
                     </li>
                 </ul>
                 <ol class="impot-item-les">
@@ -22,15 +22,15 @@
                         <span class="impot-item-span">所属题库：</span>
                         <div>
                             <el-select v-model="value" placeholder="请选择" class="marginleft5">
-                                <el-option  v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+                                <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
                                 </el-option>
                             </el-select>
                         </div>
                     </li>
-                    <li  class="impot-item-lis">
+                    <li class="impot-item-lis">
                         <span class="impot-item-span">数据文件：</span>
                         <div>
-                            <input type="file"  class="marginleft5"/>
+                            <input type="file" class="marginleft5" />
                         </div>
                     </li>
                     </li>
@@ -60,15 +60,15 @@
                         <span class="impot-item-span">所属题库：</span>
                         <div>
                             <el-select v-model="value" placeholder="请选择" class="marginleft5">
-                                <el-option  v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+                                <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
                                 </el-option>
                             </el-select>
                         </div>
                     </li>
-                    <li  class="impot-item-lis">
+                    <li class="impot-item-lis">
                         <span class="impot-item-span">数据文件：</span>
                         <div>
-                            <input type="file"  class="marginleft5"/>
+                            <input type="file" class="marginleft5" />
                         </div>
                     </li>
                     </li>
@@ -87,8 +87,9 @@
 
 <script>
 export default {
+    props: ['state'],
     data() {
-        return { 
+        return {
             options: [{
                 value: '选项1',
                 label: '黄金糕'
@@ -105,7 +106,22 @@ export default {
                 value: '选项5',
                 label: '北京烤鸭'
             }],
-            value: ''
+            value: '',
+            title: ''
+        }
+    },
+    watch: {
+        state(val) {
+
+        }
+    },
+    created() {
+        let val = this.state;
+    
+        if (val == '1') {
+            this.title = '老师'
+        } else if (val == '2') {
+            this.title = '学生'
         }
     }
 }

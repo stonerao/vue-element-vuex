@@ -20,8 +20,16 @@ export default {
                 start_time:time
             }
         }).then((res) => {
-            if (res.data.code == 200) {
-                this.t_data = res.data.data.model_common;
+            if (res.data.code == 200) { 
+                this.t_data = res.data.data;
+                let data = res.data.data;
+                console.log(data)
+                data.forEach((x)=>{
+                     
+                    for(var k in data.class){
+                        
+                    }
+                })
             }
         })
     },
