@@ -162,5 +162,17 @@ export default {
                 token:getToken(),
             }
         })
+    },
+    teacher_paper_preview(){
+        // 试读
+        this.$http(this.thisState=='2'?api.teacher_paper_preview:api.student_paper_preview,{
+            params:{
+                token:getToken(),
+                paper_id:this.$route.query.id
+            }
+        }).then((res)=>{
+            this.isTest=true;
+            this.data=res.data.data;
+        })
     }
 }

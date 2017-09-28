@@ -191,6 +191,12 @@ export default {
                 });
             }
         })
+    },
+    school_img_info(){ 
+        this.$http(api.school_img_info).then((res)=>{
+            this.img = res.data.datas.school_background_image;
+            this.logo = res.data.datas.school_logo;
+        })
     }
 
 }

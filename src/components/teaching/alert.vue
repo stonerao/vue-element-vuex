@@ -7,7 +7,7 @@
             </div>
             <div v-html="datas">
 
-            </div>
+            </div> 
         </div>
     </div>
 </template>

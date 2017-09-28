@@ -1,8 +1,8 @@
 <template>
-    <div class="t-login admin-login t-login-b">
-        <div class="t-login-main">
+    <div class="t-login admin-login " v-bind:style="{ backgroundImage:`url(${img})`}">
+        <div class="t-login-main" > 
             <div class="t-login-logo">
-                <img src="../../assets/login/logo.png">
+                <img :src="logo">
             </div>
             <div class="t-login-box">
                 <div class="login-title">
@@ -64,6 +64,8 @@ export default {
             },
             codeSrc: '',
             typestate: 0,//选择学生登录或老师登录
+            logo:'',
+            img:''
         }
     },
     methods: {
@@ -86,6 +88,8 @@ export default {
     created() {
         // 验证码
         this.codeSet();
+      store.school_img_info.call(this)
+        
     },
     components: {
         'l-bottom': bottom

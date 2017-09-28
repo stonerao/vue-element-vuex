@@ -73,7 +73,7 @@
           <div class="r-shoping-btns">
             <button @click="eventInfos">教材介绍</button>
             <button @click="goodShoping(thisState)">{{thisState=='2'?'立即领取':'立即购买'}}</button>
-            <button>试读</button>
+            <button @click='testHtml'>试读</button>
           </div>
         </div>
       </div>
@@ -88,12 +88,14 @@
         </ul>
       </div>
     </div>
-    <alertTeaching :status="isAlert" @isAlertClick="isAlertFalse" :datas="datas.paper_descript"></alertTeaching>
+    <alertTeaching :status="isAlert" @isAlertClick="isAlertFalse" :datas="datas.paper_descript" ></alertTeaching>
+    <testHmls :status="isTest" @isAlertClick="isTest=false" :datas="data" ></testHmls>
   </div>
 </template>
 <script>
 import { HeadSide } from '@/view/layout/index.js'
 import alertTeaching from '@/components/teaching/alert'
+import testHmls from '@/components/teaching/test'
 import store from '@/utils/teaching'
 import { isClassLogin } from '@/utils/auth';
 export default {
@@ -103,18 +105,19 @@ export default {
       datas: {},
       // num: 1,
       isAlert: false,
-      thisState: 0
+      thisState: 0,
+      dada:{}, 
+      isTest:false
     }
   },
   components: {
-    HeadSide, alertTeaching
+    HeadSide, alertTeaching,testHmls
   },
   created() {
     /* 职位信息  1是管理员2是老师3是学生
       老师直接领取，学生需要购买
     */
-    this.thisState = isClassLogin();
-    console.log(this.thisState)
+    this.thisState = isClassLogin(); 
     this.dataAjax();
   },
   methods: {
@@ -128,7 +131,7 @@ export default {
       store.teaching_info.call(this)
     },
     eventInfos() {
-      // 教材详情
+      // 教材详情 
       this.isAlert = !this.isAlert
     },
     isAlertFalse() {
@@ -140,8 +143,7 @@ export default {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
-        }).then(() => {
-          
+        }).then(() => { 
           store.teaching_collect.call(this,this.$route.query.id)
         }).catch(() => {
           this.$message({
@@ -152,6 +154,15 @@ export default {
       } else if (state == 3) {
 
       }
+    },
+    testHtml(){
+      // 
+      if(this.thisState=='2'){
+        
+      }else if(this.thisState=='3'){
+        
+      } 
+      store.teacher_paper_preview.call(this)
     }
   },
 

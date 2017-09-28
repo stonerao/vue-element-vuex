@@ -13,6 +13,9 @@ export const api = {
     is_file_certification:"Student/File/is_file_certification",//校验是否档案认证 
     // areaList:"Student/SchoolStudent/area_list",//市 列表
     // areaList:"Student/SchoolStudent/area_list",//区 列表
+
+    
+    school_img_info:"Admin/Footer/school_img_info",//login code
 }
 /*
 admin 123456测试地址的学校超级管理员账号密码

@@ -1,8 +1,8 @@
 <template>
-    <div class="t-login admin-login admin-login-b">
+    <div class="t-login admin-login admin-login-b"  v-bind:style="{ backgroundImage:`url(${img})`}">
         <div class="t-login-main">
             <div class="t-login-logo">
-                <img src="../../assets/login/logo.png">
+                <img :src="logo">
             </div>
             <div class="t-login-box">
                 <div class="login-title">
@@ -54,7 +54,9 @@ export default {
                 school_identify: '001',
                 verify: '1111'
             },
-            codeSrc: ''
+            codeSrc: '',
+            logo:'',
+            img:''
         }
     },
     methods: {
@@ -68,11 +70,13 @@ export default {
         codeSet(){
             // 更新code
             store.adminLoginCode.call(this)
+            
         }
     },
     created() {
         // 验证码
         this.codeSet();
+          store.school_img_info.call(this)
     },
     components:{
         'l-bottom':bottom

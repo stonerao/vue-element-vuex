@@ -13,6 +13,18 @@ export default {
             }
         })
     },
+    techaerclass_info(time) {
+        this.$http(api.techaerclass_info, {
+            params: {
+                token: getToken(),
+                start_time:time
+            }
+        }).then((res) => {
+            if (res.data.code == 200) {
+                this.t_data = res.data.data.model_common;
+            }
+        })
+    },
     studentIndexHome() {
         this.$http({
             method: "post",
