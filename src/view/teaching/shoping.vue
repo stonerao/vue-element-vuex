@@ -74,6 +74,7 @@
             <button @click="eventInfos">教材介绍</button>
             <button @click="goodShoping(thisState)">{{thisState=='2'?'立即领取':'立即购买'}}</button>
             <button @click='testHtml'>试读</button>
+            <button style="background-color:rgb(234, 102, 102)">相关资料</button>
           </div>
         </div>
       </div>

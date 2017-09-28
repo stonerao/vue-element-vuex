@@ -12,6 +12,7 @@ import teacherIndex from '@/view/index/teacher'
 // 学生 
 import Authority from '@/view/authority/index'
 import shopingVal from '@/view/teaching/shoping'
+import teachingData from '@/view/teaching/data'
 import { router_l } from './router_l'
 import { router_z } from './router_z'
 import { constList } from '@/router/Authority'
@@ -114,6 +115,11 @@ export const constRouterMap = [
     path: '/shoping',
     name: '-教材购买',
     component: shopingVal
+  },
+  {
+    path: '/teachingData',
+    name: '-相关资料',
+    component: teachingData
   },
   {
     path: '/good_exam',
