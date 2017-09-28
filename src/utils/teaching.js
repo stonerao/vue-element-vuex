@@ -149,7 +149,7 @@ export default {
             }
         }).then((res)=>{
             if(res.data.code==200){
-                this.items = res.data.datas;
+                this.items = res.data.data;
                 this.page_total = parseInt(res.data.page_total?res.data.page_total:0)
             }
         })
