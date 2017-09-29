@@ -11,9 +11,11 @@
             <el-date-picker v-model="chooseTime" type="date" placeholder="选择日期" @change="choose_time">
             </el-date-picker>
           </div>
-          <div class="att-checkbox">
+          <div class="att-checkbox"> 
+          <p class="hui-color" v-if="chooseTime==''">请选择时间</p>
+          <p class="hui-color" v-else-if="myClassList.length==0">暂无代课课程</p>
             <el-radio-group v-model="radio1" @change="changeRadio1">
-              <template v-for="(item,index) in myClassList">
+              <template v-for="(item,index) in myClassList" >
                 <el-radio :label="index">{{item.lesson}}</el-radio>
               </template>
             </el-radio-group>

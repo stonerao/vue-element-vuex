@@ -25,7 +25,7 @@ export default {
         }
     },
     created() {
-
+        store.lock_setting_info.call(this)
     },
     mounted() {
 

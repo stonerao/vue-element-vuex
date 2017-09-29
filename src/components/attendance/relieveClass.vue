@@ -16,7 +16,7 @@
       </el-col>
     </el-row>
     <el-table :data="list">
-      <el-table-column prop="record_id" label="ID" width="80">
+      <el-table-column prop="record_id" label="ID" width="100" show-overflow-tooltip >
       </el-table-column>
       <el-table-column prop="operate_reason" label="请假事由" show-overflow-tooltip >
       </el-table-column>

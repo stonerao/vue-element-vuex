@@ -66,7 +66,7 @@
                             <el-checkbox class="radio" label="1">老师</el-checkbox>
                         </p>
                         <p>
-                            <el-checkbox class="radio" label="2">管理员</el-checkbox> 
+                            <el-checkbox class="radio" label="2">管理员</el-checkbox>
                         </p>
                         <p>
                             <el-select v-if="is_option_list" v-model="obj.gpermission_id" multiple filterable allow-create placeholder="请选择" size="small">
@@ -77,7 +77,7 @@
                     </el-checkbox-group>
                 </div>
             </div>
-    
+
             <div class="add-inp-btn">
                 <div class="add-inp-item-name">
                 </div>
@@ -90,13 +90,13 @@
 <script> 
 import store from '@/utils/architecture'
 export default {
-    props: ['state','dataObj'],//1是编辑 2是添加
+    props: ['state', 'dataObj'],//1是编辑 2是添加
     data() {
         return {
             options: [],
             value10: [],
             sex: '',
-            department_id:'',//department_id 
+            department_id: '',//department_id 
             obj: {
                 member_name: '',
                 password: '',
@@ -116,9 +116,9 @@ export default {
         }
     },
     created() {
-        if (this.state == 1) {
-            let dataObj = this.dataObj;
+        var dataObj = this.dataObj;
         console.log(dataObj)
+        if (this.state == 1) {
             this.department_id = dataObj.department_id;
             this.obj.member_role = dataObj.member_role.split(",")
             this.group_check = this.obj.member_role;
@@ -126,9 +126,18 @@ export default {
             this.obj.teacher_id = dataObj.teacher_id;
             this.obj.user_phone = dataObj.teacher_phone;
             this.obj.user_sex = dataObj.teacher_sex;
-            this.obj.user_name = dataObj.username; 
+            this.obj.user_name = dataObj.username;
             this.obj.member_name = dataObj.username; 
-        } else {
+        } else if (this.state == 2) {  
+            this.department_id = dataObj.department_id;
+            this.obj.member_role = dataObj.member_role.split(",")
+            this.group_check = this.obj.member_role;
+            this.obj.position_id = dataObj.position_id;
+            this.obj.teacher_id = dataObj.teacher_id;
+            this.obj.user_phone = dataObj.teacher_phone;
+            this.obj.user_sex = dataObj.teacher_sex=='男'?'2':dataObj.teacher_sex=='女'?'3':'1';
+            this.obj.user_name = dataObj.teacher_name;
+            this.obj.member_name = dataObj.member_name; 
         }
         store.getPosition.call(this)
         // 权限组列表
@@ -143,9 +152,9 @@ export default {
                 store.addPositionUser.call(this, this.obj);
             }
         },
-        quit(){
+        quit() {
             //取消
-            this.$emit('QUITQROUP',0);
+            this.$emit('QUITQROUP', 0);
         }
     },
     watch: {

@@ -34,15 +34,15 @@
             </el-table-column>
             <el-table-column width="180" label="操作" show-overflow-tooltip v-if="stateList!=1">
                 <template scope="scope">
-                    <el-button size="mini">删除</el-button>
-                    <el-button size="mini">下载</el-button>
+                    <el-button size="mini">删除</el-button> 
+                    <el-button size="mini" @click="download(2,scope.row.q_id)">下载</el-button>
                 </template>
             </el-table-column>
         </el-table>
         <el-row style="margin-top:10px">
             <el-col :span="12">
                 <el-button size="mini" type="primary" @click="deleteData">删除</el-button>
-                <el-button size="mini" type="primary" @click="download" class="marginleft20">下载</el-button>
+                <el-button size="mini" type="primary" @click="download(1)" class="marginleft20">下载</el-button>
             </el-col>
             <el-col :span="12">
                 <el-pagination class="float-right" @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="page" :page-sizes="[curpage]" :page-size="curpage" layout="total, sizes, prev, pager, next, jumper" :total="page_total">
@@ -103,14 +103,13 @@ export default {
             });
 
         },
-        download( ) {
-            // 删除
+        download(state,id) {  
             this.$confirm('是否批量下载题库?', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
-                store.school_download.call(this)
+                store.school_download.call(this,state==1?this.deletArr.join(','):id)
             }).catch(() => {
                 this.$message({
                     type: 'info',

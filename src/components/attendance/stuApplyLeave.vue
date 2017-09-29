@@ -13,7 +13,7 @@
     </el-row>
     <el-table :data="list" style="width: 100%">
       <template scope="scope">
-        <el-table-column prop="sign_leaveid" label="ID" width="100">
+        <el-table-column prop="sign_leaveid" label="ID" width="100" show-overflow-tooltip >
         </el-table-column>
         <el-table-column prop="leave_desc" label="请假事由"  show-overflow-tooltip >
         </el-table-column>

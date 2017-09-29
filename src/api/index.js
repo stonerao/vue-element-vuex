@@ -35,7 +35,8 @@ export const api = {
     teaching_collect:"Teacher/Teaching/teaching_collect",//教材领取老师 
     question_type:"Teacher/Examinationcenter/question_type",//题干类型 
     question_classlist:"Admin/Examinationcenter/question_classlist",//题库分类列表 
-    questions_add:"Admin/Examinationcenter/questions_add",//添加试题 
+    teacher_question_classlist:"Teacher/Examinationcenter/teacher_question_classlist",//题库分类列表 
+    questions_add:"Teacher/Examinationcenter/questions_add",//添加试题 
     question_list:"Teacher/Examinationcenter/question_list",//试题列表 
     question_delete:"Teacher/Examinationcenter/question_delete",//删除题库 
     question_info:"Teacher/Examinationcenter/question_info",//试题详情 
@@ -76,7 +77,7 @@ export const api = {
     teacher_edit_task:"Teacher/Examinationcenter/edit_task",//老师编辑作业    
     question_classadd:"Admin/Examinationcenter/question_classadd",//添加分类    
     delete_questionclass:"Admin/Examinationcenter/delete_questionclass",//删除分类    
-    edit_questionclass:"Teacher/Examinationcenter/edit_questionclass",//编辑分类     
+    edit_questionclass:"Admin/Examinationcenter/edit_questionclass",//编辑分类     
     addline_examination:"Teacher/Examinationcenter/addline_examination",//创建线下考试     
     del_line_examination:"Teacher/Examinationcenter/del_line_examination",//删除线下考试     
     edit_line_examination:"Teacher/Examinationcenter/edit_line_examination",//编辑线下考试     
@@ -98,6 +99,7 @@ export const api = {
     studentclass_info:"Student/SchoolStudent/class_info",//学生中心主页列表  
     studentIndexHome:"Student/SchoolStudent/index",//学生中心主页数据 
     lock_setting:"Admin/Lock/lock_setting",//锁屏设置 
+    lock_setting_info:"Admin/Lock/lock_setting_info",//锁屏设置 info
     school_questionlist:"Teacher/Examinationcenter/school_questionlist",//共享题库列表
     school_deletequestion:"Teacher/Examinationcenter/school_deletequestion",//删除题库列表
     school_download:"Teacher/Examinationcenter/school_download",//下载学校
@@ -119,6 +121,5 @@ export const api = {
     question_statice:"Teacher/Examinationcenter/question_statice",//试题统计
     student_paper_preview:"Student/SchoolStudent/student_paper_preview",//学生预览教材
     teacher_paper_preview:"Teacher/Teaching/teacher_paper_preview",//老师预览教材
-    school_img_info:"Admin/Footer/school_img_info",//login code
     
 }

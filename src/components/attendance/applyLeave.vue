@@ -18,7 +18,7 @@
     </el-row>
     <el-table :data="list" style="width: 100%">
       <template scope="scope">
-        <el-table-column prop="sign_leaveid" label="ID" width="80" v-if="isClassLogin!=1">
+        <el-table-column prop="sign_leaveid" label="ID" width="80" show-overflow-tooltip v-if="isClassLogin!=1">
         </el-table-column>
         <el-table-column prop="teacher_name" label="申请人" show-overflow-tooltip v-else>
         </el-table-column>
