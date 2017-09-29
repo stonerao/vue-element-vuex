@@ -283,7 +283,7 @@ export default {
         })
     },
 
-    //学校 - 列表
+    //学生共享 - 列表
     ShareMaterial_s(obj,pid) {
         if(!obj.hasmore){
             return
@@ -306,7 +306,11 @@ export default {
                 if(res.data.code!=400){
                     let _data = res.data.data;
                     this.datas = [];
+                    if(_data.length != 0){
+                        this.subName = _data[0].paper_name;
+                    }
                     _data.forEach((x)=>{
+                        x.fileType = ((x.annex_file_name).split('.').pop()).toLowerCase();
                         if(String(x.annex_file_name).length == 0){
                             x.pdf = false;
                         }else{
@@ -335,7 +339,7 @@ export default {
             }
         })
     },
-    //查看详情
+    //学生共享-详情
     ShareDatadetail_s(id) {
         let apiUrl = api.ShareDatadetail_s,  //学生中心
             formData = {

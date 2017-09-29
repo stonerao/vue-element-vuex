@@ -10,36 +10,37 @@
             <el-breadcrumb separator="》" class="r-shoping-line">
               <el-breadcrumb-item :to="{ path: '/' }">学生管理中心</el-breadcrumb-item>
               <el-breadcrumb-item :to="{ path: '/teaching' }">教材中心</el-breadcrumb-item>
-              <el-breadcrumb-item><span style="color: #48576a;">{{datas[0].paper_name}} - 相关资料</span></el-breadcrumb-item>
+              <el-breadcrumb-item><span style="color: #48576a;">{{subName}}(相关资料)</span></el-breadcrumb-item>
             </el-breadcrumb>
           </el-col>
         </el-row>
       </div>
       <div class="r-shoping-info">
+          <!-- 表数据 -->
           <el-row style="padding-top: 19px;border-top: 1px solid #1997e4;">
-              <el-col :span="24">
+              <el-col :span="24" style="padding-left: 20px;">
                   <img src="../../assets/index/shuaxin.png" class="icon-img-xs" @click="share_refresh"/>刷新-共{{materialParams.total_num}}条记录
               </el-col> 
           </el-row>
           <el-table ref="multipleTable" border :data="datas" tooltip-effect="dark" style="width: 100%">
               <el-table-column label="教材名称" prop="paper_name"></el-table-column>
               <el-table-column label="共享资料名称" prop="za_shared_name"></el-table-column>
-              <el-table-column label="所在页数" prop="zc_curpage"></el-table-column>
+              <el-table-column label="所在页" prop="zc_curpage"></el-table-column>
               <el-table-column label="素材文件">
                 <template scope="scope">
-                    <a :href="scope.row.annex_file_add" v-html="scope.row.pdf ? scope.row.annex_file_name : '-'"></a>
+                    <a href="javascript:void(0)" v-html="scope.row.pdf ? scope.row.annex_file_name : ''" @click="mate_scan(scope.row.fileType,scope.row.annex_file_add)"></a>
                 </template>
               </el-table-column>
               <el-table-column label="视频文件">
                   <template scope="scope">
-                    <a :href="scope.row.file_video_add" v-html="scope.row.video ? scope.row.file_video_name : '-'"></a>
+                    <a href="javascript:void(0)" v-html="scope.row.video ? scope.row.file_video_name : ''" @click="video_scan(scope.row.file_video_add)"></a>
                   </template>
               </el-table-column>
-              <el-table-column label="操作">
+              <!-- <el-table-column label="操作">
                   <template scope="scope">
-                      <el-button type="primary" size="mini" icon="view" @click.native="che_detail(scope.row.zc_id)">查看</el-button>
+                      <el-button type="primary" size="mini" icon="view" @click.native="che_detail(scope.row.id)">查看</el-button>
                   </template>
-              </el-table-column>
+              </el-table-column> -->
           </el-table>
           <el-row :span="24">
               <el-col :span="24">
@@ -50,7 +51,7 @@
               </el-col>
           </el-row>
       </div>
-
+      <!-- 详情弹窗 -->
       <div class="myPopup" v-if="show_type">
           <div class="Popup" style="width: 720px;">
               <ul class="popHeader clearfloat">
@@ -72,6 +73,8 @@
           </div>
           <div class="dialog_mask" @click="l_popclose"></div>
       </div>
+      <!-- 视屏预览 -->
+      <videoScan :ADDRESS="address" v-if="video_type" @closePlay="closePlay"></videoScan>
 
     </div>
   </div>
@@ -80,6 +83,7 @@
 import { HeadSide } from '@/view/layout/index.js'
 import info from '@/utils/l_axios1'
 import { isClassLogin } from '@/utils/auth'
+import videoScan from '@/components/teaching/videoplay'
 
 export default {
   data() {
@@ -94,12 +98,14 @@ export default {
           page_count: 1,//总页数
           total_num: 0
       },
-      show_type: false,
-      deData: [],  //详情id
+      show_type: false,  //详情弹窗是否显示
+      deData: [],  //详情数据
+      video_type: false, //视频播放
+      subName: '',  //科目名称
     }
   },
   components: {
-    HeadSide
+    HeadSide, videoScan
   },
   created() {
     this.paper_id = this.$route.query.pid;
@@ -129,9 +135,26 @@ export default {
     che_detail(id){ //查看详情
       this.l_popclose();
       info.ShareDatadetail_s.call(this,id);
-    }
-  },
+    },
+    video_scan(url){  //视屏预览
+      // this.address = 'http://kdxx.test.kh888.cn/Student/Video/student_video_info?token=3f13cdd493642a3c94c435caa5c78567&id=11';
+      this.address = url;
+      this.video_type = !this.video_type;
+    },
+    closePlay(){  //关闭视频播放
+      this.video_type = !this.video_type;
+    },
+    mate_scan(type,url){  //查看素材
+      if(type == 'pdf'){ //如果是pdf文件预览
+        console.log('pdf');
+      }else{  //word文档预览
 
+      } 
+    },
+  },
+  mounted(){
+
+  }
 }
 </script>
 
