@@ -42,7 +42,7 @@ export default {
         // 试题所属分类
         this.$http({
             method: "get",
-            url: api.question_classlist,
+            url: api.teacher_question_classlist,
             params: {
                 token: getToken(),
                 qc_id: id
@@ -480,14 +480,16 @@ export default {
         })
     },
     question_classadd() {
+        let obj = {
+            token: getToken(),
+            qc_name: this.form.name,
+            qc_parent_id: this.value_2 ? this.value_2 : this.value_1
+        }
+        this.state?obj.qc_id=this.obj.qc_id:'';
         this.$http({
             method: "post",
-            data: {
-                token: getToken(),
-                qc_name: this.form.name,
-                qc_parent_id: this.value_2 ? this.value_2 : this.value_1
-            },
-            url: api.question_classadd
+            data: obj,
+            url:this.state? api.edit_questionclass:api.question_classadd
         }).then((res) => {
             if (res.data.code == 200) {
                 this.$notify({
@@ -657,12 +659,13 @@ export default {
             }
         })
     },
-    school_download() {
+    school_download(id) {
+        console.log(id)
         this.$http({
             method: "post",
             data: {
                 token: getToken(),
-                q_id: this.deletArr.join(",")
+                q_id: id
             },
             url: api.school_download
         }).then((res) => {

@@ -189,7 +189,7 @@ export default {
     },
     methods: {
         onSubmit(statusIndex) {
-            if (!this.isBelongSelect) {
+            if (!this.isBelongSelect&&this.belongClass3=='') {
                 // 是否选择题库类型 
                 this.notify('请选择题库类型');
                 return;

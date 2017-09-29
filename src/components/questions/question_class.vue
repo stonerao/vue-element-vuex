@@ -43,14 +43,9 @@ export default {
         }
     },
     methods: {
-        submit() {
-            console.log(this.state)
-            if (!this.state) {
-
-            } else {
-                store.question_classadd.call(this);
-            }
-
+        submit() { 
+            console.log(this.state) 
+            store.question_classadd.call(this);  
         },
         deletes(status) {
             if (status == 1) {
