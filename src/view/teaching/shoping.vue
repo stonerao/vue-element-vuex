@@ -123,8 +123,8 @@ export default {
   },
   methods: {
     relatData(){  //共享教材相关资料(学生)
-      // this.$router.push({path: '../teachingData',query: {pid: this.$route.query.id}});
-      this.$router.push({path: '../teachingData',query: {pid: 4}});
+      this.$router.push({path: '../teachingData',query: {pid: this.$route.query.id}});
+      // this.$router.push({path: '../teachingData',query: {pid: 4}});
     },
     onSlideChangeStart(currentPage) {
       console.log('onSlideChangeStart', currentPage);

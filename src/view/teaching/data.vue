@@ -156,17 +156,20 @@ export default {
       this.video_type = !this.video_type;
     },
     mate_scan(type,url){  //查看素材
-      if(type == 'pdf'){ //如果是pdf文件预览
-          this.handle_1 = false;
-          this.handle_2 = !this.handle_2;
+      this.handle_1 = false;
+      this.handle_2 = !this.handle_2;
+      this.pdfSrc = 'http://' + url;
 
-          // url = 'http://kdjy.test.kh888.cn/data/upload/paper_manage/annex_file/05600138751304153.pdf';
-          url = 'ES6.pdf';
-          
-          this.pdfSrc = `http://www.stonerao.com/ifame/lpdf/generic/web/viewer.html?file=${url}`;
-      }else{  //word文档预览
+      // if(type == 'pdf'){ //如果是pdf文件预览
+      //     this.handle_1 = false;
+      //     this.handle_2 = !this.handle_2;
+      //     url = 'http://kdjy.test.kh888.cn/data/upload/paper_manage/annex_file/05600138751304153.pdf';
+      // //     // url = 'ES6.pdf';
+      // //     // this.pdfSrc = `http://www.stonerao.com/ifame/lpdf/generic/web/viewer.html?file=${url}`;
+      //     this.pdfSrc = url;
+      // }else{  //word文档预览
 
-      } 
+      // } 
     },
     pdfback(){
       if(this.handle_2){
