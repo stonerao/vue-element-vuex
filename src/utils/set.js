@@ -45,11 +45,11 @@ export default {
             if (res.data.code == 200) {
                 this.form.mobile_host = res.data.data.mobile_host;
                 this.form.mobile_username = res.data.data.mobile_username;
-                this.form.mobile_pwd = res.data.data.mobile_pwd; 
+                this.form.mobile_pwd = res.data.data.mobile_pwd;
             }
         })
     },
-    mobile_setting() {　
+    mobile_setting() {
         this.$http({
             method: 'post',
             data: {
@@ -74,12 +74,12 @@ export default {
             }
         })
     },
-    lock_setting() {　
+    lock_setting() {
         this.$http({
             method: 'post',
             data: {
-                token: getToken(), 
-                lock_status:this.locak?'1':'2'
+                token: getToken(),
+                lock_status: this.locak ? '1' : '2'
             },
             url: api.lock_setting
         }).then((res) => {
@@ -97,5 +97,16 @@ export default {
             }
         })
     },
+    lock_setting_info() {
+        this.$http(api.lock_setting_info, {
+            params: {
+                token: getToken()
+            }
+        }).then((res) => {
+            if (res.data.code == 200) {
+                this.locak = res.data.data.lock_status
+            }
+        })
+    }
 
 }

@@ -16,7 +16,7 @@
       </el-col>
     </el-row>
     <el-table :data="list">
-      <el-table-column prop="record_id" label="ID" width="80">
+      <el-table-column prop="record_id" label="ID" width="80" show-overflow-tooltip >
       </el-table-column>
       <el-table-column prop="operate_reason" label="请假事由" show-overflow-tooltip >
       </el-table-column>
@@ -31,7 +31,7 @@
           <span v-else class="danger">未批准</span>
         </template>
       </el-table-column>
-      <el-table-column prop="manager_name" label="审批人" width="80">
+      <el-table-column prop="manager_name" label="审批人12" width="80">
       </el-table-column>
     </el-table>
   </div>

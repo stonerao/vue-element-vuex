@@ -40,7 +40,7 @@
         </el-form-item>
         <el-form-item label=" ">
             <el-button type="primary" @click="onSubmit">{{!if_set?'立即创建':'确认编辑'}}</el-button>
-            <el-button @click="quit">取消</el-button>
+            <el-button @click="quit" v-if="if_set">取消</el-button>
         </el-form-item>
     </el-form>
 </template>

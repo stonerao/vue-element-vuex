@@ -99,6 +99,7 @@ export const api = {
     studentclass_info:"Student/SchoolStudent/class_info",//学生中心主页列表  
     studentIndexHome:"Student/SchoolStudent/index",//学生中心主页数据 
     lock_setting:"Admin/Lock/lock_setting",//锁屏设置 
+    lock_setting_info:"Admin/Lock/lock_setting_info",//锁屏设置 info
     school_questionlist:"Teacher/Examinationcenter/school_questionlist",//共享题库列表
     school_deletequestion:"Teacher/Examinationcenter/school_deletequestion",//删除题库列表
     school_download:"Teacher/Examinationcenter/school_download",//下载学校

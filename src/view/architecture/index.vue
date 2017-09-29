@@ -215,7 +215,7 @@
                 </div>
                 <div v-if="state==6">
                     <!--编辑组织架构 编辑 -->
-                    <addSetUser state="1" :dataObj="dataObj" @QUITQROUP="QUITQROUP"></addSetUser>
+                    <addSetUser state="2" :dataObj="dataObj" @QUITQROUP="QUITQROUP"></addSetUser>
                 </div>
                 <div v-if="state==7">
                     <!--编辑职位  -->
