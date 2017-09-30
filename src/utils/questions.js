@@ -758,6 +758,7 @@ export default {
         }).then((res) => {
             if (res.data.code == 200) {
                 this.t_data = res.data.data;
+                this.page_total = parseInt(res.data.page_total)
             }
         })
     },

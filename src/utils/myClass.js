@@ -15,7 +15,7 @@ export default {
       }
     }).then((res)=>{ 
       if(res.data.code==200){
-        this.total=res.data.all_pagecount;
+        this.total=parseInt(res.data.page_total);
         this.classList=res.data.data;
       }
     })
@@ -45,8 +45,7 @@ export default {
         department_id:this.classId,
         keywords:this.stuName
       }
-    }).then((res)=>{
-      console.log(res)
+    }).then((res)=>{　
       if(res.data.code==200){
         this.classInfo=res.data.data.common_info;
         this.listDetail=res.data.data.student_list;

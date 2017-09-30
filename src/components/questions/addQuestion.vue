@@ -126,7 +126,7 @@
                 <el-form-item label=" ">
                     <el-button type="primary" @click="onSubmit">立即创建</el-button>
                     <el-button type="success" @click="onSubmit(1)">预览试题</el-button>
-                    <el-button @click="quitq">取消</el-button>
+                    <el-button @click="quitq" v-if=" isSetQues">取消</el-button>
                 </el-form-item>
             </el-form>
         </div>
@@ -377,7 +377,7 @@ export default {
 
     },
     mounted() {
-        // 编辑试题过来
+        // 编辑试题过来 
         if (this.setQuestionObj && this.isSetQues) {
             store.question_info.call(this, this.setQuestionObj.q_id);
 

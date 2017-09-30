@@ -14,28 +14,36 @@
                 </div>
             </el-col>
         </el-row>
-        <el-table ref="multipleTable" :data="t_data" tooltip-effect="dark" style="width: 100%"  class="z-text-over">
-          
+        <el-table ref="multipleTable" :data="t_data" tooltip-effect="dark" style="width: 100%" class="z-text-over">
+
             <el-table-column label="id" width="60" show-overflow-tooltip>
                 <template scope="scope">{{ scope.row.e_id }}</template>
             </el-table-column>
             <el-table-column prop="student_name" label="学生姓名" show-overflow-tooltip>
             </el-table-column>
             <el-table-column prop="pm" label="排名" width="380" show-overflow-tooltip>
-            </el-table-column> 
+            </el-table-column>
         </el-table>
-       
+        <el-row style="margin-top:10px">
+            <el-col :span="12">
+                &nbsp;
+            </el-col>
+            <el-col :span="12">
+                <el-pagination class="float-right" @current-change="handleCurrentChange" :current-page="page" :page-sizes="[curpage]" :page-size="curpage" layout="total, sizes, prev, pager, next, jumper" :total="page_total">
+                </el-pagination>
+            </el-col>
+        </el-row>
     </div>
 </template>
 
 <script> 
 import store from '@/utils/questions'
 export default {
-    props:['id'],
+    props: ['id'],
     data() {
         return {
             title: '',
-            page_total:1,
+            page_total: 1,
             t_data: [],
             curpage: 10,
             page: 1
@@ -44,10 +52,15 @@ export default {
     methods: {
         ajaxData() {
             this.t_data = [];
-            store.online_grades_static.call(this,this.id)
-        },  
-        fanhui(){
+            store.online_grades_static.call(this, this.id)
+        },
+        fanhui() {
             this.$emit("fanhui")
+        },
+        handleCurrentChange(val){
+            this.page = val;
+            this.ajaxData()
+
         }
     },
     created() {
@@ -57,7 +70,7 @@ export default {
 </script>
 
 <style>
-.el-button--mini>span{
-margin-left:0
+.el-button--mini>span {
+    margin-left: 0
 }
 </style>

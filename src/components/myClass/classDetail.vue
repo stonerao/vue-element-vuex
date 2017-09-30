@@ -5,7 +5,7 @@
         <el-button @click="returnList" type="primary" size="small">返回列表</el-button>
       </el-col>
       <el-col :span="3" class="class-titles">
-        <img src="../../assets/index/shuaxin.png" class="icon-img-xs cursor"/>刷新-共{{total}}条记录
+        <img src="../../assets/index/shuaxin.png" class="icon-img-xs cursor"/>刷新-共1条记录
       </el-col>
       <el-col :span="11" style="color:#20A0FF;line-height: 36px;text-align: center">
         <span style="color:#ff703b">{{classInfo.class_name}}</span>&nbsp;共 <span style="color:#ff703b">{{parseInt(classInfo.boy_num)+parseInt(classInfo.girl_num)}}</span>人&nbsp;男生<span style="color:#ff703b">{{classInfo.boy_num}}</span>人&nbsp;女生<span style="color:#ff703b">{{classInfo.girl_num}}</span>人&nbsp;教学科目：<span style="color:orangered">{{classInfo.subject_name}}</span>
@@ -39,21 +39,33 @@
         </el-table-column>
       </template>
     </el-table>
+    <div class="kd-page">
+            <el-row>
+              <el-col :span="24">
+                <el-pagination class="float-right" :current-page="page" :page-sizes="[10]" :page-size="curpage" layout="total, sizes, prev, pager, next, jumper" :total="page_total"  @current-change="handleCurrentChange">
+                </el-pagination>
+              </el-col>
+            </el-row>
+          </div>
   </div>
 </template>
 <script>
   export default{
-    props:['total','listDetail','classInfo'],
+    props:[ 'listDetail','classInfo'],
     data(){
       return{
         sex:'',//性别
         sexNum:'',//选择性别
         stuName:'',//学生姓名
         sexList:[{name:'保密',value:1},{name:'男',value:2},{name:'女',value:3}],
+        curpage:10,
+        page:1,
+        page_total:0
       }
     },
     created(){
-
+      console.log(this.listDetail,2)
+      console.log(this.classInfo,1)
     },
     methods:{
       returnList(){
@@ -65,6 +77,9 @@
       },
       handleIconClick(){
         this.$emit('detailList',this.sexNum,this.stuName)
+      },
+      handleCurrentChange(){
+
       }
     }
   }
