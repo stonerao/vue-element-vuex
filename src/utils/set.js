@@ -79,7 +79,7 @@ export default {
             method: 'post',
             data: {
                 token: getToken(),
-                lock_status: this.locak ? '1' : '2'
+                lock_status: this.locak
             },
             url: api.lock_setting
         }).then((res) => {

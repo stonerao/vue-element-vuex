@@ -24,9 +24,9 @@
     },
     mounted(){
       if(this.isClass==1){
-        this.playSrc=`http://kdxx.test.kh888.cn/Admin/Video/video_info?token=${this.tokenId}&id=${this.videoId}`
+        this.playSrc=`http://kd.evam.xin/Admin/Video/video_info?token=${this.tokenId}&id=${this.videoId}`
       }else{
-        this.playSrc=`http://kdxx.test.kh888.cn/Student/Video/student_video_info?token=${this.tokenId}&id=${this.videoId}`
+        this.playSrc=`http://kd.evam.xin/Student/Video/student_video_info?token=${this.tokenId}&id=${this.videoId}`
       }
     }
   }

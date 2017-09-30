@@ -120,6 +120,6 @@ export const api = {
     testpaper_statice:"Teacher/Examinationcenter/testpaper_statice",//试卷统计
     question_statice:"Teacher/Examinationcenter/question_statice",//试题统计
     student_paper_preview:"Student/SchoolStudent/student_paper_preview",//学生预览教材
-    teacher_paper_preview:"Teacher/Teaching/teacher_paper_preview",//老师预览教材
+    teacher_paper_preview:"Teacher/Teaching/teacher_paper_preview",//老师预览教材 
     
 }

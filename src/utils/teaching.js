@@ -155,11 +155,24 @@ export default {
         })
 
     },
-    teaching_pay_shop(){
+    teaching_pay_shop(id){
         this.$http({
             method:'get',
             params:{
                 token:getToken(),
+                paper_id:id
+            }
+        }).then((res)=>{
+            if (res.data.code == 200) {
+                this.$message({
+                    type: 'success',
+                    message: res.data.datas
+                });
+            } else {
+                this.$message({
+                    type: 'success',
+                    message: res.data.datas.error
+                });
             }
         })
     },
@@ -174,5 +187,5 @@ export default {
             this.isTest=true;
             this.data=res.data.data;
         })
-    }
+    },
 }

@@ -118,10 +118,8 @@
                         </el-table-column>
                         <el-table-column prop="position_name" label="职位" show-overflow-tooltip>
                         </el-table-column>
-                        <el-table-column label="性别" show-overflow-tooltip>
-                            <template scope="scope">
-                                {{scope.row.teacher_sex=='1'?'保密':(scope.row.teacher_sex=='2'?'男':'女')}}
-                            </template>
+                        <el-table-column prop="teacher_sex" label="性别" show-overflow-tooltip>
+                            
                         </el-table-column>
                         <el-table-column prop="teacher_phone" label="电话" show-overflow-tooltip>
                         </el-table-column>

@@ -14,7 +14,7 @@
                     <get_student_operation @quit="taskQuit" :state="toStudentState" v-else-if="status.state==2" ></get_student_operation>
                 </div>
                 <div v-if="state==1">
-                    <release :obj="mangStatus" @quitsss="quitsss"></release>
+                    <release :obj="mangStatus" @quitsss="quitsss" @fanhui="state=0"></release>
                 </div>
 
             </div>

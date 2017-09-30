@@ -44,6 +44,7 @@ export default {
             }
         }).then((res) => {
             if (res.data.code == 200) {
+               this.$emit("fanhui")
                 this.$notify({
                     title: '成功',
                     message: res.data.data,
