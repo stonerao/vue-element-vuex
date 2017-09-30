@@ -81,6 +81,7 @@ export default {
                         duration: 1000,
                         onClose: () => {
                         	// window.location.reload(true);
+                            this.L_refresh3();
                         }
                     });
                 }else{
