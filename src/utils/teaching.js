@@ -161,7 +161,8 @@ export default {
             params:{
                 token:getToken(),
                 paper_id:id
-            }
+            },
+            url:api.teaching_pay_shop
         }).then((res)=>{
             if (res.data.code == 200) {
                 this.$message({
@@ -189,3 +190,4 @@ export default {
         })
     },
 }
+ 

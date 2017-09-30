@@ -152,6 +152,7 @@ export default {
         }).then((res) => {
             if (res.data.code == 200) {
                 this.obj = res.data.data;
+                res.data.data.review_desc!=''?this.content = res.data.data.review_desc:''
             }
         })
     },

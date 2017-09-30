@@ -233,9 +233,9 @@ export default {
     },
     position_delete(id, name) {
         this.$http({
-            method: "post",
+            method: "get",
             url: api.position_delete,
-            data: {
+            params: {
                 position_id: id,
                 token: getToken()
             }

@@ -14,10 +14,9 @@
         </el-form-item>
         <el-form-item label="学生">
             <div v-html="obj.student_name"></div>
-        </el-form-item>
+        </el-form-item> 
         <el-form-item label="作业评阅">
-            <!-- <quillEditor style="background:#fff" v-model="val" :content="content"></quillEditor> -->
-           
+            <!-- <quillEditor style="background:#fff" v-model="val" :content="content"></quillEditor> --> 
             <vue-html5-editor :content="content" :height="300" @change="editor"></vue-html5-editor>
         </el-form-item>
         <el-form-item label=" ">
@@ -40,8 +39,7 @@ export default {
             },
             obj: {},
             content: " ",
-            val: '',
-            content:''
+            val: '', 
         }
     },
     methods: {
