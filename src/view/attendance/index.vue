@@ -21,7 +21,7 @@
                 </div>
                 <!--考勤统计(老师和学生自己的)-->
                 <div v-if="state==3">
-                  <attendance :total="total" :list="attList" :isClassLogin="isClassLogin" @attTimeChange="attTimeChange" :underTeacherList="underTeacherList" @ChooseTeacher="teacherChoose" ></attendance>
+                  <attendance :total="total" :list="attList" :isClassLogin="isClassLogin" @attTimeChange="attTimeChange" :underTeacherList="underTeacherList" @ChooseTeacher="teacherChoose" @Jrefresht="Jrefresh"></attendance>
                 </div>
                 <!--待我审批-->
               <div v-if="state==4">
@@ -198,7 +198,8 @@ export default {
         }else if(this.state==2){
           att.relieve_list.call(this);
         }else if(this.state==3){
-          att.attendance_list.call(this)
+          this.attList = [];
+          att.attendance_list.call(this);
         }else if(this.state==4){
           att.approve_list.call(this)
         }else if(this.state==8){

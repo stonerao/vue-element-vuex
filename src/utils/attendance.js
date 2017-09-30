@@ -27,7 +27,7 @@ export default {
           obj.name=arr[i];
           this.checkTypeList.push(obj);
         }
-        console.log(getToken())
+        // console.log(getToken())
       })
     }else if(isClass==1){
       this.$http(api.sleaveLlist,{
@@ -38,7 +38,7 @@ export default {
           status:this.status
         }
       }).then((res)=>{
-        console.log(res)
+        // console.log(res)
         this.leaveList=res.data.data.list;
         this.currentPage=res.data.data.page;
         this.total=parseInt(res.data.data.rows);

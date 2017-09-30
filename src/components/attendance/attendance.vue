@@ -2,7 +2,7 @@
   <div>
     <el-row class="class-header">
       <el-col :span="11" class="class-titles">
-        <img src="../../assets/index/shuaxin.png" class="icon-img-xs cursor"/>刷新-共{{total}} 条记录
+        <img src="../../assets/index/shuaxin.png" class="icon-img-xs cursor" @click="Jrefresh1"/>刷新-共{{total}} 条记录
       </el-col>
       <el-col :span=13>
         <!--<uteacher :underTeacherList="underTeacherList" @teacherChoose="teacher" class="lf"></uteacher>-->
@@ -41,7 +41,10 @@
       },
       //选中节点下的老师
       teacher(){
-        this.$emit('ChooseTeacher')
+        this.$emit('ChooseTeacher');
+      },
+      Jrefresh1(){
+        this.$emit('Jrefresht');
       }
     },
     watch:{
