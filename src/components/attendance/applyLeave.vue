@@ -2,7 +2,7 @@
   <div>
     <el-row class="class-header">
       <el-col :span="4" class="class-titles">
-        <img src="../../assets/index/shuaxin.png" class="icon-img-xs cursor" />刷新-共{{total}}条记录
+        <img src="../../assets/index/shuaxin.png" class="icon-img-xs cursor" @click="j_refresh"/>刷新-共{{total}}条记录
       </el-col>
       <el-col v-if="isClassLogin!=1" :span="8">
         <el-button type="primary" @click="apply">
@@ -10,7 +10,7 @@
       </el-col>
       <el-col :span="isClassLogin!=1 ? 12:20">
         <!-- <uteacher :underTeacherList="underTeacherList" @teacherChoose="teacher" class="lf"></uteacher> -->
-        <el-select v-model="typeText1" @change="selectChange" placeholder="请选择审核状态" size="small" class="rt">
+        <el-select v-model="typeText1" @change="selectChange" clearable placeholder="请选择审核状态" size="small" class="rt">
           <el-option v-for="item in checkTypeList" :key="item.value" :label="item.name" :value="item.value">
           </el-option>
         </el-select>
@@ -28,7 +28,7 @@
         </el-table-column>
         <el-table-column prop="end_time" label="请假结束时间" min-width="120" show-overflow-tooltip>
         </el-table-column>
-        <el-table-column prop="duration" label="时长（小时）" width="120">
+        <el-table-column prop="duration" label="时长（小时）" width="140">
         </el-table-column>
         <el-table-column prop="apply_time" label="提交时间" min-width="100" show-overflow-tooltip>
         </el-table-column>
@@ -39,7 +39,7 @@
             <span v-else class="danger">未批准</span>
           </template>
         </el-table-column>
-        <el-table-column prop="manager_name" label="审批人" width="80">
+        <el-table-column prop="manager_name" label="审批人" width="150">
         </el-table-column>
         <el-table-column v-if="isClassLogin==1" label="操作" width="150">
           <template scope="scope">
@@ -66,7 +66,8 @@ export default {
   components: {
     uteacher
   },
-  created() { 
+  created() {
+  console.log(this.list) 
   },
   methods: {
     apply() {
@@ -83,6 +84,9 @@ export default {
     //选中节点下的老师
     teacher(val) {　
       this.$emit('ChooseTeacher',val)
+    },
+    j_refresh(){
+      this.$emit('Jrefresh');
     }
   }
 }
