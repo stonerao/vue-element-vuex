@@ -39,10 +39,10 @@ export default {
     this.$http(api.classDetail,{
       params:{
         token:getToken(),
-        page:this.currentPage,
-        curpage:this.pageSize,
+        page:this.page,
+        curpage:this.curpage,
         sex:this.sex,
-        department_id:this.classId,
+        department_id:this.id,
         keywords:this.stuName
       }
     }).then((res)=>{　
@@ -50,6 +50,17 @@ export default {
         this.classInfo=res.data.data.common_info;
         this.listDetail=res.data.data.student_list;
         this.total=res.data.page_total;
+      }
+    })
+  },
+  task_list(){
+    this.$http(api.task_list,{
+      params:{
+        token:getToken(),
+        page:this.page,
+        curpage:this.curpage,
+        task_class:this.id,
+        task_title:this.task_title
       }
     })
   }

@@ -8,10 +8,10 @@
       <div class="kd-box-content">
         <description :prompts="prompts" @PromPts="promptsTem"></description>
         <!--班级管理 -->
-        <div v-if="detailShow==0">
+        <div v-if="state==0">
           <el-row class="class-header">
             <el-col :span="10" class="class-titles">
-              <img src="../../assets/index/shuaxin.png" class="icon-img-xs cursor" @click="refreshList"/>刷新-共{{total}}条记录
+              <img src="../../assets/index/shuaxin.png" class="icon-img-xs cursor" @click="refreshList" />刷新-共{{total}}条记录
             </el-col>
             <el-col :span="7">
               <el-select @change="teacherChoose" v-model="teacher" v-if="isShow==1" placeholder="选择老师" size="small" class="rt">
@@ -53,8 +53,14 @@
           </div>
         </div>
         <!--班级详情-->
-        <div v-else>
-          <classDetail   @return_list="returnList" @detailList="classListDetail" :classInfo="classInfo" :listDetail="listDetail"></classDetail>
+        <div v-if="state==6">
+          <classDetail @return_list="state=0" @detailList="classListDetail" :id="classId"></classDetail>
+        </div>
+        <div v-if="state==7">
+          <opertation @return_list="state=0" :id="classId"></opertation>
+        </div>
+        <div v-if="state==8">
+          <results @return_list="state=0" :id="classId"></results>
         </div>
 
       </div>
@@ -70,6 +76,8 @@ import description from '@/components/main/description.vue'
 import bottomItem from '@/components/bottom/bottom.vue'
 import my from '@/utils/myClass'
 import classDetail from '@/components/myClass/classDetail'
+import opertation from '@/components/myClass/opertation'
+import results from '@/components/myClass/opertation'
 export default {
   data() {
     return {
@@ -102,7 +110,7 @@ export default {
     this.refreshList();
   },
   components: {
-    titleItem, titleActive, description, bottomItem, classDetail
+    titleItem, titleActive, description, bottomItem, classDetail, results
   },
   methods: {
     emitTransfer(index) {
@@ -117,11 +125,11 @@ export default {
     //更新列表
     refreshList() {
       if (this.detailShow == 0) {
-        this.classList=[]
+        this.classList = []
         my.class_list.call(this);
         my.under_list.call(this);
       } else {
-        my.class_detail.call(this)
+        // my.class_detail.call(this)
       }
     },
     //每页条数变化
@@ -146,9 +154,9 @@ export default {
     },
     //班级详情
     classDetail(id) {
-      this.detailShow = 1;
+      this.state = 6;
       this.classId = id;
-      this.refreshList();
+
     },
     returnList(val) {
       this.detailShow = val;

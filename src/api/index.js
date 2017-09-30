@@ -123,5 +123,7 @@ export const api = {
     teacher_paper_preview:"Teacher/Teaching/teacher_paper_preview",//老师预览教材 
     myexam_list:"Student/SchoolStudent/myexam_list",// 
     exam_grades:"Student/SchoolStudent/exam_grades",// 
+    exam_grades:"Admin/teacher/exportstudent",// 
+    task_list:"Teacher/Examinationcenter/task_list",// 
     
 }

@@ -80,7 +80,7 @@ export default {
             store.AdminNotice_list.call(this,this.state);
         },
         handleCurrentChange(val){
-            this.curpage=val;
+            this.page=val;
             this.ajax();
         }
     },
