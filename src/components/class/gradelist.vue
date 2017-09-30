@@ -70,7 +70,7 @@ export default {
             gradeParams: {
             	hasmore: true,
                 curpage: 1,//当前页数
-                one_pagenum: 10,
+                one_pagenum: 15,
                 page_count: 1,//总页数
                 total_num: 0
             },
@@ -101,7 +101,7 @@ export default {
             this.gradeParams = {
                 hasmore: true,
                 curpage: 1,//当前页数
-                one_pagenum: 10,
+                one_pagenum: 15,
                 page_count: 1,//总页数
                 total_num: 0
             };
