@@ -147,17 +147,12 @@ export default {
 
         //素材分类--编辑-是否显示
         materTypeEdit_show(id,show) {
-          /*   if(show){
-                show = 0;
-            }else{
-                show = 1;
-            } */
             console.log(id,show)
             this.$http(api.materTypeEdit_show, {
                 params: {
                     token: getToken(),
                     id: id,
-                    status: show==true?1:0,
+                    status: show==true?0:1,
                 }
             }).then((res) => { 
                 // console.log(res);

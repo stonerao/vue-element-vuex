@@ -38,7 +38,7 @@
                                 </div>
                                 <div v-if="column.type === 'switch'&&rTreeGrid">
                                     <!-- 切换按钮 -->
-                                    <el-switch v-model="item._status" on-color="#13ce66" off-color="#ff4949" @change="whetherShow(item.id,item._status)"></el-switch>
+                                    <el-switch v-model="item._status" on-color="#13ce66" off-color="#ff4949" @change.native="whetherShow(item.id,item._status)"></el-switch>
                                 </div>
                                 <div v-if="column.type === 'action'">
                                     <!-- 操作按钮 -->
