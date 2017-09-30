@@ -11,7 +11,7 @@
                 <div v-if="state==0">
                     <r-bottom @getLexId="getLexId"></r-bottom>
                 </div>
-
+                <toplist v-if="state==1"></toplist>
                 <r-gradeslist :id="lex_id" v-if="state==5" @fanhui="fanhui" @getLeId="getLeId"></r-gradeslist>
                 <r-resultsStore v-if="state==6" :id="lex_id" @fanhui="fanhui"></r-resultsStore>
 
@@ -29,11 +29,13 @@ import bottomItem from '@/components/bottom/bottom.vue'
 import list from '@/components/results/bottomlist.vue'
 import gradeslist from '@/components/results/gradeslist.vue'
 import resultsStore from '@/components/results/resultsStore.vue'
+import toplist from '@/components/results/toplist.vue'
 export default {
     data() {
         return {
             titleItem: [
-                { name: "线下考试列表", index: 0 }, 
+                { name: "线下考试列表", index: 0 },
+                { name: "线上考试列表", index: 1 },
             ],
             prompts: [
                 `该页面展示管理员的操作日志，可进行删除。`,
@@ -49,7 +51,7 @@ export default {
     components: {
         titleItem, titleActive, description, bottomItem,
         'r-bottom': list, 'r-gradeslist': gradeslist,
-        'r-resultsStore': resultsStore
+        'r-resultsStore': resultsStore, toplist
     },
     methods: {
         emitTransfer(index) {
@@ -65,7 +67,7 @@ export default {
         getLexId(id, status) {
             this.lex_id = id;
             if (status == 1) {
- 
+
                 this.state = 5;
             } else if (status == 2) {
                 this.state = 6

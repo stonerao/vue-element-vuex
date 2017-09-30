@@ -365,9 +365,9 @@ export const ListStundent = [
         ]
     },
     {
-        path: '/set',
+        path: '/results',
         name: '我的成绩',
-        redirect: '/set/index',
+        redirect: '/results/index',
         icon: pmsd,
         iconActive: pmsd_active,
         component: Layout,

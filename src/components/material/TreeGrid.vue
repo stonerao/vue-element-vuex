@@ -309,6 +309,7 @@ export default {
             }
         },
         whetherShow(id, status) {  //切换按钮
+        console.log(id, status)
             if (this.lTreeGrid) {
                 info.materTypeEdit_show.call(this, id, status);
             } else if (this.rTreeGrid) {

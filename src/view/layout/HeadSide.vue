@@ -94,7 +94,7 @@ export default {
                         token: getToken()
                     }
                 }).then((res) => {
-                    if (parseInt(res.data.code) !== 200) {
+                    if (res.data.status == 'false') {
                         this.$alert(res.data.data.error, {
                             confirmButtonText: '确定',
                             callback: action => {
