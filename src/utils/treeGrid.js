@@ -147,7 +147,7 @@ export default {
 
         //素材分类--编辑-是否显示
         materTypeEdit_show(id,show) {
-            console.log(id,show)
+            // console.log(id,show)
             this.$http(api.materTypeEdit_show, {
                 params: {
                     token: getToken(),
