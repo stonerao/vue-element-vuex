@@ -23,16 +23,16 @@
       <div class="r-shoping-info">
         <div class="r-shoping-left">
           <div class="r-shoping-img">
-            <img :src='datas.paper_img'/>
+            <img :src='datas.paper_img' />
           </div>
           <!-- <div class="r-shoping-shar">
-            <span class="r-shoping-shou">
-              <img src="../../assets/icon/shou.png" />收藏</span>
-            <span class="r-shoping-fen">
-              <img src="../../assets/icon/shar.png" />分享</span>
-            <span class="float-right">
-              <img src="../../assets/icon/icon_good.png" />67943</span>
-          </div> -->
+                  <span class="r-shoping-shou">
+                    <img src="../../assets/icon/shou.png" />收藏</span>
+                  <span class="r-shoping-fen">
+                    <img src="../../assets/icon/shar.png" />分享</span>
+                  <span class="float-right">
+                    <img src="../../assets/icon/icon_good.png" />67943</span>
+                </div> -->
         </div>
         <div class="r-shoping-right">
           <div class="r-shoping--info">
@@ -63,11 +63,11 @@
                 <span>{{datas.isnb_number}}</span>
               </li>
               <!-- <li>
-                <span>数量：</span>
-                <span>
-                  <el-input-number size="small" v-model="num"></el-input-number>
-                </span>
-              </li> -->
+                      <span>数量：</span>
+                      <span>
+                        <el-input-number size="small" v-model="num"></el-input-number>
+                      </span>
+                    </li> -->
             </ul>
           </div>
           <div class="r-shoping-btns">
@@ -89,8 +89,8 @@
         </ul>
       </div>
     </div>
-    <alertTeaching :status="isAlert" @isAlertClick="isAlertFalse" :datas="datas.paper_descript" ></alertTeaching>
-    <testHmls :status="isTest" @isAlertClick="isTest=false" :datas="data" ></testHmls>
+    <alertTeaching :status="isAlert" @isAlertClick="isAlertFalse" :datas="datas.paper_descript"></alertTeaching>
+    <testHmls :status="isTest" @isAlertClick="isTest=false" :datas="data"></testHmls>
   </div>
 </template>
 <script>
@@ -107,23 +107,23 @@ export default {
       // num: 1,
       isAlert: false,
       thisState: 0,
-      dada:{}, 
-      isTest:false
+      dada: {},
+      isTest: false
     }
   },
   components: {
-    HeadSide, alertTeaching,testHmls
+    HeadSide, alertTeaching, testHmls
   },
   created() {
     /* 职位信息  1是管理员2是老师3是学生
       老师直接领取，学生需要购买
     */
-    this.thisState = isClassLogin(); 
+    this.thisState = isClassLogin();
     this.dataAjax();
   },
   methods: {
-    relatData(){  //共享教材相关资料(学生)
-      this.$router.push({path: '../teachingData',query: {pid: this.$route.query.id}});
+    relatData() {  //共享教材相关资料(学生)
+      this.$router.push({ path: '../teachingData', query: { pid: this.$route.query.id } });
       // this.$router.push({path: '../teachingData',query: {pid: 4}});
     },
     onSlideChangeStart(currentPage) {
@@ -148,8 +148,8 @@ export default {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
-        }).then(() => { 
-          store.teaching_collect.call(this,this.$route.query.id)
+        }).then(() => {
+          store.teaching_collect.call(this, this.$route.query.id)
         }).catch(() => {
           this.$message({
             type: 'info',
@@ -157,16 +157,27 @@ export default {
           });
         });
       } else if (state == 3) {
-
+        this.$confirm('是否立即购买?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          store.teaching_pay_shop.call(this, this.$route.query.id)
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
       }
     },
-    testHtml(){
+    testHtml() {
       // 
-      if(this.thisState=='2'){
-        
-      }else if(this.thisState=='3'){
-        
-      } 
+      if (this.thisState == '2') {
+
+      } else if (this.thisState == '3') {
+
+      }
       store.teacher_paper_preview.call(this)
     }
   },

@@ -11,9 +11,11 @@
                 <div v-if="state==0">
                     <r-bottom @getLexId="getLexId"></r-bottom>
                 </div>
-                <toplist v-if="state==1"></toplist>
+                <toplist v-if="state==1" @myexam="myexam"></toplist>
                 <r-gradeslist :id="lex_id" v-if="state==5" @fanhui="fanhui" @getLeId="getLeId"></r-gradeslist>
                 <r-resultsStore v-if="state==6" :id="lex_id" @fanhui="fanhui"></r-resultsStore>
+                <checkAnswer v-if="state==7" @fanhui="state=1" :id="e_id" @checkanwer="checkanwer"></checkAnswer>
+                <v-view @fanhui="state=1" :obj="examObj" @CLICKOVER="isA=false" v-if="isA"></v-view>
 
             </div>
             <bottomItem></bottomItem>
@@ -30,6 +32,9 @@ import list from '@/components/results/bottomlist.vue'
 import gradeslist from '@/components/results/gradeslist.vue'
 import resultsStore from '@/components/results/resultsStore.vue'
 import toplist from '@/components/results/toplist.vue'
+import checkAnswer from '@/components/results/checkAnswer.vue'
+import answer from '@/components/results/answer.vue'
+import view from '@/components/examination/view.vue'
 export default {
     data() {
         return {
@@ -43,7 +48,10 @@ export default {
             ],
             state: 0,
             lex_id: "",
-            le_id: ''
+            le_id: '',
+            examObj: {},
+            e_id: "",
+            isA: false
         }
     },
     created() {
@@ -51,7 +59,7 @@ export default {
     components: {
         titleItem, titleActive, description, bottomItem,
         'r-bottom': list, 'r-gradeslist': gradeslist,
-        'r-resultsStore': resultsStore, toplist
+        'r-resultsStore': resultsStore, toplist, checkAnswer, answer, 'v-view': view
     },
     methods: {
         emitTransfer(index) {
@@ -79,6 +87,25 @@ export default {
         },
         fanhui(val) {
             this.state = val;
+        },
+        myexam(val, state) {
+            if (state == 1) {
+                this.state = 7;
+                this.e_id = val;
+            } else if (state == 2) {
+
+
+            }
+        },
+        checkanwer(val) {
+            var arr = []; 
+            for (var key in val.answer_content) { 
+                val.answer_content[key].forEach((x) => {
+                    arr.push(x)
+                })
+            } 
+            this.examObj = arr;
+            this.isA = true
         }
     }
 }

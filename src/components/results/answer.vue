@@ -2,6 +2,7 @@
     <div>
         <el-row>
             <el-col :span='15'>
+                <el-button type="primary" @click="fan">返回列表</el-button>  
                 <span class="line-height-36">
                     <img src="../../assets/index/shuaxin.png" class="icon-img-xs marginleft5" @click="ajax" />刷新-共{{page_total}}条记录
                 </span>
@@ -15,15 +16,16 @@
         </el-row>
         <el-table ref="multipleTable" :data="t_data" tooltip-effect="dark" style="width: 100%" @selection-change="selectOption">
 
-            <el-table-column label="Id" prop="e_id"  width="80" show-overflow-tooltip> 
-            </el-table-column>
-            <el-table-column label="题干" prop="e_title" show-overflow-tooltip>
+            <el-table-column label="Id" prop="exam_id"  width="80" show-overflow-tooltip> 
             </el-table-column> 
-            <el-table-column prop="e_time" width="180" label="创建时间" show-overflow-tooltip>
+            <el-table-column prop="finished_time"   label="完成" show-overflow-tooltip>
+            </el-table-column>
+            <el-table-column prop="exam_grades"   label="总分" show-overflow-tooltip>
+            </el-table-column>
+            <el-table-column prop="pm" width="130" label="排名" show-overflow-tooltip>
             </el-table-column>
             <el-table-column width="230" label="操作" show-overflow-tooltip>
-                <template scope="scope">
-                    <el-button size="mini" @click="getQues(scope.row.e_id,1)">查看成绩</el-button>
+                <template scope="scope"> 
                     <el-button size="mini" @click="getQues(scope.row,2)">查看答案</el-button>
                 </template>
             </el-table-column>
@@ -42,6 +44,7 @@
 <script>
 import store from '@/utils/results'
 export default {
+    props:['id','obj'],
     data() {
         return {
             t_data: [],
@@ -53,8 +56,7 @@ export default {
     },
     methods: {
         ajax() {
-            this.t_data = [];
-            store.myexam_list.call(this)
+            
         },
         selectOption() {
 
@@ -66,12 +68,17 @@ export default {
             this.page = val;
             this.ajax()
         },
-        getQues(val,status) {
-            this.$emit("myexam",val,status)
-        }, 
+        getQues(val){
+            this.$emit("getAnswer",id,status)
+        },
+        fan(){
+            this.$emit("fanhui",0)
+        }
     },
     created() {
         this.ajax();
+        console.log(this.obj)
+        
     },
     mounted() {
 

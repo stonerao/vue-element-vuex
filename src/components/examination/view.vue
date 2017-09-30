@@ -18,7 +18,10 @@
                         <b>试题类型：</b>{{item.q_type_id=='1'?'单选题':item.q_type_id=='2'?'多选题':item.q_type_id=='3'?'判断题':item.q_type_id=='4'?'填空':item.q_type_id=='5'?'问题':item.q_type_id=='6'?'计算题':''}} </p>
                     <p class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;line-height:19.5pt;border:none;mso-border-bottom-alt:solid #EDEDED 1.5pt;padding:0cm;mso-padding-alt:0cm 0cm 11.0pt 0cm'>
                         <b>试题答案： </b>
-                        <span lang=EN-US>{{item.q_type_id!='3'?item.answer:item.answer=='1'?'正确':'错误'}}
+                        <span lang=EN-US><span v-if="item.q_type_id!='4'">{{item.q_type_id!='3'?item.answer:item.answer=='1'?'正确':'错误'}}</span>
+                            <div v-if="item.q_type_id=='4'" style="margin-left:80px;margin-top:-25px">
+                                <p v-for="an in item.answer">第 {{an.title}} 题:{{an.text}}</p>
+                            </div>
                             <b>
 
                             </b>
@@ -149,6 +152,8 @@ export default {
         }
     },
     mounted() {
+        console.log(this.obj,1)
+       this.t_data= this.obj 
         if (!this.obj) {
             this.$emit('CLICKOVER', false)
             return
