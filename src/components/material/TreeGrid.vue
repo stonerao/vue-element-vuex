@@ -34,7 +34,7 @@
                                 <div v-if="column.type === 'show'&&rTreeGrid">{{item.special_tag_text}}</div>
                                 <div v-if="column.type === 'switch'&&lTreeGrid">
                                     <!-- 切换按钮 -->
-                                    <el-switch v-model="item.status" on-color="#13ce66" off-color="#ff4949" @change="whetherShow(item.id,item.status)"></el-switch>
+                                    <el-switch v-model="item.status" on-color="#13ce66" off-color="#ff4949" @change.native="whetherShow(item.id,item.status)"></el-switch>
                                 </div>
                                 <div v-if="column.type === 'switch'&&rTreeGrid">
                                     <!-- 切换按钮 -->
@@ -309,7 +309,7 @@ export default {
             }
         },
         whetherShow(id, status) {  //切换按钮
-        console.log(id, status)
+        // console.log(id, status)
             if (this.lTreeGrid) {
                 info.materTypeEdit_show.call(this, id, status);
             } else if (this.rTreeGrid) {

@@ -27,7 +27,7 @@
                             </div>
                             <div v-if="column.type === 'switch'">
                                 <!-- 切换按钮 -->
-                                <el-switch v-model="item.vc_show_status" on-color="#13ce66" off-color="#ff4949" @change="whetherShow(item.vc_id,item.vc_show_status)"></el-switch>
+                                <el-switch v-model="item.vc_show_status" on-color="#13ce66" off-color="#ff4949" @change.native="whetherShow(item.vc_id,item.vc_show_status)"></el-switch>
                             </div>
                             <div v-if="column.type === 'action'">
                                 <!-- 操作按钮 -->
