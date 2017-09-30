@@ -149,7 +149,7 @@ export default {
     },
     video_scan(url){  //视屏预览
       // this.address = 'http://kd.evam.xin/Student/Video/student_video_info?token=3f13cdd493642a3c94c435caa5c78567&id=11';
-      this.address = url;
+      this.address = 'http://' + url;
       this.video_type = !this.video_type;
     },
     closePlay(){  //关闭视频播放
