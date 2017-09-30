@@ -9,7 +9,7 @@
                 <description :prompts="prompts" @PromPts="promptsTem"></description>
                 <!--请假管理-->
                 <div v-if="state==0&&addState!=1">
-                  <applyLeave :underTeacherList="underTeacherList" :isClassLogin="isClassLogin" :total="total" :checkTypeList="checkTypeList" :list="leaveList" @apply="showAdd" @typeChange="changeType" @leaveApply="applyLeave" @ChooseTeacher="teacherChoose"></applyLeave>
+                  <applyLeave :underTeacherList="underTeacherList" :isClassLogin="isClassLogin" :total="total" :checkTypeList="checkTypeList" :list="leaveList" @apply="showAdd" @typeChange="changeType" @leaveApply="applyLeave" @ChooseTeacher="teacherChoose" @Jrefresh="Jrefresh"></applyLeave>
                 </div>
                 <!--调课管理-->
                 <div v-if="state==1&&addState!=1">
@@ -50,7 +50,7 @@
                 <div class="kd-page" v-else>
                 <el-row>
                   <el-col :span="24">
-                    <el-pagination class="float-right" :current-page="currentPage" :page-sizes="[10]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total" @size-change="handleSizeChange" @current-change="handleCurrentChange">
+                    <el-pagination class="float-right" :current-page="currentPage" :page-sizes="[10, 15, 20, 25]" :page-size="pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total" @size-change="handleSizeChange" @current-change="handleCurrentChange">
                     </el-pagination>
                   </el-col>
                 </el-row>
@@ -142,6 +142,13 @@ export default {
         titleItem, titleActive, description, bottomItem,applyAdd,applyLeave,changeClass,relieveClass,attendance,waitApprove,sAttendance,stuApply
     },
     methods: {
+        Jrefresh(){
+          this.total=0;
+          this.currentPage=1;
+          this.pageSize=10;
+          this.leaveList = [];
+          this.refreshList();
+        },
         emitTransfer(index) {
             if (this.state == index) {
                 return

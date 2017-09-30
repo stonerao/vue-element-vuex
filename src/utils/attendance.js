@@ -58,10 +58,21 @@ export default {
           token:getToken(),
           page:this.currentPage,
           curpage:this.pageSize,
+          status:this.status
         }
       }).then((res)=>{
-        console.log(res)
-        this.leaveList=res.data.data;
+        // console.log(res)
+        this.leaveList=res.data.data.list;
+        this.currentPage=res.data.data.page;
+        this.total=parseInt(res.data.data.rows);
+        let arr=res.data.data.stutas;
+        this.checkTypeList=[];
+        for(let i=1;i<4;i++){
+          let obj={};
+          obj.value=i;
+          obj.name=arr[i];
+          this.checkTypeList.push(obj);
+        }
       })
     }
   },
