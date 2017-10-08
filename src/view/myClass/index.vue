@@ -76,8 +76,8 @@ import description from '@/components/main/description.vue'
 import bottomItem from '@/components/bottom/bottom.vue'
 import my from '@/utils/myClass'
 import classDetail from '@/components/myClass/classDetail'
-import opertation from '@/components/myClass/opertation'
-import results from '@/components/myClass/opertation'
+import opertation from '@/components/myClass/operation'
+import results from '@/components/myClass/operation'
 export default {
   data() {
     return {
@@ -110,7 +110,7 @@ export default {
     this.refreshList();
   },
   components: {
-    titleItem, titleActive, description, bottomItem, classDetail, results
+    titleItem, titleActive, description, bottomItem, classDetail, results,opertation
   },
   methods: {
     emitTransfer(index) {

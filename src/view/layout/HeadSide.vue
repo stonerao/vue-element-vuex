@@ -20,11 +20,17 @@
                         </section>
                     </router-link>
                     <!--     <router-link tag="li" to="setMsg" class="kd-header-icon">
-                                                                                <p class="kd-header-icons">
-                                                                                    <i class="el-icon-message"></i>
-                                                                                </p>
-                                                                                <p>系统消息</p>
-                                                                            </router-link>-->
+                                                                                            <p class="kd-header-icons">
+                                                                                                <i class="el-icon-message"></i>
+                                                                                            </p>
+                                                                                            <p>系统消息</p>
+                                                                                        </router-link>-->
+                    <li class="kd-header-icon" v-if="isClassLogin==2||isClassLogin==3">
+                        <p class="kd-header-icons">
+                            <i class="el-icon-date"></i>
+                        </p>
+                        <p>签到</p>
+                    </li>
                     <router-link tag="li" to="/setPwd" class="kd-header-icon">
                         <p class="kd-header-icons">
                             <i class="el-icon-edit"></i>
@@ -37,12 +43,13 @@
                         </p>
                         <p>退出</p>
                     </li>
-                    <router-link tag="li" to="/" class="kd-header-icon">
+
+                    <li class="kd-header-icon">
                         <p class="kd-header-icons">
                             <i class="el-icon-menu"></i>
                         </p>
                         <p>回首页</p>
-                    </router-link>
+                    </li>
                 </ul>
             </el-col>
         </el-row>
