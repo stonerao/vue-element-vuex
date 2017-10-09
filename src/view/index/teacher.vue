@@ -105,34 +105,49 @@
                             <td style="width:12.5%">
                                 <span v-html="item.school_time"></span>
                             </td>
+
                             <td class="r_td_sc">
-                                <p>{{item.class.day1.class_name}} </p> 
-                                <p>{{item.class.day1.s_name}}</p>
-                            </td> 
+                                <p>{{item.class.day1.class_name}} </p>
+                                <p>{{item.class.day1.s_name}}
+                                    <span class="r-tab-check" @click="check(item.class.day1.contents_id)" v-if="item.class.day1.class_type=='0'">签到</span>
+                                </p>
+                            </td>
                             <td class="r_td_sc">
-                                <p>{{item.class.day2.class_name}} </p> 
-                                 <p>{{item.class.day2.s_name}}</p>
-                            </td>  
+                                <p>{{item.class.day2.class_name}} </p>
+                                <p>{{item.class.day2.s_name}}
+                                    <span class="r-tab-check" @click="check(item.class.day1.contents_id)" v-if="item.class.day2.class_type=='0'">签到</span>
+                                </p>
+                            </td>
                             <td class="r_td_sc">
-                                <p>{{item.class.day3.class_name}} </p> 
-                                 <p>{{item.class.day3.s_name}}</p>
-                            </td>  
+                                <p>{{item.class.day3.class_name}} </p>
+                                <p>{{item.class.day3.s_name}}
+                                    <span class="r-tab-check" @click="check(item.class.day1.contents_id)" v-if="item.class.day3.class_type=='0'">签到</span>
+                                </p>
+                            </td>
                             <td class="r_td_sc">
-                                <p>{{item.class.day4.class_name}} </p> 
-                                <p>{{item.class.day4.s_name}}</p>
-                            </td>  
+                                <p>{{item.class.day4.class_name}} </p>
+                                <p>{{item.class.day4.s_name}}
+                                    <span class="r-tab-check" @click="check(item.class.day1.contents_id)" v-if="item.class.day4.class_type=='0'">签到</span>
+                                </p>
+                            </td>
                             <td class="r_td_sc">
-                                <p>{{item.class.day5.class_name}} </p> 
-                                 <p>{{item.class.day5.s_name}}</p>
-                            </td>  
+                                <p>{{item.class.day5.class_name}} </p>
+                                <p>{{item.class.day5.s_name}}
+                                    <span class="r-tab-check" @click="check(item.class.day1.contents_id)" v-if="item.class.day5.class_type=='0'">签到</span>
+                                </p>
+                            </td>
                             <td class="r_td_sc">
-                                <p>{{item.class.day6.class_name}} </p> 
-                                <p>{{item.class.day6.s_name}}</p>
-                            </td>  
+                                <p>{{item.class.day6.class_name}} </p>
+                                <p>{{item.class.day6.s_name}}
+                                    <span class="r-tab-check" @click="check(item.class.day1.contents_id)" v-if="item.class.day6.class_type=='0'">签到</span>
+                                </p>
+                            </td>
                             <td class="r_td_sc">
-                                <p>{{item.class.day7.class_name}} </p> 
-                                  <p>{{item.class.day7.s_name}}</p>
-                            </td>  
+                                <p>{{item.class.day7.class_name}} </p>
+                                <p>{{item.class.day7.s_name}}
+                                    <span class="r-tab-check" @click="check(item.class.day1.contents_id)" v-if="item.class.day7.class_type=='0'">签到</span>
+                                </p>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -193,16 +208,25 @@ export default {
         titleItem, bottomItem
     },
     methods: {
-
-
+        check() {
+            store.teacher_sign.call(this)
+        },
+        ajax(){
+            store.techaerclass_info.call(this)
+        }
     },
     watch: {
+        value3(val) {
+            this.t_data = []
+            store.techaerclass_info.call(this, Date.parse(val))
+        }
     }
 }
 </script>
  
 <style scoped>
-.r_td_sc{
-width:12.5%;text-align:center
+.r_td_sc {
+    width: 12.5%;
+    text-align: center
 }
 </style>

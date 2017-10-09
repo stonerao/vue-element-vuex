@@ -7,7 +7,7 @@
         <div class="t-impot-box">
             <section class="t-impot-item">
                 <div class="impot-item-title">
-                    用csv方式导入
+                    用csv方式导入 
                 </div>
                 <ul class="impot-item-list">
                     <li>
@@ -27,23 +27,21 @@
                             </el-select>
                         </div>
                     </li>
-                    <li class="impot-item-lis">
-                        <span class="impot-item-span">数据文件：</span>
-                        <div>
-                            <input type="file" class="marginleft5" />
-                        </div>
-                    </li>
-                    </li>
-                    <li class="impot-item-btns">
+                   <li style="height:auto;padding-left:12px;background:#fff;padding-top:20px;padding-bottom:20px;"> 
+                        <el-upload class="upload-demo" :action="url" :data='datas' :on-success="success" :on-preview="handlePreview" :on-remove="handleRemove" :file-list="fileList">
+                            <el-button size="small" type="primary">点击上传</el-button>
+                        </el-upload>
+                    </li> 
+                    <!-- <li class="impot-item-btns">
                         <span class=" "></span>
                         <span>
                             <el-button type="primary">提交</el-button>
                             <el-button>取消</el-button>
                         </span>
-                    </li>
+                    </li> -->
                 </ol>
             </section>
-            <section class="t-impot-item">
+            <!-- <section class="t-impot-item">
                 <div class="impot-item-title">
                     用EXCEL方式导入
                 </div>
@@ -80,48 +78,63 @@
                         </span>
                     </li>
                 </ol>
-            </section>
+            </section> -->
         </div>
     </div>
 </template>
 
 <script>
+
+import { getToken } from '@/utils/auth'
 export default {
     props: ['state'],
     data() {
         return {
-            options: [{
-                value: '选项1',
-                label: '黄金糕'
-            }, {
-                value: '选项2',
-                label: '双皮奶'
-            }, {
-                value: '选项3',
-                label: '蚵仔煎'
-            }, {
-                value: '选项4',
-                label: '龙须面'
-            }, {
-                value: '选项5',
-                label: '北京烤鸭'
-            }],
+            options: [],
             value: '',
-            title: ''
+            title: '',
+            fileList:[],
+             datas: {
+                token: getToken(),
+                lex_id: ''
+            },
+url:''
         }
     },
     watch: {
         state(val) {
 
-        }
+        },
+        handlePreview(file) {
+        },
+         handleRemove(file, fileList) {
+        },
+         success(res, file, fileList) {
+            // if (res.code == 200) {
+            //     setTimeout(() => {
+            //         this.$emit("goods");
+            //     }, 2000)
+            //     this.$notify({
+            //         title: '成功',
+            //         message: res.data,
+            //         type: 'success'
+            //     });
+            // } else {
+            //     this.$notify.error({
+            //         title: '错误',
+            //         message: res.data.error
+            //     });
+            // }
+        },
     },
     created() {
-        let val = this.state;
-    
+        let val = this.state; 
         if (val == '1') {
-            this.title = '老师'
+            this.title = '老师';
+            this.url="";
         } else if (val == '2') {
             this.title = '学生'
+            this.url="Admin/teacher/exportstudent"
         }
     }
 }

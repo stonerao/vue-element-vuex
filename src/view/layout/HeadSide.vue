@@ -25,12 +25,12 @@
                                                                                             </p>
                                                                                             <p>系统消息</p>
                                                                                         </router-link>-->
-                    <li class="kd-header-icon" v-if="isClassLogin==2||isClassLogin==3">
+                    <!-- <li class="kd-header-icon" v-if="isClassLogin==2||isClassLogin==3">
                         <p class="kd-header-icons">
                             <i class="el-icon-date"></i>
                         </p>
                         <p>签到</p>
-                    </li>
+                    </li> -->
                     <router-link tag="li" to="/setPwd" class="kd-header-icon">
                         <p class="kd-header-icons">
                             <i class="el-icon-edit"></i>
@@ -95,26 +95,9 @@ export default {
                 this.name = '老师'
                 break;
             case 3:
-                this.name = '学生'
-                this.$http('Student/SchoolStudent/is_login', {
-                    params: {
-                        token: getToken()
-                    }
-                }).then((res) => {
-                    if (res.data.status == 'false') {
-                        this.$alert(res.data.data.error, {
-                            confirmButtonText: '确定',
-                            callback: action => {
-                                removeToken()
-                                this.$router.push("/login")
-                            }
-                        });
-                    }
-                })
+                this.name = '学生' 
                 break;
-        }
-
-
+        } 
     },
     methods: {
         quit() {

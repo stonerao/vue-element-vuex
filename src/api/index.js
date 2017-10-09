@@ -125,5 +125,7 @@ export const api = {
     exam_grades:"Student/SchoolStudent/exam_grades",// 
     exam_grades:"Admin/teacher/exportstudent",// 
     task_list:"Teacher/Examinationcenter/task_list",// 
+    student_sign:"Student/SchoolStudent/student_sign",// 学生签到
+    teacher_sign:"Teacher/Timetag/teacher_sign",// 老师签到
     
 }

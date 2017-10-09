@@ -10,7 +10,8 @@
                             <router-link to="" class="kd-index-item kd-xt-school">
                                 <div class="kd-index-item-title">
                                     <div>
-                                        <span class="font-lg">{{obj.school_name}}</span> </div>
+                                        <span class="font-lg">{{obj.school_name}}</span>
+                                    </div>
                                     <div>
                                         所在学校
                                     </div>
@@ -82,8 +83,11 @@
             <div class="while kd-index-box">
                 <div class="kd-list-items-title">
                     <span>
-                        <img src="../../assets/index/icon-2.png" class="kd-list-icon" />控制面板</span>
+                        <img src="../../assets/index/icon-2.png" class="kd-list-icon" />课表</span>
+                    <el-date-picker v-model="value3" type="week" format="yyyy 第 WW 周" placeholder="选择周" size="samll" class="float-right">
+                    </el-date-picker>
                 </div>
+
                 <table style="width:100%" class="r-index-ke">
                     <thead>
                         <tr>
@@ -97,15 +101,58 @@
                         </tr>
                     </thead>
                     <tbody>
-                    <tr v-for="(item,index) in t_data" :key="index">
-                        <td style="width:12.5%">
-                            <span v-html="item.schedule_time"></span>
-                        </td>
-                        <td v-for="(box,i) in item.content" :key="i" style="width:12.5%;text-align:center">
-                           <p>{{ box.s_name }}</p> 
-                           <p>{{ box.teacher_name }}</p> 
-                        </td>
-                    </tr>
+                        <tr v-for="(item,index) in t_data" :key="index">
+                            <td style="width:12.5%">
+                                <span v-html="item.school_time"></span>
+                            </td>
+                            <!-- <td class="r_td_sc" v-for="box in item.content">
+                                                        <p>{{box.teacher_name}} </p> 
+                                                        <p>{{box.s_name}}</p>
+                                                    </td>  -->
+                            <td class="r_td_sc">
+                                <p>{{item.content.day1.teacher_name}} </p>
+                                <p>{{item.content.day1.s_name}}
+                                    <span class="r-tab-check" @click="check(item.content.day1.contents_id)" v-if="item.content.day1.class_type=='0'">签到</span>
+                                </p>
+
+                            </td>
+                            <td class="r_td_sc">
+                                <p>{{item.content.day2.teacher_name}} </p>
+                                <p>{{item.content.day2.s_name}}
+                                    <span class="r-tab-check" @click="check(item.content.day1.contents_id)" v-if="item.content.day2.class_type=='0'">签到</span>
+                                </p>
+                            </td>
+                            <td class="r_td_sc">
+                                <p>{{item.content.day3.teacher_name}} </p>
+                                <p>{{item.content.day3.s_name}}
+                                    <span class="r-tab-check" @click="check(item.content.day1.contents_id)" v-if="item.content.day3.class_type=='0'">签到</span>
+                                </p>
+                            </td>
+                            <td class="r_td_sc">
+                                <p>{{item.content.day4.teacher_name}} </p>
+                                <p>{{item.content.day4.s_name}}
+                                    <span class="r-tab-check" @click="check(item.content.day1.contents_id)" v-if="item.content.day4.class_type=='0'">签到</span>
+                                </p>
+                            </td>
+                            <td class="r_td_sc">
+                                <p>{{item.content.day5.teacher_name}} </p>
+                                <p>{{item.content.day5.s_name}}
+                                    <span class="r-tab-check" @click="check(item.content.day1.contents_id)" v-if="item.content.day5.class_type=='0'">签到</span>
+                                </p>
+                            </td>
+                            <td class="r_td_sc" v-if="item.content.day6">
+                                <p>{{item.content.day6.teacher_name}} </p>
+                                <p>{{item.content.day6.s_name}}
+                                    <span class="r-tab-check" @click="check(item.content.day1.contents_id)" v-if="item.content.day6.class_type=='0'">签到</span>
+                                </p>
+                            </td>
+                            <td class="r_td_sc" v-if="item.content.day7">
+                                <p>{{item.content.day7.teacher_name}} </p>
+                                <p>{{item.content.day7.s_name}}
+                                    <span class="r-tab-check" @click="check(item.content.day1.contents_id)" v-if="item.content.day7.class_type=='0'">签到</span>
+                                </p>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -149,23 +196,32 @@ export default {
                 '星期六',
                 '星期七',
             ],
-            obj:{
-
-            }
+            obj: {
+            },
+            value3: '',
+            department_id: ""
         }
     },
     created() {
         // 课表数据
         store.studentclass_info.call(this)
         //首页数据
-        store.studentIndexHome.call(this)
+        store.studentIndexHome.call(this);
+
     },
     components: {
         titleItem, bottomItem
     },
     methods: {
+        check(id) {
+            store.student_sign.call(this, id, this.department_id)
+        }
 
-
+    },
+    watch:{
+        value3(val){ 
+             store.studentclass_info.call(this,Date.parse(val))
+        }
     }
 }
 </script>

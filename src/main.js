@@ -23,7 +23,7 @@ import { editor } from '@/utils/editor'
 // 公共js
 import '@/utils/start'
 import VueHtml5Editor from 'vue-html5-editor'
-Vue.use(VueHtml5Editor,editor);
+Vue.use(VueHtml5Editor, editor);
 // axios 配置
 axios.defaults.withCredentials = true;
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
@@ -52,17 +52,28 @@ router.beforeEach((to, from, next) => {
       判断是什么端口登录
       如果进入的页面的路径在当前权限的白名单没有就进入默认页面
     */
-    let isClassState = isClassLogin(); 
+    let isClassState = isClassLogin();
     if (isClassState == 1) {
       if (constListWhile().indexOf(to.path) == -1) {
         router.push({ path: '/' })
       }
-    } else if (isClassState == 2) { 
+    } else if (isClassState == 2) {
       if (constTeacherWhile().indexOf(to.path) == -1) {
         // router.push({ path: '/' })
-        
+
       }
     } else if (isClassState == 3) {
+      axios('Student/SchoolStudent/is_login', {
+        params: {
+          token: getToken()
+        }
+      }).then((res) => {　
+        if (res.data.status == 'false') {
+          if (confirm(res.data.data.error)) {
+            router.push({ path: '/' })
+          }
+        }
+      })
       if (consStundenWhilet().indexOf(to.path) == -1) {
         // router.push({ path: '/' })
       }

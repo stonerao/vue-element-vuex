@@ -3,8 +3,14 @@
         <el-collapse v-model="activeNames" @change="handleChange">
             <el-collapse-item :title="`第${index+1}题 - ${item.q_type_id=='4'?'填空题':item.q_type_id=='5'?'问答题':'计算题'}`" :name="index" v-for="(item,index) in t_data" :key="index">
                 <div v-html="item.q_title"></div>
-                <div>
+                <div v-if="item.q_type_id==5||item.q_type_id==6">
                     学生答案： {{item.answer}}
+                </div>
+                <div v-else-if="item.q_type_id==4">
+                    学生答案：  
+                    <span v-for="(box,index) in item.answer" :key="index" style="margin-right:20px;">
+                       第{{box.index+1}}题 ： {{box.title}}  
+                    </span>
                 </div>
                 <div>
                     参考答案： {{item.exam_answer}}

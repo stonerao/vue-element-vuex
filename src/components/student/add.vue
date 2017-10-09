@@ -187,7 +187,7 @@
                                         </el-select>
                                     </div>
                                 </div>
-                                <div class="add-inp-item-addname margin-left">如：13800000000</div>
+                                <div class="add-inp-item-addname margin-left"> </div>
                             </div>
                             <div class="add-inp-item ">
                                 <div class="add-inp-item-name">
@@ -201,7 +201,7 @@
                                         </el-select>
                                     </div>
                                 </div>
-                                <div class="add-inp-item-addname margin-left">如：13800000000</div>
+                                <div class="add-inp-item-addname margin-left"> </div>
                             </div>
     
                             <div class="add-inp-item">
@@ -211,7 +211,7 @@
                                 <div class="add-inp-item-inp">
                                     <el-input v-model="t_input" type="textarea"></el-input>
                                 </div>
-                                <div class="add-inp-item-addname margin-left">如：13800000000</div>
+                                <div class="add-inp-item-addname margin-left"> </div>
                             </div>
                             <div class="add-inp-item">
                                 <div class="add-inp-item-name">
@@ -222,7 +222,7 @@
                                         <i class="el-icon-plus"></i>
                                     </el-upload>
                                 </div>
-                                <div class="add-inp-item-addname margin-left">如：13800000000</div>
+                                <div class="add-inp-item-addname margin-left"> </div>
                             </div>
                             <div class="add-inp-item">
                                 <div class="add-inp-item-name">
