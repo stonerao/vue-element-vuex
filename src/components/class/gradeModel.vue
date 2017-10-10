@@ -310,7 +310,7 @@ export default {
         creatStep_b(mid){ //第二步初始展示
         	info.creatGradeModelb.call(this,mid);
         },
-        formatDate(date){
+        formatDate_l(date){
         	return info.formatDate.call(this,date);
         },
         formatMd(data){
@@ -357,6 +357,7 @@ export default {
     },
     watch:{
        	startTimeVal(val){
+       		// console.log(val);
        		this.time.start = val;
        		this.pickerOptions1 = {
          		disabledDate(time) {

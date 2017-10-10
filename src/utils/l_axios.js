@@ -1568,33 +1568,36 @@ export default {
                 };
                 this.week_checkList_string = newWeek.sort().join(",");
             }
+
+            // console.log(time);
+
             if(hourType == 2){  //冬夏作息
                 if((String(time.start)).indexOf('-') != -1){
                     time.start= String(time.start).split('-')[1] + String(time.start).split('-')[2];
                 }else{
                     if(String(time.start).length > 4){
-                        time.start= this.formatDate(time.start);
+                        time.start= this.formatDate_l(time.start);
                     }
                 }
                 if((String(time.end)).indexOf('-') != -1){
                     time.end= String(time.end).split('-')[1] + String(time.end).split('-')[2];
                 }else{
                     if(String(time.end).length > 4){
-                        time.end= this.formatDate(time.end);
+                        time.end= this.formatDate_l(time.end);
                     }
                 }
                 if((String(time.start_w)).indexOf('-') != -1){
                     time.start_w= String(time.start_w).split('-')[1] + String(time.start_w).split('-')[2];
                 }else{
                     if(String(time.start_w).length > 4){
-                        time.start_w= this.formatDate(time.start_w);
+                        time.start_w= this.formatDate_l(time.start_w);
                     }
                 }
                 if((String(time.end_w)).indexOf('-') != -1){
                     time.end_w= String(time.end_w).split('-')[1] + String(time.end_w).split('-')[2];
                 }else{
                     if(String(time.end_w).length > 4){
-                        time.end_w= this.formatDate(time.end_w);
+                        time.end_w= this.formatDate_l(time.end_w);
                     }
                 }
             }
@@ -2205,8 +2208,18 @@ export default {
                 m = m < 10 ? '0' + m : m;  
             let d = date.getDate();  
                 d = d < 10 ? ('0' + d) : d;  
-            return  m + d; 
+            return  m + '' + d; 
         }, 
+
+        // formatDateL(date) {
+        //     let m = date.getMonth() + 1;  
+        //         m = m < 10 ? '0' + m : m;  
+        //     let d = date.getDate();  
+        //         d = d < 10 ? ('0' + d) : d; 
+        //     console.log(m,d);
+        //     console.log(m + '' + d);
+        //     return  m + '' + d; 
+        // }, 
 
         // 标准中国时间转换获取时分
         formatHM(date) {  
