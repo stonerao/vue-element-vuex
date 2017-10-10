@@ -5,7 +5,7 @@
         <el-button @click="returnList" type="primary" size="small">返回列表</el-button>
       </el-col>
       <el-col :span="3" class="class-titles">
-        <img src="../../assets/index/shuaxin.png" class="icon-img-xs cursor" />刷新-共1条记录
+        <img src="../../assets/index/shuaxin.png" class="icon-img-xs cursor" />刷新-共{{total}}条记录
       </el-col>
       <el-col :span="11" style="color:#20A0FF;line-height: 36px;text-align: center">
         <span style="color:#ff703b">{{classInfo.class_name}}</span>&nbsp;共
@@ -46,7 +46,7 @@
     <div class="kd-page">
       <el-row>
         <el-col :span="24">
-          <el-pagination class="float-right" :current-page="page" :page-sizes="[10]" :page-size="curpage" layout="total, sizes, prev, pager, next, jumper" :total="page_total" @current-change="handleCurrentChange">
+          <el-pagination class="float-right" :current-page="page" :page-sizes="[10]" :page-size="curpage" layout="total, sizes, prev, pager, next, jumper" :total="total" @current-change="handleCurrentChange">
           </el-pagination>
         </el-col>
       </el-row>
@@ -69,7 +69,8 @@ export default {
       page_total: 0,
       t_data: [],
       listDetail: [],
-      classInfo: {}
+      classInfo: {},
+      total:0
     }
   },
   created() {

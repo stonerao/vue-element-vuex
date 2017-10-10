@@ -153,17 +153,20 @@ export default {
     },
     mounted() {
         console.log(this.obj,1)
-       this.t_data= this.obj 
+    //    this.t_data= this.obj 
         if (!this.obj) {
             this.$emit('CLICKOVER', false)
             return
         }
         let datas = this.obj.question_list;
         for (var x in datas) {
+            console.log(datas[x],2)
             datas[x].map((i) => {
                 this.t_data.push(i)
             })
+            this.t_data.push(datas[x])
         }
+        console.log(this.t_data)
         datas = null;
         setTimeout(() => {
             // document.getElementById("down").download = `${this.obj.t_title}.html`;
@@ -176,6 +179,8 @@ export default {
 
         }
     },
+    created(){ 
+    }
 
 }
 </script>

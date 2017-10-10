@@ -35,7 +35,7 @@ export default {
     })
   },
   //班级详情
-  class_detail(){
+  class_detail(){  
     this.$http(api.classDetail,{
       params:{
         token:getToken(),
@@ -49,7 +49,7 @@ export default {
       if(res.data.code==200){
         this.classInfo=res.data.data.common_info;
         this.listDetail=res.data.data.student_list;
-        this.total=res.data.page_total;
+        this.total=parseInt(res.data.page_total);
       }
     })
   },

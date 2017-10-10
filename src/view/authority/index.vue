@@ -10,7 +10,7 @@
         <div v-if="state==0 && editShow!=1">
           <el-row class="class-header">
             <el-col :span="20" class="class-titles">
-              <img src="../../assets/index/shuaxin.png" class="icon-img-xs cursor"/>刷新-共 {{total}} 条记录
+              <img src="../../assets/index/shuaxin.png" class="icon-img-xs cursor" @click="searchGroup"/>刷新-共 {{total}} 条记录
             </el-col>
             <el-col :span="4">
               <el-input v-model="searchTxt" :on-icon-click="searchGroup" placeholder="请输入名称" icon="search" size="small" class="rt">
@@ -193,6 +193,7 @@
       },
       //搜索权限组
       searchGroup(){
+        this.list=[]
         group.group_list(this);
       }
     },

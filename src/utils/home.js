@@ -70,7 +70,7 @@ export default {
                     message: res.data.data,
                     type: 'success'
                 });
-                this.ajax()
+                this.ajax
             }
         })
     }

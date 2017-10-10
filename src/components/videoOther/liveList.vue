@@ -24,6 +24,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="channelid" label="房间" width="140" show-overflow-tooltip></el-table-column>
+      <el-table-column prop="channelpasswd" label="密码" width="140" show-overflow-tooltip></el-table-column>
       <el-table-column prop="creater_name" label="创建人" width="80" show-overflow-tooltip></el-table-column>
       <el-table-column label="状态" width="100">
         <template scope="scope">

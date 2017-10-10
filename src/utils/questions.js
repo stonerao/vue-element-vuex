@@ -692,13 +692,13 @@ export default {
                 t_id: id
             }
         }).then((res) => {
-            // 不能自动生成 
+            // 不能自动生成  
             this.isQuestion = false;
             this.fullscreenLoading = false;
             let arr = [];
             let data = res.data.data.question_list;
             for (var key in data) {
-                if (!data[key]) { return }
+                if (!data[key]) { return } 
                 data[key].forEach((x) => {
                     arr.push(x.q_id)
                 })
@@ -708,8 +708,7 @@ export default {
             this.form.t_desc = res.data.data.t_desc;
             data = null;
         }).then((req) => {
-            this.getQuestions();
-
+            this.getQuestions(); 
         })
     },
 
