@@ -113,6 +113,7 @@ export default {
       subName: '',  //科目名称
       pdfSrc: '',   //预览pdf文件路径
       myHeight: 670,
+      sureUpdate: false,  //是否更新素材
     }
   },
   components: {
@@ -128,6 +129,12 @@ export default {
     },
     dataAjax() {
         info.ShareMaterial_s.call(this,this.materialParams,this.paper_id);
+    },
+    dataAjaxUp() {
+        info.ShareMaterial_s.call(this,this.materialParams,this.paper_id);
+    },
+    whetherUpdate(){ //是否更新弹窗
+        info.ShareWhetherUpdate.call(this);
     },
     handleSizeChange(val) {
         // this.materialParams.hasmore = true;
@@ -186,6 +193,8 @@ export default {
       let _titH = document.getElementById("r-shoping-head").clientHeight,
         _fullH = document.documentElement.clientHeight;
       this.myHeight = _fullH - _titH - 100;
+
+      this.whetherUpdate();
   }
 }
 </script>

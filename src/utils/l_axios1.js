@@ -296,9 +296,14 @@ export default {
                 page: obj.curpage,
                 curpage: obj.one_pagenum
             };
+
         if(this.thisState == 2){  //老师中心
             apiUrl = api.ShareMaterial_t;
         };
+
+        if(this.sureUpdate){ //确定要更新共享资料
+            apiUrl = api.updateShare;
+        }
         this.$http(apiUrl, {
             params: formData
         }).then((res) => {
@@ -328,6 +333,7 @@ export default {
                     this.materialParams.curpage = parseInt(res.data.page);
                     this.materialParams.page_count = parseInt(res.data.all_pagecount);
                     this.materialParams.total_num = parseInt(res.data.page_total); 
+
                 }else{
                     this.$notify.error({
                         message: res.data.data.error
@@ -340,6 +346,49 @@ export default {
             }
         })
     },
+    //共享蔬菜是否更新
+    ShareWhetherUpdate() {
+        let apiUrl = api.ShareWhetherUpdate,  //学生中心
+            formData = {
+                token:  getToken(),
+            };
+        this.$http(apiUrl, {
+            params: formData
+        }).then((res) => {
+            if (res.status == 200) {
+                if(res.data.code!=400){
+                    if(parseInt(res.data.data) == 1){  //可以更新
+                        this.$confirm('共享资料可以更新, 是否更新?', '提示', {
+                          confirmButtonText: '确定',
+                          cancelButtonText: '取消',
+                          type: 'warning'
+                        }).then(() => {
+                            this.sureUpdate = true;
+                            this.materialParams = {   //翻页
+                              hasmore: true,
+                              curpage: 1,//当前页数
+                              one_pagenum: 10,
+                              page_count: 1,//总页数
+                              total_num: 0
+                            };
+                            this.dataAjaxUp();
+                        })
+                    }else{
+                        this.sureUpdate = false;
+                    }
+                }else{
+                    this.$notify.error({
+                        message: res.data.data.error
+                    });
+                }
+            }else {
+                this.$notify.error({
+                    message: res.data.data.error
+                });
+            }
+        })
+    },
+
     //学生共享-详情
     ShareDatadetail_s(id) {
         let apiUrl = api.ShareDatadetail_s,  //学生中心
