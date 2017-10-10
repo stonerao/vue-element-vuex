@@ -141,9 +141,8 @@ export default {
 
             // htmlText
             let html = document.getElementById("question").innerHTML;
-            let val = text.top + html + text.bottom;
-            // '
-
+            console.log(html)
+            let val = text.top + html + text.bottom; 
             // var blob = new Blob([val]);
             // document.getElementById("down").href = URL.createObjectURL(blob);
             // document.getElementById("down").click();
@@ -161,9 +160,9 @@ export default {
         let datas = this.obj.question_list;
         for (var x in datas) {
             console.log(datas[x],2)
-            // datas[x].map((i) => {
-            //     this.t_data.push(i)
-            // })
+            datas[x].map((i) => {
+                this.t_data.push(i)
+            })
             this.t_data.push(datas[x])
         }
         console.log(this.t_data)

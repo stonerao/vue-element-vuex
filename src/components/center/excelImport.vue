@@ -131,7 +131,7 @@ url:''
         let val = this.state; 
         if (val == '1') {
             this.title = '老师';
-            this.url="";
+            this.url="Admin/teacher/exportteacher";
         } else if (val == '2') {
             this.title = '学生'
             this.url="Admin/teacher/exportstudent"

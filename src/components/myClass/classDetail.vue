@@ -37,7 +37,7 @@
         </el-table-column>
         <el-table-column label="操作" width="150">
           <template scope="scope">
-            <el-button size="small" @click="operation()">作业</el-button>
+            <el-button size="small" @click="operation(scope.row.school_identify,scope.row.st_id)">作业</el-button>
             <el-button size="small" @click="results">成绩</el-button>
           </template>
         </el-table-column>
