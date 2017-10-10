@@ -454,7 +454,7 @@ export default {
 
         },
         adjust(){
-            info.adjustStepA.call(this,this.schedule_id,this.classType);
+            info.adjustStepA.call(this,this.schedule_id,1);
         },
         stopSave(){
             info.classStopSave.call(this,this.classType,this.stoPtime,this.stopareaVal);
