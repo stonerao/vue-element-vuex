@@ -273,12 +273,12 @@ export default {
         })
     },
     thawstudent() {
-        // 解冻
-        this.$http(api.thawstudent, {
-            params: {
+        // 解冻 
+        this.$http.post(api.thawstudent, {
+           
                 token: getToken(),
                 st_id: this.studentArr.join(',')
-            }
+          
         }).then((res) => {
             if (res.data.code == 200) {
                 this.$notify({

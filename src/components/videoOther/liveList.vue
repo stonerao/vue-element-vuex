@@ -24,6 +24,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="channelid" label="房间" width="140" show-overflow-tooltip></el-table-column>
+      <el-table-column prop="channelpasswd" label="密码" width="140" show-overflow-tooltip></el-table-column>
       <el-table-column prop="creater_name" label="创建人" width="80" show-overflow-tooltip></el-table-column>
       <el-table-column label="状态" width="100">
         <template scope="scope">
@@ -77,7 +78,7 @@
           </el-row>
           <el-row>
             <el-col :offset="4" :span="20">
-              <el-button type="primary" @click="watchLive(detail.channelId)">进入直播间</el-button>
+              <el-button type="primary" @click="watchLive(detail.channelid)">进入直播间</el-button>
             </el-col>
           </el-row>
         </div>

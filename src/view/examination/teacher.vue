@@ -102,7 +102,7 @@ export default {
                 { name: "考试管理", index: 2 },
                 { name: "创建考试", index: 3 },
                 { name: "成绩管理", index: 4 },
-                { name: "共享考试列表", index: 5 },
+                { name: "共享试卷列表", index: 5 },
                 { name: "线下成绩", index: 6 },
             ],
             prompts: [

@@ -11,7 +11,7 @@
               <el-row :gutter="10" class="class-header">
                 <el-col :span="14" class="class-titles">
                 <span>
-                    <img src="../../assets/index/shuaxin.png" class="icon-img-xs marginleft5" />刷新-共{{total}}条记录
+                    <img src="../../assets/index/shuaxin.png" class="icon-img-xs marginleft5" @click="refreshList"/>刷新-共{{total}}条记录
                 </span>
                 </el-col>
                 <el-col :span="10">
@@ -66,7 +66,7 @@ export default {
                 `历史考试`,
                 `xxxxxxxx`
             ],
-            state: 1,
+            state: 0,
             total:0,//总条数
             currentPage:1,//当前页
             pageSize:10,//每页显示数量
@@ -98,6 +98,7 @@ export default {
       //刷新列表
       refreshList(){
           if(this.state==0){
+            this.orderList=[]
             order.order_list.call(this);
           }else{
             order.space_list.call(this);

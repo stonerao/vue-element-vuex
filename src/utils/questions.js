@@ -282,6 +282,7 @@ export default {
     },
     pushQuestion(arr) {
         // 提交试卷  
+        
         let qc_id = this.belongClass3 ? this.belongClass3 : (this.belongClass2 ? this.belongClass2 : this.belongClass1);
         var [url, obj] = ['', {}];
         if (!this.t_id) {
@@ -303,7 +304,7 @@ export default {
                 token: getToken(),
                 t_title: this.form.title,
                 t_desc: this.form.t_desc,
-                q_id: this.selectQuestList,
+                q_id: this.strSelect.split(" / ").join(","),
                 is_share: this.shared ? '1' : '2',
                 question_list: this.isQuestion ? encodeUnicode(JSON.stringify(arr)) : '',
                 q_add_question: getCookie('NEWADDQUESTIONOUT') ? encodeUnicode(getCookie('NEWADDQUESTIONOUT')) : '',
@@ -349,9 +350,7 @@ export default {
                 this.t_data = res.data.data;
                 this.all_pagecount = parseInt(data.page_total)
                 data = null;
-            } else {
-
-            }
+            } 
         })
     },
     testpaper_delete(id) {
@@ -692,24 +691,24 @@ export default {
                 t_id: id
             }
         }).then((res) => {
-            // 不能自动生成 
+            // 不能自动生成  
             this.isQuestion = false;
             this.fullscreenLoading = false;
             let arr = [];
             let data = res.data.data.question_list;
             for (var key in data) {
-                if (!data[key]) { return }
-                data[key].forEach((x) => {
-                    arr.push(x.q_id)
-                })
-            }
+                console.log(data[key])
+                if (!data[key]) { return } 
+                // data[key].forEach((x) => {
+                    // })
+                        arr.push(data[key].q_id)
+                }
             this.setCookie(arr);
             this.form.title = res.data.data.t_title;
             this.form.t_desc = res.data.data.t_desc;
             data = null;
         }).then((req) => {
-            this.getQuestions();
-
+            this.getQuestions(); 
         })
     },
 

@@ -106,7 +106,7 @@ export default {
 
                     } else {
                         this.$confirm(ret.data.data.error, '提示', {
-                            confirmButtonText: '立即去缴纳',
+                            confirmButtonText: '确定',
                             cancelButtonText: '取消',
                             type: 'warning'
                         }).then(() => {
@@ -114,7 +114,7 @@ export default {
                         }).catch(() => { 
                             this.$message({
                                 type: 'info',
-                                message: '取消输入'
+                                message: '已取消'
                             });
                         });
                     }

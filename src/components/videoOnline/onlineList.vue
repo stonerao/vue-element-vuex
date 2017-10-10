@@ -28,6 +28,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="channelid" label="房间" width="80" show-overflow-tooltip></el-table-column>
+      <el-table-column prop="channelpasswd" label="密码" width="80" show-overflow-tooltip></el-table-column>
       <el-table-column prop="creater_name" label="创建人" width="80" show-overflow-tooltip></el-table-column>
       <el-table-column label="状态" width="100">
         <template scope="scope">
@@ -42,7 +43,7 @@
           <el-switch v-model="scope.row.cancel_state" v-if="scope.row.is_show_cancel==2" on-color="#13ce66" off-color="#1998e4" @change="chooseBan(scope.row.live_id,scope.row.cancel_state,scope.row)"></el-switch>
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="280">
+      <el-table-column label="操作" width="260">
         <template scope="scope">
           <div>
             <el-button type="primary" size="small" @click="liveDetail(scope.row.live_id)">查看</el-button>
@@ -80,7 +81,7 @@
           </el-row>
           <el-row>
             <el-col :offset="4" :span="20">
-              <el-button type="primary" @click="watchLive(detail.channelId)">进入直播间</el-button>
+              <el-button type="primary" @click="watchLive(detail.channelid)">进入直播间</el-button>
             </el-col>
           </el-row>
         </div>

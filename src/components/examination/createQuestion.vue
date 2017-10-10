@@ -6,7 +6,7 @@
                 <el-form-item label="试卷标题">
                     <el-input v-model="form.title" class="width200"></el-input>
                 </el-form-item>
-                <el-form-item label="所属分类">
+                <!-- <el-form-item label="所属分类">
                     <el-select v-model="belongClass1" placeholder="题库一级分类" class="width150" style="font-size:14px">
                         <el-option :label="item.qc_name" :value="item.qc_id" v-for="(item,index) in belongClass.items1" :key="index"></el-option>
                     </el-select>
@@ -16,7 +16,7 @@
                     <el-select v-model="belongClass3" placeholder="题库三级分类" class="width150" style="font-size:14px" v-if="belongClass2&&belongClass.items3.length!=0">
                         <el-option :label="item.qc_name" :value="item.qc_id" v-for="(item,index) in belongClass.items3" :key="index"></el-option>
                     </el-select>
-                </el-form-item>
+                </el-form-item> -->
                 <el-form-item label="试卷描述">
                     <el-input v-model="form.t_desc" type="textarea"></el-input>
                 </el-form-item>
@@ -39,7 +39,7 @@
                     <el-row>
                         <el-col :span='24'>
                             <el-button @click="newAddQuestion">新增题目</el-button>
-                            <span class="marginleft10">已添加{{getNewTile}}道</span>
+                            <!-- <span class="marginleft10">已添加{{getNewTile}}道</span> -->
                         </el-col>
                     </el-row>
                 </el-form-item>
@@ -118,16 +118,15 @@ export default {
                 this.notify(`试卷标题不能为空`)
                 return
             }
-            if (!this.isBelongSelect&&this.belongClass3=='') {
-                // 是否选择题库类型 
-                this.notify('请选择题库类型');
-                return;
-            }
+            // if (!this.isBelongSelect&&this.belongClass3=='') {
+            //     // 是否选择题库类型 
+            //     this.notify('请选择题库类型');
+            //     return;
+            // }
             var arr = {};
             if (this.isQuestion) {
                 let isAllSelect = false;
-                // 是否自动生成试卷 
-                console.log(this.questionItems)
+                // 是否自动生成试卷  
                 this.questionItems.forEach((x, index) => {
                     if ((x.total == '' && x.every != '') || (x.total != '' && x.every == '')) {
                         this.notify(`请检查${x.type_name}`)
@@ -202,8 +201,7 @@ export default {
         if (this.newAddObj.state == 1) {
             // 老师加入 
             this.isQuestion = false;
-            var arr = getSelectedQuestionList();
-            console.log(arr)
+            var arr = getSelectedQuestionList(); 
             if (typeof arr == 'string') {
                 let a = [...arr.split(','), ...[this.newAddObj.items]];
                 selectedQuestionList(a);
@@ -212,8 +210,7 @@ export default {
             }
         } else if (this.t_id) {
             this.fullscreenLoading = true;
-            store.testpaper_info.call(this, this.t_id);
-            console.log(getSelectedQuestionList())
+            store.testpaper_info.call(this, this.t_id); 
         }
     },
     mounted() {

@@ -123,9 +123,11 @@ export const api = {
     teacher_paper_preview:"Teacher/Teaching/teacher_paper_preview",//老师预览教材 
     myexam_list:"Student/SchoolStudent/myexam_list",// 
     exam_grades:"Student/SchoolStudent/exam_grades",// 
-    exam_grades:"Admin/teacher/exportstudent",// 
+    exportstudent:"Admin/teacher/exportstudent",// 学校中心导入学生
+    TeacherExportstudent:"Teacher/TeacherIndex/exportstudent",// 老师中心导入学生
     task_list:"Teacher/Examinationcenter/task_list",// 
     student_sign:"Student/SchoolStudent/student_sign",// 学生签到
     teacher_sign:"Teacher/Timetag/teacher_sign",// 老师签到
+    ClassTask_list:"Teacher/Class/task_list",// 老师签到
     
 }

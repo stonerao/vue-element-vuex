@@ -16,6 +16,12 @@
             <el-table-column prop="q_title" label="题干" show-overflow-tooltip>
             </el-table-column>
             <el-table-column prop="q_type_name" label="类型" width="280" show-overflow-tooltip>
+            </el-table-column> 
+            <el-table-column prop="right_num" label="正确数量" width="100" show-overflow-tooltip>
+            </el-table-column>
+            <el-table-column prop="error_num" label="错误数量" width="100" show-overflow-tooltip>
+            </el-table-column>
+             <el-table-column prop="correct_rate" label="正确率" width="100" show-overflow-tooltip>
             </el-table-column>
             <el-table-column prop="q_add_time" label="创建时间" width="280" show-overflow-tooltip>
             </el-table-column>
