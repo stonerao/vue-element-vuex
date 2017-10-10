@@ -1,8 +1,8 @@
 <template>
   <div>
     <el-button type="primary" size="small" @click="back">返回</el-button>
-    <iframe v-if="upType==0" :src="srcTxt" scrolling="no" width="100%" height="500px"></iframe>
-    <iframe v-else :src="srcEdit" scrolling="no" width="100%" height="500px"></iframe>
+    <iframe v-if="upType==0" :src="srcTxt" scrolling="no" width="100%" height="620px"></iframe>
+    <iframe v-else :src="srcEdit" scrolling="no" width="100%" height="620px"></iframe>
   </div>
 </template>
 <script>

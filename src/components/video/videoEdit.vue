@@ -2,7 +2,7 @@
   <div>
     <!--视频分类-->
     <videoType :firstClassList="firstClassList" @underListChoose="underListChoose" :underList="underList" :showList="showList" :total="total" @showUp="upShow" @searchList="listSearch"></videoType>
-    <el-table :data="classList" style="width: 100%">
+    <el-table :data="classList" style="width: 100%" @selection-change="selectOption">
       <el-table-column type="selection" width="55"></el-table-column>
       <el-table-column label="视频名称" show-overflow-tooltip>
         <template scope="scope">
@@ -26,10 +26,13 @@
         </template>
       </el-table-column>
     </el-table>
-    <div class="kd-page"  >
+    <div class="kd-page">
       <el-row>
-        <el-col :span="24">
-          <el-pagination class="float-right"  :page-sizes="[10]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total" @size-change="handleSizeChange" @current-change="handleCurrentChange">
+        <el-col :span="6">
+          <el-button size="small" type="primary" @click="deleteVideo('delete')">删除</el-button>
+        </el-col>
+        <el-col :span="18">
+          <el-pagination class="float-right" :page-sizes="[10]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total" @size-change="handleSizeChange" @current-change="handleCurrentChange">
           </el-pagination>
         </el-col>
       </el-row>
@@ -52,15 +55,23 @@ export default {
       ],
       vid: '',//视频id
       playShow: 0,//显示播放页面 
+      arr: []
     }
   },
-  created(){
-console.log(this.total)
+  created() {
+    console.log(this.total)
   },
   components: {
     videoType, videoPlay
   },
   methods: {
+    selectOption(id) {
+      this.arr = [];
+      id.forEach((x) => {
+        this.arr.push(x.id)
+      })
+      console.log(this.arr)
+    },
     upload() {
 
     },
@@ -75,8 +86,8 @@ console.log(this.total)
     },
     //删除视频
     deleteVideo(id) {
-      this.vid = id;
-      this.$emit('videoDelete', this.vid)
+      this.vid = id; 
+      this.$emit('videoDelete', id !== 'delete' ? this.vid : this.arr.join(",")) 
     },
     //播放视频
     playVideo(id) {
@@ -91,13 +102,13 @@ console.log(this.total)
     editVideo(id) {
       this.$emit('videoEdit', 1, id, 1)
     },
-    handleCurrentChange(){
-      
-    },
-    handleSizeChange(){
+    handleCurrentChange() {
 
     },
-    currentPage(){
+    handleSizeChange() {
+
+    },
+    currentPage() {
 
     }
   },

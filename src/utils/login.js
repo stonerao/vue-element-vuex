@@ -106,7 +106,7 @@ export default {
 
                     } else {
                         this.$confirm(ret.data.data.error, '提示', {
-                            confirmButtonText: '立即去缴纳',
+                            confirmButtonText: '确定去缴纳',
                             cancelButtonText: '取消',
                             type: 'warning'
                         }).then(() => {

@@ -77,7 +77,7 @@
           </el-row>
           <el-row>
             <el-col :offset="4" :span="20">
-              <el-button type="primary" @click="watchLive(detail.channelId)">进入直播间</el-button>
+              <el-button type="primary" @click="watchLive(detail.channelid)">进入直播间</el-button>
             </el-col>
           </el-row>
         </div>
