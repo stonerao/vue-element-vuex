@@ -302,7 +302,7 @@ export default {
         };
 
         if(this.sureUpdate){ //确定要更新共享资料
-            apiUrl = api.ShareMaterial_s;
+            apiUrl = api.updateShare;
         }
         this.$http(apiUrl, {
             params: formData

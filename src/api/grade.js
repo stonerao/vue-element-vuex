@@ -99,4 +99,5 @@ export const api = {
     ShareDatadetail_s:'Student/SchoolStudent/student_show_annex',   //学生中心-共享资料详情
     ShareDatadetail_t:'Teacher/Teaching/annex_info',   //老师中心-共享资料详情
     ShareWhetherUpdate:'Student/SchoolStudent/check_updata',   //共享资料详情是否更新
+    updateShare:'Student/SchoolStudent/check_updata',   //共享资料--更新
 }
