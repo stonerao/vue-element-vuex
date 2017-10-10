@@ -22,16 +22,16 @@
                 <el-form-item label="试题题干">
                     <!-- <quillEditor v-model="textF"></quillEditor> -->
                     <!-- <input type="text"  v-model="textF"> -->
-                    <vue-html5-editor :content="content" :height="300" @change="editor"></vue-html5-editor>
+                    <vue-html5-editor :content="content" :height="200" @change="editor"></vue-html5-editor>
                 </el-form-item>
                 <!-- <el-form-item label="相关相片附件">
-                                        <el-upload action="https://jsonplaceholder.typicode.com/posts/" list-type="picture-card" :on-preview="handlePictureCardPreview" :on-remove="handleRemove">
-                                            <i class="el-icon-plus"></i>
-                                        </el-upload>
-                                        <el-dialog v-model="dialogVisible" size="tiny">
-                                            <img width="100%" :src="dialogImageUrl" alt="">
-                                        </el-dialog>
-                                    </el-form-item> -->
+                                                <el-upload action="https://jsonplaceholder.typicode.com/posts/" list-type="picture-card" :on-preview="handlePictureCardPreview" :on-remove="handleRemove">
+                                                    <i class="el-icon-plus"></i>
+                                                </el-upload>
+                                                <el-dialog v-model="dialogVisible" size="tiny">
+                                                    <img width="100%" :src="dialogImageUrl" alt="">
+                                                </el-dialog>
+                                            </el-form-item> -->
                 <!-- 单选题 -->
                 <div v-if="questionClass==1">
                     <el-form-item label="选项设置">
@@ -98,12 +98,12 @@
                     <el-form-item label="答案设置">
                         <p>
                             <button class="r-ques-addbutton" @click="pushRadio">增加选项</button>
-                            <span class="hui-color">混杂模式批改（不按答题顺序批改用户答案）</span>
+                            <span class="hui-color"> 混杂模式批改（不按答题顺序批改用户答案）</span>
                         </p>
                         <div class="r-question-radio" v-if="fileBlankItems.length>0" style="padding-bottom:0">
                             <div class="r-duo-select" v-for="(item,index) in fileBlankItems" :key="index">
                                 {{parseInt(index)+1}}：
-                                <el-input v-model="item.title" placeholder="请输入内容" class="width125 marginleft5" size="small"></el-input>
+                                <el-input v-model="item.title" placeholder="请输入答案" class="width125 marginleft5" size="small" :disabled="true" ></el-input>
                                 <i class="el-icon-circle-close r-ques-delet" @click="delectRadio(index)"></i>
                             </div>
 
@@ -120,9 +120,9 @@
                     </el-switch>
                 </el-form-item>
                 <!-- <el-form-item label="是否加入老师个人题库 ">
-                                        <el-switch v-model="isTeacherShare" on-color="#13ce66" off-color="" on-text="是" off-text="否">
-                                        </el-switch>
-                                    </el-form-item> -->
+                                                <el-switch v-model="isTeacherShare" on-color="#13ce66" off-color="" on-text="是" off-text="否">
+                                                </el-switch>
+                                            </el-form-item> -->
                 <el-form-item label=" ">
                     <el-button type="primary" @click="onSubmit">立即创建</el-button>
                     <el-button type="success" @click="onSubmit(1)">预览试题</el-button>
@@ -178,7 +178,7 @@ export default {
             qc_id: '',//题库分类id
             trueOrFalse: '',//判断题
             fileBlank: '',
-            fileBlankItems: [{ title: '' }, { title: '' }, { title: '' }],//填空题
+            fileBlankItems: [{ title: '' }],//填空题
             qOrA: '',//问答题
             calculation: '',//计算题
             previewBox: {},//试题预览
@@ -189,7 +189,7 @@ export default {
     },
     methods: {
         onSubmit(statusIndex) {
-            if (!this.isBelongSelect&&this.belongClass3=='') {
+            if (!this.isBelongSelect && this.belongClass3 == '') {
                 // 是否选择题库类型 
                 this.notify('请选择题库类型');
                 return;
@@ -232,10 +232,10 @@ export default {
                     break;
                 case 4:
                     for (var k in this.fileBlankItems) {
-                        if (!this.fileBlankItems[k].title) {
-                            this.notify(`请在选项${this.A_Z[parseInt(k)]}填写对应数据`);
-                            return
-                        }
+                        // if (!this.fileBlankItems[k].title) {
+                        //     this.notify(`请在选项${this.A_Z[parseInt(k)]}填写对应数据`);
+                        //     return
+                        // }
                         this.fileBlankItems[k].index = parseInt(k);
                     }
                     title = this.fileBlankItems;
@@ -319,15 +319,14 @@ export default {
         pushRadio() {
             // 单选题增加选项
             const num = 6; //选择题最大条数
-            let obj = { title: '' }
-
+            let obj = { title: '' } 
             if (this.radioItems.length >= num) {
                 this.$notify({
                     message: `添加选项不能超过${num}条`,
                     type: 'warning'
                 });
                 return
-            } 
+            }
             if (this.questionClass == '1') {
                 this.radioItems.push(obj)
             } else if (this.questionClass == '2') {
@@ -338,7 +337,13 @@ export default {
         },
         delectRadio(index) {
             // 删除单选框
-            this.radioItems.splice(index, 1)
+             if (this.questionClass == '1') {
+                this.radioItems.splice(index, 1)
+            } else if (this.questionClass == '2') {
+                this.checkboxItems.splice(index, 1)
+            } else if (this.questionClass == '4') {
+                this.fileBlankItems.splice(index, 1)
+            } 
         },
         question_classlist(id, status) {
             // 所属分类
@@ -420,6 +425,8 @@ export default {
     height: auto;
     min-height: 100px;
 }
+
+
 
 
 

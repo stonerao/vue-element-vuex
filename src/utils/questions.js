@@ -282,6 +282,7 @@ export default {
     },
     pushQuestion(arr) {
         // 提交试卷  
+        
         let qc_id = this.belongClass3 ? this.belongClass3 : (this.belongClass2 ? this.belongClass2 : this.belongClass1);
         var [url, obj] = ['', {}];
         if (!this.t_id) {
@@ -303,7 +304,7 @@ export default {
                 token: getToken(),
                 t_title: this.form.title,
                 t_desc: this.form.t_desc,
-                q_id: this.selectQuestList,
+                q_id: this.strSelect.split(" / ").join(","),
                 is_share: this.shared ? '1' : '2',
                 question_list: this.isQuestion ? encodeUnicode(JSON.stringify(arr)) : '',
                 q_add_question: getCookie('NEWADDQUESTIONOUT') ? encodeUnicode(getCookie('NEWADDQUESTIONOUT')) : '',
@@ -349,9 +350,7 @@ export default {
                 this.t_data = res.data.data;
                 this.all_pagecount = parseInt(data.page_total)
                 data = null;
-            } else {
-
-            }
+            } 
         })
     },
     testpaper_delete(id) {
