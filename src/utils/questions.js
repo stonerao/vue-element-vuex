@@ -697,11 +697,12 @@ export default {
             let arr = [];
             let data = res.data.data.question_list;
             for (var key in data) {
+                console.log(data[key])
                 if (!data[key]) { return } 
-                data[key].forEach((x) => {
-                    arr.push(x.q_id)
-                })
-            }
+                // data[key].forEach((x) => {
+                    // })
+                        arr.push(data[key].q_id)
+                }
             this.setCookie(arr);
             this.form.title = res.data.data.t_title;
             this.form.t_desc = res.data.data.t_desc;
