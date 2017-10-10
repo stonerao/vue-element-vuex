@@ -157,8 +157,12 @@ export default {
     },
     mate_scan(type,url){  //查看素材
       this.handle_1 = false;
+      if(String(url).indexOf('http') != -1){
+        this.pdfSrc = url;
+      }else{
+        this.pdfSrc = 'http://' + url;
+      }
       this.handle_2 = !this.handle_2;
-      this.pdfSrc = 'http://' + url;
 
       // if(type == 'pdf'){ //如果是pdf文件预览
       //     this.handle_1 = false;
