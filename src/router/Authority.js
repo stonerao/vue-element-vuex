@@ -463,7 +463,8 @@ export const ListStundent = [
                 component: searchStation,
             }
         ]
-    }, {
+    },
+     {
         path: '/adminIndex',
         redirect: "/one/index"
     }

@@ -110,7 +110,8 @@ export default {
                             cancelButtonText: '取消',
                             type: 'warning'
                         }).then(() => {
-                            setCookie("filepay",'0')
+                            this.$router.push('/certification')
+                            // setCookie("filepay",'0')
                         }).catch(() => { 
                             this.$message({
                                 type: 'info',

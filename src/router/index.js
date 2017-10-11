@@ -46,6 +46,7 @@ export function constListFun() {
 import login from '@/view/login/login'
 import adminLogin from '@/view/login/admin'
 
+import certification from '@/view/index/certification'
 import good_exam from '@/view/examination/good_exam'
 import pwdset from '@/view/login/setpwd'
 /*
@@ -130,6 +131,11 @@ export const constRouterMap = [
     path: '/setPwd',
     name: '-考试',
     component: pwdset
+  },
+  {
+    path: '/certification',
+    name: '-档案认证',
+    component: certification
   }
 ]
 
