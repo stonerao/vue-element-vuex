@@ -54,13 +54,13 @@
         </div>
         <!--班级详情-->
         <div v-if="state==6">
-          <classDetail @return_list="state=0" @detailList="classListDetail" :id="classId"></classDetail>
+          <classDetail @return_list="state=0" @detailList="classListDetail" :id="classId" @res="res_data"></classDetail>
         </div>
         <div v-if="state==7">
-          <opertation @return_list="state=0" :id="classId"></opertation>
+          <opertation @return_list="state=6" :id="classId" :obj="opertationObj"></opertation>
         </div>
         <div v-if="state==8">
-          <results @return_list="state=0" :id="classId"></results>
+          <results @return_list="state=6" :id="classId" :obj="resultsObj"></results>
         </div>
 
       </div>
@@ -77,7 +77,7 @@ import bottomItem from '@/components/bottom/bottom.vue'
 import my from '@/utils/myClass'
 import classDetail from '@/components/myClass/classDetail'
 import opertation from '@/components/myClass/operation'
-import results from '@/components/myClass/operation'
+import results from '@/components/myClass/results'
 export default {
   data() {
     return {
@@ -104,15 +104,29 @@ export default {
       sex: '',//性别
       stuName: '',//学生姓名
       classId: '',//查看班级Id
+      opertationObj: {},
+      resultsObj: {}
     }
   },
   created() {
     this.refreshList();
   },
   components: {
-    titleItem, titleActive, description, bottomItem, classDetail, results,opertation
+    titleItem, titleActive, description, bottomItem, classDetail, results, opertation
   },
   methods: {
+    res_data(state, val, id) {
+      if (state == 1) {
+        this.state=7;
+        
+        this.opertationObj.val = val;
+        this.opertationObj.id = id;
+      } else if (state == 2) {
+        this.state=8; 
+        this.resultsObj.val = val;
+        this.resultsObj.id = id;
+      }
+    },
     emitTransfer(index) {
       if (this.state == index) {
         return

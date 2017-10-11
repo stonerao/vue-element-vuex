@@ -21,10 +21,9 @@
             </el-table-column> 
             <el-table-column prop="e_time" width="180" label="创建时间" show-overflow-tooltip>
             </el-table-column>
-            <el-table-column width="230" label="操作" show-overflow-tooltip>
+            <el-table-column width="120" label="操作" show-overflow-tooltip>
                 <template scope="scope">
-                    <el-button size="mini" @click="getQues(scope.row.e_id,1)">查看成绩</el-button>
-                    <el-button size="mini" @click="getQues(scope.row,2)">查看答案</el-button>
+                    <el-button size="mini" @click="getQues(scope.row.e_id,1)">查看成绩</el-button> 
                 </template>
             </el-table-column>
         </el-table>

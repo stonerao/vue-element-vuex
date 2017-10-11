@@ -72,7 +72,7 @@ export default {
             seach: '',
             currentPage: 1,//当前页数
             pageSize: 10,//当前页面数量
-            pageSizes: [10, 20, 30],//每页显示个数选择器的选项设置	
+            pageSizes: [10],//每页显示个数选择器的选项设置	
             all_pagecount:5,
             classList: {
                 obj1: {

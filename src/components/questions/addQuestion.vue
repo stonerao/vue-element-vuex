@@ -25,13 +25,13 @@
                     <vue-html5-editor :content="content" :height="200" @change="editor"></vue-html5-editor>
                 </el-form-item>
                 <!-- <el-form-item label="相关相片附件">
-                                                <el-upload action="https://jsonplaceholder.typicode.com/posts/" list-type="picture-card" :on-preview="handlePictureCardPreview" :on-remove="handleRemove">
-                                                    <i class="el-icon-plus"></i>
-                                                </el-upload>
-                                                <el-dialog v-model="dialogVisible" size="tiny">
-                                                    <img width="100%" :src="dialogImageUrl" alt="">
-                                                </el-dialog>
-                                            </el-form-item> -->
+                                                            <el-upload action="https://jsonplaceholder.typicode.com/posts/" list-type="picture-card" :on-preview="handlePictureCardPreview" :on-remove="handleRemove">
+                                                                <i class="el-icon-plus"></i>
+                                                            </el-upload>
+                                                            <el-dialog v-model="dialogVisible" size="tiny">
+                                                                <img width="100%" :src="dialogImageUrl" alt="">
+                                                            </el-dialog>
+                                                        </el-form-item> -->
                 <!-- 单选题 -->
                 <div v-if="questionClass==1">
                     <el-form-item label="选项设置">
@@ -103,7 +103,7 @@
                         <div class="r-question-radio" v-if="fileBlankItems.length>0" style="padding-bottom:0">
                             <div class="r-duo-select" v-for="(item,index) in fileBlankItems" :key="index">
                                 {{parseInt(index)+1}}：
-                                <el-input v-model="item.title" placeholder="请输入答案" class="width125 marginleft5" size="small" :disabled="true" ></el-input>
+                                <el-input v-model="item.title" placeholder="请输入答案" class="width125 marginleft5" size="small" :disabled="true"></el-input>
                                 <i class="el-icon-circle-close r-ques-delet" @click="delectRadio(index)"></i>
                             </div>
 
@@ -120,9 +120,9 @@
                     </el-switch>
                 </el-form-item>
                 <!-- <el-form-item label="是否加入老师个人题库 ">
-                                                <el-switch v-model="isTeacherShare" on-color="#13ce66" off-color="" on-text="是" off-text="否">
-                                                </el-switch>
-                                            </el-form-item> -->
+                                                            <el-switch v-model="isTeacherShare" on-color="#13ce66" off-color="" on-text="是" off-text="否">
+                                                            </el-switch>
+                                                        </el-form-item> -->
                 <el-form-item label=" ">
                     <el-button type="primary" @click="onSubmit">立即创建</el-button>
                     <el-button type="success" @click="onSubmit(1)">预览试题</el-button>
@@ -199,6 +199,10 @@ export default {
             switch (status) {
                 case 1:
                     // 题目以及对应选项
+                    if (this.radioItems.length == 0) {
+                        this.notify(`请填写一个选项`);
+                        return
+                    } 
                     for (var k in this.radioItems) {
                         if (!this.radioItems[k].title) {
                             this.notify(`请在选项${this.A_Z[parseInt(k)]}填写对应数据`);
@@ -211,6 +215,10 @@ export default {
                     answer = this.A_Z[this.radio];
                     break;
                 case 2:
+                    if (this.checkboxItems.length == 0) {
+                        this.notify(`请填写一个选项`);
+                        return
+                    }
                     for (var k in this.checkboxItems) {
                         if (!this.checkboxItems[k].title) {
                             this.notify(`请在选项${this.A_Z[parseInt(k)]}填写对应数据`);
@@ -231,6 +239,10 @@ export default {
                     answer = this.trueOrFalse
                     break;
                 case 4:
+                    if (this.fileBlankItems.length == 0) {
+                        this.notify(`请填写一个选项`);
+                        return
+                    }
                     for (var k in this.fileBlankItems) {
                         // if (!this.fileBlankItems[k].title) {
                         //     this.notify(`请在选项${this.A_Z[parseInt(k)]}填写对应数据`);
@@ -319,7 +331,7 @@ export default {
         pushRadio() {
             // 单选题增加选项
             const num = 6; //选择题最大条数
-            let obj = { title: '' } 
+            let obj = { title: '' }
             if (this.radioItems.length >= num) {
                 this.$notify({
                     message: `添加选项不能超过${num}条`,
@@ -337,13 +349,13 @@ export default {
         },
         delectRadio(index) {
             // 删除单选框
-             if (this.questionClass == '1') {
+            if (this.questionClass == '1') {
                 this.radioItems.splice(index, 1)
             } else if (this.questionClass == '2') {
                 this.checkboxItems.splice(index, 1)
             } else if (this.questionClass == '4') {
                 this.fileBlankItems.splice(index, 1)
-            } 
+            }
         },
         question_classlist(id, status) {
             // 所属分类
@@ -425,6 +437,9 @@ export default {
     height: auto;
     min-height: 100px;
 }
+
+
+
 
 
 

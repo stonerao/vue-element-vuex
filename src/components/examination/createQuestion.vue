@@ -146,6 +146,7 @@ export default {
                     return
                 }
             }
+            
             store.pushQuestion.call(this, arr);
             removeSelectQuestion()
         },
@@ -196,8 +197,7 @@ export default {
     created() {
         this.question_classlist("", 1);
         store.create_question_type.call(this);
-        // 是否是添加题目过来
-
+        // 是否是添加题目过来 
         if (this.newAddObj.state == 1) {
             // 老师加入 
             this.isQuestion = false;
@@ -208,7 +208,7 @@ export default {
             } else {
                 selectedQuestionList([this.newAddObj.items]);
             }
-        } else if (this.t_id) {
+        } else if (this.t_id) { 
             this.fullscreenLoading = true;
             store.testpaper_info.call(this, this.t_id); 
         }

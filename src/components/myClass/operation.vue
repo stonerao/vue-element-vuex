@@ -5,35 +5,27 @@
                 <el-button @click="returnList" type="primary" size="small">返回列表</el-button>
             </el-col>
             <el-col :span="3" class="class-titles">
-                <img src="../../assets/index/shuaxin.png" class="icon-img-xs cursor" />刷新-共1条记录
+                <img src="../../assets/index/shuaxin.png" class="icon-img-xs cursor" />刷新-共{{page_total}}条记录
             </el-col>
 
             <el-col :span="3">
-                <el-select @change="sexChoose" v-model="sex" placeholder="选择性别" size="small" class="rt">
-                    <el-option v-for="item in sexList" :label="item.name" :value="item.value">
-                    </el-option>
-                </el-select>
+
             </el-col>
-            <el-col :span="4" :offset="1">
-                <el-input placeholder="请输入学生姓名" icon="search" size="small" v-model="task_title" :on-icon-click="handleIconClick">
+            <el-col :span="4" :offset="1" class="float-right">
+                <el-input placeholder="关键字搜索" icon="search" size="small" v-model="task_title" :on-icon-click="handleIconClick">
                 </el-input>
             </el-col>
         </el-row>
         <el-table :data="t_data">
             <template scope="scope">
-                <el-table-column prop="st_id" label="ID" width="100">
+                <el-table-column prop="task_id" label="ID" width="100">
                 </el-table-column>
-                <el-table-column prop="st_name" label="学生姓名" width="150">
+                <el-table-column prop="task_title" label="题目"  min-width="250" show-overflow-tooltip>
                 </el-table-column>
-                <el-table-column prop="st_sex" label="性别" min-width="50" show-overflow-tooltip>
+                <el-table-column prop="class_name" label="班级" min-width="150" show-overflow-tooltip>
                 </el-table-column>
-                <el-table-column prop="st_phone" label="电话" min-width="100" show-overflow-tooltip>
-                </el-table-column>
-                <el-table-column label="操作" width="150">
-                    <template scope="scope">
-
-                    </template>
-                </el-table-column>
+                <el-table-column prop="teacher_name" label="老师"  show-overflow-tooltip>
+                </el-table-column> 
             </template>
         </el-table>
         <div class="kd-page">
@@ -50,7 +42,7 @@
 
 import store from '@/utils/myClass'
 export default {
-    props: ['id'],
+    props: ['id', 'obj'],
     data() {
         return {
             task_class: '',
@@ -63,17 +55,22 @@ export default {
     },
     created() {
         this.ajax()
+        console.log(this.obj)
     },
     methods: {
-
         ajax() {
-            store.class_detail.call(this)
+            this.t_data=[]
+            store.ClassTask_list.call(this)
         },
-        handleIconClick() {
-
+        handleIconClick() { 
+              this.ajax()
         },
-        handleCurrentChange() {
-
+        handleCurrentChange(val) {
+            this.page=val;
+            this.ajax()
+        },
+        returnList() {
+            this.$emit('return_list', 0)
         }
     }
 }
