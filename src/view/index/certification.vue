@@ -51,7 +51,7 @@ export default {
     },
     methods: {
         submit() {
-
+            store.bind_archives.call(this)
         },
 
     },

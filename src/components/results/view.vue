@@ -25,41 +25,52 @@
                     </li>
                     <li>
                         <div class="r-quesq-tittle">
-                             学生答案：
+                            学生答案：
                         </div>
-                        <div class="r-quesq-box">
-                            {{item.answer}} <span class="marginleft15">{{item.is_answer_true==1?'正确':'错误'}}</span> 
+                        <div class="r-quesq-box" v-if="item.q_type_id!=4">
+                            {{item.answer}}
+                        </div>
+                        <div v-else-if="item.q_type_id==4">
+                            <p v-for="(answer,i) in item.answer" :key="i">
+                                第{{answer.index+1}}题： {{answer.text}}
+                            </p>
                         </div>
                     </li>
-                       <li class=" " >
+                    <li class=" ">
+                        <div class="r-quesq-tittle">
+                            是否正确：
+                        </div>
+                        <div class="r-quesq-box">
+                            {{item.is_answer_true==1?'正确':'错误'}}
+                        </div>
+                    </li>
+                    <li class=" ">
                         <div class="r-quesq-tittle">
                             得分：
                         </div>
                         <div class="r-quesq-box">
-                           {{item.core}} 分
+                            {{item.core}} 分
                         </div>
                     </li>
                     <li>
                         <div class="r-quesq-tittle">
-                           试题答案：
+                            试题答案：
                         </div>
                         <div class="r-quesq-box">
                             {{item.question_answer}}
                         </div>
                     </li>
-                    
+
                     <!-- <li class="r-margin-re" v-if="item.q_option">
-                        <div class="r-quesq-tittle">
-                            选项：
-                        </div>
-                        <div class="r-quesq-box">
-                            <div v-for="(i,x) in item.q_option" :key="x">
-                                {{A_Z[x]}} : {{i.title}}
-                            </div>
-                        </div>
-                    </li>  -->
-                 
-                    
+                                                <div class="r-quesq-tittle">
+                                                    选项：
+                                                </div>
+                                                <div class="r-quesq-box">
+                                                    <div v-for="(i,x) in item.q_option" :key="x">
+                                                        {{A_Z[x]}} : {{i.title}}
+                                                    </div>
+                                                </div>
+                                            </li>  -->
 
                 </ul>
             </div>
@@ -103,10 +114,10 @@ export default {
             return
         }
         let datas = this.obj;
-        for (var x in datas) { 
-            this.t_data.push(datas[x]) 
+        for (var x in datas) {
+            this.t_data.push(datas[x])
         }
-        datas = null; 
+        datas = null;
         setTimeout(() => {
             // document.getElementById("down").download = `${this.obj.t_title}.html`;
             this.status == 10 ? this.yl() : '';
@@ -119,7 +130,7 @@ export default {
         }
     },
     created() {
-        setTimeout(() => { 
+        setTimeout(() => {
         }, 3000)
     }
 

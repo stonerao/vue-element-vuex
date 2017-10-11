@@ -198,6 +198,26 @@ export default {
             this.img = res.data.datas.school_background_image;
             this.logo = res.data.datas.school_logo;
         })
+    },
+    bind_archives(){
+        this.$http(api.bind_archives,{
+            params:this.form
+        }).then((res)=>{
+            if (res.data.code == 200) { 
+                this.$router.push({ path: "/" })
+                this.$notify({
+                    title: '成功',
+                    message: res.data.data,
+                    type: 'success'
+                });
+            } else {
+                this.$notify({
+                    title: '警告',
+                    message: res.data.data.error,
+                    type: 'warning'
+                });
+            }
+        })
     }
 
 }
