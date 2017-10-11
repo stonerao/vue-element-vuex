@@ -18,7 +18,7 @@
         </el-row>
         <div>
             <ul class="r-my-teaching">
-                <router-link tag="li" :to="{path:'../shoping',query:{id:item.paper_id,state:status}}" v-for="item in items" :key="item.paper_id">
+                <router-link tag="li" :to="{path:'../shoping',query:{id:item.p_id,state:status}}" v-for="item in items" :key="item.paper_id">
                     <div class="text-center">
                         <img :src="item.paper_img" />
                     </div>
