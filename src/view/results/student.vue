@@ -34,7 +34,7 @@ import resultsStore from '@/components/results/resultsStore.vue'
 import toplist from '@/components/results/toplist.vue'
 import checkAnswer from '@/components/results/checkAnswer.vue'
 import answer from '@/components/results/answer.vue'
-import view from '@/components/examination/view.vue'
+import view from '@/components/results/view.vue'
 export default {
     data() {
         return {
@@ -104,6 +104,7 @@ export default {
                     arr.push(x)
                 })
             } 
+            console.log(arr)
             this.examObj = arr;
             this.isA = true
         }
