@@ -12,7 +12,7 @@
                     <el-row :gutter="7" class="class-header">
                         <el-col :span="12" class="class-titles">
                             <el-button type="primary" icon="plus" size="small" @click="addStudent">增加学生</el-button>
-                            <el-button type="primary" icon="plus" size="small">批量导入</el-button>
+                            <!-- <el-button type="primary" icon="plus" size="small">批量导入</el-button> -->
                             <span>
                                 <img src="../../assets/index/shuaxin.png" class="icon-img-xs marginleft5" @click="studentRefresh" />刷新</span>
                             <span>当前总人数：

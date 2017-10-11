@@ -49,7 +49,7 @@
                             得分：
                         </div>
                         <div class="r-quesq-box">
-                            {{item.core}} 分
+                            {{item.core?item.core:'0'}} 分
                         </div>
                     </li>
                     <li>
@@ -60,17 +60,7 @@
                             {{item.question_answer}}
                         </div>
                     </li>
-
-                    <!-- <li class="r-margin-re" v-if="item.q_option">
-                                                <div class="r-quesq-tittle">
-                                                    选项：
-                                                </div>
-                                                <div class="r-quesq-box">
-                                                    <div v-for="(i,x) in item.q_option" :key="x">
-                                                        {{A_Z[x]}} : {{i.title}}
-                                                    </div>
-                                                </div>
-                                            </li>  -->
+ 
 
                 </ul>
             </div>

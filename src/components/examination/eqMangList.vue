@@ -9,7 +9,7 @@
                 <div v-else-if="item.q_type_id==4">
                     学生答案：  
                     <span v-for="(box,index) in item.answer" :key="index" style="margin-right:20px;">
-                       第{{box.index+1}}题 ： {{box.title}}  
+                       填空{{box.index+1}} ： {{box.text}}  
                     </span>
                 </div>
                 <div>

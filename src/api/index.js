@@ -128,7 +128,6 @@ export const api = {
     task_list:"Teacher/Examinationcenter/task_list",// 
     student_sign:"Student/SchoolStudent/student_sign",// 学生签到
     teacher_sign:"Teacher/Timetag/teacher_sign",// 老师签到
-   
-
-    
+    show_notice:"Teacher/Notice/show_notice",// 通知详情
+     
 }

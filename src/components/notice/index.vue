@@ -30,11 +30,11 @@
             </el-table-column>
             <el-table-column prop="address" width="120" label="操作" show-overflow-tooltip>
                 <template scope="scope">
-                    <el-button size="mini">查看</el-button>
+                    <el-button size="mini" @click="get(scope.row.zn_id)">查看</el-button>
                 </template>
             </el-table-column>
         </el-table>
-         <el-row style="margin-top:10px">
+        <el-row style="margin-top:10px">
             <el-col :span="12">
                 &nbsp;
             </el-col>
@@ -43,20 +43,24 @@
                 </el-pagination>
             </el-col>
         </el-row>
+        <views @CLICKOVER="isView=false" v-if="isView" :obj="dataObj"></views>
     </div>
 </template>
 
 <script> 
 import store from '@/utils/notice'
-export default { 
-    props:['state'],
+import views from '@/components/notice/view'
+export default {
+    props: ['state'],
     data() {
         return {
-            t_data: [{ id: '001', title: 'sdakhdahdjsa', name: 'fuck', date: '2017-8-22 09:13:08' }],
+            t_data: [{ id: '', title: '', name: '', date: '2017-8-22 09:13:08' }],
             seach: "",
             page: 1,
             curpage: 10,
-            page_total:0
+            page_total: 0,
+            isView: false,
+            dataObj: {}
         }
     },
     methods: {
@@ -73,20 +77,26 @@ export default {
         seachClick() {
             // 搜索
         },
-        handleSizeChange(){
+        handleSizeChange() {
 
         },
-        ajax(){
-            store.AdminNotice_list.call(this,this.state);
+        ajax() {
+            store.AdminNotice_list.call(this, this.state);
         },
-        handleCurrentChange(val){
-            this.page=val;
+        handleCurrentChange(val) {
+            this.page = val;
             this.ajax();
+        },
+        get(id) {
+            store.show_notice.call(this, id)
         }
     },
-    created(){
+    created() {
         this.ajax();
     },
+    components: {
+        views
+    }
 }
 </script>
 

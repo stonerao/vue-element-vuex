@@ -31,12 +31,12 @@
             </el-table-column>
             <el-table-column prop="class_name" width="180" label="作业班级" show-overflow-tooltip>
             </el-table-column>
-            <el-table-column width="180" label="操作" show-overflow-tooltip>
+            <!-- <el-table-column width="180" label="操作" show-overflow-tooltip>
                 <template scope="scope">
                     <el-button size="mini" @click="getQues(scope.row)">查看</el-button>
                     <el-button size="mini" @click="setQues(scope.row)">编辑</el-button>
                 </template>
-            </el-table-column>
+            </el-table-column> -->
         </el-table>
         <div class="kd-page">
             <el-row>
