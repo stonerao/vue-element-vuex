@@ -59,6 +59,13 @@ export default {
           }
         }
         data = null;
+      }else{
+        this.$alert(res.data.data.error, {
+          confirmButtonText: '确定',
+          callback: action => {
+            history.go(-1)
+          }
+        });
       }
     })
   },
