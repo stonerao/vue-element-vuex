@@ -117,8 +117,8 @@ export default {
       }
     })
   },
-  show_notice(id) {
-    this.$http(api.show_notice, {
+  show_notice(id,state) {
+    this.$http(isClassLogin()==2?api.show_notice:api.Studentshow_notice, {
       params: {
         token: getToken(),
         zn_id: id

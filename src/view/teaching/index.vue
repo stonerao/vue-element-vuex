@@ -18,7 +18,7 @@
                 </div>
                 <div v-if="state==2">
                     <!--我的教材列表  -->
-                    <teachingList :state="isLoginState"></teachingList>
+                    <teachingList :state="isLoginState" :status="state"></teachingList>
                 </div>
     
             </div>

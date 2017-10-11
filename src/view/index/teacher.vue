@@ -45,7 +45,7 @@
                             <router-link to=" " class="kd-index-item kd-xt-sp">
                                 <div class="kd-index-item-title">
                                     <div>
-                                        <span class="font-lg">50</span>个</div>
+                                        <span class="font-lg">{{obj.apply_num}}</span>个</div>
                                     <div>
                                         当前待审批单
                                     </div>
@@ -152,7 +152,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="while kd-index-box">
+            <!-- <div class="while kd-index-box">
                 <div class="kd-over"></div>
                 <div class="kd-list-items-title">
                     <span>
@@ -166,7 +166,7 @@
                         </li>
                     </ul>
                 </el-row>
-            </div>
+            </div> -->
 
             <bottomItem style="position:relative"></bottomItem>
 
@@ -175,6 +175,7 @@
 </template>
 
 <script>
+import {getToken} from '@/utils/auth'
 import titleItem from '@/components/main/title.vue'
 import bottomItem from '@/components/bottom/bottom.vue'
 import store from '@/utils/home'
@@ -202,7 +203,17 @@ export default {
         // 课表数据
         store.techaerclass_info.call(this)
         //首页数据
-        store.studentIndexHome.call(this)
+        store.studentIndexHome.call(this);
+        // 数据
+        this.$http('Teacher/index/index',{
+            params:{
+               token:getToken() 
+            }
+        }).then((res)=>{
+            if(res.data.code==200){
+                this.obj = res.data.data
+            }
+        })
     },
     components: {
         titleItem, bottomItem

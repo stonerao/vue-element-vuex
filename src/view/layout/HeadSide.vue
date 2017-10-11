@@ -89,7 +89,7 @@ export default {
         })
         switch (parseInt(isClassLogin())) {
             case 1:
-                this.name = '学校'
+                this.name = '管理员'
                 break;
             case 2:
                 this.name = '老师'

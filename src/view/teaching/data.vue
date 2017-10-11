@@ -46,7 +46,7 @@
               <el-row :span="24">
                   <el-col :span="24">
                       <div class="kd-page">
-                          <el-pagination class="float-right" :current-page="materialParams.curpage" :page-sizes="[15, 20, 25, 30]" :page-size="materialParams.page_count" layout="total, sizes, prev, pager, next, jumper" :total="materialParams.total_num" @size-change="handleSizeChange" @current-change="handleCurrentChange">
+                          <el-pagination class="float-right" :current-page="materialParams.curpage" :page-sizes="[10]" :page-size="materialParams.page_count" layout="total, sizes, prev, pager, next, jumper" :total="materialParams.total_num" @size-change="handleSizeChange" @current-change="handleCurrentChange">
                           </el-pagination>
                       </div>
                   </el-col>
@@ -114,6 +114,8 @@ export default {
       pdfSrc: '',   //预览pdf文件路径
       myHeight: 670,
       sureUpdate: false,  //是否更新素材
+      page:1,
+      curpage:10
     }
   },
   components: {

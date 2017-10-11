@@ -7,8 +7,8 @@ export function getToken() {
   // return "00c9f07b1f0782613ee5d3133d28cc01"//学校中心
 }
 
-export function setToken(token) {
-  return Cookies.set(TokenKey, token)
+export function setToken(token) { 
+  return Cookies.set(TokenKey, token) 
 }
 
 export function removeToken() {

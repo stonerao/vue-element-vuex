@@ -25,14 +25,6 @@
           <div class="r-shoping-img">
             <img :src='datas.paper_img' />
           </div>
-          <!-- <div class="r-shoping-shar">
-                  <span class="r-shoping-shou">
-                    <img src="../../assets/icon/shou.png" />收藏</span>
-                  <span class="r-shoping-fen">
-                    <img src="../../assets/icon/shar.png" />分享</span>
-                  <span class="float-right">
-                    <img src="../../assets/icon/icon_good.png" />67943</span>
-                </div> -->
         </div>
         <div class="r-shoping-right">
           <div class="r-shoping--info">
@@ -62,17 +54,11 @@
                 <span>ISNB号：</span>
                 <span>{{datas.isnb_number}}</span>
               </li>
-              <!-- <li>
-                      <span>数量：</span>
-                      <span>
-                        <el-input-number size="small" v-model="num"></el-input-number>
-                      </span>
-                    </li> -->
             </ul>
           </div>
           <div class="r-shoping-btns">
             <button @click="eventInfos">教材介绍</button>
-            <button @click="goodShoping(thisState)">{{thisState=='2'?'立即领取':'立即购买'}}</button>
+            <button @click="goodShoping(thisState)" v-if="!state">{{thisState=='2'?'立即领取':'立即购买'}}{{status}}</button>
             <button @click='testHtml'>试读</button>
             <button style="background-color:rgb(234, 102, 102)" @click="relatData">相关资料</button>
           </div>
@@ -99,7 +85,7 @@ import alertTeaching from '@/components/teaching/alert'
 import testHmls from '@/components/teaching/test'
 import store from '@/utils/teaching'
 import { isClassLogin } from '@/utils/auth';
-export default {
+export default { 
   data() {
     return {
       swiper: [],
@@ -108,13 +94,15 @@ export default {
       isAlert: false,
       thisState: 0,
       dada: {},
-      isTest: false
+      isTest: false,
+      status:''
     }
   },
   components: {
     HeadSide, alertTeaching, testHmls
   },
   created() {
+    this.state = this.$route.query.state; 
     /* 职位信息  1是管理员2是老师3是学生
       老师直接领取，学生需要购买
     */
@@ -133,7 +121,9 @@ export default {
       console.log('onSlideChangeEnd', currentPage);
     },
     dataAjax() {
-      store.teaching_info.call(this)
+     
+        store.teaching_info.call(this)
+    
     },
     eventInfos() {
       // 教材详情 

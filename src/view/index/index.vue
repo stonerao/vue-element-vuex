@@ -191,7 +191,7 @@
                     </el-col>
                 </el-row>
             </div>
-            <div class="while kd-index-box">
+            <!-- <div class="while kd-index-box">
                 <div class="kd-over"></div>
                 <div class="kd-list-items-title">
                     <span>
@@ -205,7 +205,7 @@
                         </li>
                     </ul>
                 </el-row>
-            </div>
+            </div> -->
     
             <bottomItem style="position:relative"></bottomItem>
     

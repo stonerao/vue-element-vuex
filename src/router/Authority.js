@@ -339,8 +339,8 @@ export const ListStundent = [
         path: '/operation',
         name: '我的作业',
         redirect: '/operation/index',
-        icon: pmsd,
-        iconActive: pmsd_active,
+        icon: xs,
+        iconActive: xs_active,
         component: Layout,
         children: [
             {
@@ -353,8 +353,8 @@ export const ListStundent = [
         path: '/examination',
         name: '我的考试',
         redirect: '/examination/index',
-        icon: pmsd,
-        iconActive: pmsd_active,
+        icon: ls,
+        iconActive: ls_active,
         component: Layout,
         children: [
             {
@@ -383,8 +383,8 @@ export const ListStundent = [
         path: '/videoOther',
         name: '视频直播',
         redirect: '/videoOther/index',
-        icon: pmsd,
-        iconActive: pmsd_active,
+        icon: zb,
+        iconActive: zb_acitve,
         component: Layout,
         children: [
             {
@@ -397,8 +397,8 @@ export const ListStundent = [
         path: '/teaching',
         name: '教材中心',
         redirect: '/teaching/index',
-        icon: pmsd,
-        iconActive: pmsd_active,
+        icon: sc,
+        iconActive: sc_active,
         component: Layout,
         children: [
             {
@@ -425,8 +425,8 @@ export const ListStundent = [
         path: '/notice',
         name: '通知管理',
         redirect: '/notice/index',
-        icon: pmsd,
-        iconActive: pmsd_active,
+        icon: xx,
+        iconActive: xx_active,
         component: Layout,
         children: [
             {
@@ -439,8 +439,8 @@ export const ListStundent = [
         path: '/order_al',
         name: '订单管理',
         redirect: '/order_al/index',
-        icon: pmsd,
-        iconActive: pmsd_active,
+        icon: xtsz,
+        iconActive: xtsz_active,
         component: Layout,
         children: [
             {
@@ -453,8 +453,8 @@ export const ListStundent = [
         path: '/search',
         name: '信息筛选',
         redirect: '/search/index',
-        icon: pmsd,
-        iconActive: pmsd_active,
+        icon: fykm,
+        iconActive: fykm_active,
         component: Layout,
         children: [
             {
@@ -477,8 +477,8 @@ export const ListTeacher = [
         path: '/myClass',
         name: '我的班级',
         redirect: '/myClass/index',
-        icon: bj,
-        iconActive: bj_active,
+        icon: fykm,
+        iconActive: fykm_active,
         component: Layout,
         children: [
             {
@@ -491,8 +491,8 @@ export const ListTeacher = [
         path: '/teacherOperation',
         name: '作业管理',
         redirect: '/teacherOperation/index',
-        icon: pmsd,
-        iconActive: pmsd_active,
+        icon: fykm,
+        iconActive: fykm_active,
         component: Layout,
         children: [
             {
@@ -533,8 +533,8 @@ export const ListTeacher = [
         path: '/videoOther',
         name: '视频直播',
         redirect: '/videoOther/index',
-        icon: pmsd,
-        iconActive: pmsd_active,
+        icon: zb,
+        iconActive: zb_acitve,
         component: Layout,
         children: [
             {
@@ -547,8 +547,8 @@ export const ListTeacher = [
         path: '/conference',
         name: '会议管理',
         redirect: '/conference/index',
-        icon: pmsd,
-        iconActive: pmsd_active,
+        icon: wdhy,
+        iconActive: wdhy_active,
         component: Layout,
         children: [
             {
@@ -575,8 +575,8 @@ export const ListTeacher = [
         path: '/material',
         name: '素材库',
         redirect: '/material/index',
-        icon: pmsd,
-        iconActive: pmsd_active,
+        icon: sc,
+        iconActive: sc_active,
         component: Layout,
         children: [
             {
@@ -589,8 +589,8 @@ export const ListTeacher = [
         path: '/notice',
         name: '通知中心',
         redirect: '/notice/index',
-        icon: pmsd,
-        iconActive: pmsd_active,
+        icon: xx,
+        iconActive: xx_active,
         component: Layout,
         children: [
             {
@@ -603,8 +603,8 @@ export const ListTeacher = [
         path: '/teaching',
         name: '教材中心',
         redirect: '/teaching/index',
-        icon: pmsd,
-        iconActive: pmsd_active,
+        icon: fykm,
+        iconActive: fykm_active,
         component: Layout,
         children: [
             {
@@ -617,8 +617,8 @@ export const ListTeacher = [
         path: '/order_al',
         name: '订单管理',
         redirect: '/order_al/index',
-        icon: pmsd,
-        iconActive: pmsd_active,
+        icon: st,
+        iconActive: st_active,
         component: Layout,
         children: [
             {
@@ -631,8 +631,8 @@ export const ListTeacher = [
         path: '/search',
         name: '信息筛选',
         redirect: '/search/index',
-        icon: pmsd,
-        iconActive: pmsd_active,
+        icon: tj,
+        iconActive: tj_active,
         component: Layout,
         children: [
             {

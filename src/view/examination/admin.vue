@@ -47,7 +47,7 @@ export default {
     },
     methods: {
         emitTransfer(index) {
-            if (this.state == index) {
+            if (this.state == index) {  
                 return
             }
             this.state = index;

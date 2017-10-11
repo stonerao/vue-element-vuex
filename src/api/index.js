@@ -106,6 +106,8 @@ export const api = {
     send_znotice:"Teacher/Examinationcenter/send_znotice",//老师发布通知接口
     student_teaching_list:"Student/SchoolStudent/student_teaching_list",//学生-个人书架列表
     teaching_interface_Teacher:"Teacher/Teaching/teacher_teaching_list",//教材列表 
+    teacher_teaching_info_my:"Teacher/Teaching/teacher_teaching_info",//教材列表 
+    student_teaching_info:"Student/SchoolStudent/student_teaching_info",//教材列表 
     teaching_pay_shop:"Student/SchoolStudent/teaching_pay",//教材购买 
     virtual_class_list:"Admin/teacher/virtual_class_list",//admin 学生 虚拟班列表 
     virtual_class_studentlist:"Admin/teacher/virtual_class_studentlist",//admin 学生 虚拟班列表 
@@ -129,5 +131,6 @@ export const api = {
     student_sign:"Student/SchoolStudent/student_sign",// 学生签到
     teacher_sign:"Teacher/Timetag/teacher_sign",// 老师签到
     show_notice:"Teacher/Notice/show_notice",// 通知详情
+    Studentshow_notice:"Student/SchoolStudent/show_notice",// 通知详情
      
 }

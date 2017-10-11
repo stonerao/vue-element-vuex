@@ -38,8 +38,7 @@ export default {
     getCookieAdmin() {
         return Cookies.get('admin-login')
     },
-    setCookieAdmin(val) {
-        
+    setCookieAdmin(val) { 
         return Cookies.set('admin-login', val)
     },
     setCookie(name,val) { 
