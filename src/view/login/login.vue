@@ -57,10 +57,10 @@ export default {
             input: '',
             checked: false,
             form: {
-                username: '123456123456',
-                password: '123456',
-                school_identify: '001',
-                verify: '1111'
+                username: '',
+                password: '',
+                school_identify: '',
+                verify: ''
             },
             codeSrc: '',
             typestate: 0,//选择学生登录或老师登录

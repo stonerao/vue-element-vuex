@@ -52,7 +52,7 @@ export default {
                 username: 'admin',
                 password: '123456',
                 school_identify: '001',
-                verify: '1111'
+                verify: ''
             },
             codeSrc: '',
             logo:'',

@@ -60,7 +60,7 @@
             <button @click="eventInfos">教材介绍</button>
             <button @click="goodShoping(thisState)" v-if="!state">{{thisState=='2'?'立即领取':'立即购买'}}{{status}}</button>
             <button @click='testHtml'>试读</button>
-            <button style="background-color:rgb(234, 102, 102)" @click="relatData">相关资料</button>
+            <button style="background-color:rgb(234, 102, 102)" @click="relatData" v-if="false">相关资料</button>
           </div>
         </div>
       </div>

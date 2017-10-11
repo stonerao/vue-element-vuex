@@ -49,6 +49,11 @@ export default {
                         this.$router.push({ path: '/' })
                     }
                 });
+            }else{
+                this.$notify.error({
+                    title: '错误',
+                    message: res.data.msg
+                });
             }
         })
     },
