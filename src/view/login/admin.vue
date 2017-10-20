@@ -25,7 +25,7 @@
                     <li>
                         <el-checkbox v-model="checked">自动登录</el-checkbox>
                         <span class="float-right">你还没有账号，
-                            <a style="color:red" href="http://kdjy.test.kh888.cn/index.php?m=shop&c=school_enter">立即入住</a>
+                            <a style="color:red" href="http://edu.evam.xin/index.php?m=shop&c=school_enter">立即入住</a>
                         </span>
                     </li>
                     <li>

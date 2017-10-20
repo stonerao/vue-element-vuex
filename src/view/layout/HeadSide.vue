@@ -3,7 +3,7 @@
         <el-row>
             <el-col :span="5">
                 <section class="kd-header-logo marginleft15">
-                    康德{{name}}管理系统
+                  康德课堂{{name}}中心
                 </section>
             </el-col>
             <el-col :span="19">
@@ -19,18 +19,6 @@
                             </p>
                         </section>
                     </router-link>
-                    <!--     <router-link tag="li" to="setMsg" class="kd-header-icon">
-                                                                                            <p class="kd-header-icons">
-                                                                                                <i class="el-icon-message"></i>
-                                                                                            </p>
-                                                                                            <p>系统消息</p>
-                                                                                        </router-link>-->
-                    <!-- <li class="kd-header-icon" v-if="isClassLogin==2||isClassLogin==3">
-                        <p class="kd-header-icons">
-                            <i class="el-icon-date"></i>
-                        </p>
-                        <p>签到</p>
-                    </li> -->
                     <router-link tag="li" to="/setPwd" class="kd-header-icon">
                         <p class="kd-header-icons">
                             <i class="el-icon-edit"></i>
@@ -89,15 +77,15 @@ export default {
         })
         switch (parseInt(isClassLogin())) {
             case 1:
-                this.name = '管理员'
+                this.name = '学校管理'
                 break;
             case 2:
-                this.name = '老师'
+                this.name = '老师个人'
                 break;
             case 3:
-                this.name = '学生' 
+                this.name = '学生个人'
                 break;
-        } 
+        }
     },
     methods: {
         quit() {

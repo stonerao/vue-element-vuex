@@ -75,10 +75,10 @@
                     </el-row>
                 </el-col>
                 <el-col :xs="12" :sm="12" :md="12" :lg="8" class="kd-index-time">
-                    <div class="">2</div>
+                    <div class=""> </div>
                 </el-col>
             </el-row>
-            <el-row :gutter="15" class="kd-list">
+            <el-row :gutter="15" class="kd-list" v-if="false">
                 <el-col :span="8" class="padding0 kd-list-box">
                     <div class="kd-list-items">
                         <div class="kd-list-items-title">
@@ -144,7 +144,7 @@
                     </div>
                 </el-col>
             </el-row>
-            <div class="while kd-index-box">
+            <div class="while kd-index-box" v-if="false">
                 <div class="kd-list-items-title">
                     <span>
                         <img src="../../assets/index/icon-2.png" class="kd-list-icon" />控制面板</span>

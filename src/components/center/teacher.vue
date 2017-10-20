@@ -17,20 +17,9 @@
                     </li>
                 </ul>
                 <ol class="impot-item-les">
-                    <!-- <li class="impot-item-lis">
-                                            <span class="impot-item-span">所属题库：</span>
-                                            <div>
-                                                <el-select v-model="value" placeholder="请选择" class="marginleft5">
-                                                    <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-                                                    </el-option>
-                                                </el-select>
-                                            </div>
-                                        </li> -->
+                   
                     <li style="height:auto;padding-left:12px;background:#fff;padding-top:20px;padding-bottom:20px;">
-                        <!-- <el-upload class="upload-demo" ref="upload" action="Teacher/Examinationcenter/exportlinedown" :data='datas' :multiple="false" :on-preview="handlePreview" :on-remove="handleRemove" :file-list="fileList" :auto-upload="false">
-                                                        <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
-                                                        <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
-                                                    </el-upload> -->
+                       
                         <el-upload class="upload-demo" action="Teacher/Examinationcenter/exportlinedown" :data='datas' :on-success="success" :on-preview="handlePreview" :on-remove="handleRemove" :file-list="fileList">
                             <el-button size="small" type="primary">点击上传</el-button>
                         </el-upload>

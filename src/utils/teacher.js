@@ -143,7 +143,7 @@ export default {
                 let data = res.data.data;
                 data.forEach((x) => {
                     x.sex = x.st_sex == '1' ? '保密' : (x.st_sex == '2' ? '男' : '女');
-                    x.cer = x.st_certificates == '0' ? '无' : (x.st_certificates == '1' ? '身份证' : '学生证');
+                    x.cer = x.st_certificates == '0' ? '无' : (x.st_certificates == '1' ? '身份证' : '护照');
                     switch (x.st_status) {
                         case "1":
                             x.status = '在校'

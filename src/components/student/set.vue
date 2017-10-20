@@ -242,7 +242,7 @@ export default {
             t_input: '',
             certificates: [
                 { name: "身份证", id: "1" },
-                { name: "学生证", id: "2" }
+                { name: "护照", id: "2" }
             ],
             value1: '',
             search: "",
